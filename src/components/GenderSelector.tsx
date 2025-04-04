@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Male, Female } from 'lucide-react';
+import { User, UserRound } from 'lucide-react';
 
 type Gender = 'male' | 'female';
 
@@ -27,7 +27,7 @@ const GenderSelector = ({ selectedGender, onGenderSelect }: GenderSelectorProps)
           }`}
           variant="ghost"
         >
-          <Male className={`h-8 w-8 ${
+          <User className={`h-8 w-8 ${
             selectedGender === 'male' ? 'text-gold' : 'text-white/70'
           }`} />
           <span className={selectedGender === 'male' ? 'text-gold font-medium' : 'text-white/70'}>Male</span>
@@ -46,7 +46,7 @@ const GenderSelector = ({ selectedGender, onGenderSelect }: GenderSelectorProps)
           }`}
           variant="ghost"
         >
-          <Female className={`h-8 w-8 ${
+          <UserRound className={`h-8 w-8 ${
             selectedGender === 'female' ? 'text-gold' : 'text-white/70'
           }`} />
           <span className={selectedGender === 'female' ? 'text-gold font-medium' : 'text-white/70'}>Female</span>
