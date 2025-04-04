@@ -37,11 +37,11 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     
     // Create prompt based on user selections
     const modelDescription = gender === 'male' 
-      ? `a professional ${ethnicityDescription} male model with black hair` 
-      : `a professional ${ethnicityDescription} female model with black hair`;
+      ? `a professional ${ethnicityDescription} male model with black hair and fair skin` 
+      : `a professional ${ethnicityDescription} female model with black hair and fair skin`;
     
-    // Craft the prompt for the AI
-    const prompt = `Generate a realistic product photography image of ${modelDescription} wearing the ${clothingType} shown in this image. The model should be positioned ${poseAndExpression}. The image should look like a professional fashion catalog photo with studio lighting and a neutral background.`;
+    // Craft the prompt for the AI - optimized for quality and clarity
+    const prompt = `Generate a realistic product photography image of ${modelDescription} wearing the ${clothingType} shown in this image. The model should be positioned ${poseAndExpression}. The image should look like a professional fashion catalog photo with studio lighting and a neutral background. Preserve all details of the clothing item and ensure high resolution output.`;
     
     // Prepare content for the API
     const contents = [
@@ -56,12 +56,16 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
 
     console.log("Sending request to Gemini API...");
     
-    // Call Gemini API for image generation
+    // Call Gemini API for image generation with optimized parameters
     const response = await genAI.models.generateContent({
       model: "gemini-2.0-flash-exp-image-generation",
       contents: contents,
       config: {
         responseModalities: ["Text", "Image"],
+        // Adding generation parameters to improve quality
+        temperature: 0.4, // Lower temperature for more consistent results
+        topK: 32,
+        topP: 0.95,
       },
     });
 
