@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
+import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
 import GenerateButton from '@/components/GenerateButton';
 import ResultDisplay from '@/components/ResultDisplay';
 import SampleButton from '@/components/SampleButton';
@@ -18,6 +19,7 @@ const Index = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [selectedClothingType, setSelectedClothingType] = useState<string | null>(null);
+  const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 
@@ -44,8 +46,13 @@ const Index = () => {
     setGeneratedImage(null);
   };
 
+  const handleEthnicitySelect = (ethnicity: Ethnicity) => {
+    setSelectedEthnicity(ethnicity);
+    setGeneratedImage(null);
+  };
+
   const handleGenerateImage = async () => {
-    if (!imageFile || !selectedGender || !selectedClothingType) {
+    if (!imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity) {
       toast.error("Please complete all fields before generating");
       return;
     }
@@ -56,7 +63,8 @@ const Index = () => {
       const result = await generateFashionImage({
         imageFile,
         gender: selectedGender,
-        clothingType: selectedClothingType
+        clothingType: selectedClothingType,
+        ethnicity: selectedEthnicity
       });
       
       setGeneratedImage(result);
@@ -81,6 +89,7 @@ const Index = () => {
         handleImageSelect(file);
         setSelectedGender('female');
         setSelectedClothingType('dress');
+        setSelectedEthnicity('american');
       });
   };
   
@@ -89,7 +98,7 @@ const Index = () => {
     handleGenerateImage();
   };
   
-  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType;
+  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity;
 
   return (
     <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative">
@@ -123,6 +132,11 @@ const Index = () => {
       <ClothingTypeSelector 
         selectedType={selectedClothingType} 
         onTypeSelect={handleClothingTypeSelect} 
+      />
+
+      <EthnicitySelector
+        selectedEthnicity={selectedEthnicity}
+        onEthnicitySelect={handleEthnicitySelect}
       />
       
       <GenerateButton 

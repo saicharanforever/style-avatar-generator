@@ -5,6 +5,7 @@ export interface GenerationRequest {
   imageFile: File | null;
   gender: 'male' | 'female' | null;
   clothingType: string | null;
+  ethnicity: 'american' | 'indian' | null;
 }
 
 // Google Gemini API key
@@ -15,10 +16,10 @@ const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 // Generate fashion model image using Google Gemini API
 export const generateFashionImage = async (request: GenerationRequest): Promise<string> => {
-  const { imageFile, gender, clothingType } = request;
+  const { imageFile, gender, clothingType, ethnicity } = request;
   
   // Validate the request
-  if (!imageFile || !gender || !clothingType) {
+  if (!imageFile || !gender || !clothingType || !ethnicity) {
     throw new Error('Missing required parameters for image generation');
   }
 
@@ -26,13 +27,21 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     // Convert image file to base64
     const base64Image = await fileToBase64(imageFile);
     
+    // Create ethnicity description
+    const ethnicityDescription = ethnicity === 'american' ? 'American' : 'Indian';
+    
+    // Create gender-specific pose and expression
+    const poseAndExpression = gender === 'male' 
+      ? "with a confident pose facing the camera, with a strong alpha look" 
+      : "with a warm, friendly smile facing the camera";
+    
     // Create prompt based on user selections
     const modelDescription = gender === 'male' 
-      ? "a professional male model with fair skin and black hair" 
-      : "a professional female model with fair skin and black hair";
+      ? `a professional ${ethnicityDescription} male model with black hair` 
+      : `a professional ${ethnicityDescription} female model with black hair`;
     
     // Craft the prompt for the AI
-    const prompt = `Generate a realistic product photography image of ${modelDescription} wearing the ${clothingType} shown in this image. The image should look like a professional fashion catalog photo with studio lighting and a neutral background.`;
+    const prompt = `Generate a realistic product photography image of ${modelDescription} wearing the ${clothingType} shown in this image. The model should be positioned ${poseAndExpression}. The image should look like a professional fashion catalog photo with studio lighting and a neutral background.`;
     
     // Prepare content for the API
     const contents = [
