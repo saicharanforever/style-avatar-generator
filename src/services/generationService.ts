@@ -9,7 +9,7 @@ export interface GenerationRequest {
 }
 
 // Google Gemini API key
-const GEMINI_API_KEY = "AIzaSyDrfF9_diCEvb9O-Gzr4iPkvbVELR6UCJE";
+const GEMINI_API_KEY = "AIzaSyDjGudOmLbWdPtNdu16zkkqiOn2QQf9esI";
 
 // Initialize Google Gemini client
 const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
