@@ -1,14 +1,15 @@
 
 import React from 'react';
-import { Download, RefreshCw, Share2 } from 'lucide-react';
+import { Download, RefreshCw, Share2, AlertCircle } from 'lucide-react';
 import { toast } from "sonner";
 
 type ResultDisplayProps = {
   generatedImage: string | null;
   onRegenerate: () => void;
+  isOriginalImage?: boolean;
 };
 
-const ResultDisplay = ({ generatedImage, onRegenerate }: ResultDisplayProps) => {
+const ResultDisplay = ({ generatedImage, onRegenerate, isOriginalImage = false }: ResultDisplayProps) => {
   if (!generatedImage) return null;
 
   const handleDownload = () => {
@@ -46,6 +47,13 @@ const ResultDisplay = ({ generatedImage, onRegenerate }: ResultDisplayProps) => 
       <h2 className="text-2xl font-bold text-gold mb-4">Generated Result</h2>
       
       <div className="glass-card rounded-2xl p-4 relative">
+        {isOriginalImage && (
+          <div className="bg-amber-600/90 text-white px-4 py-2 mb-4 rounded-lg flex items-center gap-2">
+            <AlertCircle className="h-5 w-5" />
+            <span>AI service is busy. Showing your original image.</span>
+          </div>
+        )}
+        
         <img 
           src={generatedImage} 
           alt="Generated fashion model" 

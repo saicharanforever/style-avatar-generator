@@ -22,6 +22,7 @@ const Index = () => {
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
 
   const handleImageSelect = (file: File) => {
     if (!file) {
@@ -34,21 +35,25 @@ const Index = () => {
     setSelectedImage(imageUrl);
     setImageFile(file);
     setGeneratedImage(null);
+    setIsOriginalImage(false);
   };
   
   const handleGenderSelect = (gender: Gender) => {
     setSelectedGender(gender);
     setGeneratedImage(null);
+    setIsOriginalImage(false);
   };
   
   const handleClothingTypeSelect = (type: string) => {
     setSelectedClothingType(type);
     setGeneratedImage(null);
+    setIsOriginalImage(false);
   };
 
   const handleEthnicitySelect = (ethnicity: Ethnicity) => {
     setSelectedEthnicity(ethnicity);
     setGeneratedImage(null);
+    setIsOriginalImage(false);
   };
 
   const handleGenerateImage = async () => {
@@ -67,8 +72,14 @@ const Index = () => {
         ethnicity: selectedEthnicity
       });
       
-      setGeneratedImage(result);
-      toast.success("Image generated successfully!");
+      setGeneratedImage(result.image);
+      setIsOriginalImage(result.isOriginal);
+      
+      if (result.isOriginal && result.message) {
+        toast.warning(result.message);
+      } else {
+        toast.success("Image generated successfully!");
+      }
     } catch (error) {
       toast.error("Failed to generate image. Please try again.");
       console.error(error);
@@ -95,6 +106,7 @@ const Index = () => {
   
   const handleRegenerate = () => {
     setGeneratedImage(null);
+    setIsOriginalImage(false);
     handleGenerateImage();
   };
   
@@ -147,7 +159,8 @@ const Index = () => {
       
       <ResultDisplay 
         generatedImage={generatedImage} 
-        onRegenerate={handleRegenerate} 
+        onRegenerate={handleRegenerate}
+        isOriginalImage={isOriginalImage}
       />
     </div>
   );

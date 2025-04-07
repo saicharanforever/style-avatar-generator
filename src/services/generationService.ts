@@ -1,5 +1,6 @@
 
 import { GoogleGenAI } from "@google/genai";
+import { toast } from "sonner";
 
 export interface GenerationRequest {
   imageFile: File | null;
@@ -14,8 +15,19 @@ const GEMINI_API_KEY = "AIzaSyDjGudOmLbWdPtNdu16zkkqiOn2QQf9esI";
 // Initialize Google Gemini client
 const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
+// Maximum number of retry attempts
+const MAX_RETRIES = 2;
+const RETRY_DELAY = 2000; // 2 seconds
+
+// Sleep function for delay between retries
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 // Generate fashion model image using Google Gemini API
-export const generateFashionImage = async (request: GenerationRequest): Promise<string> => {
+export const generateFashionImage = async (request: GenerationRequest): Promise<{
+  image: string;
+  isOriginal: boolean;
+  message?: string;
+}> => {
   const { imageFile, gender, clothingType, ethnicity } = request;
   
   // Validate the request
@@ -56,36 +68,76 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
 
     console.log("Sending request to Gemini API...");
     
-    // Call Gemini API for image generation with optimized parameters
-    const response = await genAI.models.generateContent({
-      model: "gemini-2.0-flash-exp-image-generation",
-      contents: contents,
-      config: {
-        responseModalities: ["Text", "Image"],
-        // Adding generation parameters to improve quality
-        temperature: 0.4, // Lower temperature for more consistent results
-        topK: 32,
-        topP: 0.95,
-      },
-    });
-
-    console.log("Response received from Gemini API");
+    // Call Gemini API with retry logic
+    let response;
+    let retries = 0;
+    let lastError;
     
-    // Extract generated image
-    for (const part of response.candidates[0].content.parts) {
-      if (part.inlineData) {
-        // Convert the generated image to data URL
-        const generatedImageBase64 = part.inlineData.data;
-        const mimeType = part.inlineData.mimeType || "image/png";
-        return `data:${mimeType};base64,${generatedImageBase64}`;
+    while (retries <= MAX_RETRIES) {
+      try {
+        // Call Gemini API for image generation with optimized parameters
+        response = await genAI.models.generateContent({
+          model: "gemini-2.0-flash-exp-image-generation",
+          contents: contents,
+          config: {
+            responseModalities: ["Text", "Image"],
+            // Adding generation parameters to improve quality
+            temperature: 0.4, // Lower temperature for more consistent results
+            topK: 32,
+            topP: 0.95,
+          },
+        });
+        
+        console.log("Response received from Gemini API");
+        
+        // Extract generated image
+        for (const part of response.candidates[0].content.parts) {
+          if (part.inlineData) {
+            // Convert the generated image to data URL
+            const generatedImageBase64 = part.inlineData.data;
+            const mimeType = part.inlineData.mimeType || "image/png";
+            return {
+              image: `data:${mimeType};base64,${generatedImageBase64}`,
+              isOriginal: false
+            };
+          }
+        }
+        
+        throw new Error('No image was generated in the response');
+      } catch (error) {
+        console.error(`Error on try ${retries + 1}:`, error);
+        lastError = error;
+        
+        if (retries < MAX_RETRIES) {
+          console.log(`Retrying in ${RETRY_DELAY/1000} seconds...`);
+          await sleep(RETRY_DELAY);
+          retries++;
+        } else {
+          break;
+        }
       }
     }
     
-    throw new Error('No image was generated');
+    // If we get here, all retries failed
+    console.error('All attempts to generate image with Gemini failed:', lastError);
+    
+    // Return original image as fallback
+    const originalImage = await fileToBase64(imageFile);
+    return { 
+      image: originalImage, 
+      isOriginal: true,
+      message: "The AI model is currently overloaded. Using your original image as fallback."
+    };
   } catch (error) {
     console.error('Error generating image with Gemini:', error);
+    
     // Fallback to original image if generation fails
-    return fileToBase64(imageFile);
+    const originalImage = await fileToBase64(imageFile);
+    return { 
+      image: originalImage, 
+      isOriginal: true,
+      message: "An error occurred during image generation. Using your original image for now."
+    };
   }
 };
 
