@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
@@ -11,6 +12,8 @@ import ResultDisplay from '@/components/ResultDisplay';
 import SampleButton from '@/components/SampleButton';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import { generateFashionImage, getSampleImageUrl } from '@/services/generationService';
+import { useCredits } from '@/contexts/CreditsContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 type Gender = 'male' | 'female';
 
@@ -23,6 +26,11 @@ const Index = () => {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
+  const [regenerationCount, setRegenerationCount] = useState<number>(0);
+  
+  const { user } = useAuth();
+  const { consumeCredits, credits } = useCredits();
+  const navigate = useNavigate();
 
   const handleImageSelect = (file: File) => {
     if (!file) {
@@ -36,29 +44,59 @@ const Index = () => {
     setImageFile(file);
     setGeneratedImage(null);
     setIsOriginalImage(false);
+    setRegenerationCount(0);
   };
   
   const handleGenderSelect = (gender: Gender) => {
     setSelectedGender(gender);
     setGeneratedImage(null);
     setIsOriginalImage(false);
+    setRegenerationCount(0);
   };
   
   const handleClothingTypeSelect = (type: string) => {
     setSelectedClothingType(type);
     setGeneratedImage(null);
     setIsOriginalImage(false);
+    setRegenerationCount(0);
   };
 
   const handleEthnicitySelect = (ethnicity: Ethnicity) => {
     setSelectedEthnicity(ethnicity);
     setGeneratedImage(null);
     setIsOriginalImage(false);
+    setRegenerationCount(0);
   };
 
   const handleGenerateImage = async () => {
+    if (!user) {
+      toast.error("Please sign in to generate images");
+      navigate('/auth');
+      return;
+    }
+    
     if (!imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity) {
       toast.error("Please complete all fields before generating");
+      return;
+    }
+    
+    // Check if this is a regeneration
+    const isRegeneration = regenerationCount > 0;
+    
+    // Calculate credit cost (30 credits per generation)
+    const creditCost = 30;
+    
+    // Attempt to consume credits
+    const success = await consumeCredits(creditCost, isRegeneration);
+    if (!success) {
+      // If not enough credits, redirect to pricing page
+      if (credits < creditCost) {
+        toast.error("You don't have enough credits to generate an image");
+        setTimeout(() => {
+          navigate('/pricing');
+        }, 1500);
+        return;
+      }
       return;
     }
     
@@ -79,6 +117,12 @@ const Index = () => {
         toast.warning(result.message);
       } else {
         toast.success("Image generated successfully!");
+        // Increment regeneration count only for successful generations
+        if (isRegeneration) {
+          setRegenerationCount(prev => prev + 1);
+        } else {
+          setRegenerationCount(1);
+        }
       }
     } catch (error) {
       toast.error("Failed to generate image. Please try again.");
