@@ -3,16 +3,9 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
+import { Database } from '@/integrations/supabase/types';
 
-type UserCredits = {
-  id: string;
-  user_id: string;
-  credits: number;
-  total_generated: number;
-  regenerations: number;
-  created_at: string;
-  updated_at: string;
-};
+type UserCredits = Database['public']['Tables']['user_credits']['Row'];
 
 type CreditsContextType = {
   credits: number;
