@@ -128,7 +128,7 @@ const Landing = () => {
       {/* Hero Section */}
       <section className="pt-16 pb-24 px-4">
         <div className="max-w-5xl mx-auto text-center">
-          <p className="text-gold text-xl font-bold mb-2 font-playfair">A smile in every pic</p>
+          <p className="text-gold font-bold mb-2 font-playfair text-sm">A smile in every pic :)</p>
           <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight gold-gradient-text font-playfair">
             Even your dress deserves a life!
           </h1>
