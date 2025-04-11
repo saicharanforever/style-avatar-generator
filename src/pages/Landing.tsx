@@ -1,8 +1,9 @@
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { ArrowRight, Upload, Camera, CheckCircle, ArrowRightCircle, Star } from 'lucide-react';
+import { ArrowRight, Upload, Camera, CheckCircle, ArrowRightCircle, Star, Coins } from 'lucide-react';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import AuthModal from '@/components/AuthModal';
 
@@ -73,6 +74,47 @@ const faqs = [
   }
 ];
 
+// Pricing plans from the Pricing page
+const pricingPlans = [
+  {
+    id: 'basic',
+    name: 'Basic',
+    price: '$1.59',
+    credits: 1000,
+    features: [
+      'Generate 33 high-quality model images',
+      'Access to all model ethnicities',
+      'All clothing types supported',
+      'Standard priority'
+    ]
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    price: '$8.99',
+    credits: 5000,
+    popular: true,
+    features: [
+      'Generate 166 high-quality model images',
+      'Access to all model ethnicities',
+      'All clothing types supported',
+      'Enhanced priority'
+    ]
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: '$11.99',
+    credits: 10000,
+    features: [
+      'Generate 333 high-quality model images',
+      'Access to all model ethnicities',
+      'All clothing types supported',
+      'Maximum priority'
+    ]
+  }
+];
+
 const Landing = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -94,11 +136,6 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <img 
-                src="/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png" 
-                alt="DreamDressing Logo" 
-                className="h-8"
-              />
               <h1 className="text-2xl font-bold gold-gradient-text">DreamDressing</h1>
             </div>
             <div className="flex items-center gap-6">
@@ -123,7 +160,7 @@ const Landing = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight gold-gradient-text font-playfair">
             Even your dress deserves a life!
           </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto mb-8">
+          <p className="text-white max-w-2xl mx-auto mb-8">
             The perfect fusion of trend and tech in every click.
           </p>
           
@@ -208,7 +245,7 @@ const Landing = () => {
               <div key={index} className="glass-card p-6 rounded-lg border border-white/10 hover:border-gold/30 transition-all hover:translate-y-[-5px]">
                 <div className="mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-bold text-gold mb-2">{feature.title}</h3>
-                <p className="text-gold-light/70">{feature.description}</p>
+                <p className="text-white">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -232,56 +269,62 @@ const Landing = () => {
                   <div className="hidden md:block absolute top-6 left-12 w-full h-0.5 bg-gradient-to-r from-gold/50 to-transparent"></div>
                 )}
                 <h3 className="text-xl font-bold text-gold mb-2">{step.title}</h3>
-                <p className="text-gold-light/70">{step.description}</p>
+                <p className="text-white">{step.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing CTA */}
+      {/* Pricing Section */}
       <section id="pricing" className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold gold-gradient-text mb-6 font-playfair">
-            Ready to Transform Your Product Photos?
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center gold-gradient-text mb-16 font-playfair">
+            Choose Your Plan
           </h2>
-          <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
-            Get started with 100 free credits - enough to create 3 high-quality model images
-          </p>
           
-          <div className="glass-card p-8 rounded-lg border border-white/10 mb-12">
-            <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
-              <div className="text-left">
-                <h3 className="text-2xl font-bold text-gold mb-2">Free Trial</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-gold mt-0.5 flex-shrink-0" />
-                    <span className="text-gold-light/90">100 credits on signup</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-gold mt-0.5 flex-shrink-0" />
-                    <span className="text-gold-light/90">Generate 3 high-quality images</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-gold mt-0.5 flex-shrink-0" />
-                    <span className="text-gold-light/90">First 3 regenerations free</span>
-                  </li>
+          <div className="grid md:grid-cols-3 gap-8">
+            {pricingPlans.map((plan) => (
+              <div 
+                key={plan.id} 
+                className={`glass-card p-6 rounded-lg border ${plan.popular ? 'border-gold' : 'border-white/10'} transition-all hover:translate-y-[-5px] relative`}
+              >
+                {plan.popular && (
+                  <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+                    <div className="bg-gold text-navy-dark text-xs font-bold px-3 py-1 rounded-full">
+                      Most Popular
+                    </div>
+                  </div>
+                )}
+                <h3 className="text-2xl font-bold text-gold mb-2">{plan.name}</h3>
+                <div className="flex items-end gap-1 mb-4">
+                  <span className="text-3xl font-bold text-white">{plan.price}</span>
+                  <span className="text-white/70 pb-1">one-time</span>
+                </div>
+                
+                <div className="flex items-center gap-2 bg-navy-dark/50 p-3 rounded-lg mb-4">
+                  <Coins className="h-5 w-5 text-gold" />
+                  <span className="font-bold text-white">{plan.credits.toLocaleString()} credits</span>
+                </div>
+                
+                <ul className="space-y-2 mb-6">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-gold mt-0.5 flex-shrink-0" />
+                      <span className="text-white">{feature}</span>
+                    </li>
+                  ))}
                 </ul>
-              </div>
-              <div>
+                
                 <Button 
-                  className="bg-gold text-navy-dark hover:bg-gold-dark text-lg py-6 px-8"
+                  className="w-full bg-gold text-navy-dark hover:bg-gold-dark"
                   onClick={() => setAuthModalOpen(true)}
                 >
-                  Start Your Free Trial
+                  Get Started
                 </Button>
               </div>
-            </div>
+            ))}
           </div>
-          
-          <p className="text-gold-light/60">
-            Need more credits? <a href="/pricing" className="text-gold underline hover:no-underline">View our pricing plans</a>
-          </p>
         </div>
       </section>
 
@@ -296,7 +339,7 @@ const Landing = () => {
             {faqs.map((faq, index) => (
               <div key={index} className="glass-card p-6 rounded-lg border border-white/10">
                 <h3 className="text-xl font-bold text-gold mb-2">{faq.question}</h3>
-                <p className="text-gold-light/70">{faq.answer}</p>
+                <p className="text-white">{faq.answer}</p>
               </div>
             ))}
           </div>
@@ -323,11 +366,6 @@ const Landing = () => {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-2">
-              <img 
-                src="/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png" 
-                alt="DreamDressing Logo" 
-                className="h-6" 
-              />
               <h1 className="text-xl font-bold gold-gradient-text">DreamDressing</h1>
             </div>
             <div className="flex flex-wrap gap-6">
