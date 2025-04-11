@@ -123,7 +123,7 @@ const Pricing = () => {
             </CardContent>
             <CardFooter>
               <Button
-                className="w-full button-primary"
+                className="w-full bg-gold text-navy-dark hover:bg-gold-dark"
                 onClick={() => handlePurchase(plan)}
               >
                 Get {plan.credits.toLocaleString()} Credits

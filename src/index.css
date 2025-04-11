@@ -7,35 +7,35 @@
 
 @layer base {
   :root {
-    --background: 240 54% 15%;
-    --foreground: 48 100% 65%;
+    --background: 252 87% 9%;
+    --foreground: 50 100% 60%;
 
-    --card: 240 54% 18%;
-    --card-foreground: 48 100% 75%;
+    --card: 252 76% 14%;
+    --card-foreground: 50 100% 70%;
 
-    --popover: 240 54% 15%;
-    --popover-foreground: 48 100% 65%;
+    --popover: 252 87% 9%;
+    --popover-foreground: 50 100% 60%;
 
-    --primary: 48 100% 50%;
-    --primary-foreground: 240 60% 10%;
+    --primary: 50 100% 56%;
+    --primary-foreground: 252 90% 9%;
 
-    --secondary: 240 54% 25%;
-    --secondary-foreground: 48 100% 65%;
+    --secondary: 252 76% 16%;
+    --secondary-foreground: 50 100% 60%;
 
-    --muted: 240 30% 25%;
-    --muted-foreground: 48 30% 65%;
+    --muted: 252 40% 16%;
+    --muted-foreground: 50 30% 60%;
 
-    --accent: 48 100% 50%;
-    --accent-foreground: 240 54% 15%;
+    --accent: 50 100% 56%;
+    --accent-foreground: 252 87% 9%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 240 54% 15%;
+    --destructive-foreground: 252 87% 9%;
 
-    --border: 240 30% 30%;
-    --input: 240 30% 30%;
-    --ring: 48 100% 50%;
+    --border: 252 40% 20%;
+    --input: 252 40% 20%;
+    --ring: 50 100% 56%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
   }
 
   * {
@@ -44,8 +44,8 @@
 
   body {
     @apply bg-navy text-gold-light font-manrope overflow-x-hidden;
-    background-image: radial-gradient(rgba(96, 79, 255, 0.2) 1px, transparent 1px),
-                      radial-gradient(rgba(96, 79, 255, 0.15) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(96, 79, 255, 0.15) 1px, transparent 1px),
+                      radial-gradient(rgba(96, 79, 255, 0.1) 1px, transparent 1px);
     background-size: 40px 40px;
     background-position: 0 0, 20px 20px;
   }
@@ -65,7 +65,7 @@
   }
   
   .button-primary {
-    @apply bg-gradient-button text-white font-semibold py-3 px-6 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95;
+    @apply bg-gold text-navy-dark font-semibold py-3 px-6 rounded-md shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95;
   }
   
   .input-field {
@@ -74,7 +74,7 @@
 
   /* New styles for landing page */
   .bg-gradient-button {
-    @apply bg-gradient-to-r from-purple-600 to-pink-500;
+    @apply bg-gold;
   }
   
   .hover-card {
@@ -82,27 +82,27 @@
   }
   
   .bg-navy {
-    @apply bg-[#0B0F2E];
+    @apply bg-[#0A0529];
   }
   
   .bg-navy-light {
-    @apply bg-[#121940];
+    @apply bg-[#10083C];
   }
   
   .bg-navy-dark {
-    @apply bg-[#080C20];
+    @apply bg-[#070420];
   }
   
   .text-gold {
-    @apply text-[#FFC700];
+    @apply text-[#FFDC31];
   }
   
   .text-gold-light {
-    @apply text-[#FFD866];
+    @apply text-[#FFEB82];
   }
   
   .text-gold-dark {
-    @apply text-[#E0A800];
+    @apply text-[#FFCC00];
   }
 }
 

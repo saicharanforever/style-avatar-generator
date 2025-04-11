@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { Sparkles, Star, ArrowRight, Upload, Camera, CheckCircle } from 'lucide-react';
+import { ArrowRight, Upload, Camera, CheckCircle, ArrowRightCircle } from 'lucide-react';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import AuthModal from '@/components/AuthModal';
 
@@ -31,7 +31,7 @@ const features = [
   {
     title: 'Quick & Easy Process',
     description: 'Upload your clothing image, select options, and get your model images in seconds.',
-    icon: <Sparkles className="h-8 w-8 text-gold" />
+    icon: <Upload className="h-8 w-8 text-gold" />
   }
 ];
 
@@ -95,15 +95,19 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <Star className="h-8 w-8 text-gold" />
-              <h1 className="text-2xl font-bold gold-gradient-text">StyleAvatar</h1>
+              <img 
+                src="/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png" 
+                alt="DreamDressing Logo" 
+                className="h-8"
+              />
+              <h1 className="text-2xl font-bold gold-gradient-text">DreamDressing</h1>
             </div>
             <div className="flex items-center gap-6">
               <a href="#features" className="text-gold-light/80 hover:text-gold-light transition-colors">Features</a>
               <a href="#how-it-works" className="text-gold-light/80 hover:text-gold-light transition-colors">How It Works</a>
               <a href="#pricing" className="text-gold-light/80 hover:text-gold-light transition-colors">Pricing</a>
               <Button 
-                className="button-primary"
+                className="bg-gold text-navy-dark hover:bg-gold-dark"
                 onClick={() => setAuthModalOpen(true)}
               >
                 Get Started
@@ -126,7 +130,7 @@ const Landing = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button 
-              className="button-primary text-lg py-6 px-8 group"
+              className="bg-gold text-navy-dark hover:bg-gold-dark text-lg py-6 px-8 group"
               onClick={() => setAuthModalOpen(true)}
             >
               Get Started Now
@@ -141,22 +145,34 @@ const Landing = () => {
             </Button>
           </div>
           
-          <div className="relative mx-auto max-w-lg md:max-w-2xl mt-12 rounded-xl overflow-hidden glass-card border border-white/10">
-            <div className="p-6">
-              <div className="flex justify-center mb-4">
-                <div className="bg-gold rounded-full p-4">
-                  <Upload className="h-8 w-8 text-navy-dark" />
-                </div>
+          {/* Before/After Transformation */}
+          <div className="relative mx-auto max-w-4xl mt-12 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+            {/* Before Image */}
+            <div className="glass-card p-4 rounded-lg">
+              <div className="text-center mb-2 text-gold-light">Before</div>
+              <div className="bg-navy-dark/50 rounded-lg p-4 h-64 w-64 flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/692ffe0f-f740-4c5d-bcef-df605974a378.png" 
+                  alt="Dress before transformation"
+                  className="max-h-full max-w-full object-contain"
+                />
               </div>
-              <h3 className="text-2xl font-bold text-gold mb-2">Upload Dress Image</h3>
-              <p className="text-gold-light/70 mb-4">Drag and drop or click to browse</p>
-              <div className="flex gap-3 justify-center">
-                <Button variant="outline" className="bg-navy-dark/50 border-white/10 text-gold-light hover:bg-navy-dark">
-                  Gallery
-                </Button>
-                <Button variant="outline" className="bg-navy-dark/50 border-white/10 text-gold-light hover:bg-navy-dark">
-                  Camera
-                </Button>
+            </div>
+            
+            {/* Arrow */}
+            <div className="transform rotate-90 md:rotate-0">
+              <ArrowRightCircle className="h-12 w-12 text-gold animate-pulse" />
+            </div>
+            
+            {/* After Image */}
+            <div className="glass-card p-4 rounded-lg">
+              <div className="text-center mb-2 text-gold-light">After</div>
+              <div className="bg-navy-dark/50 rounded-lg p-4 h-64 w-64 flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/692ffe0f-f740-4c5d-bcef-df605974a378.png" 
+                  alt="Dress worn by model"
+                  className="max-h-full max-w-full object-contain"
+                />
               </div>
             </div>
           </div>
@@ -172,7 +188,7 @@ const Landing = () => {
           <div className="flex flex-wrap justify-center gap-8 items-center">
             {brandLogos.map((brand, index) => (
               <div key={index} className="flex flex-col items-center">
-                <div className="h-12 w-24 bg-white/10 rounded-md flex items-center justify-center">
+                <div className="h-12 w-24 bg-navy-light rounded-md flex items-center justify-center">
                   <p className="text-gold font-bold">{brand.name}</p>
                 </div>
               </div>
@@ -190,7 +206,7 @@ const Landing = () => {
           
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="glass-card p-6 rounded-xl border border-white/10 hover:border-gold/30 transition-all hover:translate-y-[-5px]">
+              <div key={index} className="glass-card p-6 rounded-lg border border-white/10 hover:border-gold/30 transition-all hover:translate-y-[-5px]">
                 <div className="mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-bold text-gold mb-2">{feature.title}</h3>
                 <p className="text-gold-light/70">{feature.description}</p>
@@ -210,7 +226,7 @@ const Landing = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {steps.map((step, index) => (
               <div key={index} className="relative">
-                <div className="bg-navy-light rounded-full h-12 w-12 flex items-center justify-center text-gold font-bold text-xl mb-4 border border-gold/30">
+                <div className="bg-gold text-navy-dark rounded-full h-12 w-12 flex items-center justify-center font-bold text-xl mb-4">
                   {step.number}
                 </div>
                 {index < steps.length - 1 && (
@@ -234,7 +250,7 @@ const Landing = () => {
             Get started with 100 free credits - enough to create 3 high-quality model images
           </p>
           
-          <div className="glass-card p-8 rounded-xl border border-white/10 mb-12">
+          <div className="glass-card p-8 rounded-lg border border-white/10 mb-12">
             <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
               <div className="text-left">
                 <h3 className="text-2xl font-bold text-gold mb-2">Free Trial</h3>
@@ -255,7 +271,7 @@ const Landing = () => {
               </div>
               <div>
                 <Button 
-                  className="button-primary text-lg py-6 px-8"
+                  className="bg-gold text-navy-dark hover:bg-gold-dark text-lg py-6 px-8"
                   onClick={() => setAuthModalOpen(true)}
                 >
                   Start Your Free Trial
@@ -279,7 +295,7 @@ const Landing = () => {
           
           <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="glass-card p-6 rounded-xl border border-white/10">
+              <div key={index} className="glass-card p-6 rounded-lg border border-white/10">
                 <h3 className="text-xl font-bold text-gold mb-2">{faq.question}</h3>
                 <p className="text-gold-light/70">{faq.answer}</p>
               </div>
@@ -295,7 +311,7 @@ const Landing = () => {
             Ready to Elevate Your Fashion Photography?
           </h2>
           <Button 
-            className="button-primary text-xl py-8 px-12 hover:scale-105"
+            className="bg-gold text-navy-dark hover:bg-gold-dark text-xl py-8 px-12 hover:scale-105"
             onClick={() => setAuthModalOpen(true)}
           >
             Get Started Now
@@ -308,8 +324,12 @@ const Landing = () => {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-2">
-              <Star className="h-6 w-6 text-gold" />
-              <h1 className="text-xl font-bold gold-gradient-text">StyleAvatar</h1>
+              <img 
+                src="/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png" 
+                alt="DreamDressing Logo" 
+                className="h-6" 
+              />
+              <h1 className="text-xl font-bold gold-gradient-text">DreamDressing</h1>
             </div>
             <div className="flex flex-wrap gap-6">
               <a href="#features" className="text-gold-light/80 hover:text-gold-light transition-colors">Features</a>
@@ -320,7 +340,7 @@ const Landing = () => {
             </div>
           </div>
           <div className="mt-12 text-center text-gold-light/50 text-sm">
-            &copy; {new Date().getFullYear()} StyleAvatar. All rights reserved.
+            &copy; {new Date().getFullYear()} DreamDressing. All rights reserved.
           </div>
         </div>
       </footer>

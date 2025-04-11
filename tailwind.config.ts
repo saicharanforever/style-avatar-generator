@@ -58,14 +58,14 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         navy: {
-          DEFAULT: '#0A1045',
-          light: '#121C60',
-          dark: '#050A30',
+          DEFAULT: '#0A0529', // Darker navy from the image
+          light: '#10083C',   // Lighter navy from the image
+          dark: '#070420',    // Darkest navy from the image
         },
         gold: {
-          DEFAULT: '#FFD700',
-          light: '#FFDF3F',
-          dark: '#CCAC00',
+          DEFAULT: '#FFDC31', // Bright yellow from the logo
+          light: '#FFEB82',   // Lighter yellow
+          dark: '#FFCC00',    // Darker yellow
         },
       },
       borderRadius: {
@@ -103,9 +103,9 @@ export default {
         'shimmer': 'shimmer 2s infinite linear',
       },
       backgroundImage: {
-        'gradient-royal': 'linear-gradient(135deg, #0A1045 0%, #0A3069 100%)',
-        'gradient-gold': 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-        'gradient-button': 'linear-gradient(90deg, #604FCD 0%, #E6337E 100%)',
+        'gradient-royal': 'linear-gradient(135deg, #0A0529 0%, #10083C 100%)',
+        'gradient-gold': 'linear-gradient(135deg, #FFDC31 0%, #FFCC00 100%)',
+        'gradient-button': 'linear-gradient(90deg, #FFDC31 0%, #FFCC00 100%)', // Changed to gold
         'particle-pattern': "url('/public/lovable-uploads/7caec776-da84-4ecf-8d48-9977ab6f2f98.png')",
       },
     }
