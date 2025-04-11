@@ -22,7 +22,7 @@ const UserMenu = () => {
     return (
       <Button 
         className="rounded-full px-4 bg-navy-light/80 hover:bg-navy-light text-gold-light border border-white/10"
-        onClick={() => navigate('/auth')}
+        onClick={() => navigate('/landing')}
       >
         Sign In
       </Button>
@@ -36,6 +36,11 @@ const UserMenu = () => {
     .map(name => name[0]?.toUpperCase() || '')
     .join('')
     .slice(0, 2);
+    
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/landing');
+  };
 
   return (
     <DropdownMenu>
@@ -76,7 +81,7 @@ const UserMenu = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem 
           className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
-          onClick={() => signOut()}
+          onClick={handleSignOut}
         >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>

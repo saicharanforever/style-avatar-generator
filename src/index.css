@@ -71,6 +71,39 @@
   .input-field {
     @apply bg-navy-dark/80 border border-white/20 rounded-lg py-3 px-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold/50;
   }
+
+  /* New styles for landing page */
+  .bg-gradient-button {
+    @apply bg-gradient-to-r from-purple-600 to-pink-500;
+  }
+  
+  .hover-card {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl;
+  }
+  
+  .bg-navy {
+    @apply bg-[#0B0F2E];
+  }
+  
+  .bg-navy-light {
+    @apply bg-[#121940];
+  }
+  
+  .bg-navy-dark {
+    @apply bg-[#080C20];
+  }
+  
+  .text-gold {
+    @apply text-[#FFC700];
+  }
+  
+  .text-gold-light {
+    @apply text-[#FFD866];
+  }
+  
+  .text-gold-dark {
+    @apply text-[#E0A800];
+  }
 }
 
 @layer utilities {
@@ -80,5 +113,23 @@
   
   .font-manrope {
     font-family: 'Manrope', sans-serif;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 }

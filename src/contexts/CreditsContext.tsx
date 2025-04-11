@@ -41,12 +41,34 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         .eq('user_id', user.id)
         .single();
 
-      if (error) throw error;
+      if (error && error.code !== 'PGRST116') {
+        // PGRST116 is the error code for "no rows returned"
+        throw error;
+      }
 
       if (data) {
         setCredits(data.credits);
         setTotalGenerated(data.total_generated);
         setRegenerations(data.regenerations);
+      } else {
+        // No user_credits found, create a new record with default values
+        const { error: insertError } = await supabase
+          .from('user_credits')
+          .insert({
+            user_id: user.id,
+            credits: 100, // Default 100 free credits
+            total_generated: 0,
+            regenerations: 0
+          });
+
+        if (insertError) throw insertError;
+        
+        // Set default values in state
+        setCredits(100);
+        setTotalGenerated(0);
+        setRegenerations(0);
+        
+        toast.success('Welcome! 100 free credits have been added to your account.');
       }
     } catch (err: any) {
       setError(err.message);
@@ -57,7 +79,9 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
   useEffect(() => {
-    fetchCredits();
+    if (user) {
+      fetchCredits();
+    }
   }, [user]);
 
   const refreshCredits = async () => {
