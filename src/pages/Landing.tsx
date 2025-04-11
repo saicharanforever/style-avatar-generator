@@ -1,9 +1,8 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { ArrowRight, Upload, Camera, CheckCircle, ArrowRightCircle } from 'lucide-react';
+import { ArrowRight, Upload, Camera, CheckCircle, ArrowRightCircle, Star } from 'lucide-react';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import AuthModal from '@/components/AuthModal';
 
