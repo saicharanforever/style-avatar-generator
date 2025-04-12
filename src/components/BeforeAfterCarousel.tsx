@@ -43,13 +43,45 @@ const BeforeAfterCarousel = () => {
   const [autoPlay, setAutoPlay] = useState(true);
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [imagesLoaded, setImagesLoaded] = useState<{[key: string]: boolean}>({});
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   // Track loaded images
   const handleImageLoad = (src: string) => {
+    console.log(`Image loaded successfully: ${src}`);
     setImagesLoaded(prev => ({
       ...prev,
       [src]: true
     }));
+    // Clear any previous errors for this image
+    setImageErrors(prev => ({
+      ...prev,
+      [src]: false
+    }));
+  };
+
+  // Handle image errors
+  const handleImageError = (src: string, e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    console.error(`Error loading image: ${src}`, e);
+    
+    // Mark this image as having an error
+    setImageErrors(prev => ({
+      ...prev,
+      [src]: true
+    }));
+    
+    // Attempt to reload with a fallback
+    const imgElement = e.target as HTMLImageElement;
+    imgElement.src = '/placeholder.svg';
+    
+    // Try with a different path format (debugging help)
+    setTimeout(() => {
+      if (imageErrors[src]) {
+        // If still erroring, try one more path format
+        const newSrc = src.startsWith('/') ? src.substring(1) : `/${src}`;
+        console.log(`Attempting alternate path: ${newSrc}`);
+        imgElement.src = newSrc;
+      }
+    }, 1000);
   };
 
   // Set up auto-rotation
@@ -81,6 +113,12 @@ const BeforeAfterCarousel = () => {
     };
   }, [api]);
 
+  // Debug loaded images
+  useEffect(() => {
+    console.log("Current images loaded state:", imagesLoaded);
+    console.log("Current images error state:", imageErrors);
+  }, [imagesLoaded, imageErrors]);
+
   return (
     <div className="w-full mx-auto max-w-4xl">
       <Carousel
@@ -104,11 +142,7 @@ const BeforeAfterCarousel = () => {
                       alt={`Clothing item ${index + 1} before`} 
                       className="max-h-full max-w-full object-contain" 
                       onLoad={() => handleImageLoad(slide.before)}
-                      onError={(e) => {
-                        console.error(`Error loading image: ${slide.before}`, e);
-                        // Attempt to reload with a fallback
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
-                      }}
+                      onError={(e) => handleImageError(slide.before, e)}
                     />
                   </div>
                 </div>
@@ -127,11 +161,7 @@ const BeforeAfterCarousel = () => {
                       alt={`Clothing item ${index + 1} on model`} 
                       className="max-h-full max-w-full object-contain"
                       onLoad={() => handleImageLoad(slide.after)}
-                      onError={(e) => {
-                        console.error(`Error loading image: ${slide.after}`, e);
-                        // Attempt to reload with a fallback
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
-                      }}
+                      onError={(e) => handleImageError(slide.after, e)}
                     />
                   </div>
                 </div>
