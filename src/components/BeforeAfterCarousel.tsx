@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/carousel';
 import { ArrowRightCircle } from 'lucide-react';
 
-// Define image pairs
+// Define image pairs - corrected paths to use the actual uploaded images
 const imageSlides = [
   {
     before: '/lovable-uploads/0a9fc1ad-6589-4bc1-b1b0-8c4d0e752dca.png',
@@ -42,6 +42,15 @@ const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const [api, setApi] = useState<CarouselApi | null>(null);
+  const [imagesLoaded, setImagesLoaded] = useState<{[key: string]: boolean}>({});
+
+  // Track loaded images
+  const handleImageLoad = (src: string) => {
+    setImagesLoaded(prev => ({
+      ...prev,
+      [src]: true
+    }));
+  };
 
   // Set up auto-rotation
   useEffect(() => {
@@ -94,7 +103,12 @@ const BeforeAfterCarousel = () => {
                       src={slide.before} 
                       alt={`Clothing item ${index + 1} before`} 
                       className="max-h-full max-w-full object-contain" 
-                      onError={(e) => console.log(`Error loading image: ${slide.before}`, e)}
+                      onLoad={() => handleImageLoad(slide.before)}
+                      onError={(e) => {
+                        console.error(`Error loading image: ${slide.before}`, e);
+                        // Attempt to reload with a fallback
+                        (e.target as HTMLImageElement).src = '/placeholder.svg';
+                      }}
                     />
                   </div>
                 </div>
@@ -112,7 +126,12 @@ const BeforeAfterCarousel = () => {
                       src={slide.after} 
                       alt={`Clothing item ${index + 1} on model`} 
                       className="max-h-full max-w-full object-contain"
-                      onError={(e) => console.log(`Error loading image: ${slide.after}`, e)}
+                      onLoad={() => handleImageLoad(slide.after)}
+                      onError={(e) => {
+                        console.error(`Error loading image: ${slide.after}`, e);
+                        // Attempt to reload with a fallback
+                        (e.target as HTMLImageElement).src = '/placeholder.svg';
+                      }}
                     />
                   </div>
                 </div>
