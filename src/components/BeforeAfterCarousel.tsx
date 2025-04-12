@@ -1,11 +1,12 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { 
   Carousel, 
   CarouselContent, 
   CarouselItem, 
   CarouselNext, 
-  CarouselPrevious 
+  CarouselPrevious,
+  type CarouselApi
 } from '@/components/ui/carousel';
 import { ArrowRightCircle } from 'lucide-react';
 
@@ -40,27 +41,42 @@ const imageSlides = [
 const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
+  const [api, setApi] = useState<CarouselApi | null>(null);
 
+  // Set up auto-rotation
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
 
-    if (autoPlay) {
+    if (autoPlay && api) {
       interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % imageSlides.length);
+        api.scrollNext();
       }, 3000); // Change slides every 3 seconds
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [autoPlay]);
+  }, [autoPlay, api]);
+
+  // Update currentSlide when carousel changes
+  useEffect(() => {
+    if (!api) return;
+
+    const handleSelect = () => {
+      setCurrentSlide(api.selectedScrollSnap());
+    };
+
+    api.on("select", handleSelect);
+    return () => {
+      api.off("select", handleSelect);
+    };
+  }, [api]);
 
   return (
     <div className="w-full mx-auto max-w-4xl">
       <Carousel
         className="w-full"
-        value={currentSlide}
-        onValueChange={setCurrentSlide}
+        setApi={setApi}
         opts={{
           loop: true,
           align: "center",
@@ -74,7 +90,12 @@ const BeforeAfterCarousel = () => {
                 <div className="glass-card p-4 rounded-lg">
                   <div className="text-center mb-2 text-gold-light">Before</div>
                   <div className="bg-navy-dark/50 rounded-lg p-4 h-64 w-64 flex items-center justify-center overflow-hidden">
-                    <img src={slide.before} alt={`Clothing item ${index + 1} before`} className="max-h-full max-w-full object-contain" />
+                    <img 
+                      src={slide.before} 
+                      alt={`Clothing item ${index + 1} before`} 
+                      className="max-h-full max-w-full object-contain" 
+                      onError={(e) => console.log(`Error loading image: ${slide.before}`, e)}
+                    />
                   </div>
                 </div>
                 
@@ -87,7 +108,12 @@ const BeforeAfterCarousel = () => {
                 <div className="glass-card p-4 rounded-lg">
                   <div className="text-center mb-2 text-gold-light">After</div>
                   <div className="bg-navy-dark/50 rounded-lg p-4 h-64 w-64 flex items-center justify-center overflow-hidden">
-                    <img src={slide.after} alt={`Clothing item ${index + 1} on model`} className="max-h-full max-w-full object-contain" />
+                    <img 
+                      src={slide.after} 
+                      alt={`Clothing item ${index + 1} on model`} 
+                      className="max-h-full max-w-full object-contain"
+                      onError={(e) => console.log(`Error loading image: ${slide.after}`, e)}
+                    />
                   </div>
                 </div>
               </div>
@@ -106,7 +132,7 @@ const BeforeAfterCarousel = () => {
               currentSlide === index ? "bg-gold w-4" : "bg-white/30"
             }`}
             onClick={() => {
-              setCurrentSlide(index);
+              api?.scrollTo(index);
               setAutoPlay(false);
               setTimeout(() => setAutoPlay(true), 5000);
             }}
