@@ -1,7 +1,9 @@
+
 import React, { useState, useMemo } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
-import { ChevronDown, Shirt, ShoppingBag, Shirt as ShirtIcon } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Shirt, ShoppingBag, Tshirt } from 'lucide-react';
 
 // Define clothing types with categories and gender-specific options
 export const clothingTypes = {
@@ -144,26 +146,21 @@ export const clothingTypes = {
     }]
   }
 };
+
 type Category = 'casual' | 'ethnic' | 'western';
+
 type ClothingTypeSelectorProps = {
   selectedType: string | null;
   onTypeSelect: (type: string) => void;
   selectedGender: 'male' | 'female' | null;
 };
+
 const ClothingTypeSelector = ({
   selectedType,
   onTypeSelect,
   selectedGender
 }: ClothingTypeSelectorProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-
-  // Get available clothing types based on selected gender
-  const availableTypes = useMemo(() => {
-    if (!selectedGender || !selectedCategory) return [];
-    const categoryTypes = clothingTypes[selectedCategory];
-    return [...categoryTypes.both, ...categoryTypes[selectedGender]];
-  }, [selectedGender, selectedCategory]);
-
+  
   // Find the label for the selected type
   const selectedTypeLabel = useMemo(() => {
     if (!selectedType) return '';
@@ -175,42 +172,84 @@ const ClothingTypeSelector = ({
     }
     return selectedType;
   }, [selectedType]);
-  const renderCategoryButton = (category: Category, icon: React.ReactNode, color: string) => <Button onClick={() => setSelectedCategory(category)} disabled={!selectedGender} className={`relative h-40 flex flex-col items-center justify-center gap-2 border-2 ${selectedCategory === category ? `border-${color}-500 bg-navy-dark` : `border-${color}-900 bg-transparent hover:border-${color}-500`} rounded-xl overflow-hidden ${!selectedGender ? 'opacity-50 cursor-not-allowed' : ''}`} variant="ghost">
-      <div className={`h-12 w-12 flex items-center justify-center ${selectedCategory === category ? `text-${color}-400` : `text-${color}-500`}`}>
-        {icon}
-      </div>
-      <span className={`text-2xl ${selectedCategory === category ? 'text-white' : 'text-white/70'}`}>
-        {category.charAt(0).toUpperCase() + category.slice(1)}
-      </span>
-    </Button>;
-  return <div className="w-full max-w-md mx-auto mb-8">
+  
+  // Get available types based on category and gender
+  const getAvailableTypes = (category: Category) => {
+    if (!selectedGender) return [];
+    return [
+      ...clothingTypes[category].both,
+      ...clothingTypes[category][selectedGender]
+    ];
+  };
+  
+  // Render dropdown menu for each category
+  const renderDropdownMenu = (category: Category, icon: React.ReactNode, color: string) => {
+    const availableTypes = getAvailableTypes(category);
+    const isSelected = selectedType && availableTypes.some(type => type.value === selectedType);
+    
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button 
+            disabled={!selectedGender} 
+            className={`relative h-40 w-full flex flex-col items-center justify-center gap-2 border-2 
+              ${isSelected ? `border-${color}-500 bg-navy-dark` : `border-${color}-900 bg-transparent hover:border-${color}-500 hover:bg-yellow-300 group`} 
+              rounded-xl overflow-hidden ${!selectedGender ? 'opacity-50 cursor-not-allowed' : ''}`} 
+            variant="ghost"
+          >
+            <div className={`h-12 w-12 flex items-center justify-center ${isSelected ? `text-${color}-400` : `text-${color}-500 group-hover:text-black`}`}>
+              {icon}
+            </div>
+            <span className={`text-base ${isSelected ? 'text-white' : 'text-white/70 group-hover:text-black'}`}>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </span>
+          </Button>
+        </DropdownMenuTrigger>
+        
+        <DropdownMenuContent align="center" className="w-52 max-h-80 bg-navy-dark border-white/10">
+          <DropdownMenuLabel className="text-white">Select style</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <ScrollArea className="h-60">
+            <div className="p-1">
+              {availableTypes.map(type => (
+                <DropdownMenuItem 
+                  key={type.value} 
+                  onClick={() => onTypeSelect(type.value)} 
+                  className={`${selectedType === type.value ? 'bg-navy-light text-white' : 'text-white/80 hover:text-black hover:bg-yellow-300'}`}
+                >
+                  {type.label}
+                </DropdownMenuItem>
+              ))}
+            </div>
+          </ScrollArea>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  };
+
+  return (
+    <div className="w-full max-w-md mx-auto mb-8">
       <h2 className="font-bold text-yellow-300 mb-4 text-2xl">Dress Type</h2>
       
-      {!selectedGender && <div className="text-center text-white/70 mb-4">
+      {!selectedGender && 
+        <div className="text-center text-white/70 mb-4">
           Please select a model first
-        </div>}
+        </div>
+      }
       
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        {renderCategoryButton('casual', <Shirt className="h-12 w-12" />, 'blue')}
-        {renderCategoryButton('ethnic', <ShoppingBag className="h-12 w-12" />, 'pink')}
-        {renderCategoryButton('western', <ShirtIcon className="h-12 w-12" />, 'blue')}
+      <div className="grid grid-cols-3 gap-4">
+        {renderDropdownMenu('casual', <Shirt className="h-12 w-12" />, 'blue')}
+        {renderDropdownMenu('ethnic', <ShoppingBag className="h-12 w-12" />, 'pink')}
+        {renderDropdownMenu('western', <Tshirt className="h-12 w-12" />, 'blue')}
       </div>
       
-      {selectedCategory && selectedGender && <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="w-full h-12 bg-navy-dark border border-white/10 text-white flex items-center justify-between" variant="outline">
-              {selectedType ? selectedTypeLabel : 'Select style'}
-              <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 bg-navy-dark border-white/10">
-            <DropdownMenuLabel>Select style</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {availableTypes.map(type => <DropdownMenuItem key={type.value} onClick={() => onTypeSelect(type.value)} className={selectedType === type.value ? 'bg-navy-light text-white' : 'text-white/80'}>
-                {type.label}
-              </DropdownMenuItem>)}
-          </DropdownMenuContent>
-        </DropdownMenu>}
-    </div>;
+      {selectedType && 
+        <div className="mt-4 text-center text-white">
+          <span className="font-medium">Selected: </span>{selectedTypeLabel}
+        </div>
+      }
+    </div>
+  );
 };
+
 export default ClothingTypeSelector;

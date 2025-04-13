@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { User, UserRound } from 'lucide-react';
@@ -14,14 +15,14 @@ const GenderSelector = ({
       <h2 className="font-bold text-yellow-300 mb-4 text-2xl">Model</h2>
       
       <div className="grid grid-cols-2 gap-4">
-        <Button onClick={() => onGenderSelect('male')} className={`relative h-40 flex flex-col items-center justify-center gap-2 border-2 ${selectedGender === 'male' ? 'border-blue-500 bg-navy-dark' : 'border-blue-900 bg-transparent hover:border-blue-500'} rounded-xl overflow-hidden`} variant="ghost">
-          <User className={`h-12 w-12 ${selectedGender === 'male' ? 'text-white' : 'text-blue-500'}`} />
-          <span className={`text-2xl ${selectedGender === 'male' ? 'text-white' : 'text-white/70'}`}>Male</span>
+        <Button onClick={() => onGenderSelect('male')} className={`relative h-40 flex flex-col items-center justify-center gap-2 border-2 ${selectedGender === 'male' ? 'border-blue-500 bg-navy-dark' : 'border-blue-900 bg-transparent hover:border-blue-500 hover:bg-yellow-300 group'} rounded-xl overflow-hidden`} variant="ghost">
+          <User className={`h-12 w-12 ${selectedGender === 'male' ? 'text-white' : 'text-blue-500 group-hover:text-black'}`} />
+          <span className={`text-base ${selectedGender === 'male' ? 'text-white' : 'text-white/70 group-hover:text-black'}`}>Male</span>
         </Button>
         
-        <Button onClick={() => onGenderSelect('female')} className={`relative h-40 flex flex-col items-center justify-center gap-2 border-2 ${selectedGender === 'female' ? 'border-blue-500 bg-navy-dark' : 'border-blue-900 bg-transparent hover:border-blue-500'} rounded-xl overflow-hidden`} variant="ghost">
-          <UserRound className={`h-12 w-12 ${selectedGender === 'female' ? 'text-white' : 'text-blue-500'}`} />
-          <span className={`text-2xl ${selectedGender === 'female' ? 'text-white' : 'text-white/70'}`}>Female</span>
+        <Button onClick={() => onGenderSelect('female')} className={`relative h-40 flex flex-col items-center justify-center gap-2 border-2 ${selectedGender === 'female' ? 'border-blue-500 bg-navy-dark' : 'border-blue-900 bg-transparent hover:border-blue-500 hover:bg-yellow-300 group'} rounded-xl overflow-hidden`} variant="ghost">
+          <UserRound className={`h-12 w-12 ${selectedGender === 'female' ? 'text-white' : 'text-blue-500 group-hover:text-black'}`} />
+          <span className={`text-base ${selectedGender === 'female' ? 'text-white' : 'text-white/70 group-hover:text-black'}`}>Female</span>
         </Button>
       </div>
     </div>;
