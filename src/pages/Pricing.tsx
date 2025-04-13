@@ -23,10 +23,10 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'basic',
     name: 'Basic',
-    price: '$1.59',
-    credits: 1000,
+    price: '$0.99',
+    credits: 500,
     features: [
-      'Generate 33 high-quality model images',
+      'Generate 16 high-quality model images',
       'Access to all model ethnicities',
       'All clothing types supported',
       'Standard priority'
@@ -35,7 +35,7 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'pro',
     name: 'Pro',
-    price: '$8.99',
+    price: '$7.99',
     credits: 5000,
     popular: true,
     features: [
@@ -48,7 +48,7 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'premium',
     name: 'Premium',
-    price: '$11.99',
+    price: '$12.99',
     credits: 10000,
     features: [
       'Generate 333 high-quality model images',
@@ -123,7 +123,7 @@ const Pricing = () => {
             </CardContent>
             <CardFooter>
               <Button
-                className="w-full bg-gold text-navy-dark hover:bg-gold-dark"
+                className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600"
                 onClick={() => handlePurchase(plan)}
               >
                 Get {plan.credits.toLocaleString()} Credits

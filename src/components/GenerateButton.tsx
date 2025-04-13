@@ -11,7 +11,7 @@ type GenerateButtonProps = {
 const GenerateButton = ({ onClick, disabled, isGenerating }: GenerateButtonProps) => {
   return (
     <button
-      className="button-primary w-full max-w-md mx-auto flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full max-w-md mx-auto flex items-center justify-center gap-2 py-4 px-6 rounded-md text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600"
       onClick={onClick}
       disabled={disabled || isGenerating}
     >

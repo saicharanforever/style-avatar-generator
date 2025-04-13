@@ -8,6 +8,7 @@ import GenderSelector from '@/components/GenderSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
 import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
 import GenerateButton from '@/components/GenerateButton';
+import GenerationProgress from '@/components/GenerationProgress';
 import ResultDisplay from '@/components/ResultDisplay';
 import SampleButton from '@/components/SampleButton';
 import BackgroundParticles from '@/components/BackgroundParticles';
@@ -27,10 +28,46 @@ const Index = () => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
   const [regenerationCount, setRegenerationCount] = useState<number>(0);
+  const [generationProgress, setGenerationProgress] = useState(0);
   
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
   const navigate = useNavigate();
+
+  // Simulate progress when generating image
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (isGenerating) {
+      setGenerationProgress(0);
+      
+      interval = setInterval(() => {
+        setGenerationProgress(prev => {
+          // Progress simulation logic - goes to 95% maximum while waiting for real completion
+          if (prev < 95) {
+            // Speed starts fast then slows down
+            const increment = (95 - prev) / 10;
+            return prev + Math.max(0.5, increment);
+          }
+          return prev;
+        });
+      }, 150);
+    } else if (generatedImage) {
+      // Set to 100% when image is generated
+      setGenerationProgress(100);
+      
+      // Reset progress after a delay
+      const timeout = setTimeout(() => {
+        setGenerationProgress(0);
+      }, 1000);
+      
+      return () => clearTimeout(timeout);
+    }
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isGenerating, generatedImage]);
 
   const handleImageSelect = (file: File) => {
     if (!file) {
@@ -199,6 +236,11 @@ const Index = () => {
         onClick={handleGenerateImage} 
         disabled={isGenerateDisabled}
         isGenerating={isGenerating}
+      />
+      
+      <GenerationProgress 
+        progress={generationProgress}
+        isVisible={isGenerating || (generatedImage !== null && generationProgress > 0)}
       />
       
       <ResultDisplay 

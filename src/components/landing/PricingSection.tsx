@@ -11,20 +11,20 @@ interface PricingSectionProps {
 const pricingPlans = [{
   id: 'basic',
   name: 'Basic',
-  price: '$1.59',
-  credits: 1000,
-  features: ['Generate 33 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Standard priority']
+  price: '$0.99',
+  credits: 500,
+  features: ['Generate 16 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Standard priority']
 }, {
   id: 'pro',
   name: 'Pro',
-  price: '$8.99',
+  price: '$7.99',
   credits: 5000,
   popular: true,
   features: ['Generate 166 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Enhanced priority']
 }, {
   id: 'premium',
   name: 'Premium',
-  price: '$11.99',
+  price: '$12.99',
   credits: 10000,
   features: ['Generate 333 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Maximum priority']
 }];
@@ -68,7 +68,7 @@ const PricingSection = ({ onGetStarted }: PricingSectionProps) => {
               </ul>
               
               <Button 
-                className="w-full bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600" 
+                className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600" 
                 onClick={onGetStarted}
               >
                 Get Started

@@ -1,18 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Header from '@/components/Header';
 import BackgroundParticles from '@/components/BackgroundParticles';
+import ForgotPassword from '@/components/auth/ForgotPassword';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
 
@@ -38,6 +40,20 @@ const Auth = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative flex flex-col items-center">
+        <BackgroundParticles />
+        <Header />
+        <Card className="w-full max-w-md mx-auto mt-8 bg-navy-light/60 backdrop-blur-md border border-white/10">
+          <CardContent className="p-6">
+            <ForgotPassword />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative flex flex-col items-center">
@@ -72,9 +88,20 @@ const Auth = () => {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium text-gold-light">
-                Password
-              </label>
+              <div className="flex justify-between items-center">
+                <label htmlFor="password" className="text-sm font-medium text-gold-light">
+                  Password
+                </label>
+                {isLogin && (
+                  <button
+                    type="button"
+                    onClick={() => setShowForgotPassword(true)}
+                    className="text-xs text-gold hover:underline font-medium"
+                  >
+                    Forgot Password?
+                  </button>
+                )}
+              </div>
               <Input
                 id="password"
                 type="password"
@@ -88,7 +115,7 @@ const Auth = () => {
             </div>
             <Button 
               type="submit" 
-              className="w-full button-primary" 
+              className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600" 
               disabled={isSubmitting}
             >
               {isSubmitting 

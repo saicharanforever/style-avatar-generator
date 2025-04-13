@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
+import ResetPassword from "./components/auth/ResetPassword";
 import { useAuth } from "./contexts/AuthContext";
 
 // Protected route component
@@ -37,6 +38,7 @@ const AppRoutes = () => {
         user ? <Index /> : <Navigate to="/landing" />
       } />
       <Route path="/auth" element={<Auth />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/pricing" element={<Pricing />} />
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
