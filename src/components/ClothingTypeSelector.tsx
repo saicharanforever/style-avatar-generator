@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Shirt, ShoppingBag, TShirt } from 'lucide-react';
+import { Shirt, ShoppingBag } from 'lucide-react';
 
 // Define clothing types with categories and gender-specific options
 export const clothingTypes = {
@@ -239,7 +239,7 @@ const ClothingTypeSelector = ({
       <div className="grid grid-cols-3 gap-4">
         {renderDropdownMenu('casual', <Shirt className="h-12 w-12" />, 'blue')}
         {renderDropdownMenu('ethnic', <ShoppingBag className="h-12 w-12" />, 'pink')}
-        {renderDropdownMenu('western', <TShirt className="h-12 w-12" />, 'blue')}
+        {renderDropdownMenu('western', <Shirt className="h-12 w-12" />, 'blue')}
       </div>
       
       {selectedType && 
