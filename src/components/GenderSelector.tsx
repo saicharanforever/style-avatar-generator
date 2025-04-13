@@ -13,47 +13,37 @@ type GenderSelectorProps = {
 const GenderSelector = ({ selectedGender, onGenderSelect }: GenderSelectorProps) => {
   return (
     <div className="w-full max-w-md mx-auto mb-8">
-      <h2 className="text-2xl font-bold text-gold mb-4 flex items-center">
-        <span className="mr-2">Model</span>
-      </h2>
+      <h2 className="text-5xl font-bold text-yellow-300 mb-4">Model</h2>
       
       <div className="grid grid-cols-2 gap-4">
         <Button
           onClick={() => onGenderSelect('male')}
-          className={`relative glass-card h-24 flex flex-col items-center justify-center gap-2 ${
+          className={`relative h-40 flex flex-col items-center justify-center gap-2 border-2 ${
             selectedGender === 'male' 
-              ? 'border-2 border-gold bg-navy-light' 
-              : 'border border-white/10 hover:border-white/30'
-          }`}
+              ? 'border-blue-500 bg-navy-dark' 
+              : 'border-blue-900 bg-transparent hover:border-blue-500'
+          } rounded-xl overflow-hidden`}
           variant="ghost"
         >
-          <User className={`h-8 w-8 ${
-            selectedGender === 'male' ? 'text-gold' : 'text-white/70'
+          <User className={`h-12 w-12 ${
+            selectedGender === 'male' ? 'text-white' : 'text-blue-500'
           }`} />
-          <span className={selectedGender === 'male' ? 'text-gold font-medium' : 'text-white/70'}>Male</span>
-          
-          {selectedGender === 'male' && (
-            <div className="absolute bottom-2 right-2 bg-gold rounded-full w-3 h-3"></div>
-          )}
+          <span className={`text-2xl ${selectedGender === 'male' ? 'text-white' : 'text-white/70'}`}>Male</span>
         </Button>
         
         <Button
           onClick={() => onGenderSelect('female')}
-          className={`relative glass-card h-24 flex flex-col items-center justify-center gap-2 ${
+          className={`relative h-40 flex flex-col items-center justify-center gap-2 border-2 ${
             selectedGender === 'female' 
-              ? 'border-2 border-gold bg-navy-light' 
-              : 'border border-white/10 hover:border-white/30'
-          }`}
+              ? 'border-blue-500 bg-navy-dark' 
+              : 'border-blue-900 bg-transparent hover:border-blue-500'
+          } rounded-xl overflow-hidden`}
           variant="ghost"
         >
-          <UserRound className={`h-8 w-8 ${
-            selectedGender === 'female' ? 'text-gold' : 'text-white/70'
+          <UserRound className={`h-12 w-12 ${
+            selectedGender === 'female' ? 'text-white' : 'text-blue-500'
           }`} />
-          <span className={selectedGender === 'female' ? 'text-gold font-medium' : 'text-white/70'}>Female</span>
-          
-          {selectedGender === 'female' && (
-            <div className="absolute bottom-2 right-2 bg-gold rounded-full w-3 h-3"></div>
-          )}
+          <span className={`text-2xl ${selectedGender === 'female' ? 'text-white' : 'text-white/70'}`}>Female</span>
         </Button>
       </div>
     </div>

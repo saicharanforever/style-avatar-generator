@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -91,13 +90,6 @@ const Index = () => {
     setRegenerationCount(0);
   };
   
-  const handleClothingTypeSelect = (type: string) => {
-    setSelectedClothingType(type);
-    setGeneratedImage(null);
-    setIsOriginalImage(false);
-    setRegenerationCount(0);
-  };
-
   const handleEthnicitySelect = (ethnicity: Ethnicity) => {
     setSelectedEthnicity(ethnicity);
     setGeneratedImage(null);
@@ -193,6 +185,13 @@ const Index = () => {
   
   const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity;
 
+  const handleTypeSelect = (type: string) => {
+    setSelectedClothingType(type);
+    setGeneratedImage(null);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+  };
+
   return (
     <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative">
       <BackgroundParticles />
@@ -224,7 +223,8 @@ const Index = () => {
       
       <ClothingTypeSelector 
         selectedType={selectedClothingType} 
-        onTypeSelect={handleClothingTypeSelect} 
+        onTypeSelect={handleTypeSelect}
+        selectedGender={selectedGender}
       />
 
       <EthnicitySelector
