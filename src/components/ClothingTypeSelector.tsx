@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { 
   DropdownMenu,
@@ -9,7 +8,7 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
-import { ChevronDown, Shirt, DressHanger, Shirt as ShirtIcon } from 'lucide-react';
+import { ChevronDown, Shirt, Clothes, Shirt as ShirtIcon } from 'lucide-react';
 
 // Define clothing types with categories and gender-specific options
 export const clothingTypes = {
@@ -152,7 +151,7 @@ const ClothingTypeSelector = ({ selectedType, onTypeSelect, selectedGender }: Cl
       
       <div className="grid grid-cols-3 gap-4 mb-6">
         {renderCategoryButton('casual', <Shirt className="h-12 w-12" />, 'blue')}
-        {renderCategoryButton('ethnic', <DressHanger className="h-12 w-12" />, 'pink')}
+        {renderCategoryButton('ethnic', <Clothes className="h-12 w-12" />, 'pink')}
         {renderCategoryButton('western', <ShirtIcon className="h-12 w-12" />, 'blue')}
       </div>
       
