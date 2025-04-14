@@ -1,26 +1,23 @@
 
 import React from 'react';
 
-interface GenerationProgressProps {
+type GenerationProgressProps = {
   progress: number;
   isVisible: boolean;
-}
+};
 
 const GenerationProgress = ({ progress, isVisible }: GenerationProgressProps) => {
   if (!isVisible) return null;
-
+  
   return (
-    <div className="w-full max-w-md mx-auto mt-4 mb-6">
-      <div className="relative w-full h-2 rounded-full overflow-hidden flex items-center">
-        <div className="w-full h-full rounded-full bg-navy-dark/50 backdrop-blur"></div>
+    <div className="w-full max-w-md mx-auto mb-6 flex items-center gap-2">
+      <div className="relative w-full h-2 bg-navy-light/50 rounded-full overflow-hidden">
         <div 
-          className="absolute top-0 left-0 h-full bg-gradient-to-r from-pink-500 to-blue-500 transition-all duration-300 rounded-full"
+          className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-pink-500 rounded-full transition-all duration-300"
           style={{ width: `${progress}%` }}
-        ></div>
-        <div className="absolute top-0 right-0 ml-2 flex items-center justify-center">
-          <span className="text-white text-xs font-medium pl-2">{Math.round(progress)}%</span>
-        </div>
+        />
       </div>
+      <div className="text-white/80 text-xs">{Math.round(progress)}%</div>
     </div>
   );
 };

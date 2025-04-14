@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +12,26 @@ import GenerationProgress from '@/components/GenerationProgress';
 import ResultDisplay from '@/components/ResultDisplay';
 import SampleButton from '@/components/SampleButton';
 import BackgroundParticles from '@/components/BackgroundParticles';
+import ViewToggle from '@/components/ViewToggle';
+import AdvancedOptions from '@/components/AdvancedOptions';
 import { generateFashionImage, getSampleImageUrl } from '@/services/generationService';
 import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 type Gender = 'male' | 'female';
+
+// Type for advanced options
+type AdvancedOptionsState = {
+  bodySize?: string;
+  pose?: string;
+  hairColor?: string;
+  backdrop?: string;
+  lighting?: string;
+  necklaces?: string;
+  bangles?: string;
+  earrings?: string;
+  nosePin?: string;
+};
 
 const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -28,6 +44,8 @@ const Index = () => {
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
   const [regenerationCount, setRegenerationCount] = useState<number>(0);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const [isBackView, setIsBackView] = useState<boolean>(false);
+  const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
   
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
@@ -68,6 +86,22 @@ const Index = () => {
     };
   }, [isGenerating, generatedImage]);
 
+  // Set default accessories for ethnic female wear
+  useEffect(() => {
+    if (selectedGender === 'female' && selectedClothingType && [
+      'saree_traditional', 'saree_party', 'kurti', 'blouse',
+      'lehenga', 'palazzo', 'indo_western', 'tunic', 'harem_pant'
+    ].includes(selectedClothingType)) {
+      // Set default ethnic accessories
+      setAdvancedOptions(prev => ({
+        ...prev,
+        earrings: prev.earrings || 'medium',
+        nosePin: prev.nosePin || 'medium',
+        necklaces: prev.necklaces || 'medium'
+      }));
+    }
+  }, [selectedGender, selectedClothingType]);
+
   const handleImageSelect = (file: File) => {
     if (!file) {
       setSelectedImage(null);
@@ -92,6 +126,25 @@ const Index = () => {
   
   const handleEthnicitySelect = (ethnicity: Ethnicity) => {
     setSelectedEthnicity(ethnicity);
+    setGeneratedImage(null);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+  };
+
+  const handleViewToggle = (isBack: boolean) => {
+    setIsBackView(isBack);
+    setGeneratedImage(null);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+  };
+
+  const handleAdvancedOptionChange = (category: string, value: string) => {
+    setAdvancedOptions(prev => ({
+      ...prev,
+      [category]: value
+    }));
+    
+    // Reset generated image when changing options
     setGeneratedImage(null);
     setIsOriginalImage(false);
     setRegenerationCount(0);
@@ -136,7 +189,10 @@ const Index = () => {
         imageFile,
         gender: selectedGender,
         clothingType: selectedClothingType,
-        ethnicity: selectedEthnicity
+        ethnicity: selectedEthnicity,
+        // Add new properties
+        isBackView,
+        advancedOptions
       });
       
       setGeneratedImage(result.image);
@@ -174,6 +230,7 @@ const Index = () => {
         setSelectedGender('female');
         setSelectedClothingType('dress');
         setSelectedEthnicity('american');
+        setIsBackView(false);
       });
   };
   
@@ -197,11 +254,11 @@ const Index = () => {
       <BackgroundParticles />
       <Header />
       
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight gold-gradient-text">
           Generate Model Images of Your Clothing
         </h1>
-        <p className="text-white/70 max-w-md mx-auto">
+        <p className="text-white/70 max-w-md mx-auto text-sm">
           Upload your clothing image and see how it would look on a professional model.
         </p>
       </div>
@@ -210,6 +267,8 @@ const Index = () => {
         onImageSelect={handleImageSelect} 
         selectedImage={selectedImage} 
       />
+      
+      {selectedImage && <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />}
       
       <SampleButton 
         onClick={handleSampleClick} 
@@ -231,6 +290,15 @@ const Index = () => {
         selectedEthnicity={selectedEthnicity}
         onEthnicitySelect={handleEthnicitySelect}
       />
+      
+      {!isGenerateDisabled && (
+        <AdvancedOptions 
+          isBackView={isBackView}
+          selectedGender={selectedGender}
+          selectedClothingType={selectedClothingType}
+          onOptionChange={handleAdvancedOptionChange}
+        />
+      )}
       
       <GenerateButton 
         onClick={handleGenerateImage} 

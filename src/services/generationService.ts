@@ -7,6 +7,18 @@ export interface GenerationRequest {
   gender: 'male' | 'female' | null;
   clothingType: string | null;
   ethnicity: 'american' | 'indian' | null;
+  isBackView?: boolean;
+  advancedOptions?: {
+    bodySize?: string;
+    pose?: string;
+    hairColor?: string;
+    backdrop?: string;
+    lighting?: string;
+    necklaces?: string;
+    bangles?: string;
+    earrings?: string;
+    nosePin?: string;
+  };
 }
 
 // Google Gemini API key
@@ -28,7 +40,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   isOriginal: boolean;
   message?: string;
 }> => {
-  const { imageFile, gender, clothingType, ethnicity } = request;
+  const { imageFile, gender, clothingType, ethnicity, isBackView, advancedOptions } = request;
   
   // Validate the request
   if (!imageFile || !gender || !clothingType || !ethnicity) {
@@ -42,18 +54,132 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     // Create ethnicity description
     const ethnicityDescription = ethnicity === 'american' ? 'American' : 'Indian';
     
-    // Create gender-specific pose and expression
-    const poseAndExpression = gender === 'male' 
-      ? "with a confident pose facing the camera, with a strong alpha look" 
-      : "with a warm, friendly smile facing the camera";
+    // Create view description
+    const viewDescription = isBackView ? 'back view' : 'front view';
     
-    // Create prompt based on user selections
-    const modelDescription = gender === 'male' 
-      ? `a professional ${ethnicityDescription} male model with black hair and fair skin` 
-      : `a professional ${ethnicityDescription} female model with black hair and fair skin`;
+    // Create accessory description for ethnic female wear
+    let accessoryDescription = '';
+    let poseDescription = '';
+    let bodySizeDescription = '';
+    let hairColorDescription = '';
+    let backdropDescription = '';
+    let lightingDescription = '';
+    
+    // Process advanced options
+    if (advancedOptions) {
+      // Body size
+      if (advancedOptions.bodySize) {
+        bodySizeDescription = `with ${advancedOptions.bodySize} body type`;
+      }
+      
+      // Pose
+      if (advancedOptions.pose) {
+        const poseMap: Record<string, string> = {
+          'standing': 'standing straight facing the camera',
+          's-curve': 'in an elegant S-curve pose',
+          'walking': 'in a walking pose',
+          'leaning': 'leaning slightly',
+          'standing-back': 'standing with their back to the camera',
+          'over-shoulder': 'looking over their shoulder at the camera',
+          'contrapposto': 'in a contrapposto pose',
+          'leaning-wall': 'leaning against a wall'
+        };
+        
+        poseDescription = poseMap[advancedOptions.pose] || '';
+      }
+      
+      // Hair color
+      if (advancedOptions.hairColor) {
+        hairColorDescription = `with ${advancedOptions.hairColor} hair`;
+      }
+      
+      // Backdrop
+      if (advancedOptions.backdrop) {
+        const backdropMap: Record<string, string> = {
+          'white': 'with a clean white backdrop',
+          'yellow': 'with a yellow backdrop',
+          'graffiti': 'with urban graffiti walls in the background',
+          'textured': 'with a textured backdrop',
+          'garden': 'in a garden setting',
+          'wedding': 'with a traditional wedding backdrop',
+          'historic': 'with historic buildings in the background'
+        };
+        
+        backdropDescription = backdropMap[advancedOptions.backdrop] || '';
+      }
+      
+      // Lighting
+      if (advancedOptions.lighting) {
+        const lightingMap: Record<string, string> = {
+          'natural': 'in natural lighting',
+          'indoor': 'in warm indoor lighting',
+          'studio': 'in professional studio lighting'
+        };
+        
+        lightingDescription = lightingMap[advancedOptions.lighting] || '';
+      }
+      
+      // Accessories for female models
+      if (gender === 'female') {
+        const accessories = [];
+        
+        // For ethnic wear, add default accessories if not specified otherwise
+        const isEthnic = [
+          'saree_traditional', 'saree_party', 'kurti', 'blouse',
+          'lehenga', 'palazzo', 'indo_western', 'tunic', 'harem_pant'
+        ].includes(clothingType);
+        
+        if (isEthnic) {
+          // Default accessories for ethnic wear
+          if (advancedOptions.earrings !== 'none') {
+            accessories.push(`${advancedOptions.earrings || 'simple'} earrings`);
+          }
+          
+          if (advancedOptions.nosePin !== 'none') {
+            accessories.push(`${advancedOptions.nosePin || 'small'} nose pin`);
+          }
+          
+          if (advancedOptions.necklaces !== 'none') {
+            accessories.push(`${advancedOptions.necklaces || 'small'} necklace chain`);
+          }
+          
+          // Always add bindi for ethnic wear
+          accessories.push('small bindi');
+        } else {
+          // For non-ethnic wear, only add if explicitly selected
+          if (advancedOptions.earrings && advancedOptions.earrings !== 'none') {
+            accessories.push(`${advancedOptions.earrings} earrings`);
+          }
+          
+          if (advancedOptions.nosePin && advancedOptions.nosePin !== 'none') {
+            accessories.push(`${advancedOptions.nosePin} nose pin`);
+          }
+          
+          if (advancedOptions.necklaces && advancedOptions.necklaces !== 'none') {
+            accessories.push(`${advancedOptions.necklaces} necklace`);
+          }
+        }
+        
+        // Add bangles if selected
+        if (advancedOptions.bangles && advancedOptions.bangles !== 'none') {
+          accessories.push(`${advancedOptions.bangles} bangles`);
+        }
+        
+        if (accessories.length > 0) {
+          accessoryDescription = `wearing ${accessories.join(', ')}`;
+        }
+      }
+    }
+    
+    // Create gender-specific pose and expression
+    const genderDescription = gender === 'male' 
+      ? `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}` 
+      : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}`;
     
     // Craft the prompt for the AI - optimized for quality and clarity
-    const prompt = `Generate a realistic product photography image of ${modelDescription} wearing the ${clothingType} shown in this image. The model should be positioned ${poseAndExpression}. The image should look like a professional fashion catalog photo with studio lighting and a neutral background. Preserve all details of the clothing item and ensure high resolution output.`;
+    const prompt = `Generate a realistic product photography image of ${genderDescription} wearing the ${clothingType} shown in this image (${viewDescription}). The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details of the clothing item and ensure high resolution output.`;
+    
+    console.log("Generation prompt:", prompt);
     
     // Prepare content for the API
     const contents = [

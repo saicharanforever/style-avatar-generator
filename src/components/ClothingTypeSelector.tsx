@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
@@ -191,30 +192,30 @@ const ClothingTypeSelector = ({
         <DropdownMenuTrigger asChild>
           <Button 
             disabled={!selectedGender} 
-            className={`relative h-40 w-full flex flex-col items-center justify-center gap-2 border-2 
+            className={`relative h-20 w-full flex flex-col items-center justify-center gap-2 border-2 
               ${isSelected ? `border-${color}-500 bg-navy-dark` : `border-${color}-900 bg-transparent hover:border-${color}-500 hover:bg-yellow-300 group`} 
               rounded-xl overflow-hidden ${!selectedGender ? 'opacity-50 cursor-not-allowed' : ''}`} 
             variant="ghost"
           >
-            <div className={`h-12 w-12 flex items-center justify-center ${isSelected ? `text-${color}-400` : `text-${color}-500 group-hover:text-black`}`}>
+            <div className={`h-8 w-8 flex items-center justify-center ${isSelected ? `text-${color}-400` : `text-${color}-500 group-hover:text-black`}`}>
               {icon}
             </div>
-            <span className={`text-base text-sm ${isSelected ? 'text-white' : 'text-white/70 group-hover:text-black'}`}>
+            <span className={`text-xs ${isSelected ? 'text-white' : 'text-white/70 group-hover:text-black'}`}>
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </span>
           </Button>
         </DropdownMenuTrigger>
         
-        <DropdownMenuContent align="center" className="w-52 max-h-60 bg-navy-dark border-white/10 overflow-hidden">
-          <DropdownMenuLabel className="text-white text-sm">Select style</DropdownMenuLabel>
+        <DropdownMenuContent align="center" className="w-52 max-h-60 bg-navy-dark border-white/10">
+          <DropdownMenuLabel className="text-white text-xs">Select style</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <ScrollArea className="h-52">
+          <ScrollArea className="h-40">
             <div className="p-1">
               {availableTypes.map(type => (
                 <DropdownMenuItem 
                   key={type.value} 
                   onClick={() => onTypeSelect(type.value)} 
-                  className={`${selectedType === type.value ? 'bg-navy-light text-white' : 'text-white/80 hover:text-black hover:bg-yellow-300'} text-sm`}
+                  className={`${selectedType === type.value ? 'bg-navy-light text-white' : 'text-white/80 hover:text-black hover:bg-yellow-300'} text-xs`}
                 >
                   {type.label}
                 </DropdownMenuItem>
@@ -227,23 +228,23 @@ const ClothingTypeSelector = ({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mb-8">
-      <h2 className="font-bold text-yellow-300 mb-4 text-2xl">Dress Type</h2>
+    <div className="w-full max-w-md mx-auto mb-6">
+      <h2 className="font-bold text-yellow-300 mb-3 text-sm">Dress Type</h2>
       
       {!selectedGender && 
-        <div className="text-center text-white/70 mb-4 text-sm">
+        <div className="text-center text-white/70 mb-3 text-xs">
           Please select a model first
         </div>
       }
       
       <div className="grid grid-cols-3 gap-4">
-        {renderDropdownMenu('casual', <Shirt className="h-12 w-12" />, 'blue')}
-        {renderDropdownMenu('ethnic', <ShoppingBag className="h-12 w-12" />, 'pink')}
-        {renderDropdownMenu('western', <Shirt className="h-12 w-12" />, 'blue')}
+        {renderDropdownMenu('casual', <Shirt className="h-6 w-6" />, 'blue')}
+        {renderDropdownMenu('ethnic', <ShoppingBag className="h-6 w-6" />, 'pink')}
+        {renderDropdownMenu('western', <Shirt className="h-6 w-6" />, 'blue')}
       </div>
       
       {selectedType && 
-        <div className="mt-4 text-center text-white text-sm">
+        <div className="mt-3 text-center text-white text-xs">
           <span className="font-medium">Selected: </span>{selectedTypeLabel}
         </div>
       }
