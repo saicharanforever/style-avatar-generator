@@ -2,7 +2,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import BeforeAfterCarousel from '@/components/BeforeAfterCarousel';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -29,9 +28,6 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
-        
-        {/* Before/After Transformation Carousel */}
-        <BeforeAfterCarousel />
       </div>
     </section>
   );
