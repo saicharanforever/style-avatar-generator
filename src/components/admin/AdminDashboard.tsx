@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -10,18 +9,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Loader2, Plus, Trash2, Calendar } from 'lucide-react';
 import Header from '@/components/Header';
 import BackgroundParticles from '@/components/BackgroundParticles';
-
-// Define the Coupon type
-type Coupon = {
-  id: string;
-  code: string;
-  credits: number;
-  usage_limit: number;
-  usage_count: number;
-  expiry_date: string | null;
-  description: string | null;
-  created_at: string;
-};
+import type { Coupon } from '@/types/coupon';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -42,11 +30,8 @@ const AdminDashboard = () => {
   // Check if the user is the admin
   const isAdmin = user?.email === 'saicharanvarkala192@gmail.com';
 
-  // Fetch coupons on load
   useEffect(() => {
-    if (!user) {
-      return;
-    }
+    if (!user) return;
 
     if (!isAdmin) {
       navigate('/');
@@ -62,7 +47,7 @@ const AdminDashboard = () => {
           .order('created_at', { ascending: false });
 
         if (error) throw error;
-        setCoupons(data || []);
+        setCoupons(data as Coupon[]);
       } catch (error: any) {
         toast.error(`Error fetching coupons: ${error.message}`);
       } finally {
@@ -124,12 +109,13 @@ const AdminDashboard = () => {
           expiry_date: newCoupon.expiry_date || null,
           description: newCoupon.description || null
         })
-        .select();
+        .select()
+        .single();
 
       if (error) throw error;
       
       toast.success('Coupon created successfully!');
-      setCoupons([data[0], ...coupons]);
+      setCoupons([data as Coupon, ...coupons]);
       
       // Reset form
       setNewCoupon({

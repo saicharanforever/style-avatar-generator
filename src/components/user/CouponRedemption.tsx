@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import type { Coupon } from '@/types/coupon';
 
 const CouponRedemption = () => {
   const { user } = useAuth();
@@ -50,14 +51,16 @@ const CouponRedemption = () => {
         return;
       }
       
+      const typedCoupon = coupon as Coupon;
+      
       // Check if coupon has reached usage limit
-      if (coupon.usage_count >= coupon.usage_limit) {
+      if (typedCoupon.usage_count >= typedCoupon.usage_limit) {
         toast.error('This coupon has reached its usage limit');
         return;
       }
       
       // Check if coupon is expired
-      if (coupon.expiry_date && new Date(coupon.expiry_date) < new Date()) {
+      if (typedCoupon.expiry_date && new Date(typedCoupon.expiry_date) < new Date()) {
         toast.error('This coupon has expired');
         return;
       }
@@ -67,7 +70,7 @@ const CouponRedemption = () => {
         .from('coupon_redemptions')
         .select('*')
         .eq('user_id', user.id)
-        .eq('coupon_id', coupon.id)
+        .eq('coupon_id', typedCoupon.id)
         .single();
       
       if (existingRedemption) {
@@ -75,25 +78,10 @@ const CouponRedemption = () => {
         return;
       }
       
-      // Begin a transaction to apply the coupon
-      const { data: credits, error: creditsError } = await supabase
-        .from('user_credits')
-        .select('credits')
-        .eq('user_id', user.id)
-        .single();
-      
-      if (creditsError) {
-        toast.error('Error fetching your credits');
-        return;
-      }
-      
       // Update user credits
       const { error: updateError } = await supabase
         .from('user_credits')
-        .update({
-          credits: credits.credits + coupon.credits,
-          updated_at: new Date().toISOString()
-        })
+        .update({ credits: credits.credits + typedCoupon.credits })
         .eq('user_id', user.id);
       
       if (updateError) {
@@ -104,13 +92,10 @@ const CouponRedemption = () => {
       // Increment coupon usage count
       const { error: couponUpdateError } = await supabase
         .from('coupons')
-        .update({
-          usage_count: coupon.usage_count + 1
-        })
-        .eq('id', coupon.id);
+        .update({ usage_count: typedCoupon.usage_count + 1 })
+        .eq('id', typedCoupon.id);
       
       if (couponUpdateError) {
-        // If this fails, we should still consider the redemption successful
         console.error('Error updating coupon usage count:', couponUpdateError);
       }
       
@@ -119,19 +104,18 @@ const CouponRedemption = () => {
         .from('coupon_redemptions')
         .insert({
           user_id: user.id,
-          coupon_id: coupon.id,
-          credits_added: coupon.credits
+          coupon_id: typedCoupon.id,
+          credits_added: typedCoupon.credits
         });
       
       if (redemptionInsertError) {
-        // If this fails, we should still consider the redemption successful
         console.error('Error recording coupon redemption:', redemptionInsertError);
       }
       
       // Refresh the credits context
       await refreshCredits();
       
-      toast.success(`Success! ${coupon.credits} credits added to your account`);
+      toast.success(`Success! ${typedCoupon.credits} credits added to your account`);
       setCouponCode('');
     } catch (error: any) {
       toast.error(`Error redeeming coupon: ${error.message}`);
