@@ -78,10 +78,24 @@ const CouponRedemption = () => {
         return;
       }
       
+      // First, get current user credits
+      const { data: userCreditsData, error: userCreditsError } = await supabase
+        .from('user_credits')
+        .select('credits')
+        .eq('user_id', user.id)
+        .single();
+        
+      if (userCreditsError) {
+        toast.error('Error retrieving your current credits');
+        return;
+      }
+      
+      const currentCredits = userCreditsData.credits;
+      
       // Update user credits
       const { error: updateError } = await supabase
         .from('user_credits')
-        .update({ credits: credits.credits + typedCoupon.credits })
+        .update({ credits: currentCredits + typedCoupon.credits })
         .eq('user_id', user.id);
       
       if (updateError) {
