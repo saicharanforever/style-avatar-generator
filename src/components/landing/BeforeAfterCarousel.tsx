@@ -13,36 +13,36 @@ import { ArrowRightCircle } from 'lucide-react';
 // Define image pairs with the provided links
 const imageSlides = [
   {
-    before: 'https://i.ibb.co/WW1h7YZ0/1A.jpg',
-    after: 'https://i.ibb.co/x8fsGf3Z/1B.jpg'
+    before: 'https://ibb.co/x8fsGf3Z/1A.jpg',
+    after: 'https://ibb.co/wZx4MZvZ/1B.jpg'
   },
   {
-    before: 'https://i.ibb.co/wZx4MZvZ/2A.jpg',
-    after: 'https://i.ibb.co/BFY5nQF/2B.jpg'
+    before: 'https://ibb.co/ymWmVfLs/2A.jpg',
+    after: 'https://ibb.co/WW1h7YZ0/2B.jpg'
   },
   {
-    before: 'https://i.ibb.co/HLq0Dv1n/3A.jpg',
-    after: 'https://i.ibb.co/yF8ZfyM6/3B.jpg'
+    before: 'https://ibb.co/hFXrLGxS/3A.jpg',
+    after: 'https://ibb.co/yF8ZfyM6/3B.jpg'
   },
   {
-    before: 'https://i.ibb.co/rfGrdg7C/4A.jpg',
-    after: 'https://i.ibb.co/dshWckr6/4B.jpg'
+    before: 'https://ibb.co/zhpwkChg/4A.jpg',
+    after: 'https://ibb.co/7xYNsHZd/4B.jpg'
   },
   {
-    before: 'https://i.ibb.co/ZzF8GVFC/5A.jpg',
+    before: 'https://ibb.co/rfGrdg7C/5A.jpg',
     after: 'https://i.ibb.co/p6kYc9c3/5B.jpg'
   },
   {
-    before: 'https://i.ibb.co/spjrPwJK/6A.jpg',
-    after: 'https://i.ibb.co/ymWmVfLs/6B.jpg'
+    before: 'https://ibb.co/1t4vwWVp/6A.jpg',
+    after: 'https://ibb.co/HLq0Dv1n/6B.jpg'
   },
   {
-    before: 'https://i.ibb.co/hFXrLGxS/7A.jpg',
-    after: 'https://i.ibb.co/1t4vwWVp/7B.jpg'
+    before: 'https://ibb.co/dshWckr6/7A.jpg',
+    after: 'https://ibb.co/ZzF8GVFC/7B.jpg'
   },
   {
-    before: 'https://i.ibb.co/zhpwkChg/8A.jpg',
-    after: 'https://i.ibb.co/7xYNsHZd/8B.jpg'
+    before: 'https://ibb.co/spjrPwJK/8A.jpg',
+    after: 'https://ibb.co/BFY5nQF/8B.jpg'
   }
 ];
 
