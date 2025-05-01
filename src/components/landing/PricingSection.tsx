@@ -41,7 +41,7 @@ const PricingSection = ({
   onGetStarted
 }: PricingSectionProps) => {
   const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
-  const phoneNumber = "7386951961";
+  const phoneNumber = "+91 7386951961";
 
   const handleCopyPhone = () => {
     navigator.clipboard.writeText(phoneNumber)

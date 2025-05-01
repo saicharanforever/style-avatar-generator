@@ -104,7 +104,7 @@ const BeforeAfterCarousel = () => {
                     <img 
                       src={slide.before} 
                       alt={`Clothing item ${index + 1} before`} 
-                      className="max-h-full max-w-full object-contain"
+                      className="h-full w-full object-cover"
                       onError={(e) => {
                         console.error(`Error loading image: ${slide.before}`);
                         (e.target as HTMLImageElement).src = '/placeholder.svg';
@@ -125,7 +125,7 @@ const BeforeAfterCarousel = () => {
                     <img 
                       src={slide.after} 
                       alt={`Clothing item ${index + 1} on model`} 
-                      className="max-h-full max-w-full object-contain"
+                      className="h-full w-full object-cover"
                       onError={(e) => {
                         console.error(`Error loading image: ${slide.after}`);
                         (e.target as HTMLImageElement).src = '/placeholder.svg';

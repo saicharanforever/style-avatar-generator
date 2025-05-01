@@ -41,6 +41,11 @@ const Landing = () => {
       {/* Hero Section */}
       <HeroSection onGetStarted={handleGetStarted} />
       
+      {/* Before & After Section - Moved to top position */}
+      <section className="py-16 px-4 bg-navy-dark/30">
+        <BeforeAfterCarousel />
+      </section>
+      
       {/* Brands Section */}
       <BrandsSection />
       
@@ -58,11 +63,6 @@ const Landing = () => {
       
       {/* Final CTA */}
       <CallToAction onGetStarted={handleGetStarted} />
-      
-      {/* Before & After Section */}
-      <section className="py-16 px-4 bg-navy-dark/30">
-        <BeforeAfterCarousel />
-      </section>
       
       {/* Footer */}
       <Footer />

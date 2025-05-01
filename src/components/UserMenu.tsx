@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { User, Settings, LogOut, Ticket, Shield } from 'lucide-react';
+import { User, LogOut, Ticket, Shield, Coins } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const UserMenu = () => {
@@ -82,10 +82,10 @@ const UserMenu = () => {
         </DropdownMenuItem>
         <DropdownMenuItem 
           className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
-          onClick={() => navigate('/settings')}
+          onClick={() => navigate('/pricing')}
         >
-          <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
+          <Coins className="mr-2 h-4 w-4" />
+          <span>Get More Credits</span>
         </DropdownMenuItem>
         
         {isAdmin && (

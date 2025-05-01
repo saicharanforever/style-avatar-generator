@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -268,12 +267,16 @@ const Index = () => {
         selectedImage={selectedImage} 
       />
       
-      {selectedImage && <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />}
+      {/* ViewToggle always visible */}
+      <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />
       
-      <SampleButton 
-        onClick={handleSampleClick} 
-        disabled={isGenerating} 
-      />
+      {/* Remove Sample Button for logged in users */}
+      {!user && (
+        <SampleButton 
+          onClick={handleSampleClick} 
+          disabled={isGenerating} 
+        />
+      )}
       
       <GenderSelector 
         selectedGender={selectedGender} 
