@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
@@ -146,21 +145,17 @@ export const clothingTypes = {
     }]
   }
 };
-
 type Category = 'casual' | 'ethnic' | 'western';
-
 type ClothingTypeSelectorProps = {
   selectedType: string | null;
   onTypeSelect: (type: string) => void;
   selectedGender: 'male' | 'female' | null;
 };
-
 const ClothingTypeSelector = ({
   selectedType,
   onTypeSelect,
   selectedGender
 }: ClothingTypeSelectorProps) => {
-  
   // Find the label for the selected type
   const selectedTypeLabel = useMemo(() => {
     if (!selectedType) return '';
@@ -172,31 +167,22 @@ const ClothingTypeSelector = ({
     }
     return selectedType;
   }, [selectedType]);
-  
+
   // Get available types based on category and gender
   const getAvailableTypes = (category: Category) => {
     if (!selectedGender) return [];
-    return [
-      ...clothingTypes[category].both,
-      ...clothingTypes[category][selectedGender]
-    ];
+    return [...clothingTypes[category].both, ...clothingTypes[category][selectedGender]];
   };
-  
+
   // Render dropdown menu for each category
   const renderDropdownMenu = (category: Category, icon: React.ReactNode, color: string) => {
     const availableTypes = getAvailableTypes(category);
     const isSelected = selectedType && availableTypes.some(type => type.value === selectedType);
-    
-    return (
-      <DropdownMenu>
+    return <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button 
-            disabled={!selectedGender} 
-            className={`relative h-20 w-full flex flex-col items-center justify-center gap-2 border-2 
+          <Button disabled={!selectedGender} className={`relative h-20 w-full flex flex-col items-center justify-center gap-2 border-2 
               ${isSelected ? `border-${color}-500 bg-navy-dark` : `border-${color}-900 bg-transparent hover:border-${color}-500 hover:bg-yellow-300 group`} 
-              rounded-xl overflow-hidden ${!selectedGender ? 'opacity-50 cursor-not-allowed' : ''}`} 
-            variant="ghost"
-          >
+              rounded-xl overflow-hidden ${!selectedGender ? 'opacity-50 cursor-not-allowed' : ''}`} variant="ghost">
             <div className={`h-8 w-8 flex items-center justify-center ${isSelected ? `text-${color}-400` : `text-${color}-500 group-hover:text-black`}`}>
               {icon}
             </div>
@@ -211,31 +197,20 @@ const ClothingTypeSelector = ({
           <DropdownMenuSeparator />
           <ScrollArea className="h-40">
             <div className="p-1">
-              {availableTypes.map(type => (
-                <DropdownMenuItem 
-                  key={type.value} 
-                  onClick={() => onTypeSelect(type.value)} 
-                  className={`${selectedType === type.value ? 'bg-navy-light text-white' : 'text-white/80 hover:text-black hover:bg-yellow-300'} text-xs`}
-                >
+              {availableTypes.map(type => <DropdownMenuItem key={type.value} onClick={() => onTypeSelect(type.value)} className={`${selectedType === type.value ? 'bg-navy-light text-white' : 'text-white/80 hover:text-black hover:bg-yellow-300'} text-xs`}>
                   {type.label}
-                </DropdownMenuItem>
-              ))}
+                </DropdownMenuItem>)}
             </div>
           </ScrollArea>
         </DropdownMenuContent>
-      </DropdownMenu>
-    );
+      </DropdownMenu>;
   };
-
-  return (
-    <div className="w-full max-w-md mx-auto mb-6">
-      <h2 className="font-bold text-yellow-300 mb-3 text-sm">Dress Type</h2>
+  return <div className="w-full max-w-md mx-auto mb-6">
+      <h2 className="font-bold text-yellow-300 mb-3 text-2xl">Dress Type</h2>
       
-      {!selectedGender && 
-        <div className="text-center text-white/70 mb-3 text-xs">
+      {!selectedGender && <div className="text-center text-white/70 mb-3 text-xs">
           Please select a model first
-        </div>
-      }
+        </div>}
       
       <div className="grid grid-cols-3 gap-4">
         {renderDropdownMenu('casual', <Shirt className="h-6 w-6" />, 'blue')}
@@ -243,13 +218,9 @@ const ClothingTypeSelector = ({
         {renderDropdownMenu('western', <Shirt className="h-6 w-6" />, 'blue')}
       </div>
       
-      {selectedType && 
-        <div className="mt-3 text-center text-white text-xs">
+      {selectedType && <div className="mt-3 text-center text-white text-xs">
           <span className="font-medium">Selected: </span>{selectedTypeLabel}
-        </div>
-      }
-    </div>
-  );
+        </div>}
+    </div>;
 };
-
 export default ClothingTypeSelector;
