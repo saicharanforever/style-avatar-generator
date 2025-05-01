@@ -1,6 +1,16 @@
-import React from 'react';
-import { Coins, CheckCircle } from 'lucide-react';
+
+import React, { useState } from 'react';
+import { Coins, CheckCircle, Phone, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from 'sonner';
+
 interface PricingSectionProps {
   onGetStarted: () => void;
 }
@@ -26,22 +36,39 @@ const pricingPlans = [{
   credits: 10000,
   features: ['Generate 333 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Maximum priority']
 }];
+
 const PricingSection = ({
   onGetStarted
 }: PricingSectionProps) => {
-  return <section id="pricing" className="py-20 px-4">
+  const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
+  const phoneNumber = "7386951961";
+
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText(phoneNumber)
+      .then(() => toast.success("Phone number copied to clipboard!"))
+      .catch(() => toast.error("Failed to copy phone number"));
+  };
+  
+  return (
+    <section id="pricing" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center gold-gradient-text mb-16 font-playfair">
           Choose Your Plan
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8">
-          {pricingPlans.map(plan => <div key={plan.id} className={`glass-card p-6 rounded-lg border ${plan.popular ? 'border-gold' : 'border-white/10'} transition-all hover:translate-y-[-5px] relative`}>
-              {plan.popular && <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+          {pricingPlans.map(plan => (
+            <div 
+              key={plan.id} 
+              className={`glass-card p-6 rounded-lg border ${plan.popular ? 'border-gold' : 'border-white/10'} transition-all hover:translate-y-[-5px] relative`}
+            >
+              {plan.popular && (
+                <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
                   <div className="bg-gold text-navy-dark text-xs font-bold px-3 py-1 rounded-full">
                     Most Popular
                   </div>
-                </div>}
+                </div>
+              )}
               <h3 className="text-2xl font-bold text-gold mb-2">{plan.name}</h3>
               <div className="flex items-end gap-1 mb-4">
                 <span className="text-3xl font-bold text-white">{plan.price}</span>
@@ -54,18 +81,52 @@ const PricingSection = ({
               </div>
               
               <ul className="space-y-2 mb-6">
-                {plan.features.map((feature, index) => <li key={index} className="flex items-start gap-2">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-gold mt-0.5 flex-shrink-0" />
                     <span className="text-white">{feature}</span>
-                  </li>)}
+                  </li>
+                ))}
               </ul>
               
-              <Button className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600" onClick={onGetStarted}>
-                Get Started
+              <Button 
+                className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600 flex items-center justify-center gap-2" 
+                onClick={() => setPhoneDialogOpen(true)}
+              >
+                <Phone className="h-4 w-4" />
+                Make a Call
               </Button>
-            </div>)}
+            </div>
+          ))}
         </div>
       </div>
-    </section>;
+
+      {/* Phone Dialog */}
+      <Dialog open={phoneDialogOpen} onOpenChange={setPhoneDialogOpen}>
+        <DialogContent className="bg-navy-light border border-white/10 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-gold text-xl">Contact Us</DialogTitle>
+            <DialogDescription className="text-white/70">
+              Call us to purchase credits and get assistance
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-center p-6">
+            <div className="bg-navy-dark/50 p-4 rounded-lg flex items-center gap-3">
+              <div className="text-2xl font-bold text-gold">{phoneNumber}</div>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="border-white/20 hover:bg-navy text-gold-light" 
+                onClick={handleCopyPhone}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </section>
+  );
 };
+
 export default PricingSection;

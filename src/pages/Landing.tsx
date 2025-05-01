@@ -12,6 +12,7 @@ import HowItWorksSection from '@/components/landing/HowItWorksSection';
 import PricingSection from '@/components/landing/PricingSection';
 import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
+import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
 
 const Landing = () => {
@@ -57,6 +58,11 @@ const Landing = () => {
       
       {/* Final CTA */}
       <CallToAction onGetStarted={handleGetStarted} />
+      
+      {/* Before & After Section */}
+      <section className="py-16 px-4 bg-navy-dark/30">
+        <BeforeAfterCarousel />
+      </section>
       
       {/* Footer */}
       <Footer />
