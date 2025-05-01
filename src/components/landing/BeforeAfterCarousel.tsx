@@ -38,7 +38,7 @@ const imageSlides = [
   },
   {
     before: 'https://i.ibb.co/dshWckr6/7A.jpg',
-    after: 'https://ibb.co/ZzF8GVFC/7B.jpg'
+    after: 'https://i.ibb.co/ZzF8GVFC/7B.jpg'
   },
   {
     before: 'https://i.ibb.co/spjrPwJK/8A.jpg',
