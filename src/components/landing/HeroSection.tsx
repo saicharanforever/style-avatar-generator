@@ -7,7 +7,7 @@ interface HeroSectionProps {
 const HeroSection = ({
   onGetStarted
 }: HeroSectionProps) => {
-  return <section className="pt-16 pb-24 px-4 py-[6px]">
+  return <section className="pt-16 pb-24 px-4 py-0">
       <div className="max-w-5xl mx-auto text-center">
         <p className="font-atma font-bold mb-2 text-sm blue-pink-gradient-text">A smile in every pic :)</p>
         <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight gold-gradient-text font-playfair">
