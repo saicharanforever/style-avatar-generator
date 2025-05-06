@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,6 +14,7 @@ import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
 import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
+
 const Landing = () => {
   const {
     user
@@ -26,10 +28,13 @@ const Landing = () => {
       navigate('/');
     }
   }, [user, navigate]);
+
   const handleGetStarted = () => {
     setAuthModalOpen(true);
   };
-  return <div className="min-h-screen bg-navy overflow-x-hidden">
+
+  return (
+    <div className="min-h-screen bg-navy overflow-x-hidden">
       <BackgroundParticles />
       
       {/* Sticky Navigation */}
@@ -38,8 +43,11 @@ const Landing = () => {
       {/* Hero Section */}
       <HeroSection onGetStarted={handleGetStarted} />
       
-      {/* Before & After Section - Moved to top position */}
-      <section className="px-4 bg-navy-dark/30 py-0">
+      {/* Before & After Section - Right below Hero Section */}
+      <section className="px-4 bg-navy-dark/30 py-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-center gold-gradient-text mb-8 font-playfair">
+          Before & After Transformations
+        </h2>
         <BeforeAfterCarousel />
       </section>
       
@@ -66,6 +74,8 @@ const Landing = () => {
       
       {/* Auth Modal */}
       <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
-    </div>;
+    </div>
+  );
 };
+
 export default Landing;

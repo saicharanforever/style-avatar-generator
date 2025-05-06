@@ -30,7 +30,7 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'basic',
     name: 'Basic',
-    price: '$0.99',
+    price: '₹99',
     credits: 500,
     features: [
       'Generate 16 high-quality model images',
@@ -42,9 +42,8 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'pro',
     name: 'Pro',
-    price: '$7.99',
+    price: '₹799',
     credits: 5000,
-    popular: true,
     features: [
       'Generate 166 high-quality model images',
       'Access to all model ethnicities',
@@ -55,8 +54,9 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'premium',
     name: 'Premium',
-    price: '$12.99',
+    price: '₹1099',
     credits: 10000,
+    popular: true,
     features: [
       'Generate 333 high-quality model images',
       'Access to all model ethnicities',
@@ -70,7 +70,7 @@ const Pricing = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
-  const phoneNumber = "7386951961";
+  const phoneNumber = "+91 7386951961";
 
   const handleCopyPhone = () => {
     navigator.clipboard.writeText(phoneNumber)

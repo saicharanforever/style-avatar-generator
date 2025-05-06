@@ -19,21 +19,21 @@ interface PricingSectionProps {
 const pricingPlans = [{
   id: 'basic',
   name: 'Basic',
-  price: '$0.99',
+  price: '₹99',
   credits: 500,
   features: ['Generate 16 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Standard priority']
 }, {
   id: 'pro',
   name: 'Pro',
-  price: '$7.99',
+  price: '₹799',
   credits: 5000,
-  popular: true,
   features: ['Generate 166 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Enhanced priority']
 }, {
   id: 'premium',
   name: 'Premium',
-  price: '$12.99',
+  price: '₹1099',
   credits: 10000,
+  popular: true,
   features: ['Generate 333 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Maximum priority']
 }];
 
