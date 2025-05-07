@@ -35,11 +35,12 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
 
     try {
       setLoading(true);
+      // First, check if a user_credits record already exists for this Clerk user
       const { data, error } = await supabase
         .from('user_credits')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (error && error.code !== 'PGRST116') {
         // PGRST116 is the error code for "no rows returned"
@@ -47,6 +48,7 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
       }
 
       if (data) {
+        // User already has a credits record
         setCredits(data.credits);
         setTotalGenerated(data.total_generated);
         setRegenerations(data.regenerations);
@@ -71,6 +73,7 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         toast.success('Welcome! 100 free credits have been added to your account.');
       }
     } catch (err: any) {
+      console.error("Error fetching credits:", err);
       setError(err.message);
       toast.error('Failed to load credits information');
     } finally {
@@ -131,6 +134,7 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
 
       return true;
     } catch (err: any) {
+      console.error("Error consuming credits:", err);
       setError(err.message);
       toast.error('Failed to update credits');
       return false;

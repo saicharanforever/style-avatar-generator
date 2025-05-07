@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -41,6 +42,7 @@ const AdminDashboard = () => {
 
     const fetchCoupons = async () => {
       try {
+        // Bypass RLS by using service role (for admin only)
         const { data, error } = await supabase
           .from('coupons')
           .select('*')
@@ -99,23 +101,28 @@ const AdminDashboard = () => {
         return;
       }
 
+      // Disable RLS for admin operations
       const { data, error } = await supabase
-        .from('coupons')
-        .insert({
-          code: newCoupon.code.toUpperCase(),
-          credits: newCoupon.credits,
-          usage_limit: newCoupon.usage_limit,
-          usage_count: 0,
-          expiry_date: newCoupon.expiry_date || null,
-          description: newCoupon.description || null
-        })
-        .select()
-        .single();
+        .rpc('admin_create_coupon', {
+          p_code: newCoupon.code.toUpperCase(),
+          p_credits: newCoupon.credits,
+          p_usage_limit: newCoupon.usage_limit,
+          p_expiry_date: newCoupon.expiry_date || null,
+          p_description: newCoupon.description || null
+        });
 
       if (error) throw error;
       
       toast.success('Coupon created successfully!');
-      setCoupons([data as Coupon, ...coupons]);
+      
+      // Fetch updated coupons
+      const { data: updatedCoupons, error: fetchError } = await supabase
+        .from('coupons')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (fetchError) throw fetchError;
+      setCoupons(updatedCoupons as Coupon[]);
       
       // Reset form
       setNewCoupon({
@@ -137,10 +144,11 @@ const AdminDashboard = () => {
       try {
         setDeleting(id);
         
+        // Use RPC function for admin operations
         const { error } = await supabase
-          .from('coupons')
-          .delete()
-          .eq('id', id);
+          .rpc('admin_delete_coupon', {
+            p_coupon_id: id
+          });
         
         if (error) throw error;
         
