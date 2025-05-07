@@ -54,6 +54,7 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         setRegenerations(data.regenerations);
       } else {
         // No user_credits found, create a new record with default values
+        // Using text representation of the user ID for Clerk compatibility
         const { error: insertError } = await supabase
           .from('user_credits')
           .insert({

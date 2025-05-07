@@ -130,7 +130,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      admin_create_coupon: {
+        Args: {
+          p_code: string
+          p_credits: number
+          p_usage_limit: number
+          p_expiry_date?: string
+          p_description?: string
+        }
+        Returns: undefined
+      }
+      admin_delete_coupon: {
+        Args: { p_coupon_id: string }
+        Returns: undefined
+      }
+      is_admin: {
+        Args: { user_email: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
