@@ -35,26 +35,29 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
 
     try {
       setLoading(true);
-      // First, check if a user_credits record already exists for this Clerk user
+      console.log("Fetching credits for user:", user.id);
+      
+      // Check if a user_credits record already exists for this user
       const { data, error } = await supabase
         .from('user_credits')
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
-        // PGRST116 is the error code for "no rows returned"
+      if (error) {
+        console.error("Error fetching credits:", error);
         throw error;
       }
 
       if (data) {
+        console.log("Found existing user credits:", data);
         // User already has a credits record
         setCredits(data.credits);
         setTotalGenerated(data.total_generated);
         setRegenerations(data.regenerations);
       } else {
+        console.log("No credits found for user, creating default");
         // No user_credits found, create a new record with default values
-        // Using text representation of the user ID for Clerk compatibility
         const { error: insertError } = await supabase
           .from('user_credits')
           .insert({
@@ -64,7 +67,10 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
             regenerations: 0
           });
 
-        if (insertError) throw insertError;
+        if (insertError) {
+          console.error("Error inserting credits:", insertError);
+          throw insertError;
+        }
         
         // Set default values in state
         setCredits(100);

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,6 +10,7 @@ import { Loader2, Plus, Trash2, Calendar } from 'lucide-react';
 import Header from '@/components/Header';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import type { Coupon } from '@/types/coupon';
+import type { Database } from '@/integrations/supabase/types';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
         return;
       }
 
-      // Use RPC function for admin operations - Fix the TS error by using proper typing
+      // Use RPC function for admin operations with proper typing
       const { error } = await supabase
         .rpc('admin_create_coupon', {
           p_code: newCoupon.code.toUpperCase(),
@@ -109,7 +109,7 @@ const AdminDashboard = () => {
           p_usage_limit: newCoupon.usage_limit,
           p_expiry_date: newCoupon.expiry_date || null,
           p_description: newCoupon.description || null
-        } as any); // Using 'as any' to bypass TypeScript error until types are updated
+        } as Database['public']['Functions']['admin_create_coupon']['Args']);
 
       if (error) throw error;
       
@@ -144,11 +144,11 @@ const AdminDashboard = () => {
       try {
         setDeleting(id);
         
-        // Use RPC function for admin operations - Fix the TS error by using proper typing
+        // Use RPC function for admin operations with proper typing
         const { error } = await supabase
           .rpc('admin_delete_coupon', {
             p_coupon_id: id
-          } as any); // Using 'as any' to bypass TypeScript error until types are updated
+          } as Database['public']['Functions']['admin_delete_coupon']['Args']);
         
         if (error) throw error;
         
