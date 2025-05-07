@@ -1,94 +1,76 @@
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import React, { createContext, useContext } from 'react';
+import { 
+  useAuth as useClerkAuth, 
+  useUser, 
+  SignIn, 
+  SignUp, 
+  SignedIn, 
+  SignedOut,
+  useClerk
+} from '@clerk/clerk-react';
 import { toast } from 'sonner';
 
 type AuthContextType = {
-  user: User | null;
-  session: Session | null;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
+  user: any | null;
+  session: any | null;
+  signIn: (redirectUrl?: string) => void;
+  signUp: (redirectUrl?: string) => void;
   signOut: () => Promise<void>;
   loading: boolean;
+  signInWithGoogle: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { isLoaded: isClerkLoaded, userId, sessionId } = useClerkAuth();
+  const { user } = useUser();
+  const { signOut: clerkSignOut } = useClerk();
+  const clerk = useClerk();
 
-  useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-      toast.success('Successfully signed in!');
-    } catch (error: any) {
-      toast.error(error.message || 'Error signing in');
-      throw error;
-    }
+  // Handle sign in with custom UI
+  const handleSignIn = (redirectUrl?: string) => {
+    clerk.openSignIn({ redirectUrl });
+  };
+  
+  // Handle sign up with custom UI
+  const handleSignUp = (redirectUrl?: string) => {
+    clerk.openSignUp({ redirectUrl });
   };
 
-  const signUp = async (email: string, password: string) => {
-    try {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) throw error;
-      toast.success('Registration successful! Please check your email for confirmation.');
-    } catch (error: any) {
-      toast.error(error.message || 'Error signing up');
-      throw error;
-    }
+  // Handle sign in with Google
+  const signInWithGoogle = () => {
+    clerk.openSignIn({ redirectUrl: window.location.origin, strategy: "oauth_google" });
   };
 
-  const signInWithGoogle = async () => {
+  // Handle sign out
+  const handleSignOut = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: window.location.origin
-        }
-      });
-      if (error) throw error;
-    } catch (error: any) {
-      toast.error(error.message || 'Error signing in with Google');
-      throw error;
-    }
-  };
-
-  const signOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      await clerkSignOut();
       toast.success('Successfully signed out');
     } catch (error: any) {
       toast.error(error.message || 'Error signing out');
     }
   };
-
+  
+  // Map to maintain compatibility with existing code
+  const contextValue = {
+    user: user ? { 
+      id: userId, 
+      email: user.primaryEmailAddress?.emailAddress,
+      metadata: user.publicMetadata 
+    } : null,
+    session: sessionId ? { id: sessionId } : null,
+    signIn: handleSignIn,
+    signUp: handleSignUp,
+    signOut: handleSignOut,
+    loading: !isClerkLoaded,
+    signInWithGoogle
+  };
+  
   return (
-    <AuthContext.Provider value={{ user, session, signIn, signUp, signInWithGoogle, signOut, loading }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CreditsProvider } from "./contexts/CreditsContext"; 
+import { ClerkLoaded, SignedIn, SignedOut } from '@clerk/clerk-react';
 import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -81,11 +82,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AuthProvider>
-          <CreditsProvider>
-            <AppRoutes />
-          </CreditsProvider>
-        </AuthProvider>
+        <ClerkLoaded>
+          <AuthProvider>
+            <CreditsProvider>
+              <AppRoutes />
+            </CreditsProvider>
+          </AuthProvider>
+        </ClerkLoaded>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

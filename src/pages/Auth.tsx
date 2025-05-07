@@ -1,21 +1,13 @@
 
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import BackgroundParticles from '@/components/BackgroundParticles';
-import ForgotPassword from '@/components/auth/ForgotPassword';
 
 const Auth = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLogin, setIsLogin] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const { signIn, signUp, user } = useAuth();
+  const { user, signIn, signUp, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,36 +16,17 @@ const Auth = () => {
     }
   }, [user, navigate]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      setIsSubmitting(true);
-      if (isLogin) {
-        await signIn(email, password);
-      } else {
-        await signUp(email, password);
-      }
-    } catch (error) {
-      console.error('Authentication error:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleSignIn = () => {
+    signIn(window.location.origin);
   };
 
-  if (showForgotPassword) {
-    return (
-      <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative flex flex-col items-center">
-        <BackgroundParticles />
-        <Header />
-        <Card className="w-full max-w-md mx-auto mt-8 bg-navy-light/60 backdrop-blur-md border border-white/10">
-          <CardContent className="p-6">
-            <ForgotPassword />
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  const handleSignUp = () => {
+    signUp(window.location.origin);
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle();
+  };
 
   return (
     <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative flex flex-col items-center">
@@ -61,81 +34,50 @@ const Auth = () => {
       <Header />
       
       <Card className="w-full max-w-md mx-auto mt-8 bg-navy-light/60 backdrop-blur-md border border-white/10">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center gold-gradient-text">
-            {isLogin ? 'Sign In' : 'Create Account'}
-          </CardTitle>
-          <CardDescription className="text-center text-gold-light/70">
-            {isLogin 
-              ? 'Welcome back! Enter your details below.' 
-              : 'Join StyleAvatar and get 100 free credits!'}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-gold-light">
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="input-field"
-                placeholder="youremail@example.com"
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label htmlFor="password" className="text-sm font-medium text-gold-light">
-                  Password
-                </label>
-                {isLogin && (
-                  <button
-                    type="button"
-                    onClick={() => setShowForgotPassword(true)}
-                    className="text-xs text-gold hover:underline font-medium"
-                  >
-                    Forgot Password?
-                  </button>
-                )}
-              </div>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="input-field"
-                placeholder="••••••••"
-                minLength={6}
-              />
-            </div>
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600" 
-              disabled={isSubmitting}
+        <CardContent className="p-6 space-y-6">
+          <div className="space-y-2 text-center">
+            <h1 className="text-2xl font-bold gold-gradient-text">Welcome to DreamDressing</h1>
+            <p className="text-gold-light/70">Choose how you'd like to continue</p>
+          </div>
+          
+          <div className="space-y-4">
+            <button 
+              onClick={handleSignIn}
+              className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600 py-2 px-4 rounded"
             >
-              {isSubmitting 
-                ? 'Processing...' 
-                : isLogin ? 'Sign In' : 'Sign Up'}
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <p className="text-gold-light/70 text-sm">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-gold hover:underline font-medium"
-            >
-              {isLogin ? 'Sign Up' : 'Sign In'}
+              Sign In
             </button>
-          </p>
-        </CardFooter>
+            
+            <button 
+              onClick={handleSignUp}
+              className="w-full bg-navy border border-white/20 text-white hover:bg-navy-light py-2 px-4 rounded"
+            >
+              Create Account
+            </button>
+            
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-white/10"></span>
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="px-2 bg-navy-light text-gold-light/70">or continue with</span>
+              </div>
+            </div>
+            
+            <button 
+              onClick={handleGoogleSignIn}
+              className="w-full bg-white text-gray-800 hover:bg-gray-100 py-2 px-4 rounded flex items-center justify-center"
+            >
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.2,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.1,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z"
+                />
+              </svg>
+              Sign in with Google
+            </button>
+          </div>
+        </CardContent>
       </Card>
     </div>
   );
