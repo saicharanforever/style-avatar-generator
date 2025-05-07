@@ -41,7 +41,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Handle sign in with Google
   const signInWithGoogle = () => {
-    clerk.openSignIn({ redirectUrl: window.location.origin, strategy: "oauth_google" });
+    // Use the OAuth provider directly without specifying strategy
+    clerk.openSignIn({ 
+      redirectUrl: window.location.origin,
+      signInUrl: "/sign-in",
+      appearance: {
+        elements: {
+          socialButtonsBlockButton: {
+            value: "google", // This will only display the Google button
+          },
+        },
+      },
+    });
   };
 
   // Handle sign out
