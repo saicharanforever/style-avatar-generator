@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import BackgroundParticles from '@/components/BackgroundParticles';
-import AuthModal from '@/components/AuthModal';
 import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
 import BrandsSection from '@/components/landing/BrandsSection';
@@ -20,7 +19,6 @@ const Landing = () => {
     user
   } = useAuth();
   const navigate = useNavigate();
-  const [authModalOpen, setAuthModalOpen] = React.useState(false);
 
   // Redirect if user is already authenticated
   useEffect(() => {
@@ -30,7 +28,7 @@ const Landing = () => {
   }, [user, navigate]);
 
   const handleGetStarted = () => {
-    setAuthModalOpen(true);
+    navigate('/auth');
   };
 
   return (
@@ -71,9 +69,6 @@ const Landing = () => {
       
       {/* Footer */}
       <Footer />
-      
-      {/* Auth Modal */}
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
   );
 };

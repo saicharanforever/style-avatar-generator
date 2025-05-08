@@ -1,103 +1,63 @@
 
-import React, { useState } from 'react';
-import { Upload, X, Image as ImageIcon } from 'lucide-react';
-import { toast } from "sonner";
+import React, { useRef } from 'react';
+import { Image as ImageIcon, Upload } from 'lucide-react';
 
-type ImageUploaderProps = {
+interface ImageUploaderProps {
   onImageSelect: (file: File) => void;
   selectedImage: string | null;
-};
+}
 
 const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => {
-  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    
-    const file = files[0];
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file');
-      return;
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onImageSelect(file);
     }
-    
-    onImageSelect(file);
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    
-    const files = e.dataTransfer.files;
-    if (!files || files.length === 0) return;
-    
-    const file = files[0];
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file');
-      return;
+  const handleGalleryClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
-    
-    onImageSelect(file);
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const clearSelectedImage = () => {
-    onImageSelect(null as any);
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mb-8">
-      <div 
-        className={`relative glass-card rounded-2xl p-5 flex flex-col items-center justify-center min-h-[200px] text-center cursor-pointer transition-all duration-300 ${
-          isDragging ? 'border-gold border-2' : 'border-white/10'
-        } ${selectedImage ? 'bg-navy-light/90' : ''}`}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-      >
-        {selectedImage ? (
-          <div className="relative w-full h-full">
-            <img 
-              src={selectedImage} 
-              alt="Selected clothing" 
-              className="w-full max-h-[300px] object-contain rounded-lg" 
-            />
-            <button 
-              onClick={clearSelectedImage}
-              className="absolute top-0 right-0 bg-navy-dark/80 p-1 rounded-full"
-            >
-              <X className="h-5 w-5 text-white" />
-            </button>
-          </div>
-        ) : (
-          <>
-            <div className="mb-4 bg-gradient-gold p-3 rounded-full">
-              <Upload className="h-6 w-6 text-navy" />
-            </div>
-            <h3 className="text-gold text-xl font-semibold mb-2">Upload Dress Image</h3>
-            <p className="text-white/60 text-sm mb-4">Drag and drop or click to browse</p>
-            
-            <label className="flex items-center gap-2 bg-navy-dark/80 py-2 px-4 rounded-lg cursor-pointer hover:bg-navy-dark transition-colors">
-              <ImageIcon className="h-4 w-4 text-gold-light" />
-              <span className="text-sm text-white/80">Select from Gallery</span>
-              <input 
-                type="file" 
-                accept="image/*" 
-                className="hidden" 
-                onChange={handleFileSelect} 
-              />
-            </label>
-          </>
-        )}
+    <div className="mb-6">
+      <h2 className="text-lg font-semibold text-white mb-3">Upload Clothing Image</h2>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
+
+      <div className="grid grid-cols-1 gap-4 mb-4">
+        <div
+          onClick={handleGalleryClick}
+          className="flex flex-col items-center justify-center py-6 px-4 rounded-md border-2 border-dashed border-gold/30 bg-navy-dark/60 hover:bg-navy-dark/80 hover:border-gold/50 cursor-pointer transition-all text-center"
+        >
+          <ImageIcon className="h-8 w-8 text-gold-light mb-2" />
+          <p className="text-gold-light font-medium">Upload from Gallery</p>
+          <p className="text-xs text-white/50 mt-1">Click to select from your device</p>
+        </div>
       </div>
+
+      {selectedImage && (
+        <div className="mt-4 relative">
+          <img
+            src={selectedImage}
+            alt="Selected clothing"
+            className="w-full h-auto max-h-64 object-contain rounded-md border border-white/10"
+          />
+        </div>
+      )}
+
+      <p className="text-xs text-white/60 mt-2">
+        Upload a clear image of the clothing item against a plain background for best results
+      </p>
     </div>
   );
 };

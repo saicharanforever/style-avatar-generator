@@ -2,6 +2,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -10,6 +11,12 @@ interface HeroSectionProps {
 const HeroSection = ({
   onGetStarted
 }: HeroSectionProps) => {
+  const navigate = useNavigate();
+  
+  const handleGetStarted = () => {
+    navigate('/auth');
+  };
+  
   return (
     <section className="pt-16 pb-24 px-4 py-0 relative overflow-hidden">
       <div className="max-w-5xl mx-auto text-center relative z-10">
@@ -22,7 +29,7 @@ const HeroSection = ({
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Button className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group" onClick={onGetStarted}>
+          <Button className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group" onClick={handleGetStarted}>
             Get Started Now
             <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>

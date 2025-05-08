@@ -6,6 +6,8 @@ import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
 import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
+import SizeSelector, { ClothingSize } from '@/components/SizeSelector';
+import FitSelector, { ClothingFit } from '@/components/FitSelector';
 import GenerateButton from '@/components/GenerateButton';
 import GenerationProgress from '@/components/GenerationProgress';
 import ResultDisplay from '@/components/ResultDisplay';
@@ -38,6 +40,8 @@ const Index = () => {
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [selectedClothingType, setSelectedClothingType] = useState<string | null>(null);
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
+  const [selectedSize, setSelectedSize] = useState<ClothingSize | null>(null);
+  const [selectedFit, setSelectedFit] = useState<ClothingFit | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
@@ -130,6 +134,20 @@ const Index = () => {
     setRegenerationCount(0);
   };
 
+  const handleSizeSelect = (size: ClothingSize) => {
+    setSelectedSize(size);
+    setGeneratedImage(null);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+  };
+
+  const handleFitSelect = (fit: ClothingFit) => {
+    setSelectedFit(fit);
+    setGeneratedImage(null);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+  };
+
   const handleViewToggle = (isBack: boolean) => {
     setIsBackView(isBack);
     setGeneratedImage(null);
@@ -151,13 +169,13 @@ const Index = () => {
 
   const handleGenerateImage = async () => {
     if (!user) {
-      toast.error("Please sign in to generate images");
+      // Instead of showing modal, navigate directly to auth page
       navigate('/auth');
       return;
     }
     
     if (!imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity) {
-      toast.error("Please complete all fields before generating");
+      toast.error("Please complete all required fields before generating");
       return;
     }
     
@@ -190,6 +208,8 @@ const Index = () => {
         clothingType: selectedClothingType,
         ethnicity: selectedEthnicity,
         // Add new properties
+        size: selectedSize,
+        fit: selectedFit,
         isBackView,
         advancedOptions
       });
@@ -229,6 +249,8 @@ const Index = () => {
         setSelectedGender('female');
         setSelectedClothingType('dress');
         setSelectedEthnicity('american');
+        setSelectedSize('M');
+        setSelectedFit('normal');
         setIsBackView(false);
       });
   };
@@ -292,6 +314,17 @@ const Index = () => {
       <EthnicitySelector
         selectedEthnicity={selectedEthnicity}
         onEthnicitySelect={handleEthnicitySelect}
+      />
+      
+      {/* Add the new Size and Fit selectors */}
+      <SizeSelector
+        selectedSize={selectedSize}
+        onSizeSelect={handleSizeSelect}
+      />
+      
+      <FitSelector
+        selectedFit={selectedFit}
+        onFitSelect={handleFitSelect}
       />
       
       {!isGenerateDisabled && (

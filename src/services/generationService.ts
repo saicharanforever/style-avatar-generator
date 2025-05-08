@@ -1,12 +1,16 @@
 
 import { GoogleGenAI } from "@google/genai";
 import { toast } from "sonner";
+import { ClothingSize } from "@/components/SizeSelector";
+import { ClothingFit } from "@/components/FitSelector";
 
 export interface GenerationRequest {
   imageFile: File | null;
   gender: 'male' | 'female' | null;
   clothingType: string | null;
   ethnicity: 'american' | 'indian' | null;
+  size?: ClothingSize | null;
+  fit?: ClothingFit | null;
   isBackView?: boolean;
   advancedOptions?: {
     bodySize?: string;
@@ -40,7 +44,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   isOriginal: boolean;
   message?: string;
 }> => {
-  const { imageFile, gender, clothingType, ethnicity, isBackView, advancedOptions } = request;
+  const { imageFile, gender, clothingType, ethnicity, isBackView, advancedOptions, size, fit } = request;
   
   // Validate the request
   if (!imageFile || !gender || !clothingType || !ethnicity) {
@@ -64,6 +68,24 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     let hairColorDescription = '';
     let backdropDescription = '';
     let lightingDescription = '';
+    let sizeDescription = '';
+    let fitDescription = '';
+    
+    // Add size description if provided
+    if (size) {
+      sizeDescription = `${size} size`;
+    }
+    
+    // Add fit description if provided
+    if (fit) {
+      const fitMap: Record<string, string> = {
+        'tight': 'form-fitting, close to the body',
+        'normal': 'regular fit, not too tight or loose',
+        'loose': 'relaxed, loose fitting'
+      };
+      
+      fitDescription = fitMap[fit] || '';
+    }
     
     // Process advanced options
     if (advancedOptions) {
@@ -173,11 +195,11 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     
     // Create gender-specific pose and expression
     const genderDescription = gender === 'male' 
-      ? `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}` 
-      : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}`;
+      ? `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription} ${sizeDescription ? 'with ' + sizeDescription : ''}` 
+      : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription} ${sizeDescription ? 'with ' + sizeDescription : ''}`;
     
     // Craft the prompt for the AI - optimized for quality and clarity
-    const prompt = `Generate a realistic product photography image of ${genderDescription} wearing the ${clothingType} shown in this image (${viewDescription}). The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details of the clothing item and ensure high resolution output.`;
+    const prompt = `Generate a realistic product photography image of ${genderDescription} wearing the ${clothingType} shown in this image (${viewDescription}). ${fitDescription ? 'The clothing should be ' + fitDescription + '.' : ''} The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details of the clothing item and ensure high resolution output.`;
     
     console.log("Generation prompt:", prompt);
     
