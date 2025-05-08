@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Camera, Upload, X, Image as ImageIcon } from 'lucide-react';
+import { Upload, X, Image as ImageIcon } from 'lucide-react';
 import { toast } from "sonner";
 
 type ImageUploaderProps = {
@@ -85,30 +85,16 @@ const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => 
             <h3 className="text-gold text-xl font-semibold mb-2">Upload Dress Image</h3>
             <p className="text-white/60 text-sm mb-4">Drag and drop or click to browse</p>
             
-            <div className="flex space-x-4">
-              <label className="flex items-center gap-2 bg-navy-dark/80 py-2 px-4 rounded-lg cursor-pointer hover:bg-navy-dark transition-colors">
-                <ImageIcon className="h-4 w-4 text-gold-light" />
-                <span className="text-sm text-white/80">Gallery</span>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="hidden" 
-                  onChange={handleFileSelect} 
-                />
-              </label>
-              
-              <label className="flex items-center gap-2 bg-navy-dark/80 py-2 px-4 rounded-lg cursor-pointer hover:bg-navy-dark transition-colors">
-                <Camera className="h-4 w-4 text-gold-light" />
-                <span className="text-sm text-white/80">Camera</span>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  capture="environment"
-                  className="hidden" 
-                  onChange={handleFileSelect} 
-                />
-              </label>
-            </div>
+            <label className="flex items-center gap-2 bg-navy-dark/80 py-2 px-4 rounded-lg cursor-pointer hover:bg-navy-dark transition-colors">
+              <ImageIcon className="h-4 w-4 text-gold-light" />
+              <span className="text-sm text-white/80">Select from Gallery</span>
+              <input 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                onChange={handleFileSelect} 
+              />
+            </label>
           </>
         )}
       </div>
