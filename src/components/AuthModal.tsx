@@ -2,7 +2,7 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -10,20 +10,20 @@ interface AuthModalProps {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
-  const { signIn, signUp, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignIn = () => {
-    signIn(window.location.origin);
+    navigate('/auth');
     onClose();
   };
 
   const handleSignUp = () => {
-    signUp(window.location.origin);
+    navigate('/auth?tab=signup');
     onClose();
   };
 
   const handleGoogleSignIn = () => {
-    signInWithGoogle();
+    navigate('/auth?provider=google');
     onClose();
   };
 

@@ -91,6 +91,12 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
   useEffect(() => {
     if (user) {
       fetchCredits();
+    } else {
+      // Reset the state when the user logs out
+      setCredits(0);
+      setTotalGenerated(0);
+      setRegenerations(0);
+      setError(null);
     }
   }, [user]);
 

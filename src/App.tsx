@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CreditsProvider } from "./contexts/CreditsContext"; 
-import { ClerkLoaded, SignedIn, SignedOut } from '@clerk/clerk-react';
 import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -47,13 +46,13 @@ const AdminRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const AppRoutes = () => {
-  const { user } = useAuth();
-  
   return (
     <Routes>
       <Route path="/landing" element={<Landing />} />
       <Route path="/" element={
-        user ? <Index /> : <Navigate to="/landing" />
+        <ProtectedRoute>
+          <Index />
+        </ProtectedRoute>
       } />
       <Route path="/auth" element={<Auth />} />
       <Route path="/reset-password" element={<ResetPassword />} />
@@ -82,13 +81,11 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ClerkLoaded>
-          <AuthProvider>
-            <CreditsProvider>
-              <AppRoutes />
-            </CreditsProvider>
-          </AuthProvider>
-        </ClerkLoaded>
+        <AuthProvider>
+          <CreditsProvider>
+            <AppRoutes />
+          </CreditsProvider>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -1,17 +1,19 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
-const ForgotPassword = () => {
+interface ForgotPasswordProps {
+  onBack: () => void;
+}
+
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBack }) => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSent, setIsSent] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,10 +42,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       <div className="mb-6">
         <button 
-          onClick={() => navigate('/auth')} 
+          onClick={onBack} 
           className="flex items-center text-gold-light/70 hover:text-gold"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -104,7 +106,7 @@ const ForgotPassword = () => {
           <Button 
             className="mt-4 w-full border border-gold/30 text-gold hover:bg-navy-light"
             variant="outline"
-            onClick={() => navigate('/auth')}
+            onClick={onBack}
           >
             Return to Sign In
           </Button>

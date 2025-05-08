@@ -1,82 +1,109 @@
 
-import React, { createContext, useContext } from 'react';
-import { 
-  useAuth as useClerkAuth, 
-  useUser, 
-  SignIn, 
-  SignUp, 
-  SignedIn, 
-  SignedOut,
-  useClerk
-} from '@clerk/clerk-react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Session, User } from '@supabase/supabase-js';
 import { toast } from 'sonner';
 
 type AuthContextType = {
-  user: any | null;
-  session: any | null;
-  signIn: (redirectUrl?: string) => void;
-  signUp: (redirectUrl?: string) => void;
+  user: User | null;
+  session: Session | null;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   loading: boolean;
-  signInWithGoogle: () => void;
+  signInWithGoogle: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { isLoaded: isClerkLoaded, userId, sessionId } = useClerkAuth();
-  const { user } = useUser();
-  const { signOut: clerkSignOut } = useClerk();
-  const clerk = useClerk();
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Handle sign in with custom UI
-  const handleSignIn = (redirectUrl?: string) => {
-    clerk.openSignIn({ redirectUrl });
+  useEffect(() => {
+    // Set up auth state listener first
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, newSession) => {
+        setSession(newSession);
+        setUser(newSession?.user ?? null);
+        
+        if (event === 'SIGNED_IN') {
+          toast.success('Successfully signed in');
+        } else if (event === 'SIGNED_OUT') {
+          toast.success('Successfully signed out');
+        }
+      }
+    );
+
+    // Then check for existing session
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // Handle sign in
+  const handleSignIn = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+    } catch (error: any) {
+      toast.error(error.message || 'Error signing in');
+      throw error;
+    }
   };
   
-  // Handle sign up with custom UI
-  const handleSignUp = (redirectUrl?: string) => {
-    clerk.openSignUp({ redirectUrl });
+  // Handle sign up
+  const handleSignUp = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) throw error;
+      toast.success('Registration successful! Please verify your email.');
+    } catch (error: any) {
+      toast.error(error.message || 'Error signing up');
+      throw error;
+    }
   };
 
   // Handle sign in with Google
-  const signInWithGoogle = () => {
-    // Use the OAuth provider directly without specifying strategy
-    clerk.openSignIn({ 
-      redirectUrl: window.location.origin,
-      signInUrl: "/sign-in",
-      appearance: {
-        elements: {
-          socialButtonsBlockButton: {
-            value: "google", // This will only display the Google button
-          },
-        },
-      },
-    });
+  const signInWithGoogle = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { 
+          redirectTo: window.location.origin 
+        }
+      });
+      if (error) throw error;
+    } catch (error: any) {
+      toast.error(error.message || 'Error signing in with Google');
+    }
   };
 
   // Handle sign out
   const handleSignOut = async () => {
     try {
-      await clerkSignOut();
-      toast.success('Successfully signed out');
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
     } catch (error: any) {
       toast.error(error.message || 'Error signing out');
+      throw error;
     }
   };
   
-  // Map to maintain compatibility with existing code
   const contextValue = {
-    user: user ? { 
-      id: userId, 
-      email: user.primaryEmailAddress?.emailAddress,
-      metadata: user.publicMetadata 
-    } : null,
-    session: sessionId ? { id: sessionId } : null,
+    user,
+    session,
     signIn: handleSignIn,
     signUp: handleSignUp,
     signOut: handleSignOut,
-    loading: !isClerkLoaded,
+    loading,
     signInWithGoogle
   };
   
