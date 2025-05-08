@@ -1,26 +1,20 @@
-
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-
 interface HeroSectionProps {
   onGetStarted: () => void;
 }
-
 const HeroSection = ({
   onGetStarted
 }: HeroSectionProps) => {
   const navigate = useNavigate();
-  
   const handleGetStarted = () => {
     navigate('/auth');
   };
-  
-  return (
-    <section className="pt-16 pb-24 px-4 py-0 relative overflow-hidden">
+  return <section className="pt-16 pb-24 px-4 relative overflow-hidden my-0 py-[29px]">
       <div className="max-w-5xl mx-auto text-center relative z-10">
-        <p className="font-atma font-bold mb-2 text-sm blue-pink-gradient-text">A smile in every pic :)</p>
+        <p className="font-atma mb-2 text-sm blue-pink-gradient-text font-extrabold">A smile in every pic :)</p>
         <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight gold-gradient-text font-playfair">
           Even your dress deserves a life!
         </h1>
@@ -37,15 +31,7 @@ const HeroSection = ({
       </div>
       
       {/* Custom Arrow */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[300px] h-[100px] z-10">
-        <img 
-          src="/lovable-uploads/82585c27-d4d1-4e79-8563-60be82beccd0.png" 
-          alt="Arrow" 
-          className="w-full h-full object-contain"
-        />
-      </div>
-    </section>
-  );
+      
+    </section>;
 };
-
 export default HeroSection;
