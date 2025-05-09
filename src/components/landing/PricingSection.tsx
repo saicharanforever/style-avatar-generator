@@ -52,7 +52,7 @@ const PricingSection = ({
   return (
     <section id="pricing" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center gold-gradient-text mb-16 font-playfair">
+        <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-16 font-playfair">
           Choose Your Plan
         </h2>
         

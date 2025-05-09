@@ -1,149 +1,52 @@
 
-import React, { useEffect, useState } from 'react';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from '@/components/ui/carousel';
-import { ArrowRightCircle } from 'lucide-react';
+import React from 'react';
+import { Button } from '@/components/ui/button';
 
-// Define image pairs with the provided links
-const imageSlides = [
+// Sample before/after images
+const beforeAfterImages = [
   {
-    before: 'https://i.ibb.co/x8fsGf3Z/1A.jpg',
-    after: 'https://i.ibb.co/wZx4MZvZ/1B.jpg'
-  }, 
+    before: '/lovable-uploads/82585c27-d4d1-4e79-8563-60be82beccd0.png',
+    after: '/lovable-uploads/e9a8bda8-d392-4cdc-8afb-a976a0af8460.png',
+    label: 'Dress'
+  },
   {
-    before: 'https://i.ibb.co/ymWmVfLs/2A.jpg',
-    after: 'https://i.ibb.co/WW1h7YZ0/2B.jpg'
-  }, 
+    before: '/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png',
+    after: '/lovable-uploads/eed275da-4a68-4a5e-8ef8-7a68d02e7b7d.png',
+    label: 'T-shirt'
+  },
   {
-    before: 'https://i.ibb.co/hFXrLGxS/3A.jpg',
-    after: 'https://i.ibb.co/yF8ZfyM6/3B.jpg'
-  }, 
-  {
-    before: 'https://i.ibb.co/zhpwkChg/4A.jpg',
-    after: 'https://i.ibb.co/7xYNsHZd/4B.jpg'
-  }, 
-  {
-    before: 'https://i.ibb.co/rfGrdg7C/5A.jpg',
-    after: 'https://i.ibb.co/p6kYc9c3/5B.jpg'
-  }, 
-  {
-    before: 'https://i.ibb.co/1t4vwWVp/6A.jpg',
-    after: 'https://i.ibb.co/HLq0Dv1n/6B.jpg'
-  }, 
-  {
-    before: 'https://i.ibb.co/dshWckr6/7A.jpg',
-    after: 'https://i.ibb.co/ZzF8GVFC/7B.jpg'
-  }, 
-  {
-    before: 'https://i.ibb.co/spjrPwJK/8A.jpg',
-    after: 'https://i.ibb.co/BFY5nQF/8B.jpg'
+    before: '/lovable-uploads/692ffe0f-f740-4c5d-bcef-df605974a378.png',
+    after: '/lovable-uploads/692ffe0f-f740-4c5d-bcef-df605974a378.png',
+    label: 'Jeans'
   }
 ];
 
 const BeforeAfterCarousel = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [autoPlay, setAutoPlay] = useState(true);
-  const [api, setApi] = useState<CarouselApi | null>(null);
-
-  // Set up auto-rotation
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    if (autoPlay && api) {
-      interval = setInterval(() => {
-        api.scrollNext();
-      }, 3000); // Change slides every 3 seconds
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [autoPlay, api]);
-
-  // Update currentSlide when carousel changes
-  useEffect(() => {
-    if (!api) return;
-    const handleSelect = () => {
-      setCurrentSlide(api.selectedScrollSnap());
-    };
-    api.on("select", handleSelect);
-    return () => {
-      api.off("select", handleSelect);
-    };
-  }, [api]);
-
   return (
-    <div className="w-full mx-auto max-w-4xl">
-      <Carousel 
-        className="w-full" 
-        setApi={setApi}
-        opts={{
-          loop: true,
-          align: "center"
-        }}
-      >
-        <CarouselContent>
-          {imageSlides.map((slide, index) => (
-            <CarouselItem key={index} className="md:basis-full">
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-1">
-                {/* Before Image */}
-                <div className="glass-card p-4 rounded-lg">
-                  <div className="text-center mb-2 text-gold-light">Before</div>
-                  <div className="bg-navy-dark/50 rounded-lg p-4 h-64 w-64 flex items-center justify-center overflow-hidden">
-                    <img 
-                      src={slide.before} 
-                      alt={`Clothing item ${index + 1} before`} 
-                      className="h-full w-full object-cover" 
-                      onError={(e) => {
-                        console.error(`Error loading image: ${slide.before}`);
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
-                      }}
-                    />
-                  </div>
-                </div>
-                
-                {/* Arrow */}
-                <div className="transform rotate-90 md:rotate-0">
-                  <img 
-                    src="/lovable-uploads/82585c27-d4d1-4e79-8563-60be82beccd0.png" 
-                    alt="Arrow" 
-                    className="h-12 w-24 object-contain"
-                  />
-                </div>
-                
-                {/* After Image */}
-                <div className="glass-card p-4 rounded-lg">
-                  <div className="text-center mb-2 text-gold-light">After</div>
-                  <div className="bg-navy-dark/50 rounded-lg p-4 h-64 w-64 flex items-center justify-center overflow-hidden">
-                    <img 
-                      src={slide.after} 
-                      alt={`Clothing item ${index + 1} on model`} 
-                      className="h-full w-full object-cover" 
-                      onError={(e) => {
-                        console.error(`Error loading image: ${slide.after}`);
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
-                      }}
-                    />
-                  </div>
-                </div>
+    <div className="max-w-6xl mx-auto pb-10">
+      <div className="grid md:grid-cols-3 gap-6">
+        {beforeAfterImages.map((item, index) => (
+          <div key={index} className="glass-card p-4 rounded-lg hover:border-gold/50 border border-white/10 transition-all hover:translate-y-[-5px]">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col items-center">
+                <img 
+                  src={item.before} 
+                  alt={`${item.label} before`}
+                  className="w-full h-48 object-contain mb-2 rounded"
+                />
+                <span className="text-sm text-white/70">Before</span>
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="left-2 md:left-0" />
-        <CarouselNext className="right-2 md:right-0" />
-      </Carousel>
-      
-      <div className="flex justify-center mt-4 gap-2">
-        {imageSlides.map((_, index) => (
-          <button
-            key={index}
-            className={`h-2 w-2 rounded-full transition-all ${
-              currentSlide === index ? "bg-gold w-4" : "bg-white/30"
-            }`}
-            onClick={() => {
-              api?.scrollTo(index);
-              setAutoPlay(false);
-              setTimeout(() => setAutoPlay(true), 5000);
-            }}
-          />
+              <div className="flex flex-col items-center">
+                <img 
+                  src={item.after} 
+                  alt={`${item.label} after`}
+                  className="w-full h-48 object-contain mb-2 rounded"
+                />
+                <span className="text-sm text-white/70">After</span>
+              </div>
+            </div>
+            <p className="text-center mt-2 text-gold font-bold">{item.label}</p>
+          </div>
         ))}
       </div>
     </div>

@@ -1,6 +1,6 @@
 
 import React, { useRef } from 'react';
-import { Image as ImageIcon, Upload } from 'lucide-react';
+import { ImageIcon } from 'lucide-react';
 
 interface ImageUploaderProps {
   onImageSelect: (file: File) => void;
@@ -34,26 +34,30 @@ const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => 
         className="hidden"
       />
 
-      <div className="grid grid-cols-1 gap-4 mb-4">
-        <div
-          onClick={handleGalleryClick}
-          className="flex flex-col items-center justify-center py-6 px-4 rounded-md border-2 border-dashed border-gold/30 bg-navy-dark/60 hover:bg-navy-dark/80 hover:border-gold/50 cursor-pointer transition-all text-center"
-        >
-          <ImageIcon className="h-8 w-8 text-gold-light mb-2" />
-          <p className="text-gold-light font-medium">Upload from Gallery</p>
-          <p className="text-xs text-white/50 mt-1">Click to select from your device</p>
-        </div>
+      <div 
+        onClick={handleGalleryClick}
+        className={`flex flex-col items-center justify-center rounded-md border-2 border-dashed 
+                   ${selectedImage ? 'border-gold' : 'border-gold/30'} 
+                   bg-navy-dark/60 hover:bg-navy-dark/80 hover:border-gold/50 
+                   cursor-pointer transition-all text-center p-6 h-64`}
+      >
+        {selectedImage ? (
+          <div className="flex flex-col items-center w-full h-full">
+            <img
+              src={selectedImage}
+              alt="Selected clothing"
+              className="max-w-full max-h-48 object-contain mb-2"
+            />
+            <p className="text-gold-light text-sm mt-2">Click to change image</p>
+          </div>
+        ) : (
+          <>
+            <ImageIcon className="h-12 w-12 text-gold-light mb-3" />
+            <p className="text-gold-light font-medium">Upload from Gallery</p>
+            <p className="text-xs text-white/50 mt-1">Click to select from your device</p>
+          </>
+        )}
       </div>
-
-      {selectedImage && (
-        <div className="mt-4 relative">
-          <img
-            src={selectedImage}
-            alt="Selected clothing"
-            className="w-full h-auto max-h-64 object-contain rounded-md border border-white/10"
-          />
-        </div>
-      )}
 
       <p className="text-xs text-white/60 mt-2">
         Upload a clear image of the clothing item against a plain background for best results

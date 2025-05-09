@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -292,6 +293,18 @@ const Index = () => {
       {/* ViewToggle always visible */}
       <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />
       
+      {/* Size Selector - moved up */}
+      <SizeSelector
+        selectedSize={selectedSize}
+        onSizeSelect={handleSizeSelect}
+      />
+      
+      {/* Fit Selector - moved up */}
+      <FitSelector
+        selectedFit={selectedFit}
+        onFitSelect={handleFitSelect}
+      />
+      
       {/* Remove Sample Button for logged in users */}
       {!user && (
         <SampleButton 
@@ -314,17 +327,6 @@ const Index = () => {
       <EthnicitySelector
         selectedEthnicity={selectedEthnicity}
         onEthnicitySelect={handleEthnicitySelect}
-      />
-      
-      {/* Add the new Size and Fit selectors */}
-      <SizeSelector
-        selectedSize={selectedSize}
-        onSizeSelect={handleSizeSelect}
-      />
-      
-      <FitSelector
-        selectedFit={selectedFit}
-        onFitSelect={handleFitSelect}
       />
       
       {!isGenerateDisabled && (

@@ -14,15 +14,15 @@ const SizeSelector = ({ selectedSize, onSizeSelect }: SizeSelectorProps) => {
   return (
     <div className="mb-6">
       <h2 className="text-lg font-semibold text-white mb-3">Select Size</h2>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-6 gap-2 sm:gap-3">
         {sizes.map((size) => (
           <button
             key={size}
             onClick={() => onSizeSelect(size)}
             className={`
-              aspect-square flex items-center justify-center rounded
+              flex items-center justify-center rounded
               bg-navy-dark/60 border ${selectedSize === size ? 'border-white' : 'border-gold/30'}
-              text-center p-2 transition-all
+              text-center py-4 transition-all
               ${selectedSize === size ? 'text-white shadow-glow' : 'text-gold-light hover:border-gold'}
             `}
           >
