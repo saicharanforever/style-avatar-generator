@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 
 type ViewToggleProps = {
   isBackView: boolean;
@@ -10,16 +9,30 @@ type ViewToggleProps = {
 
 const ViewToggle = ({ isBackView, onToggle }: ViewToggleProps) => {
   return (
-    <div className="flex items-center justify-end space-x-2 w-full max-w-md mx-auto -mt-6 mb-6">
-      <Label htmlFor="view-toggle" className="text-xs text-white/70 cursor-pointer">
-        {isBackView ? 'Back View' : 'Front View'}
-      </Label>
-      <Switch
-        id="view-toggle"
-        checked={isBackView}
-        onCheckedChange={onToggle}
-        className="data-[state=checked]:bg-blue-500"
-      />
+    <div className="w-full max-w-md mx-auto mb-6">
+      <div className="flex flex-col space-y-2">
+        <div className="flex justify-center space-x-4">
+          <Button 
+            onClick={() => onToggle(false)} 
+            variant={isBackView ? "outline" : "default"}
+            className={`flex-1 ${!isBackView ? "bg-blue-500" : "bg-navy-dark/60 border-blue-900"}`}
+          >
+            Front View
+          </Button>
+          <Button 
+            onClick={() => onToggle(true)} 
+            variant={isBackView ? "default" : "outline"}
+            className={`flex-1 ${isBackView ? "bg-blue-500" : "bg-navy-dark/60 border-blue-900"}`}
+          >
+            Back View
+          </Button>
+        </div>
+        <p className="text-xs text-white/70 text-center">
+          {isBackView 
+            ? "Upload clothing from the back side to see how it looks on the model from behind"
+            : "Upload clothing from the front side to see how it looks on the model from the front"}
+        </p>
+      </div>
     </div>
   );
 };

@@ -18,7 +18,7 @@ const FitSelector = ({ selectedFit, onFitSelect }: FitSelectorProps) => {
   
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-semibold text-yellow-300 mb-3">Select Fit</h2>
+      <h2 className="text-2xl font-bold text-yellow-300 mb-4">Select Fit</h2>
       <div className="grid grid-cols-3 gap-3">
         {fits.map((fit) => {
           const Icon = fit.icon;
@@ -27,15 +27,17 @@ const FitSelector = ({ selectedFit, onFitSelect }: FitSelectorProps) => {
               key={fit.value}
               onClick={() => onFitSelect(fit.value)}
               className={`
-                flex flex-col items-center justify-center rounded
-                bg-navy-dark/60 border ${selectedFit === fit.value ? 'border-white' : 'border-blue-900'}
+                flex flex-col items-center justify-center rounded-xl
+                bg-navy-dark border-2 h-20
+                ${selectedFit === fit.value 
+                  ? 'border-white bg-navy-dark' 
+                  : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 group'}
                 text-center py-3 px-2 transition-all
-                ${selectedFit === fit.value ? 'text-white shadow-glow' : 'text-white hover:border-blue-500'}
               `}
             >
               <Icon className="h-4 w-4 text-yellow-300 mb-1" />
-              <span className="font-medium">{fit.label}</span>
-              <span className="text-xs text-white/75">{fit.description}</span>
+              <span className={`font-medium ${selectedFit === fit.value ? 'text-white' : 'text-white group-hover:text-black'}`}>{fit.label}</span>
+              <span className={`text-xs ${selectedFit === fit.value ? 'text-white' : 'text-white/75 group-hover:text-black'}`}>{fit.description}</span>
             </button>
           );
         })}

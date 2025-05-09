@@ -8,7 +8,7 @@ import CouponRedemption from '@/components/user/CouponRedemption';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { UserCircle, Ticket } from 'lucide-react';
+import { UserCircle, Ticket, Home } from 'lucide-react';
 
 const Profile = () => {
   const { user, signOut } = useAuth();
@@ -24,6 +24,10 @@ const Profile = () => {
     await signOut();
     navigate('/landing');
   };
+  
+  const handleHomeClick = () => {
+    navigate('/');
+  };
 
   return (
     <div className="min-h-screen px-4 pb-12 max-w-4xl mx-auto relative">
@@ -31,7 +35,16 @@ const Profile = () => {
       <Header />
       
       <div className="mt-8">
-        <h1 className="text-3xl font-bold mb-6 gold-gradient-text">Your Profile</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold gold-gradient-text">Your Profile</h1>
+          <Button 
+            onClick={handleHomeClick}
+            className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700"
+          >
+            <Home className="h-4 w-4" />
+            Back to Home
+          </Button>
+        </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid grid-cols-2 max-w-md mx-auto bg-navy-light/60 backdrop-blur-md">

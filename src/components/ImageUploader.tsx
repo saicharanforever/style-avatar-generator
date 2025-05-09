@@ -25,7 +25,7 @@ const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => 
 
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-semibold text-yellow-300 mb-3">Upload Clothing Image</h2>
+      <h2 className="text-2xl font-bold text-yellow-300 mb-4">Upload Clothing Image</h2>
       <input
         ref={fileInputRef}
         type="file"
@@ -39,16 +39,16 @@ const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => 
         className={`flex flex-col items-center justify-center rounded-md border-2 border-dashed 
                    ${selectedImage ? 'border-blue-500' : 'border-blue-900'} 
                    bg-navy-dark/60 hover:bg-navy-dark/80 hover:border-blue-500 
-                   cursor-pointer transition-all text-center p-6 h-56`}
+                   cursor-pointer transition-all text-center p-6 h-48`}
       >
         {selectedImage ? (
           <div className="flex flex-col items-center w-full h-full">
             <img
               src={selectedImage}
               alt="Selected clothing"
-              className="max-w-full max-h-40 object-contain mb-2"
+              className="max-w-full max-h-36 object-contain mb-2"
             />
-            <p className="text-white text-sm mt-2">Click to change image</p>
+            <p className="text-white text-sm">Click to change image</p>
           </div>
         ) : (
           <>

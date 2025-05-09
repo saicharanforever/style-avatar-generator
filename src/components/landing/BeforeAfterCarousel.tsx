@@ -1,52 +1,134 @@
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
+import React, { useEffect, useState } from 'react';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious,
+  type CarouselApi
+} from '@/components/ui/carousel';
 
-// Sample before/after images
+// Sample before/after images with the new URLs
 const beforeAfterImages = [
   {
-    before: '/lovable-uploads/82585c27-d4d1-4e79-8563-60be82beccd0.png',
-    after: '/lovable-uploads/e9a8bda8-d392-4cdc-8afb-a976a0af8460.png',
+    before: 'https://ibb.co/x8fsGf3Z',
+    after: 'https://ibb.co/wZx4MZvZ',
     label: 'Dress'
   },
   {
-    before: '/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png',
-    after: '/lovable-uploads/eed275da-4a68-4a5e-8ef8-7a68d02e7b7d.png',
+    before: 'https://ibb.co/ymWmVfLs',
+    after: 'https://ibb.co/WW1h7YZ0',
     label: 'T-shirt'
   },
   {
-    before: '/lovable-uploads/692ffe0f-f740-4c5d-bcef-df605974a378.png',
-    after: '/lovable-uploads/692ffe0f-f740-4c5d-bcef-df605974a378.png',
+    before: 'https://ibb.co/zhpwkChg',
+    after: 'https://ibb.co/7xYNsHZd',
     label: 'Jeans'
+  },
+  {
+    before: 'https://ibb.co/1t4vwWVp',
+    after: 'https://ibb.co/HLq0Dv1n',
+    label: 'Blouse'
+  },
+  {
+    before: 'https://ibb.co/rfGrdg7C',
+    after: 'https://ibb.co/p6kYc9c3',
+    label: 'Skirt'
+  },
+  {
+    before: 'https://ibb.co/hFXrLGxS',
+    after: 'https://ibb.co/yF8ZfyM6',
+    label: 'Jacket'
+  },
+  {
+    before: 'https://ibb.co/dshWckr6',
+    after: 'https://ibb.co/ZzF8GVFC',
+    label: 'Sweater'
+  },
+  {
+    before: 'https://ibb.co/spjrPwJK',
+    after: 'https://ibb.co/BFY5nQF',
+    label: 'Coat'
   }
 ];
 
 const BeforeAfterCarousel = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [api, setApi] = useState<CarouselApi | null>(null);
+
+  // Update currentSlide when carousel changes
+  useEffect(() => {
+    if (!api) return;
+
+    const handleSelect = () => {
+      setCurrentSlide(api.selectedScrollSnap());
+    };
+
+    api.on("select", handleSelect);
+    return () => {
+      api.off("select", handleSelect);
+    };
+  }, [api]);
+
   return (
     <div className="max-w-6xl mx-auto pb-10">
-      <div className="grid md:grid-cols-3 gap-6">
-        {beforeAfterImages.map((item, index) => (
-          <div key={index} className="glass-card p-4 rounded-lg hover:border-gold/50 border border-white/10 transition-all hover:translate-y-[-5px]">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col items-center">
-                <img 
-                  src={item.before} 
-                  alt={`${item.label} before`}
-                  className="w-full h-48 object-contain mb-2 rounded"
-                />
-                <span className="text-sm text-white/70">Before</span>
+      <Carousel
+        className="w-full"
+        setApi={setApi}
+        opts={{
+          loop: true,
+          align: "center",
+        }}
+      >
+        <CarouselContent>
+          {beforeAfterImages.map((item, index) => (
+            <CarouselItem key={index} className="md:basis-4/5 lg:basis-2/3">
+              <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8">
+                {/* Before Image */}
+                <div className="flex-1 flex flex-col items-center">
+                  <div className="border-2 border-blue-900 rounded-md overflow-hidden bg-navy-dark/50 w-full">
+                    <div className="text-center py-2 font-semibold text-yellow-300">Before</div>
+                    <div className="aspect-[3/4] relative w-full">
+                      <img 
+                        src={item.before} 
+                        alt={`${item.label} before`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                {/* After Image */}
+                <div className="flex-1 flex flex-col items-center">
+                  <div className="border-2 border-blue-900 rounded-md overflow-hidden bg-navy-dark/50 w-full">
+                    <div className="text-center py-2 font-semibold text-yellow-300">After</div>
+                    <div className="aspect-[3/4] relative w-full">
+                      <img 
+                        src={item.after} 
+                        alt={`${item.label} after`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col items-center">
-                <img 
-                  src={item.after} 
-                  alt={`${item.label} after`}
-                  className="w-full h-48 object-contain mb-2 rounded"
-                />
-                <span className="text-sm text-white/70">After</span>
-              </div>
-            </div>
-            <p className="text-center mt-2 text-gold font-bold">{item.label}</p>
-          </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="left-2 md:left-0" />
+        <CarouselNext className="right-2 md:right-0" />
+      </Carousel>
+      
+      <div className="flex justify-center mt-4 gap-2">
+        {beforeAfterImages.map((_, index) => (
+          <button
+            key={index}
+            className={`h-2 rounded-full transition-all ${
+              currentSlide === index ? "bg-yellow-300 w-6" : "bg-white/30 w-2"
+            }`}
+            onClick={() => api?.scrollTo(index)}
+          />
         ))}
       </div>
     </div>
