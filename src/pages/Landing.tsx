@@ -38,7 +38,7 @@ const Landing = () => {
       
       {/* Before & After Section - Right below Hero Section */}
       <section className="px-4 bg-navy-dark/30 py-0">
-        <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair text-orange-100">
+        <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair text-transparent">
           Before & After Transformations
         </h2>
         <BeforeAfterCarousel />
