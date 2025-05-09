@@ -12,8 +12,8 @@ import {
 // Sample before/after images with corrected URLs (converting from ibb.co links to direct image URLs)
 const beforeAfterImages = [
   {
-    before: 'https://i.ibb.co/x8fsGf3/dress-before.jpg',
-    after: 'https://i.ibb.co/wZx4MZv/dress-after.jpg',
+    before: 'https://i.ibb.co/x8fsGf3Z/dress-before.jpg',
+    after: 'https://i.ibb.co/wZx4MZvZ/dress-after.jpg',
     label: 'Dress'
   },
   {
