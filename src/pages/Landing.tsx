@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,7 +12,6 @@ import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
 import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
-
 const Landing = () => {
   const {
     user
@@ -26,11 +24,9 @@ const Landing = () => {
       navigate('/');
     }
   }, [user, navigate]);
-
   const handleGetStarted = () => {
     navigate('/auth');
   };
-
   return <div className="min-h-screen bg-navy overflow-x-hidden">
       <BackgroundParticles />
       
@@ -42,7 +38,7 @@ const Landing = () => {
       
       {/* Before & After Section - Right below Hero Section */}
       <section className="px-4 bg-navy-dark/30 py-0">
-        <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair">
+        <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair text-orange-100">
           Before & After Transformations
         </h2>
         <BeforeAfterCarousel />
@@ -70,5 +66,4 @@ const Landing = () => {
       <Footer />
     </div>;
 };
-
 export default Landing;
