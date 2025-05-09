@@ -12,43 +12,43 @@ import {
 // Sample before/after images with the new URLs
 const beforeAfterImages = [
   {
-    before: 'https://ibb.co/x8fsGf3Z',
-    after: 'https://ibb.co/wZx4MZvZ',
+    before: 'https://i.ibb.co/x8fsGf3Z.jpg',
+    after: 'https://i.ibb.co/wZx4MZvZ.jpg',
     label: 'Dress'
   },
   {
-    before: 'https://ibb.co/ymWmVfLs',
-    after: 'https://ibb.co/WW1h7YZ0',
+    before: 'https://i.ibb.co/ymWmVfLs.jpg',
+    after: 'https://i.ibb.co/WW1h7YZ0.jpg',
     label: 'T-shirt'
   },
   {
-    before: 'https://ibb.co/zhpwkChg',
-    after: 'https://ibb.co/7xYNsHZd',
+    before: 'https://i.ibb.co/zhpwkChg.jpg',
+    after: 'https://i.ibb.co/7xYNsHZd.jpg',
     label: 'Jeans'
   },
   {
-    before: 'https://ibb.co/1t4vwWVp',
-    after: 'https://ibb.co/HLq0Dv1n',
+    before: 'https://i.ibb.co/1t4vwWVp.jpg',
+    after: 'https://i.ibb.co/HLq0Dv1n.jpg',
     label: 'Blouse'
   },
   {
-    before: 'https://ibb.co/rfGrdg7C',
-    after: 'https://ibb.co/p6kYc9c3',
+    before: 'https://i.ibb.co/rfGrdg7C.jpg',
+    after: 'https://i.ibb.co/p6kYc9c3.jpg',
     label: 'Skirt'
   },
   {
-    before: 'https://ibb.co/hFXrLGxS',
-    after: 'https://ibb.co/yF8ZfyM6',
+    before: 'https://i.ibb.co/hFXrLGxS.jpg',
+    after: 'https://i.ibb.co/yF8ZfyM6.jpg',
     label: 'Jacket'
   },
   {
-    before: 'https://ibb.co/dshWckr6',
-    after: 'https://ibb.co/ZzF8GVFC',
+    before: 'https://i.ibb.co/dshWckr6.jpg',
+    after: 'https://i.ibb.co/ZzF8GVFC.jpg',
     label: 'Sweater'
   },
   {
-    before: 'https://ibb.co/spjrPwJK',
-    after: 'https://ibb.co/BFY5nQF',
+    before: 'https://i.ibb.co/spjrPwJK.jpg',
+    after: 'https://i.ibb.co/BFY5nQF.jpg',
     label: 'Coat'
   }
 ];
