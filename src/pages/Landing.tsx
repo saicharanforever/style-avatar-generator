@@ -40,8 +40,8 @@ const Landing = () => {
       {/* Hero Section */}
       <HeroSection onGetStarted={handleGetStarted} />
       
-      {/* Before & After Section - Right below Hero Section */}
-      <section className="px-4 bg-navy-dark/30 py-8">
+      {/* Before & After Section - Right below Hero Section - removed extra padding */}
+      <section className="px-4 bg-navy-dark/30">
         <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair">
           Before & After Transformations
         </h2>

@@ -1,21 +1,13 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Coins, CheckCircle, ArrowLeft, Phone, Copy } from 'lucide-react';
+import { Coins, CheckCircle, ArrowLeft, Phone, MessageSquare } from 'lucide-react';
 import Header from '@/components/Header';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import { useAuth } from '@/contexts/AuthContext';
-import { toast } from 'sonner';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 interface PricingPlan {
   id: string;
@@ -69,13 +61,16 @@ const pricingPlans: PricingPlan[] = [
 const Pricing = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
   const phoneNumber = "+91 7386951961";
-
-  const handleCopyPhone = () => {
-    navigator.clipboard.writeText(phoneNumber)
-      .then(() => toast.success("Phone number copied to clipboard!"))
-      .catch(() => toast.error("Failed to copy phone number"));
+  
+  // Function to open WhatsApp chat
+  const openWhatsApp = () => {
+    window.open(`https://wa.me/917386951961`, '_blank');
+  };
+  
+  // Function to make a phone call
+  const makePhoneCall = () => {
+    window.location.href = `tel:${phoneNumber.replace(/\s/g, '')}`;
   };
 
   return (
@@ -124,13 +119,23 @@ const Pricing = () => {
                 ))}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-2">
+              {/* Call Button */}
               <Button
-                className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600 flex items-center justify-center gap-2"
-                onClick={() => setPhoneDialogOpen(true)}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 flex items-center justify-center gap-2"
+                onClick={makePhoneCall}
               >
                 <Phone className="h-4 w-4" />
-                Make a Call
+                Call
+              </Button>
+              
+              {/* WhatsApp Button */}
+              <Button
+                className="w-full bg-[#25D366] text-white hover:bg-[#128C7E] flex items-center justify-center gap-2"
+                onClick={openWhatsApp}
+              >
+                <MessageSquare className="h-4 w-4" />
+                WhatsApp
               </Button>
             </CardFooter>
           </Card>
@@ -147,31 +152,6 @@ const Pricing = () => {
           Back to Home
         </Button>
       </div>
-
-      {/* Phone Dialog */}
-      <Dialog open={phoneDialogOpen} onOpenChange={setPhoneDialogOpen}>
-        <DialogContent className="bg-navy-light border border-white/10 text-white">
-          <DialogHeader>
-            <DialogTitle className="text-gold text-xl">Contact Us</DialogTitle>
-            <DialogDescription className="text-white/70">
-              Call us to purchase credits and get assistance
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex items-center justify-center p-6">
-            <div className="bg-navy-dark/50 p-4 rounded-lg flex items-center gap-3">
-              <div className="text-2xl font-bold text-gold">{phoneNumber}</div>
-              <Button 
-                variant="outline" 
-                size="icon" 
-                className="border-white/20 hover:bg-navy text-gold-light" 
-                onClick={handleCopyPhone}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

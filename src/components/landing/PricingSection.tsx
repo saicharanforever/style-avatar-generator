@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Coins, CheckCircle, Phone, Copy } from 'lucide-react';
+import { Coins, CheckCircle, Phone, Copy, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -49,6 +49,16 @@ const PricingSection = ({
       .catch(() => toast.error("Failed to copy phone number"));
   };
   
+  // Function to open WhatsApp chat
+  const openWhatsApp = () => {
+    window.open(`https://wa.me/917386951961`, '_blank');
+  };
+  
+  // Function to make a phone call
+  const makePhoneCall = () => {
+    window.location.href = `tel:${phoneNumber.replace(/\s/g, '')}`;
+  };
+  
   return (
     <section id="pricing" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -89,13 +99,25 @@ const PricingSection = ({
                 ))}
               </ul>
               
-              <Button 
-                className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600 flex items-center justify-center gap-2" 
-                onClick={() => setPhoneDialogOpen(true)}
-              >
-                <Phone className="h-4 w-4" />
-                Make a Call
-              </Button>
+              <div className="space-y-2">
+                {/* Call Button */}
+                <Button 
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 flex items-center justify-center gap-2" 
+                  onClick={makePhoneCall}
+                >
+                  <Phone className="h-4 w-4" />
+                  Call
+                </Button>
+                
+                {/* WhatsApp Button */}
+                <Button 
+                  className="w-full bg-[#25D366] text-white hover:bg-[#128C7E] flex items-center justify-center gap-2" 
+                  onClick={openWhatsApp}
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  WhatsApp
+                </Button>
+              </div>
             </div>
           ))}
         </div>

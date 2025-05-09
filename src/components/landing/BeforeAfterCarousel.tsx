@@ -9,46 +9,46 @@ import {
   type CarouselApi
 } from '@/components/ui/carousel';
 
-// Sample before/after images with corrected URLs (converting from ibb.co links to direct image URLs)
+// Sample before/after images with correct URLs
 const beforeAfterImages = [
   {
-    before: 'https://i.ibb.co/x8fsGf3Z/dress-before.jpg',
-    after: 'https://i.ibb.co/wZx4MZvZ/dress-after.jpg',
+    before: 'https://i.ibb.co/x8fsGf3',
+    after: 'https://i.ibb.co/wZx4MZv',
     label: 'Dress'
   },
   {
-    before: 'https://i.ibb.co/ymWmVfLs/tshirt-before.jpg',
-    after: 'https://i.ibb.co/WW1h7YZ0/tshirt-after.jpg',
+    before: 'https://i.ibb.co/ymWmVfL',
+    after: 'https://i.ibb.co/WW1h7YZ',
     label: 'T-shirt'
   },
   {
-    before: 'https://i.ibb.co/zhpwkChg/jeans-before.jpg',
-    after: 'https://i.ibb.co/7xYNsHZd/jeans-after.jpg',
+    before: 'https://i.ibb.co/zhpwkCh',
+    after: 'https://i.ibb.co/7xYNsHZ',
     label: 'Jeans'
   },
   {
-    before: 'https://i.ibb.co/1t4vwWVp/blouse-before.jpg',
-    after: 'https://i.ibb.co/HLq0Dv1n/blouse-after.jpg',
+    before: 'https://i.ibb.co/1t4vwWV',
+    after: 'https://i.ibb.co/HLq0Dv1',
     label: 'Blouse'
   },
   {
-    before: 'https://i.ibb.co/rfGrdg7C/skirt-before.jpg',
-    after: 'https://i.ibb.co/p6kYc9c3/skirt-after.jpg',
+    before: 'https://i.ibb.co/rfGrdg7',
+    after: 'https://i.ibb.co/p6kYc9c',
     label: 'Skirt'
   },
   {
-    before: 'https://i.ibb.co/hFXrLGxS/jacket-before.jpg',
-    after: 'https://i.ibb.co/yF8ZfyM6/jacket-after.jpg',
+    before: 'https://i.ibb.co/hFXrLGx',
+    after: 'https://i.ibb.co/yF8ZfyM',
     label: 'Jacket'
   },
   {
-    before: 'https://i.ibb.co/dshWckr6/sweater-before.jpg',
-    after: 'https://i.ibb.co/ZzF8GVFC/sweater-after.jpg',
+    before: 'https://i.ibb.co/dshWckr',
+    after: 'https://i.ibb.co/ZzF8GVF',
     label: 'Sweater'
   },
   {
-    before: 'https://i.ibb.co/spjrPwJK/coat-before.jpg',
-    after: 'https://i.ibb.co/BFY5nQF/coat-after.jpg',
+    before: 'https://i.ibb.co/spjrPwJ',
+    after: 'https://i.ibb.co/BFY5nQF',
     label: 'Coat'
   }
 ];
@@ -57,7 +57,7 @@ const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<CarouselApi | null>(null);
 
-  // Auto-rotation effect
+  // Auto-rotation effect - changed to 4 seconds
   useEffect(() => {
     if (!api) return;
     
