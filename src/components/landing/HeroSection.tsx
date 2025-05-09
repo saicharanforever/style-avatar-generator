@@ -12,7 +12,7 @@ const HeroSection = ({
   const handleGetStarted = () => {
     navigate('/auth');
   };
-  return <section className="pt-16 pb-24 px-4 relative overflow-hidden my-0 py-px">
+  return <section className="pt-16 pb-24 px-4 relative overflow-hidden my-0 py-0">
       <div className="max-w-5xl mx-auto text-center relative z-10 py-[15px]">
         <p className="font-atma mb-2 text-sm blue-pink-gradient-text font-extrabold">A smile in every pic :)</p>
         <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight gold-gradient-text font-playfair">
