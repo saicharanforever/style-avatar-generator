@@ -13,7 +13,7 @@ const SizeSelector = ({ selectedSize, onSizeSelect }: SizeSelectorProps) => {
   
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-semibold text-white mb-3">Select Size</h2>
+      <h2 className="text-lg font-semibold text-yellow-300 mb-3">Select Size</h2>
       <div className="grid grid-cols-6 gap-2 sm:gap-3">
         {sizes.map((size) => (
           <button
@@ -21,9 +21,9 @@ const SizeSelector = ({ selectedSize, onSizeSelect }: SizeSelectorProps) => {
             onClick={() => onSizeSelect(size)}
             className={`
               flex items-center justify-center rounded
-              bg-navy-dark/60 border ${selectedSize === size ? 'border-white' : 'border-gold/30'}
+              bg-navy-dark/60 border ${selectedSize === size ? 'border-white' : 'border-blue-900'}
               text-center py-4 transition-all
-              ${selectedSize === size ? 'text-white shadow-glow' : 'text-gold-light hover:border-gold'}
+              ${selectedSize === size ? 'text-white shadow-glow' : 'text-white hover:border-blue-500'}
             `}
           >
             <span className="font-medium">{size}</span>
