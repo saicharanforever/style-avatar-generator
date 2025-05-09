@@ -9,46 +9,46 @@ import {
   type CarouselApi
 } from '@/components/ui/carousel';
 
-// Sample before/after images with the new URLs
+// Sample before/after images with corrected URLs (converting from ibb.co links to direct image URLs)
 const beforeAfterImages = [
   {
-    before: 'https://i.ibb.co/x8fsGf3Z.jpg',
-    after: 'https://i.ibb.co/wZx4MZvZ.jpg',
+    before: 'https://i.ibb.co/x8fsGf3/dress-before.jpg',
+    after: 'https://i.ibb.co/wZx4MZv/dress-after.jpg',
     label: 'Dress'
   },
   {
-    before: 'https://i.ibb.co/ymWmVfLs.jpg',
-    after: 'https://i.ibb.co/WW1h7YZ0.jpg',
+    before: 'https://i.ibb.co/ymWmVfL/tshirt-before.jpg',
+    after: 'https://i.ibb.co/WW1h7YZ/tshirt-after.jpg',
     label: 'T-shirt'
   },
   {
-    before: 'https://i.ibb.co/zhpwkChg.jpg',
-    after: 'https://i.ibb.co/7xYNsHZd.jpg',
+    before: 'https://i.ibb.co/zhpwkCh/jeans-before.jpg',
+    after: 'https://i.ibb.co/7xYNsHZ/jeans-after.jpg',
     label: 'Jeans'
   },
   {
-    before: 'https://i.ibb.co/1t4vwWVp.jpg',
-    after: 'https://i.ibb.co/HLq0Dv1n.jpg',
+    before: 'https://i.ibb.co/1t4vwWV/blouse-before.jpg',
+    after: 'https://i.ibb.co/HLq0Dv1/blouse-after.jpg',
     label: 'Blouse'
   },
   {
-    before: 'https://i.ibb.co/rfGrdg7C.jpg',
-    after: 'https://i.ibb.co/p6kYc9c3.jpg',
+    before: 'https://i.ibb.co/rfGrdg7/skirt-before.jpg',
+    after: 'https://i.ibb.co/p6kYc9c/skirt-after.jpg',
     label: 'Skirt'
   },
   {
-    before: 'https://i.ibb.co/hFXrLGxS.jpg',
-    after: 'https://i.ibb.co/yF8ZfyM6.jpg',
+    before: 'https://i.ibb.co/hFXrLGx/jacket-before.jpg',
+    after: 'https://i.ibb.co/yF8ZfyM/jacket-after.jpg',
     label: 'Jacket'
   },
   {
-    before: 'https://i.ibb.co/dshWckr6.jpg',
-    after: 'https://i.ibb.co/ZzF8GVFC.jpg',
+    before: 'https://i.ibb.co/dshWckr/sweater-before.jpg',
+    after: 'https://i.ibb.co/ZzF8GVF/sweater-after.jpg',
     label: 'Sweater'
   },
   {
-    before: 'https://i.ibb.co/spjrPwJK.jpg',
-    after: 'https://i.ibb.co/BFY5nQF.jpg',
+    before: 'https://i.ibb.co/spjrPwJ/coat-before.jpg',
+    after: 'https://i.ibb.co/BFY5nQF/coat-after.jpg',
     label: 'Coat'
   }
 ];
@@ -56,6 +56,17 @@ const beforeAfterImages = [
 const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<CarouselApi | null>(null);
+
+  // Auto-rotation effect
+  useEffect(() => {
+    if (!api) return;
+    
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 4000); // Change slides every 4 seconds
+    
+    return () => clearInterval(interval);
+  }, [api]);
 
   // Update currentSlide when carousel changes
   useEffect(() => {
@@ -94,6 +105,10 @@ const BeforeAfterCarousel = () => {
                         src={item.before} 
                         alt={`${item.label} before`}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error(`Error loading image: ${item.before}`);
+                          (e.target as HTMLImageElement).src = '/placeholder.svg';
+                        }}
                       />
                     </div>
                   </div>
@@ -108,6 +123,10 @@ const BeforeAfterCarousel = () => {
                         src={item.after} 
                         alt={`${item.label} after`}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error(`Error loading image: ${item.after}`);
+                          (e.target as HTMLImageElement).src = '/placeholder.svg';
+                        }}
                       />
                     </div>
                   </div>
