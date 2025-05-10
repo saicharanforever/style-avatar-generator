@@ -99,10 +99,10 @@ const PricingSection = ({
                 ))}
               </ul>
               
-              <div className="space-y-2">
+              <div className="flex gap-2">
                 {/* Call Button */}
                 <Button 
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 flex items-center justify-center gap-2" 
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 flex items-center justify-center gap-2" 
                   onClick={makePhoneCall}
                 >
                   <Phone className="h-4 w-4" />
@@ -111,7 +111,7 @@ const PricingSection = ({
                 
                 {/* WhatsApp Button */}
                 <Button 
-                  className="w-full bg-[#25D366] text-white hover:bg-[#128C7E] flex items-center justify-center gap-2" 
+                  className="flex-1 bg-[#25D366] text-white hover:bg-[#128C7E] flex items-center justify-center gap-2" 
                   onClick={openWhatsApp}
                 >
                   <MessageSquare className="h-4 w-4" />

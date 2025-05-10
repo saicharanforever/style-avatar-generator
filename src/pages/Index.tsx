@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +18,8 @@ import AdvancedOptions from '@/components/AdvancedOptions';
 import { generateFashionImage, getSampleImageUrl } from '@/services/generationService';
 import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Ticket, Coins } from 'lucide-react';
 
 type Gender = 'male' | 'female';
 
@@ -271,6 +272,10 @@ const Index = () => {
     setRegenerationCount(0);
   };
 
+  const handleCouponsClick = () => {
+    navigate('/profile?tab=coupons');
+  };
+
   return (
     <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative">
       <BackgroundParticles />
@@ -280,9 +285,32 @@ const Index = () => {
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight gold-gradient-text">
           Generate Model Images of Your Clothing
         </h1>
-        <p className="text-white/70 max-w-md mx-auto text-sm">
+        <p className="text-white/70 max-w-md mx-auto text-sm mb-4">
           Upload your clothing image and see how it would look on a professional model.
         </p>
+        
+        {/* Credits and Coupons buttons */}
+        {user && (
+          <div className="flex justify-center gap-3 mb-4">
+            <Button 
+              onClick={handleCouponsClick}
+              variant="outline" 
+              className="flex items-center gap-2 bg-navy-light/50 border-white/10 text-gold-light hover:bg-navy-light hover:text-gold"
+            >
+              <Ticket className="h-4 w-4 text-gold" />
+              <span className="font-semibold">Coupons</span>
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2 bg-navy-light/50 border-white/10 text-gold-light hover:bg-navy-light hover:text-gold"
+              onClick={() => navigate('/pricing')}
+            >
+              <Coins className="h-4 w-4 text-gold" />
+              <span className="font-semibold">{credits}</span>
+            </Button>
+          </div>
+        )}
       </div>
 
       <ImageUploader 
