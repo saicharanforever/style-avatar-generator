@@ -1,8 +1,9 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Define the testimonial type
 interface Testimonial {
@@ -136,8 +137,89 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
   </Card>
 );
 
+const ScrollingTestimonialRow = ({ 
+  items, 
+  direction = 'left',
+  className = ''
+}: { 
+  items: Testimonial[], 
+  direction?: 'left' | 'right',
+  className?: string
+}) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    
+    let animationId: number;
+    let startTime: number;
+    const speed = direction === 'left' ? -0.5 : 0.5; // pixels per frame
+    const gap = 24; // gap between cards in pixels
+    
+    // Clone the first element and append it to the end for seamless looping
+    const firstCard = scrollContainer.firstElementChild as HTMLElement;
+    if (!firstCard) return;
+    
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      
+      // Calculate new scroll position
+      if (scrollContainer) {
+        scrollContainer.scrollLeft += speed;
+        
+        // If we've scrolled too far left, reset to right
+        if (direction === 'left' && scrollContainer.scrollLeft <= 0) {
+          scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2;
+        }
+        
+        // If we've scrolled too far right, reset to left
+        if (direction === 'right' && scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+          scrollContainer.scrollLeft = 0;
+        }
+      }
+      
+      animationId = requestAnimationFrame(animate);
+    };
+    
+    animationId = requestAnimationFrame(animate);
+    
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [direction]);
+  
+  return (
+    <div 
+      className={`flex gap-6 overflow-x-auto scrollbar-hide ${className}`}
+      style={{ 
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        whiteSpace: 'nowrap',
+      }}
+      ref={scrollRef}
+    >
+      {/* Double the items for seamless infinite scrolling */}
+      {[...items, ...items].map((testimonial, index) => (
+        <div 
+          key={`testimonial-${index}`} 
+          className="min-w-[280px] sm:min-w-[320px] inline-block"
+          style={{ flex: '0 0 auto' }}
+        >
+          <TestimonialCard testimonial={testimonial} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const TestimonialsSection = () => {
-  // We'll display our testimonials in a grid layout
+  // Split testimonials into two groups
+  const topRowTestimonials = testimonials.slice(0, 5);
+  const bottomRowTestimonials = testimonials.slice(5, 10);
+  
   return (
     <section id="testimonials" className="py-20 bg-navy-dark/30">
       <div className="max-w-7xl mx-auto px-4 mb-12">
@@ -169,13 +251,13 @@ const TestimonialsSection = () => {
           Discover how DreamDressing is transforming the way businesses showcase their products
         </p>
 
-        {/* Grid layout for testimonials */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {testimonials.slice(0, 8).map((testimonial, index) => (
-            <div key={`testimonial-${index}`}>
-              <TestimonialCard testimonial={testimonial} />
-            </div>
-          ))}
+        {/* Scrolling rows of testimonials */}
+        <div className="space-y-6">
+          {/* Top row - scrolls right to left */}
+          <ScrollingTestimonialRow items={topRowTestimonials} direction="left" />
+          
+          {/* Bottom row - scrolls left to right */}
+          <ScrollingTestimonialRow items={bottomRowTestimonials} direction="right" />
         </div>
       </div>
     </section>
