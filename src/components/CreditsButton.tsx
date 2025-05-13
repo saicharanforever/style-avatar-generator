@@ -24,10 +24,9 @@ const CreditsButton = () => {
     <Popover>
       <PopoverTrigger asChild>
         <Button 
-          variant="outline" 
-          className="flex items-center gap-2 bg-navy-light/50 border-white/10 text-gold-light hover:bg-navy-light hover:text-gold"
+          className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 border-none"
         >
-          <Coins className="h-4 w-4 text-gold" />
+          <Coins className="h-4 w-4 text-white" />
           <span className="font-semibold">{loading ? '...' : credits}</span>
         </Button>
       </PopoverTrigger>

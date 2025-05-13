@@ -8,6 +8,7 @@ import HeroSection from '@/components/landing/HeroSection';
 import BrandsSection from '@/components/landing/BrandsSection';
 import FeaturesSection from '@/components/landing/FeaturesSection';
 import HowItWorksSection from '@/components/landing/HowItWorksSection';
+import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import PricingSection from '@/components/landing/PricingSection';
 import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
@@ -56,6 +57,9 @@ const Landing = () => {
       
       {/* How It Works Section */}
       <HowItWorksSection />
+      
+      {/* Testimonials Section - Added between How It Works and Pricing */}
+      <TestimonialsSection />
       
       {/* Pricing Section */}
       <PricingSection onGetStarted={handleGetStarted} />

@@ -23,10 +23,9 @@ const SizeSelector = ({ selectedSize, onSizeSelect }: SizeSelectorProps) => {
               flex items-center justify-center rounded-xl
               bg-navy-dark border-2 h-20
               ${selectedSize === size 
-                ? 'border-white bg-navy-dark' 
-                : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 group'}
+                ? 'border-white bg-navy-dark text-white' 
+                : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black text-white'}
               text-center py-4 transition-all
-              ${selectedSize === size ? 'text-white' : 'text-white group-hover:text-black'}
             `}
           >
             <span className="font-medium">{size}</span>
