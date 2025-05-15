@@ -6,17 +6,17 @@ import { cn } from "@/lib/utils"
 
 type TooltipProviderProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Provider>
 
-const TooltipProvider = ({ 
-  children, 
-  delayDuration = 200, 
-  ...props 
-}: TooltipProviderProps) => {
+const TooltipProvider = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Provider>,
+  TooltipProviderProps
+>(({ children, delayDuration = 200, ...props }, ref) => {
   return (
-    <TooltipPrimitive.Provider delayDuration={delayDuration} {...props}>
+    <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} ref={ref}>
       {children}
     </TooltipPrimitive.Provider>
   )
-}
+})
+TooltipProvider.displayName = "TooltipProvider"
 
 const Tooltip = TooltipPrimitive.Root
 
