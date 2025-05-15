@@ -1,5 +1,4 @@
 
-import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -74,26 +73,22 @@ const AppRoutes = () => {
   );
 };
 
-// Create a new queryClient instance
 const queryClient = new QueryClient();
 
-// App component that properly nests all providers
 const App = () => (
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
       <BrowserRouter>
         <AuthProvider>
           <CreditsProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <AppRoutes />
-            </TooltipProvider>
+            <AppRoutes />
           </CreditsProvider>
         </AuthProvider>
       </BrowserRouter>
-    </QueryClientProvider>
-  </React.StrictMode>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
 
 export default App;
