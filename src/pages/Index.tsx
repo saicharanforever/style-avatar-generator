@@ -1,16 +1,20 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
+import KidsGenderSelector from '@/components/KidsGenderSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
 import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
 import SizeSelector, { ClothingSize } from '@/components/SizeSelector';
 import FitSelector, { ClothingFit } from '@/components/FitSelector';
 import GenerateButton from '@/components/GenerateButton';
+import GenerateMultipleButton from '@/components/GenerateMultipleButton';
 import GenerationProgress from '@/components/GenerationProgress';
 import ResultDisplay from '@/components/ResultDisplay';
+import MultipleResultsDisplay from '@/components/MultipleResultsDisplay';
 import SampleButton from '@/components/SampleButton';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import ViewToggle from '@/components/ViewToggle';
@@ -21,7 +25,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Ticket, Coins } from 'lucide-react';
 
-type Gender = 'male' | 'female';
+type Gender = 'male' | 'female' | 'kids';
+type KidsGender = 'boy' | 'girl';
 
 // Type for advanced options
 type AdvancedOptionsState = {
@@ -40,17 +45,21 @@ const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
+  const [selectedKidsGender, setSelectedKidsGender] = useState<KidsGender | null>(null);
   const [selectedClothingType, setSelectedClothingType] = useState<string | null>(null);
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
   const [selectedSize, setSelectedSize] = useState<ClothingSize | null>(null);
   const [selectedFit, setSelectedFit] = useState<ClothingFit | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
   const [regenerationCount, setRegenerationCount] = useState<number>(0);
+  const [multipleRegenerationCounts, setMultipleRegenerationCounts] = useState<number[]>([0, 0, 0]);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [isBackView, setIsBackView] = useState<boolean>(false);
   const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
+  const [isMultipleGeneration, setIsMultipleGeneration] = useState<boolean>(false);
   
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
@@ -74,7 +83,7 @@ const Index = () => {
           return prev;
         });
       }, 150);
-    } else if (generatedImage) {
+    } else if (generatedImage || generatedImages.length > 0) {
       // Set to 100% when image is generated
       setGenerationProgress(100);
       
@@ -89,7 +98,7 @@ const Index = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isGenerating, generatedImage]);
+  }, [isGenerating, generatedImage, generatedImages]);
 
   // Set default accessories for ethnic female wear
   useEffect(() => {
@@ -118,43 +127,77 @@ const Index = () => {
     setSelectedImage(imageUrl);
     setImageFile(file);
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
   
   const handleGenderSelect = (gender: Gender) => {
     setSelectedGender(gender);
+    
+    // Reset kids gender if not kids
+    if (gender !== 'kids') {
+      setSelectedKidsGender(null);
+    }
+    
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
+  };
+
+  const handleKidsGenderSelect = (kidsGender: KidsGender) => {
+    setSelectedKidsGender(kidsGender);
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
   
   const handleEthnicitySelect = (ethnicity: Ethnicity) => {
     setSelectedEthnicity(ethnicity);
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleSizeSelect = (size: ClothingSize) => {
     setSelectedSize(size);
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleFitSelect = (fit: ClothingFit) => {
     setSelectedFit(fit);
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleViewToggle = (isBack: boolean) => {
     setIsBackView(isBack);
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleAdvancedOptionChange = (category: string, value: string) => {
@@ -165,11 +208,14 @@ const Index = () => {
     
     // Reset generated image when changing options
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
-  const handleGenerateImage = async () => {
+  const handleGenerateImage = async (multiple = false) => {
     if (!user) {
       // Instead of showing modal, navigate directly to auth page
       navigate('/auth');
@@ -181,11 +227,17 @@ const Index = () => {
       return;
     }
     
+    // If kids but no kids gender selected
+    if (selectedGender === 'kids' && !selectedKidsGender) {
+      toast.error("Please select boy or girl for kids model");
+      return;
+    }
+    
     // Check if this is a regeneration
     const isRegeneration = regenerationCount > 0;
     
-    // Calculate credit cost (30 credits per generation)
-    const creditCost = 30;
+    // Calculate credit cost
+    const creditCost = multiple ? 80 : 30;
     
     // Attempt to consume credits
     const success = await consumeCredits(creditCost, isRegeneration);
@@ -202,32 +254,69 @@ const Index = () => {
     }
     
     setIsGenerating(true);
+    setIsMultipleGeneration(multiple);
     
     try {
-      const result = await generateFashionImage({
-        imageFile,
-        gender: selectedGender,
-        clothingType: selectedClothingType,
-        ethnicity: selectedEthnicity,
-        // Add new properties
-        size: selectedSize,
-        fit: selectedFit,
-        isBackView,
-        advancedOptions
-      });
-      
-      setGeneratedImage(result.image);
-      setIsOriginalImage(result.isOriginal);
-      
-      if (result.isOriginal && result.message) {
-        toast.warning(result.message);
-      } else {
-        toast.success("Image generated successfully!");
-        // Increment regeneration count only for successful generations
-        if (isRegeneration) {
-          setRegenerationCount(prev => prev + 1);
+      if (multiple) {
+        const images: string[] = [];
+        const originalImages: boolean[] = [];
+        const poses = ['standing', 's-curve', 'walking'];
+        
+        for (let i = 0; i < 3; i++) {
+          // Generate each image with a different pose
+          const tempAdvancedOptions = { ...advancedOptions };
+          tempAdvancedOptions.pose = poses[i];
+          
+          const result = await generateFashionImage({
+            imageFile,
+            gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
+            clothingType: selectedClothingType,
+            ethnicity: selectedEthnicity,
+            size: selectedSize,
+            fit: selectedFit,
+            isBackView,
+            advancedOptions: tempAdvancedOptions
+          });
+          
+          images.push(result.image);
+          originalImages.push(result.isOriginal);
+        }
+        
+        setGeneratedImages(images);
+        setGeneratedImage(null);
+        
+        if (originalImages.some(isOrig => isOrig)) {
+          toast.warning("Some images could not be generated and are showing original images");
         } else {
-          setRegenerationCount(1);
+          toast.success("Images generated successfully!");
+          setMultipleRegenerationCounts([0, 0, 0]);
+        }
+      } else {
+        const result = await generateFashionImage({
+          imageFile,
+          gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
+          clothingType: selectedClothingType,
+          ethnicity: selectedEthnicity,
+          size: selectedSize,
+          fit: selectedFit,
+          isBackView,
+          advancedOptions
+        });
+        
+        setGeneratedImage(result.image);
+        setGeneratedImages([]);
+        setIsOriginalImage(result.isOriginal);
+        
+        if (result.isOriginal && result.message) {
+          toast.warning(result.message);
+        } else {
+          toast.success("Image generated successfully!");
+          // Increment regeneration count only for successful generations
+          if (isRegeneration) {
+            setRegenerationCount(prev => prev + 1);
+          } else {
+            setRegenerationCount(1);
+          }
         }
       }
     } catch (error) {
@@ -263,13 +352,84 @@ const Index = () => {
     handleGenerateImage();
   };
   
-  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity;
+  const handleRegenerateMultiple = (index: number) => {
+    // Check if this regeneration is free (less than 2 regenerations)
+    const isFreeRegeneration = multipleRegenerationCounts[index] < 2;
+    
+    // If not free, check if we have enough credits
+    if (!isFreeRegeneration) {
+      const creditCost = 30;
+      
+      if (credits < creditCost) {
+        toast.error("You don't have enough credits to regenerate this image");
+        setTimeout(() => {
+          navigate('/pricing');
+        }, 1500);
+        return;
+      }
+      
+      // Consume credits
+      consumeCredits(creditCost, false);
+    }
+    
+    setIsGenerating(true);
+    
+    // Update regeneration count for this image
+    const newCounts = [...multipleRegenerationCounts];
+    newCounts[index] = newCounts[index] + 1;
+    setMultipleRegenerationCounts(newCounts);
+    
+    // Generate a new image for this index
+    setTimeout(async () => {
+      try {
+        const poses = ['standing', 's-curve', 'walking', 'leaning'];
+        const randomPose = poses[Math.floor(Math.random() * poses.length)];
+        
+        // Generate each image with a different pose
+        const tempAdvancedOptions = { ...advancedOptions };
+        tempAdvancedOptions.pose = randomPose;
+        
+        const result = await generateFashionImage({
+          imageFile,
+          gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
+          clothingType: selectedClothingType,
+          ethnicity: selectedEthnicity,
+          size: selectedSize,
+          fit: selectedFit,
+          isBackView,
+          advancedOptions: tempAdvancedOptions
+        });
+        
+        // Update the specific image in the array
+        const newImages = [...generatedImages];
+        newImages[index] = result.image;
+        setGeneratedImages(newImages);
+        
+        if (result.isOriginal && result.message) {
+          toast.warning(result.message);
+        } else {
+          toast.success("Image regenerated successfully!");
+        }
+      } catch (error) {
+        toast.error("Failed to regenerate image. Please try again.");
+        console.error(error);
+      } finally {
+        setIsGenerating(false);
+      }
+    }, 500);
+  };
+  
+  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity || 
+                           (selectedGender === 'kids' && !selectedKidsGender);
 
   const handleTypeSelect = (type: string) => {
     setSelectedClothingType(type);
     setGeneratedImage(null);
+    setGeneratedImages([]);
     setIsOriginalImage(false);
     setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleCouponsClick = () => {
@@ -295,18 +455,18 @@ const Index = () => {
             <Button 
               onClick={handleCouponsClick}
               variant="outline" 
-              className="flex items-center gap-2 bg-navy-light/50 border-white/10 text-gold-light hover:bg-navy-light hover:text-gold"
+              className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600"
             >
-              <Ticket className="h-4 w-4 text-gold" />
+              <Ticket className="h-4 w-4 text-white" />
               <span className="font-semibold">Coupons</span>
             </Button>
             
             <Button 
               variant="outline" 
-              className="flex items-center gap-2 bg-navy-light/50 border-white/10 text-gold-light hover:bg-navy-light hover:text-gold"
+              className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600"
               onClick={() => navigate('/pricing')}
             >
-              <Coins className="h-4 w-4 text-gold" />
+              <Coins className="h-4 w-4 text-white" />
               <span className="font-semibold">{credits}</span>
             </Button>
           </div>
@@ -346,10 +506,18 @@ const Index = () => {
         onGenderSelect={handleGenderSelect} 
       />
       
+      {/* Show Kids Gender Selector if 'kids' is selected */}
+      {selectedGender === 'kids' && (
+        <KidsGenderSelector
+          selectedKidsGender={selectedKidsGender}
+          onKidsGenderSelect={handleKidsGenderSelect}
+        />
+      )}
+      
       <ClothingTypeSelector 
         selectedType={selectedClothingType} 
         onTypeSelect={handleTypeSelect}
-        selectedGender={selectedGender}
+        selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
       />
 
       <EthnicitySelector
@@ -360,28 +528,49 @@ const Index = () => {
       {!isGenerateDisabled && (
         <AdvancedOptions 
           isBackView={isBackView}
-          selectedGender={selectedGender}
+          selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
           selectedClothingType={selectedClothingType}
           onOptionChange={handleAdvancedOptionChange}
         />
       )}
       
-      <GenerateButton 
-        onClick={handleGenerateImage} 
-        disabled={isGenerateDisabled}
-        isGenerating={isGenerating}
-      />
+      <div className="flex gap-2">
+        <div className="w-1/2">
+          <GenerateButton 
+            onClick={() => handleGenerateImage(false)} 
+            disabled={isGenerateDisabled}
+            isGenerating={isGenerating && !isMultipleGeneration}
+          />
+        </div>
+        <div className="w-1/2">
+          <GenerateMultipleButton 
+            onClick={() => handleGenerateImage(true)} 
+            disabled={isGenerateDisabled}
+            isGenerating={isGenerating && isMultipleGeneration}
+          />
+        </div>
+      </div>
       
       <GenerationProgress 
         progress={generationProgress}
-        isVisible={isGenerating || (generatedImage !== null && generationProgress > 0)}
+        isVisible={isGenerating || ((generatedImage !== null || generatedImages.length > 0) && generationProgress > 0)}
       />
       
-      <ResultDisplay 
-        generatedImage={generatedImage} 
-        onRegenerate={handleRegenerate}
-        isOriginalImage={isOriginalImage}
-      />
+      {generatedImage && (
+        <ResultDisplay 
+          generatedImage={generatedImage} 
+          onRegenerate={handleRegenerate}
+          isOriginalImage={isOriginalImage}
+        />
+      )}
+      
+      {generatedImages.length > 0 && (
+        <MultipleResultsDisplay 
+          generatedImages={generatedImages}
+          onRegenerate={handleRegenerateMultiple}
+          regenerationCounts={multipleRegenerationCounts}
+        />
+      )}
     </div>
   );
 };

@@ -21,7 +21,7 @@ const UserMenu = () => {
   if (!user) {
     return (
       <Button 
-        className="rounded-full px-4 bg-navy-light/80 hover:bg-navy-light text-gold-light border border-white/10"
+        className="rounded-full px-4 bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600 border border-white/10"
         onClick={() => navigate('/landing')}
       >
         Sign In
