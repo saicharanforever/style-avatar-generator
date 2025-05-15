@@ -33,7 +33,7 @@ const Landing = () => {
   };
   
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-white'} overflow-x-hidden`}>
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-[#F5F5F0]'} overflow-x-hidden`}>
       {theme === 'dark' && <BackgroundParticles />}
       
       {/* Sticky Navigation */}
@@ -43,7 +43,7 @@ const Landing = () => {
       <HeroSection onGetStarted={handleGetStarted} />
       
       {/* Before & After Section - Right below Hero Section - removed extra padding */}
-      <section className={`px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-gray-50'}`}>
+      <section className={`px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-[#EDEDE8]'}`}>
         <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair">
           Before & After Transformations
         </h2>

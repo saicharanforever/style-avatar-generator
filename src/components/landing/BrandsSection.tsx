@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Brand logos
 const brandLogos = [{
@@ -20,17 +21,19 @@ const brandLogos = [{
 }];
 
 const BrandsSection = () => {
+  const { theme } = useTheme();
+  
   return (
-    <section className="py-12 bg-navy-light/30">
+    <section className={`py-12 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-[#EDEDE8]'}`}>
       <div className="max-w-6xl mx-auto px-4">
-        <p className="mb-8 uppercase tracking-wider text-yellow-300 text-base text-center">
+        <p className={`mb-8 uppercase tracking-wider ${theme === 'dark' ? 'text-yellow-300' : 'text-[#A8B5A5]'} text-base text-center`}>
           Trusted by top e-commerce platforms
         </p>
         <div className="flex flex-wrap justify-center gap-8 items-center">
           {brandLogos.map((brand, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="h-12 w-24 bg-navy-light rounded-md flex items-center justify-center">
-                <p className="font-bold text-slate-50">{brand.name}</p>
+              <div className={`h-12 w-24 ${theme === 'dark' ? 'bg-navy-light' : 'bg-white border border-[#A9A9A9]/20'} rounded-md flex items-center justify-center`}>
+                <p className={`font-bold ${theme === 'dark' ? 'text-slate-50' : 'text-[#333333]'}`}>{brand.name}</p>
               </div>
             </div>
           ))}

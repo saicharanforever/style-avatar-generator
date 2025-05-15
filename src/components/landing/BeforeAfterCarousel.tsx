@@ -84,11 +84,11 @@ const BeforeAfterCarousel = () => {
     };
   }, [api]);
 
-  const borderColor = theme === 'dark' ? 'border-blue-900' : 'border-blue-300';
-  const labelColor = theme === 'dark' ? 'text-yellow-300' : 'text-blue-700';
-  const bgColor = theme === 'dark' ? 'bg-navy-dark/50' : 'bg-gray-50';
-  const dotActiveColor = theme === 'dark' ? 'bg-yellow-300' : 'bg-blue-500';
-  const dotInactiveColor = theme === 'dark' ? 'bg-white/30' : 'bg-gray-300';
+  const borderColor = theme === 'dark' ? 'border-blue-900' : 'border-[#A9A9A9]/30';
+  const labelColor = theme === 'dark' ? 'text-yellow-300' : 'text-[#A8B5A5]';
+  const bgColor = theme === 'dark' ? 'bg-navy-dark/50' : 'bg-[#EDEDE8]';
+  const dotActiveColor = theme === 'dark' ? 'bg-yellow-300' : 'bg-[#A8B5A5]';
+  const dotInactiveColor = theme === 'dark' ? 'bg-white/30' : 'bg-[#A9A9A9]/30';
 
   return (
     <div className="max-w-6xl mx-auto pb-10">

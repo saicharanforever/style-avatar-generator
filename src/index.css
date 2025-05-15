@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Atma:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Atma:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -38,35 +38,44 @@
     --radius: 0.75rem;
   }
 
-  /* Light theme variables */
+  /* Light theme variables - Minimalist Fashion Design */
   .light-theme {
-    --background: 0 0% 100%;
-    --foreground: 252 87% 9%;
+    /* Off-white background */
+    --background: 60 20% 96%;
+    --foreground: 0 0% 20%;
 
-    --card: 0 0% 98%;
-    --card-foreground: 252 76% 14%;
+    /* Card colors */
+    --card: 60 16% 94%;
+    --card-foreground: 0 0% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 252 87% 9%;
+    /* Popover colors */
+    --popover: 60 20% 96%;
+    --popover-foreground: 0 0% 20%;
 
-    --primary: 50 100% 56%;
-    --primary-foreground: 252 90% 9%;
+    /* Muted sage green as primary color */
+    --primary: 120 10% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 252 76% 16%;
+    /* Warm gray as secondary color */
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 20%;
 
+    /* Muted variant */
     --muted: 0 0% 96%;
-    --muted-foreground: 252 40% 30%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 50 100% 56%;
-    --accent-foreground: 252 87% 9%;
+    /* Accent colors */
+    --accent: 120 10% 60%;
+    --accent-foreground: 0 0% 100%;
 
+    /* Destructive colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 50 100% 56%;
+    /* Border, input, and ring colors */
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --ring: 120 10% 60%;
   }
 
   * {
@@ -81,17 +90,23 @@
     background-position: 0 0, 20px 20px;
   }
 
-  /* Light theme overrides for body */
+  /* Light theme overrides for body - Minimalist Fashion Design */
   .light-theme body {
-    @apply bg-white text-navy font-manrope overflow-x-hidden;
-    background-image: radial-gradient(rgba(96, 79, 255, 0.05) 1px, transparent 1px),
-                      radial-gradient(rgba(96, 79, 255, 0.05) 1px, transparent 1px);
+    @apply bg-[#F5F5F0] text-[#333333] font-montserrat overflow-x-hidden;
+    background-image: radial-gradient(rgba(168, 181, 165, 0.15) 1px, transparent 1px),
+                      radial-gradient(rgba(168, 181, 165, 0.1) 1px, transparent 1px);
     background-size: 40px 40px;
     background-position: 0 0, 20px 20px;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-playfair font-bold;
+  }
+  
+  /* Light theme heading styles */
+  .light-theme h1, .light-theme h2, .light-theme h3, 
+  .light-theme h4, .light-theme h5, .light-theme h6 {
+    @apply font-montserrat font-bold text-[#333333];
   }
 }
 
@@ -100,17 +115,27 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-light via-gold to-gold-dark;
   }
   
+  /* Light theme gold gradient text */
+  .light-theme .gold-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#A8B5A5] via-[#A8B5A5] to-[#94A091];
+  }
+  
   .glass-card {
     @apply bg-navy-light/60 backdrop-blur-md border border-white/10 shadow-xl;
   }
   
   /* Light theme overrides for glass card */
   .light-theme .glass-card {
-    @apply bg-white/90 backdrop-blur-md border border-gray-200 shadow-xl;
+    @apply bg-white/90 backdrop-blur-md border border-[#A9A9A9]/30 shadow-md;
   }
   
   .button-primary {
     @apply bg-gold text-navy-dark font-semibold py-3 px-6 rounded-md shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+  
+  /* Light theme button primary */
+  .light-theme .button-primary {
+    @apply bg-[#A8B5A5] text-white font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-300 hover:bg-[#94A091] active:scale-95;
   }
   
   .input-field {
@@ -119,12 +144,17 @@
 
   /* Light theme overrides for input field */
   .light-theme .input-field {
-    @apply bg-white border border-gray-200 rounded-lg py-3 px-4 text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gold/50;
+    @apply bg-white border border-[#A9A9A9]/50 rounded-lg py-3 px-4 text-[#333333] placeholder:text-[#A9A9A9] focus:outline-none focus:ring-2 focus:ring-[#A8B5A5]/50;
   }
 
   /* New styles for landing page */
   .bg-gradient-button {
     @apply bg-gradient-to-r from-blue-500 to-pink-500 text-white;
+  }
+  
+  /* Light theme gradient button */
+  .light-theme .bg-gradient-button {
+    @apply bg-[#A8B5A5] text-white hover:bg-[#94A091];
   }
   
   .hover-card {
@@ -136,7 +166,7 @@
   }
   
   .light-theme .bg-navy {
-    @apply bg-white;
+    @apply bg-[#F5F5F0];
   }
   
   .bg-navy-light {
@@ -144,7 +174,7 @@
   }
   
   .light-theme .bg-navy-light {
-    @apply bg-gray-50;
+    @apply bg-[#EDEDE8];
   }
   
   .bg-navy-dark {
@@ -152,7 +182,7 @@
   }
   
   .light-theme .bg-navy-dark {
-    @apply bg-gray-100;
+    @apply bg-[#E5E5E0];
   }
   
   .text-gold {
@@ -160,7 +190,7 @@
   }
   
   .light-theme .text-gold {
-    @apply text-[#906600];
+    @apply text-[#A8B5A5];
   }
   
   .text-gold-light {
@@ -168,7 +198,7 @@
   }
   
   .light-theme .text-gold-light {
-    @apply text-[#906600];
+    @apply text-[#A8B5A5];
   }
   
   .text-gold-dark {
@@ -176,11 +206,16 @@
   }
   
   .light-theme .text-gold-dark {
-    @apply text-[#906600];
+    @apply text-[#94A091];
   }
   
   .blue-pink-gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-pink-500;
+  }
+  
+  /* Light theme blue-pink gradient text */
+  .light-theme .blue-pink-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#A8B5A5] to-[#94A091];
   }
   
   /* Image animation for the carousel */
@@ -213,37 +248,72 @@
 
   /* Light theme text overrides */
   .light-theme .text-white {
-    @apply text-gray-800;
+    @apply text-[#333333];
   }
   
   .light-theme .text-white\/70 {
-    @apply text-gray-600;
+    @apply text-[#555555];
   }
   
   .light-theme .text-white\/50 {
-    @apply text-gray-500;
+    @apply text-[#666666];
   }
   
   /* Light theme background overrides for sections */
   .light-theme .bg-navy-light\/30 {
-    @apply bg-gray-50;
+    @apply bg-[#EDEDE8];
   }
   
   .light-theme .bg-navy-dark\/30 {
-    @apply bg-gray-100;
+    @apply bg-[#E5E5E0];
   }
   
   /* Light theme border overrides */
   .light-theme .border-white\/10 {
-    @apply border-gray-200;
+    @apply border-[#A9A9A9]/20;
   }
   
   .light-theme .border-white\/20 {
-    @apply border-gray-300;
+    @apply border-[#A9A9A9]/30;
   }
   
   .light-theme .border-white\/5 {
-    @apply border-gray-100;
+    @apply border-[#A9A9A9]/10;
+  }
+  
+  /* Light theme border gold override */
+  .light-theme .border-gold {
+    @apply border-[#A8B5A5];
+  }
+  
+  /* Light theme button overrides */
+  .light-theme .bg-gold {
+    @apply bg-[#A8B5A5];
+  }
+  
+  .light-theme .hover\:bg-gold-dark:hover {
+    @apply hover:bg-[#94A091];
+  }
+  
+  .light-theme .from-pink-500 {
+    @apply from-[#A8B5A5];
+  }
+  
+  .light-theme .to-blue-500 {
+    @apply to-[#94A091];
+  }
+  
+  .light-theme .hover\:from-pink-600:hover {
+    @apply hover:from-[#94A091];
+  }
+  
+  .light-theme .hover\:to-blue-600:hover {
+    @apply hover:to-[#7F8A7C];
+  }
+  
+  /* Light theme text-yellow override */
+  .light-theme .text-yellow-300 {
+    @apply text-[#A8B5A5];
   }
 }
 
@@ -258,6 +328,10 @@
   
   .font-atma {
     font-family: 'Atma', cursive;
+  }
+  
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
   }
   
   .animate-fade-in {
