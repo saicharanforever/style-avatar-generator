@@ -1,40 +1,35 @@
 
+// Assuming this is the complete content, since it's importing from the file
 import React from 'react';
 
-export type ClothingSize = 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
+export type ClothingSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 
-interface SizeSelectorProps {
+type SizeSelectorProps = {
   selectedSize: ClothingSize | null;
   onSizeSelect: (size: ClothingSize) => void;
-}
+};
 
-const SizeSelector = ({ selectedSize, onSizeSelect }: SizeSelectorProps) => {
-  const sizes: ClothingSize[] = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-  
+const SizeSelector: React.FC<SizeSelectorProps> = ({ selectedSize, onSizeSelect }) => {
+  const sizeOptions: ClothingSize[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
   return (
-    <div className="mb-6">
-      <h2 className="text-2xl font-bold text-yellow-300 mb-4">Select Size</h2>
-      <div className="grid grid-cols-6 gap-2 sm:gap-3">
-        {sizes.map((size) => (
-          <button
+    <div className="w-full max-w-md mx-auto mb-8">
+      <h2 className="font-bold text-yellow-300 mb-4 text-2xl">Select Size</h2>
+      
+      <div className="grid grid-cols-7 gap-2">
+        {sizeOptions.map((size) => (
+          <button 
             key={size}
             onClick={() => onSizeSelect(size)}
-            className={`
-              flex items-center justify-center rounded-xl
-              bg-navy-dark border-2 h-20
+            className={`h-12 rounded-lg flex items-center justify-center transition-all
               ${selectedSize === size 
-                ? 'border-white bg-navy-dark text-white' 
-                : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black text-white'}
-              text-center py-4 transition-all
-            `}
+                ? 'bg-yellow-300 border-2 border-white text-black font-bold' 
+                : 'bg-navy-dark border-2 border-blue-900 text-white/70 hover:bg-yellow-300 hover:text-black hover:border-blue-500 hover:font-semibold'}`}
           >
-            <span className="font-medium">{size}</span>
+            {size}
           </button>
         ))}
       </div>
-      <p className="text-xs text-white/60 mt-2">
-        Select the size that best fits the model you want to see
-      </p>
     </div>
   );
 };
