@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Sparkles, Grid3X3 } from 'lucide-react';
+import { Grid3X3 } from 'lucide-react';
 
 type GenerateMultipleButtonProps = {
   onClick: () => void;
