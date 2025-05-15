@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
@@ -38,376 +37,378 @@ const AdvancedOptions = ({
       </Button>
       
       {isExpanded && (
-        <div className="glass-card p-4 mb-6 space-y-6 border border-gold/20 rounded-lg">
+        <div className="space-y-6">
           {/* Body Size */}
-          <div className="space-y-2">
-            <h3 className="font-bold text-yellow-300 mb-2 text-lg">Body Size Presets</h3>
-            <div className="grid grid-cols-2 gap-3">
+          <div className="w-full">
+            <h3 className="font-bold text-yellow-300 mb-4 text-xl">Body Size Presets</h3>
+            <div className="grid grid-cols-2 gap-4">
               <Button
                 onClick={() => onOptionChange('bodySize', 'short')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Short
+                <span className="text-sm text-white/70 group-hover:text-black">Short</span>
               </Button>
+              
               <Button
                 onClick={() => onOptionChange('bodySize', 'tall')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Tall
+                <span className="text-sm text-white/70 group-hover:text-black">Tall</span>
               </Button>
             </div>
           </div>
           
-          <Separator className="border-white/10" />
-          
           {/* Pose Selection */}
-          <div className="space-y-2">
-            <h3 className="font-bold text-yellow-300 mb-2 text-lg">Pose Selection</h3>
-            <div className="grid grid-cols-2 gap-3">
+          <div className="w-full">
+            <h3 className="font-bold text-yellow-300 mb-4 text-xl">Pose Selection</h3>
+            <div className="grid grid-cols-2 gap-4">
               {!isBackView ? (
                 <>
                   <Button
                     onClick={() => onOptionChange('pose', 'standing')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Standing Pose
+                    <span className="text-sm text-white/70 group-hover:text-black">Standing Pose</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('pose', 's-curve')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    The S-Curve Pose
+                    <span className="text-sm text-white/70 group-hover:text-black">The S-Curve Pose</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('pose', 'walking')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Walking Pose
+                    <span className="text-sm text-white/70 group-hover:text-black">Walking Pose</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('pose', 'leaning')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    The Leaning Pose
+                    <span className="text-sm text-white/70 group-hover:text-black">The Leaning Pose</span>
                   </Button>
                 </>
               ) : (
                 <>
                   <Button
                     onClick={() => onOptionChange('pose', 'standing-back')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Standing Pose
+                    <span className="text-sm text-white/70 group-hover:text-black">Standing Pose</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('pose', 'over-shoulder')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Looking Over Shoulder
+                    <span className="text-sm text-white/70 group-hover:text-black">Looking Over Shoulder</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('pose', 'contrapposto')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Contrapposto Pose
+                    <span className="text-sm text-white/70 group-hover:text-black">Contrapposto Pose</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('pose', 'leaning-wall')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Leaning Against Wall
+                    <span className="text-sm text-white/70 group-hover:text-black">Leaning Against Wall</span>
                   </Button>
                 </>
               )}
             </div>
           </div>
           
-          <Separator className="border-white/10" />
-          
           {/* Hair Color */}
-          <div className="space-y-2">
-            <h3 className="font-bold text-yellow-300 mb-2 text-lg">Hair Color</h3>
-            <div className="grid grid-cols-2 gap-3">
+          <div className="w-full">
+            <h3 className="font-bold text-yellow-300 mb-4 text-xl">Hair Color</h3>
+            <div className="grid grid-cols-2 gap-4">
               <Button
                 onClick={() => onOptionChange('hairColor', 'black')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Black
+                <span className="text-sm text-white/70 group-hover:text-black">Black</span>
               </Button>
+              
               <Button
                 onClick={() => onOptionChange('hairColor', 'brunette')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Brunette
+                <span className="text-sm text-white/70 group-hover:text-black">Brunette</span>
               </Button>
+              
               <Button
                 onClick={() => onOptionChange('hairColor', 'blonde')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Blonde
+                <span className="text-sm text-white/70 group-hover:text-black">Blonde</span>
               </Button>
+              
               <Button
                 onClick={() => onOptionChange('hairColor', 'brown')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Brown
+                <span className="text-sm text-white/70 group-hover:text-black">Brown</span>
               </Button>
             </div>
           </div>
           
-          <Separator className="border-white/10" />
-          
           {/* Backdrop Selection */}
-          <div className="space-y-2">
-            <h3 className="font-bold text-yellow-300 mb-2 text-lg">Backdrop Selection</h3>
-            <div className="grid grid-cols-2 gap-3">
+          <div className="w-full">
+            <h3 className="font-bold text-yellow-300 mb-4 text-xl">Backdrop Selection</h3>
+            <div className="grid grid-cols-2 gap-4">
               {!isEthnic ? (
                 <>
                   <Button
                     onClick={() => onOptionChange('backdrop', 'white')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    White Color
+                    <span className="text-sm text-white/70 group-hover:text-black">White Color</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('backdrop', 'yellow')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Yellow Color
+                    <span className="text-sm text-white/70 group-hover:text-black">Yellow Color</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('backdrop', 'graffiti')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Graffiti Walls
+                    <span className="text-sm text-white/70 group-hover:text-black">Graffiti Walls</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('backdrop', 'textured')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Textured Backdrops
+                    <span className="text-sm text-white/70 group-hover:text-black">Textured Backdrops</span>
                   </Button>
                 </>
               ) : (
                 <>
                   <Button
                     onClick={() => onOptionChange('backdrop', 'white')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    White Color
+                    <span className="text-sm text-white/70 group-hover:text-black">White Color</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('backdrop', 'garden')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Garden
+                    <span className="text-sm text-white/70 group-hover:text-black">Garden</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('backdrop', 'wedding')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Wedding Backdrop
+                    <span className="text-sm text-white/70 group-hover:text-black">Wedding Backdrop</span>
                   </Button>
+                  
                   <Button
                     onClick={() => onOptionChange('backdrop', 'historic')}
-                    variant="outline"
-                    className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                    className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                    variant="ghost"
                   >
-                    Historic Buildings
+                    <span className="text-sm text-white/70 group-hover:text-black">Historic Buildings</span>
                   </Button>
                 </>
               )}
             </div>
           </div>
           
-          <Separator className="border-white/10" />
-          
           {/* Lighting Conditions */}
-          <div className="space-y-2">
-            <h3 className="font-bold text-yellow-300 mb-2 text-lg">Lighting Conditions</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="w-full">
+            <h3 className="font-bold text-yellow-300 mb-4 text-xl">Lighting Conditions</h3>
+            <div className="grid grid-cols-3 gap-4">
               <Button
                 onClick={() => onOptionChange('lighting', 'natural')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Natural Light
+                <span className="text-sm text-white/70 group-hover:text-black">Natural Light</span>
               </Button>
+              
               <Button
                 onClick={() => onOptionChange('lighting', 'indoor')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Indoor Lights
+                <span className="text-sm text-white/70 group-hover:text-black">Indoor Lights</span>
               </Button>
+              
               <Button
                 onClick={() => onOptionChange('lighting', 'studio')}
-                variant="outline"
-                className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
+                className={`relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                variant="ghost"
               >
-                Studio Lights
+                <span className="text-sm text-white/70 group-hover:text-black">Studio Lights</span>
               </Button>
             </div>
           </div>
           
-          {/* Accessories */}
+          {/* Accessories for Female */}
           {selectedGender === 'female' && (
-            <>
-              <Separator className="border-white/10" />
+            <div className="w-full">
+              <h3 className="font-bold text-yellow-300 mb-4 text-xl">Accessories Options</h3>
               
-              <div className="space-y-2">
-                <h3 className="font-bold text-yellow-300 mb-2 text-lg">Accessories Options</h3>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <h4 className="text-white font-medium">Necklaces</h4>
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        onClick={() => onOptionChange('necklaces', 'none')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Nothing
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('necklaces', 'medium')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Medium
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('necklaces', 'heavy')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Heavy
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="text-white font-medium">Bangles</h4>
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        onClick={() => onOptionChange('bangles', 'none')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Nothing
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('bangles', 'medium')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Medium
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('bangles', 'heavy')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Heavy
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="text-white font-medium">Earrings</h4>
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        onClick={() => onOptionChange('earrings', 'none')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Nothing
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('earrings', 'medium')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Medium
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('earrings', 'heavy')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Heavy
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="text-white font-medium">Nose Pin</h4>
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        onClick={() => onOptionChange('nosePin', 'none')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Nothing
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('nosePin', 'medium')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Medium
-                      </Button>
-                      <Button
-                        onClick={() => onOptionChange('nosePin', 'heavy')}
-                        variant="outline"
-                        className="border-blue-900 text-white hover:bg-yellow-300 hover:text-black"
-                        size="sm"
-                      >
-                        Heavy
-                      </Button>
-                    </div>
+              <div className="grid grid-cols-2 gap-8">
+                <div className="space-y-3">
+                  <h4 className="text-white font-medium mb-2">Necklaces</h4>
+                  <div className="grid grid-cols-1 gap-3">
+                    <Button
+                      onClick={() => onOptionChange('necklaces', 'none')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Nothing</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('necklaces', 'medium')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Medium</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('necklaces', 'heavy')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Heavy</span>
+                    </Button>
                   </div>
                 </div>
                 
-                {isEthnic && (
-                  <div className="mt-2 p-2 bg-navy-light/50 rounded-md border border-gold/10">
-                    <p className="text-xs text-gold-light">Default ethnic accessories enabled: Simple earrings, small nose pin, necklace chain, and bindi.</p>
+                <div className="space-y-3">
+                  <h4 className="text-white font-medium mb-2">Bangles</h4>
+                  <div className="grid grid-cols-1 gap-3">
+                    <Button
+                      onClick={() => onOptionChange('bangles', 'none')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Nothing</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('bangles', 'medium')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Medium</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('bangles', 'heavy')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Heavy</span>
+                    </Button>
                   </div>
-                )}
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-white font-medium mb-2">Earrings</h4>
+                  <div className="grid grid-cols-1 gap-3">
+                    <Button
+                      onClick={() => onOptionChange('earrings', 'none')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Nothing</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('earrings', 'medium')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Medium</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('earrings', 'heavy')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Heavy</span>
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-white font-medium mb-2">Nose Pin</h4>
+                  <div className="grid grid-cols-1 gap-3">
+                    <Button
+                      onClick={() => onOptionChange('nosePin', 'none')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Nothing</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('nosePin', 'medium')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Medium</span>
+                    </Button>
+                    
+                    <Button
+                      onClick={() => onOptionChange('nosePin', 'heavy')}
+                      className={`relative h-12 w-full flex items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`}
+                      variant="ghost"
+                    >
+                      <span className="text-sm text-white/70 group-hover:text-black">Heavy</span>
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </>
+              
+              {isEthnic && (
+                <div className="mt-4 p-3 bg-navy-light/50 rounded-md border border-gold/10">
+                  <p className="text-sm text-gold-light">Default ethnic accessories enabled: Simple earrings, small nose pin, necklace chain, and bindi.</p>
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}
