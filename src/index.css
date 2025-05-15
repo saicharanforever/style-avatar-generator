@@ -38,6 +38,37 @@
     --radius: 0.75rem;
   }
 
+  /* Light theme variables */
+  .light-theme {
+    --background: 0 0% 100%;
+    --foreground: 252 87% 9%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 252 76% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 252 87% 9%;
+
+    --primary: 50 100% 56%;
+    --primary-foreground: 252 90% 9%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 252 76% 16%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 252 40% 30%;
+
+    --accent: 50 100% 56%;
+    --accent-foreground: 252 87% 9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 50 100% 56%;
+  }
+
   * {
     @apply border-border;
   }
@@ -46,6 +77,15 @@
     @apply bg-navy text-gold-light font-manrope overflow-x-hidden;
     background-image: radial-gradient(rgba(96, 79, 255, 0.15) 1px, transparent 1px),
                       radial-gradient(rgba(96, 79, 255, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+  }
+
+  /* Light theme overrides for body */
+  .light-theme body {
+    @apply bg-white text-navy font-manrope overflow-x-hidden;
+    background-image: radial-gradient(rgba(96, 79, 255, 0.05) 1px, transparent 1px),
+                      radial-gradient(rgba(96, 79, 255, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
     background-position: 0 0, 20px 20px;
   }
@@ -64,12 +104,22 @@
     @apply bg-navy-light/60 backdrop-blur-md border border-white/10 shadow-xl;
   }
   
+  /* Light theme overrides for glass card */
+  .light-theme .glass-card {
+    @apply bg-white/90 backdrop-blur-md border border-gray-200 shadow-xl;
+  }
+  
   .button-primary {
     @apply bg-gold text-navy-dark font-semibold py-3 px-6 rounded-md shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95;
   }
   
   .input-field {
     @apply bg-navy-dark/80 border border-white/20 rounded-lg py-3 px-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold/50;
+  }
+
+  /* Light theme overrides for input field */
+  .light-theme .input-field {
+    @apply bg-white border border-gray-200 rounded-lg py-3 px-4 text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gold/50;
   }
 
   /* New styles for landing page */
@@ -85,24 +135,48 @@
     @apply bg-[#0A0529];
   }
   
+  .light-theme .bg-navy {
+    @apply bg-white;
+  }
+  
   .bg-navy-light {
     @apply bg-[#10083C];
+  }
+  
+  .light-theme .bg-navy-light {
+    @apply bg-gray-50;
   }
   
   .bg-navy-dark {
     @apply bg-[#070420];
   }
   
+  .light-theme .bg-navy-dark {
+    @apply bg-gray-100;
+  }
+  
   .text-gold {
     @apply text-[#FFDC31];
+  }
+  
+  .light-theme .text-gold {
+    @apply text-[#906600];
   }
   
   .text-gold-light {
     @apply text-[#FFEB82];
   }
   
+  .light-theme .text-gold-light {
+    @apply text-[#906600];
+  }
+  
   .text-gold-dark {
     @apply text-[#FFCC00];
+  }
+  
+  .light-theme .text-gold-dark {
+    @apply text-[#906600];
   }
   
   .blue-pink-gradient-text {
@@ -135,6 +209,41 @@
   /* Add opacity classes */
   .opacity-15 {
     opacity: 0.15;
+  }
+
+  /* Light theme text overrides */
+  .light-theme .text-white {
+    @apply text-gray-800;
+  }
+  
+  .light-theme .text-white\/70 {
+    @apply text-gray-600;
+  }
+  
+  .light-theme .text-white\/50 {
+    @apply text-gray-500;
+  }
+  
+  /* Light theme background overrides for sections */
+  .light-theme .bg-navy-light\/30 {
+    @apply bg-gray-50;
+  }
+  
+  .light-theme .bg-navy-dark\/30 {
+    @apply bg-gray-100;
+  }
+  
+  /* Light theme border overrides */
+  .light-theme .border-white\/10 {
+    @apply border-gray-200;
+  }
+  
+  .light-theme .border-white\/20 {
+    @apply border-gray-300;
+  }
+  
+  .light-theme .border-white\/5 {
+    @apply border-gray-100;
   }
 }
 

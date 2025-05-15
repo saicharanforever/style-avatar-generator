@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import UserMenu from './UserMenu';
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Header = () => {
       </Link>
       
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         <UserMenu />
       </div>
     </header>

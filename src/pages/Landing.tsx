@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
@@ -16,9 +17,8 @@ import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
 
 const Landing = () => {
-  const {
-    user
-  } = useAuth();
+  const { user } = useAuth();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   // Redirect if user is already authenticated
@@ -32,8 +32,9 @@ const Landing = () => {
     navigate('/auth');
   };
   
-  return <div className="min-h-screen bg-navy overflow-x-hidden">
-      <BackgroundParticles />
+  return (
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-white'} overflow-x-hidden`}>
+      {theme === 'dark' && <BackgroundParticles />}
       
       {/* Sticky Navigation */}
       <Navigation onGetStarted={handleGetStarted} />
@@ -42,7 +43,7 @@ const Landing = () => {
       <HeroSection onGetStarted={handleGetStarted} />
       
       {/* Before & After Section - Right below Hero Section - removed extra padding */}
-      <section className="px-4 bg-navy-dark/30">
+      <section className={`px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-gray-50'}`}>
         <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair">
           Before & After Transformations
         </h2>
@@ -72,7 +73,8 @@ const Landing = () => {
       
       {/* Footer */}
       <Footer />
-    </div>;
+    </div>
+  );
 };
 
 export default Landing;

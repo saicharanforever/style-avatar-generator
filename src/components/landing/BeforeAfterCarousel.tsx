@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 import { 
   Carousel, 
   CarouselContent, 
@@ -56,6 +57,7 @@ const beforeAfterImages = [
 const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<CarouselApi | null>(null);
+  const { theme } = useTheme();
 
   // Auto-rotation effect - changed to 4 seconds
   useEffect(() => {
@@ -82,6 +84,12 @@ const BeforeAfterCarousel = () => {
     };
   }, [api]);
 
+  const borderColor = theme === 'dark' ? 'border-blue-900' : 'border-blue-300';
+  const labelColor = theme === 'dark' ? 'text-yellow-300' : 'text-blue-700';
+  const bgColor = theme === 'dark' ? 'bg-navy-dark/50' : 'bg-gray-50';
+  const dotActiveColor = theme === 'dark' ? 'bg-yellow-300' : 'bg-blue-500';
+  const dotInactiveColor = theme === 'dark' ? 'bg-white/30' : 'bg-gray-300';
+
   return (
     <div className="max-w-6xl mx-auto pb-10">
       <Carousel
@@ -98,8 +106,8 @@ const BeforeAfterCarousel = () => {
               <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8">
                 {/* Before Image */}
                 <div className="flex-1 flex flex-col items-center">
-                  <div className="border-2 border-blue-900 rounded-md overflow-hidden bg-navy-dark/50 w-full">
-                    <div className="text-center py-2 font-semibold text-yellow-300">Before</div>
+                  <div className={`border-2 ${borderColor} rounded-md overflow-hidden ${bgColor} w-full`}>
+                    <div className={`text-center py-2 font-semibold ${labelColor}`}>Before</div>
                     <div className="aspect-[3/4] relative w-full">
                       <img 
                         src={item.before} 
@@ -116,8 +124,8 @@ const BeforeAfterCarousel = () => {
                 
                 {/* After Image */}
                 <div className="flex-1 flex flex-col items-center">
-                  <div className="border-2 border-blue-900 rounded-md overflow-hidden bg-navy-dark/50 w-full">
-                    <div className="text-center py-2 font-semibold text-yellow-300">After</div>
+                  <div className={`border-2 ${borderColor} rounded-md overflow-hidden ${bgColor} w-full`}>
+                    <div className={`text-center py-2 font-semibold ${labelColor}`}>After</div>
                     <div className="aspect-[3/4] relative w-full">
                       <img 
                         src={item.after} 
@@ -144,7 +152,7 @@ const BeforeAfterCarousel = () => {
           <button
             key={index}
             className={`h-2 rounded-full transition-all ${
-              currentSlide === index ? "bg-yellow-300 w-6" : "bg-white/30 w-2"
+              currentSlide === index ? `${dotActiveColor} w-6` : `${dotInactiveColor} w-2`
             }`}
             onClick={() => api?.scrollTo(index)}
           />
