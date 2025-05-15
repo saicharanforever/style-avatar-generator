@@ -75,19 +75,20 @@ const AppRoutes = () => {
 
 const queryClient = new QueryClient();
 
+// Fix: TooltipProvider should be a function component
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <CreditsProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <CreditsProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
             <AppRoutes />
-          </CreditsProvider>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
+          </TooltipProvider>
+        </CreditsProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
