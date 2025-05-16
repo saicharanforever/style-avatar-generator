@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -246,17 +245,17 @@
     opacity: 0.15;
   }
 
-  /* Light theme text overrides */
+  /* Light theme text overrides - Fixed to avoid circular dependency */
   .light-theme .text-white {
-    @apply text-[#333333];
+    color: #333333;
   }
   
   .light-theme .text-white\/70 {
-    @apply text-[#555555];
+    color: #555555;
   }
   
   .light-theme .text-white\/50 {
-    @apply text-[#666666];
+    color: #666666;
   }
   
   /* Light theme background overrides for sections */

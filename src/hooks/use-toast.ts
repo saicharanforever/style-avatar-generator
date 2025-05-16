@@ -1,10 +1,10 @@
 
 import * as React from "react";
-import { useToast as useToastPrimitive } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast";
 
-export const useToast = useToastPrimitive;
+export { useToast };
 
 export function toast(props: any) {
-  const { toast } = useToastPrimitive();
+  const { toast } = useToast();
   toast(props);
 }
