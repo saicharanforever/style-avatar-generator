@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -260,59 +261,63 @@
   
   /* Light theme background overrides for sections */
   .light-theme .bg-navy-light\/30 {
-    @apply bg-[#EDEDE8];
+    background-color: #EDEDE8;
   }
   
   .light-theme .bg-navy-dark\/30 {
-    @apply bg-[#E5E5E0];
+    background-color: #E5E5E0;
   }
   
   /* Light theme border overrides */
   .light-theme .border-white\/10 {
-    @apply border-[#A9A9A9]/20;
+    border-color: rgba(169, 169, 169, 0.2);
   }
   
   .light-theme .border-white\/20 {
-    @apply border-[#A9A9A9]/30;
+    border-color: rgba(169, 169, 169, 0.3);
   }
   
   .light-theme .border-white\/5 {
-    @apply border-[#A9A9A9]/10;
+    border-color: rgba(169, 169, 169, 0.1);
   }
   
   /* Light theme border gold override */
   .light-theme .border-gold {
-    @apply border-[#A8B5A5];
+    border-color: #A8B5A5;
   }
   
   /* Light theme button overrides */
   .light-theme .bg-gold {
-    @apply bg-[#A8B5A5];
+    background-color: #A8B5A5;
   }
   
   .light-theme .hover\:bg-gold-dark:hover {
-    @apply hover:bg-[#94A091];
+    background-color: #94A091;
   }
   
   .light-theme .from-pink-500 {
-    @apply from-[#A8B5A5];
+    --tw-gradient-from: #A8B5A5 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(168 181 165 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
   }
   
   .light-theme .to-blue-500 {
-    @apply to-[#94A091];
+    --tw-gradient-to: #94A091 var(--tw-gradient-to-position);
   }
   
   .light-theme .hover\:from-pink-600:hover {
-    @apply hover:from-[#94A091];
+    --tw-gradient-from: #94A091 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(148 160 145 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
   }
   
   .light-theme .hover\:to-blue-600:hover {
-    @apply hover:to-[#7F8A7C];
+    --tw-gradient-to: #7F8A7C var(--tw-gradient-to-position);
   }
   
   /* Light theme text-yellow override */
   .light-theme .text-yellow-300 {
-    @apply text-[#A8B5A5];
+    color: #A8B5A5;
   }
 }
 
