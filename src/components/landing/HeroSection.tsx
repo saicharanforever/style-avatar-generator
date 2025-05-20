@@ -28,10 +28,10 @@ const HeroSection = ({
         <h1 className={`text-4xl mb-4 leading-tight ${
           theme === 'dark' 
             ? 'gold-gradient-text font-playfair text-gold-dark' 
-            : 'text-[#D4AF37] font-montserrat shadow-gold'} font-bold md:text-7xl`}>
+            : 'gold-gradient-text font-montserrat shadow-gold'} font-bold md:text-7xl`}>
           Even your dress deserves a life!
         </h1>
-        <p className={`${theme === 'dark' ? 'text-white' : 'text-[#4A4A4A]'} max-w-2xl mx-auto mb-8`}>
+        <p className={`${theme === 'dark' ? 'text-white' : 'text-[#333333]'} max-w-2xl mx-auto mb-8`}>
           The perfect fusion of trend and tech in every click.
         </p>
         
@@ -40,7 +40,7 @@ const HeroSection = ({
             className={`${
               theme === 'dark' 
                 ? 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600' 
-                : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'
+                : 'bg-gradient-button text-white'
             } text-lg py-6 px-8 group`} 
             onClick={handleGetStarted}
           >
