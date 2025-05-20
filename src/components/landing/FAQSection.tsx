@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -16,28 +15,23 @@ const faqs = [{
   question: 'Can I use the images commercially?',
   answer: 'Yes, all generated images can be used for your commercial purposes including e-commerce and marketing.'
 }];
-
 const FAQSection = () => {
-  const { theme } = useTheme();
-  
-  return (
-    <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-[#EDEDE8]'}`}>
+  const {
+    theme
+  } = useTheme();
+  return <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-[#EDEDE8]'}`}>
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-16 font-playfair">
+        <h2 className="text-3xl md:text-4xl text-center blue-pink-gradient-text mb-16 font-playfair font-bold text-gold-dark">
           Frequently Asked Questions
         </h2>
         
         <div className="space-y-6">
-          {faqs.map((faq, index) => (
-            <div key={index} className="glass-card p-6 rounded-lg border border-white/10">
+          {faqs.map((faq, index) => <div key={index} className="glass-card p-6 rounded-lg border border-white/10">
               <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-gold' : 'text-[#A8B5A5]'} mb-2`}>{faq.question}</h3>
               <p className={theme === 'dark' ? 'text-white' : 'text-[#333333]'}>{faq.answer}</p>
-            </div>
-          ))}
+            </div>)}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default FAQSection;
