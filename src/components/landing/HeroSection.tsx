@@ -40,11 +40,11 @@ const HeroSection = ({
             className={`${
               theme === 'dark' 
                 ? 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600' 
-                : 'bg-gradient-button text-white'
+                : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'
             } text-lg py-6 px-8 group`} 
             onClick={handleGetStarted}
           >
-            Get Started Now
+            Get Started for Free
             <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>

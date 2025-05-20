@@ -54,7 +54,7 @@ const Auth = () => {
       <Card className={`w-full max-w-md mx-auto mt-8 ${theme === 'dark' ? 'bg-navy-light/60 backdrop-blur-md border border-white/10' : 'bg-white backdrop-blur-md border border-[#A9A9A9]/20'}`}>
         <CardContent className="p-6 space-y-6">
           <div className="text-center space-y-2">
-            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#333333]'}`}>Welcome to StyleAvatar</h2>
+            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#333333]'}`}>Welcome to DreamDressing</h2>
             <p className={theme === 'dark' ? 'text-gold-light/70' : 'text-[#555555]'}>Sign in to access all features</p>
           </div>
 

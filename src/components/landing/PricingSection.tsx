@@ -1,9 +1,11 @@
+
 import React, { useState } from 'react';
 import { Coins, CheckCircle, Phone, Copy, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from 'sonner';
 import { useTheme } from '@/contexts/ThemeContext';
+
 interface PricingSectionProps {
   onGetStarted: () => void;
 }
@@ -29,6 +31,7 @@ const pricingPlans = [{
   popular: true,
   features: ['Generate unlimited model images', 'Access to all model ethnicities', 'All clothing types supported', 'Maximum priority']
 }];
+
 const PricingSection = ({
   onGetStarted
 }: PricingSectionProps) => {
@@ -50,6 +53,7 @@ const PricingSection = ({
   const makePhoneCall = () => {
     window.location.href = `tel:${phoneNumber.replace(/\s/g, '')}`;
   };
+  
   return <section id="pricing" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl text-center blue-teal-gradient-text mb-16 font-playfair text-gold-dark font-semibold md:text-5xl">
@@ -129,4 +133,5 @@ const PricingSection = ({
       </Dialog>
     </section>;
 };
+
 export default PricingSection;
