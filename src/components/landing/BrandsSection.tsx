@@ -24,7 +24,7 @@ const BrandsSection = () => {
   } = useTheme();
   return <section className={`py-12 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-[#EDEDE8]'}`}>
       <div className="max-w-6xl mx-auto px-4">
-        <p className="text-2xl text-center py-[10px] text-gold-dark font-bold">
+        <p className="text-center py-[10px] text-gold-dark font-semibold text-3xl">
           Trusted by top e-commerce platforms
         </p>
         <div className="flex flex-wrap justify-center gap-8 items-center">
