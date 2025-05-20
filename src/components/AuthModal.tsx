@@ -3,6 +3,7 @@ import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface AuthModalProps {
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const handleGoogleSignIn = () => {
     navigate('/auth?provider=google');
@@ -19,17 +21,17 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] bg-navy-light/80 backdrop-blur-md border border-white/10">
+      <DialogContent className={`sm:max-w-[425px] ${theme === 'dark' ? 'bg-navy-light/80 backdrop-blur-md border border-white/10' : 'bg-white backdrop-blur-md border border-[#A9A9A9]/20'}`}>
         <DialogHeader>
-          <DialogTitle>Authentication</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className={theme === 'dark' ? '' : 'text-[#333333]'}>Authentication</DialogTitle>
+          <DialogDescription className={theme === 'dark' ? '' : 'text-[#4A4A4A]'}>
             Sign in to get started with StyleAvatar.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
           <Button 
             onClick={handleGoogleSignIn} 
-            className="bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600 flex items-center justify-center"
+            className={`${theme === 'dark' ? 'bg-gradient-to-r from-pink-500 to-blue-500' : 'bg-gradient-to-r from-blue-500 to-pink-500'} text-white hover:from-pink-600 hover:to-blue-600 flex items-center justify-center`}
           >
             <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
               <path

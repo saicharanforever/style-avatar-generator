@@ -13,7 +13,7 @@ interface PricingPlan {
   id: string;
   name: string;
   price: string;
-  credits: number;
+  credits: number | string;
   popular?: boolean;
   features: string[];
 }
@@ -23,9 +23,9 @@ const pricingPlans: PricingPlan[] = [
     id: 'basic',
     name: 'Basic',
     price: '₹99',
-    credits: 500,
+    credits: 300,
     features: [
-      'Generate 16 high-quality model images',
+      'Generate 10 high-quality model images',
       'Access to all model ethnicities',
       'All clothing types supported',
       'Standard priority'
@@ -34,23 +34,23 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 'pro',
     name: 'Pro',
-    price: '₹799',
-    credits: 5000,
+    price: '₹1999',
+    credits: 6000,
     features: [
-      'Generate 166 high-quality model images',
+      'Generate 200 high-quality model images',
       'Access to all model ethnicities',
       'All clothing types supported',
       'Enhanced priority'
     ]
   },
   {
-    id: 'premium',
-    name: 'Premium',
-    price: '₹1099',
-    credits: 10000,
+    id: 'lifetime',
+    name: 'Life-time',
+    price: '₹15999',
+    credits: 'Unlimited',
     popular: true,
     features: [
-      'Generate 333 high-quality model images',
+      'Generate unlimited model images',
       'Access to all model ethnicities',
       'All clothing types supported',
       'Maximum priority'
@@ -107,7 +107,7 @@ const Pricing = () => {
               
               <div className="flex items-center gap-2 bg-navy-dark/50 p-3 rounded-lg">
                 <Coins className="h-5 w-5 text-gold" />
-                <span className="font-bold text-white">{plan.credits.toLocaleString()} credits</span>
+                <span className="font-bold text-white">{typeof plan.credits === 'number' ? plan.credits.toLocaleString() : plan.credits} credits</span>
               </div>
               
               <ul className="space-y-2">

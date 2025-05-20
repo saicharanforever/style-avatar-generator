@@ -14,21 +14,21 @@ const pricingPlans = [{
   id: 'basic',
   name: 'Basic',
   price: '₹99',
-  credits: 500,
-  features: ['Generate 16 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Standard priority']
+  credits: 300,
+  features: ['Generate 10 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Standard priority']
 }, {
   id: 'pro',
   name: 'Pro',
-  price: '₹799',
-  credits: 5000,
-  features: ['Generate 166 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Enhanced priority']
+  price: '₹1999',
+  credits: 6000,
+  features: ['Generate 200 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Enhanced priority']
 }, {
-  id: 'premium',
-  name: 'Premium',
-  price: '₹1099',
-  credits: 10000,
+  id: 'lifetime',
+  name: 'Life-time',
+  price: '₹15999',
+  credits: 'Unlimited',
   popular: true,
-  features: ['Generate 333 high-quality model images', 'Access to all model ethnicities', 'All clothing types supported', 'Maximum priority']
+  features: ['Generate unlimited model images', 'Access to all model ethnicities', 'All clothing types supported', 'Maximum priority']
 }];
 const PricingSection = ({
   onGetStarted
@@ -58,7 +58,7 @@ const PricingSection = ({
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8">
-          {pricingPlans.map(plan => <div key={plan.id} className={`glass-card p-6 rounded-lg border ${plan.popular ? theme === 'dark' ? 'border-gold' : 'border-[#A8B5A5]' : theme === 'dark' ? 'border-white/10' : 'border-[#A9A9A9]/20'} transition-all hover:translate-y-[-5px] relative ${theme === 'light' ? (plan.popular ? 'bg-[#666475]' : 'bg-[#666475]') : ''}`}>
+          {pricingPlans.map(plan => <div key={plan.id} className={`glass-card p-6 rounded-lg border ${plan.popular ? theme === 'dark' ? 'border-gold' : 'border-[#A8B5A5]' : theme === 'dark' ? 'border-white/10' : 'border-[#A9A9A9]/20'} transition-all hover:translate-y-[-5px] relative ${theme === 'light' ? 'bg-[#666475] text-white' : ''}`}>
               {plan.popular && <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
                   <div className={`${theme === 'dark' ? 'bg-gold text-navy-dark' : 'bg-[#A8B5A5] text-white'} text-xs font-bold px-3 py-1 rounded-full`}>
                     Most Popular
@@ -72,7 +72,7 @@ const PricingSection = ({
               
               <div className={`flex items-center gap-2 ${theme === 'dark' ? 'bg-navy-dark/50' : 'bg-white/10 border border-white/20'} p-3 rounded-lg mb-4`}>
                 <Coins className={`h-5 w-5 ${theme === 'dark' ? 'text-gold' : 'text-white'}`} />
-                <span className={theme === 'dark' ? 'font-bold text-white' : 'font-bold text-white'}>{plan.credits.toLocaleString()} credits</span>
+                <span className={theme === 'dark' ? 'font-bold text-white' : 'font-bold text-white'}>{typeof plan.credits === 'number' ? plan.credits.toLocaleString() : plan.credits} credits</span>
               </div>
               
               <ul className="space-y-2 mb-6">

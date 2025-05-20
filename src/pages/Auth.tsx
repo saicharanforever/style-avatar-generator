@@ -9,11 +9,13 @@ import Header from '@/components/Header';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import { ArrowLeft } from 'lucide-react';
 import ForgotPassword from '@/components/auth/ForgotPassword';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Auth = () => {
   const { user, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (user) {
@@ -35,7 +37,7 @@ const Auth = () => {
         <BackgroundParticles />
         <Header />
         
-        <Card className="w-full max-w-md mx-auto mt-8 bg-navy-light/60 backdrop-blur-md border border-white/10">
+        <Card className={`w-full max-w-md mx-auto mt-8 ${theme === 'dark' ? 'bg-navy-light/60 backdrop-blur-md border border-white/10' : 'bg-white backdrop-blur-md border border-[#A9A9A9]/20'}`}>
           <CardContent className="p-6 space-y-6">
             <ForgotPassword onBack={() => setShowForgotPassword(false)} />
           </CardContent>
@@ -49,17 +51,17 @@ const Auth = () => {
       <BackgroundParticles />
       <Header />
       
-      <Card className="w-full max-w-md mx-auto mt-8 bg-navy-light/60 backdrop-blur-md border border-white/10">
+      <Card className={`w-full max-w-md mx-auto mt-8 ${theme === 'dark' ? 'bg-navy-light/60 backdrop-blur-md border border-white/10' : 'bg-white backdrop-blur-md border border-[#A9A9A9]/20'}`}>
         <CardContent className="p-6 space-y-6">
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold gold-gradient-text">Welcome to StyleAvatar</h2>
-            <p className="text-gold-light/70">Sign in to access all features</p>
+            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#333333]'}`}>Welcome to StyleAvatar</h2>
+            <p className={theme === 'dark' ? 'text-gold-light/70' : 'text-[#555555]'}>Sign in to access all features</p>
           </div>
 
           <div className="mt-6">
             <Button 
               onClick={handleGoogleSignIn}
-              className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600 flex items-center justify-center h-12"
+              className={`w-full ${theme === 'dark' ? 'bg-gradient-to-r from-pink-500 to-blue-500' : 'bg-gradient-to-r from-blue-500 to-pink-500'} text-white hover:from-pink-600 hover:to-blue-600 flex items-center justify-center h-12`}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path
