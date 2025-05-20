@@ -154,7 +154,12 @@
   
   /* Light theme gradient button */
   .light-theme .bg-gradient-button {
-    @apply bg-[#A8B5A5] text-white hover:bg-[#94A091];
+    background-color: #A8B5A5;
+    color: white;
+  }
+  
+  .light-theme .bg-gradient-button:hover {
+    background-color: #94A091;
   }
   
   .hover-card {
@@ -166,7 +171,7 @@
   }
   
   .light-theme .bg-navy {
-    @apply bg-[#F5F5F0];
+    background-color: #F5F5F0;
   }
   
   .bg-navy-light {
@@ -174,7 +179,7 @@
   }
   
   .light-theme .bg-navy-light {
-    @apply bg-[#EDEDE8];
+    background-color: #EDEDE8;
   }
   
   .bg-navy-dark {
@@ -182,7 +187,7 @@
   }
   
   .light-theme .bg-navy-dark {
-    @apply bg-[#E5E5E0];
+    background-color: #E5E5E0;
   }
   
   .text-gold {
@@ -190,7 +195,7 @@
   }
   
   .light-theme .text-gold {
-    @apply text-[#A8B5A5];
+    color: #A8B5A5;
   }
   
   .text-gold-light {
@@ -198,7 +203,7 @@
   }
   
   .light-theme .text-gold-light {
-    @apply text-[#A8B5A5];
+    color: #A8B5A5;
   }
   
   .text-gold-dark {
@@ -206,7 +211,7 @@
   }
   
   .light-theme .text-gold-dark {
-    @apply text-[#94A091];
+    color: #94A091;
   }
   
   .blue-pink-gradient-text {
@@ -245,80 +250,81 @@
   .opacity-15 {
     opacity: 0.15;
   }
+}
 
-  /* Light theme text overrides - Fixed to avoid circular dependency */
-  .light-theme .text-white {
-    color: #333333;
-  }
-  
-  .light-theme .text-white\/70 {
-    color: #555555;
-  }
-  
-  .light-theme .text-white\/50 {
-    color: #666666;
-  }
-  
-  /* Light theme background overrides for sections */
-  .light-theme .bg-navy-light\/30 {
-    background-color: #EDEDE8;
-  }
-  
-  .light-theme .bg-navy-dark\/30 {
-    background-color: #E5E5E0;
-  }
-  
-  /* Light theme border overrides */
-  .light-theme .border-white\/10 {
-    border-color: rgba(169, 169, 169, 0.2);
-  }
-  
-  .light-theme .border-white\/20 {
-    border-color: rgba(169, 169, 169, 0.3);
-  }
-  
-  .light-theme .border-white\/5 {
-    border-color: rgba(169, 169, 169, 0.1);
-  }
-  
-  /* Light theme border gold override */
-  .light-theme .border-gold {
-    border-color: #A8B5A5;
-  }
-  
-  /* Light theme button overrides */
-  .light-theme .bg-gold {
-    background-color: #A8B5A5;
-  }
-  
-  .light-theme .hover\:bg-gold-dark:hover {
-    background-color: #94A091;
-  }
-  
-  .light-theme .from-pink-500 {
-    --tw-gradient-from: #A8B5A5 var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(168 181 165 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .light-theme .to-blue-500 {
-    --tw-gradient-to: #94A091 var(--tw-gradient-to-position);
-  }
-  
-  .light-theme .hover\:from-pink-600:hover {
-    --tw-gradient-from: #94A091 var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(148 160 145 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .light-theme .hover\:to-blue-600:hover {
-    --tw-gradient-to: #7F8A7C var(--tw-gradient-to-position);
-  }
-  
-  /* Light theme text-yellow override */
-  .light-theme .text-yellow-300 {
-    color: #A8B5A5;
-  }
+/* Custom overrides - placed outside the Tailwind layers to avoid circular dependencies */
+/* Light theme text overrides */
+.light-theme .text-white {
+  color: #333333;
+}
+
+.light-theme .text-white\/70 {
+  color: #555555;
+}
+
+.light-theme .text-white\/50 {
+  color: #666666;
+}
+
+/* Light theme background overrides for sections */
+.light-theme .bg-navy-light\/30 {
+  background-color: #EDEDE8;
+}
+
+.light-theme .bg-navy-dark\/30 {
+  background-color: #E5E5E0;
+}
+
+/* Light theme border overrides */
+.light-theme .border-white\/10 {
+  border-color: rgba(169, 169, 169, 0.2);
+}
+
+.light-theme .border-white\/20 {
+  border-color: rgba(169, 169, 169, 0.3);
+}
+
+.light-theme .border-white\/5 {
+  border-color: rgba(169, 169, 169, 0.1);
+}
+
+/* Light theme border gold override */
+.light-theme .border-gold {
+  border-color: #A8B5A5;
+}
+
+/* Light theme button overrides */
+.light-theme .bg-gold {
+  background-color: #A8B5A5;
+}
+
+.light-theme .hover\:bg-gold-dark:hover {
+  background-color: #94A091;
+}
+
+.light-theme .from-pink-500 {
+  --tw-gradient-from: #A8B5A5 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(168 181 165 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.light-theme .to-blue-500 {
+  --tw-gradient-to: #94A091 var(--tw-gradient-to-position);
+}
+
+.light-theme .hover\:from-pink-600:hover {
+  --tw-gradient-from: #94A091 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(148 160 145 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.light-theme .hover\:to-blue-600:hover {
+  --tw-gradient-to: #7F8A7C var(--tw-gradient-to-position);
+}
+
+/* Light theme text-yellow override */
+.light-theme .text-yellow-300 {
+  color: #A8B5A5;
 }
 
 @layer utilities {
