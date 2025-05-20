@@ -136,11 +136,11 @@ const TestimonialsSection = () => {
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map(star => <Star key={star} className="h-5 w-5 text-gold fill-gold" />)}
             </div>
-            <p className="text-white/80 text-sm">from {testimonials.length}+ reviews</p>
+            <p className="text-sm text-yellow-950">from {testimonials.length}+ reviews</p>
           </div>
         </div>
         
-        <h2 className="text-3xl md:text-4xl font-bold text-center blue-pink-gradient-text mb-8 font-playfair">
+        <h2 className="text-3xl text-center blue-pink-gradient-text mb-8 font-playfair text-gold-dark font-semibold md:text-5xl">
           See what our clients say.
         </h2>
         <p className="text-center max-w-2xl mx-auto mb-12 text-yellow-950 text-base font-semibold">

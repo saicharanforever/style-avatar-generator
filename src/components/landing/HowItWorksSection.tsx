@@ -17,7 +17,7 @@ const steps = [{
 const HowItWorksSection = () => {
   return <section id="how-it-works" className="py-20 px-4 bg-navy-light/30">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl md:text-4xl text-center blue-pink-gradient-text mb-16 font-playfair text-gold-dark font-extrabold">
+        <h2 className="text-3xl text-center blue-pink-gradient-text mb-16 font-playfair text-gold-dark font-semibold md:text-5xl">
           How It Works
         </h2>
         

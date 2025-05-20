@@ -21,7 +21,7 @@ const FAQSection = () => {
   } = useTheme();
   return <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-[#EDEDE8]'}`}>
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl text-center blue-pink-gradient-text mb-16 font-playfair font-bold text-gold-dark">
+        <h2 className="text-3xl text-center blue-pink-gradient-text mb-16 font-playfair text-gold-dark font-semibold md:text-5xl">
           Frequently Asked Questions
         </h2>
         
