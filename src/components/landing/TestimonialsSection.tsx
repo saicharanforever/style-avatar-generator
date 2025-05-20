@@ -40,7 +40,7 @@ const TestimonialsSection = () => {
               <div className="flex items-center mb-4">
                 <img src={testimonial.image} alt={testimonial.name} className="h-12 w-12 object-cover rounded-full border-2 border-gold" />
                 <div className="ml-3">
-                  <h3 className="text-yellow-300">{testimonial.name}</h3>
+                  <h3 className="text-amber-400">{testimonial.name}</h3>
                   <p className="text-zinc-50">{testimonial.business}</p>
                 </div>
               </div>
