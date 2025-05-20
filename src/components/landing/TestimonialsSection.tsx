@@ -111,7 +111,7 @@ const TestimonialCard = ({
         </Avatar>
         <div>
           <p className="text-gold font-medium text-sm">{testimonial.name}</p>
-          <p className="text-white/70 text-xs">
+          <p className="text-xs text-zinc-50">
             {testimonial.position}
             {testimonial.location && `, ${testimonial.location}`}
           </p>
