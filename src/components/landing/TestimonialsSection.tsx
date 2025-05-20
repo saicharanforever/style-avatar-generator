@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Define the testimonial type
 interface Testimonial {
@@ -96,7 +97,10 @@ const TestimonialCard = ({
   testimonial
 }: {
   testimonial: Testimonial;
-}) => <Card className="h-full bg-navy-dark/60 border border-white/10 hover-card shadow-md">
+}) => {
+  const { theme } = useTheme();
+  
+  return <Card className={`h-full ${theme === 'dark' ? 'bg-navy-dark/60 border border-white/10' : 'bg-[#666475] border border-white/10'} hover-card shadow-md`}>
     <CardContent className="p-6 flex flex-col h-full">
       <div className="mb-2">
         <StarRating rating={testimonial.rating} />
@@ -119,7 +123,10 @@ const TestimonialCard = ({
       </div>
     </CardContent>
   </Card>;
+};
 const TestimonialsSection = () => {
+  const { theme } = useTheme();
+  
   // We'll display our testimonials in a grid layout
   return <section id="testimonials" className="py-20 bg-navy-dark/30">
       <div className="max-w-7xl mx-auto px-4 mb-12">
@@ -140,7 +147,9 @@ const TestimonialsSection = () => {
           </div>
         </div>
         
-        <h2 className="text-3xl text-center blue-pink-gradient-text mb-8 font-playfair text-gold-dark font-semibold md:text-5xl">
+        <h2 className={`text-3xl text-center ${
+          theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'
+        } mb-8 font-playfair text-gold-dark font-semibold md:text-5xl`}>
           See what our clients say.
         </h2>
         <p className="text-center max-w-2xl mx-auto mb-12 text-yellow-950 text-base font-semibold">

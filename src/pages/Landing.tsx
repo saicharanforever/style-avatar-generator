@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -43,7 +44,7 @@ const Landing = () => {
       
       {/* Before & After Section - Right below Hero Section - removed extra padding */}
       <section className={`px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-[#EDEDE8]'}`}>
-        <h2 className="text-3xl text-center blue-pink-gradient-text mb-8 font-playfair text-gold-dark font-semibold md:text-5xl">
+        <h2 className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-8 font-playfair text-gold-dark font-semibold md:text-5xl`}>
           Before & After Transformations
         </h2>
         <BeforeAfterCarousel />

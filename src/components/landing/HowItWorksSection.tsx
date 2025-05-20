@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // How it works steps
 const steps = [{
@@ -15,9 +17,13 @@ const steps = [{
   description: 'Get professional model images ready to use in your store.'
 }];
 const HowItWorksSection = () => {
+  const { theme } = useTheme();
+  
   return <section id="how-it-works" className="py-20 px-4 bg-navy-light/30">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl text-center blue-pink-gradient-text mb-16 font-playfair text-gold-dark font-semibold md:text-5xl">
+        <h2 className={`text-3xl text-center ${
+          theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'
+        } mb-16 font-playfair text-gold-dark font-semibold md:text-5xl`}>
           How It Works
         </h2>
         
@@ -28,7 +34,7 @@ const HowItWorksSection = () => {
               </div>
               {index < steps.length - 1 && <div className="hidden md:block absolute top-6 left-12 w-full h-0.5 bg-gradient-to-r from-gold/50 to-transparent"></div>}
               <h3 className="text-xl font-bold mb-2 text-blue-800">{step.title}</h3>
-              <p className="text-white">{step.description}</p>
+              <p className={theme === 'dark' ? 'text-white' : 'text-[#4A4A4A]'}>{step.description}</p>
             </div>)}
         </div>
       </div>

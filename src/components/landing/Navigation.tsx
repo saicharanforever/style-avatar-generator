@@ -57,7 +57,7 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
             className={`${
               theme === 'dark' 
                 ? 'bg-gold text-navy-dark hover:bg-gold-dark' 
-                : 'bg-[#5D3FD3] text-white hover:bg-[#4A29A1]'
+                : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'
             }`}
           >
             Get Started
@@ -72,7 +72,7 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
             className={`${
               theme === 'dark' 
                 ? 'bg-gold text-navy-dark hover:bg-gold-dark' 
-                : 'bg-[#5D3FD3] text-white hover:bg-[#4A29A1]'
+                : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'
             }`}
           >
             Start

@@ -105,9 +105,7 @@
   /* Light theme heading styles */
   .light-theme h1, .light-theme h2, .light-theme h3, 
   .light-theme h4, .light-theme h5, .light-theme h6 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-    color: #1A1A1A;
+    @apply font-montserrat font-bold text-[#333333];
   }
 }
 
@@ -118,10 +116,15 @@
   
   /* Light theme gold gradient text */
   .light-theme .gold-gradient-text {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(to right, #5D3FD3, #4A29A1);
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#A8B5A5] via-[#A8B5A5] to-[#94A091];
+  }
+  
+  .blue-teal-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#5B5EDE] to-[#0CC1D0];
+  }
+  
+  .shadow-gold {
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
   }
   
   .glass-card {
@@ -130,11 +133,7 @@
   
   /* Light theme overrides for glass card */
   .light-theme .glass-card {
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
+    @apply bg-white/90 backdrop-blur-md border border-[#A9A9A9]/30 shadow-md;
   }
   
   .button-primary {
@@ -143,21 +142,7 @@
   
   /* Light theme button primary */
   .light-theme .button-primary {
-    background-color: #5D3FD3;
-    color: white;
-    font-weight: 600;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
-  }
-  
-  .light-theme .button-primary:hover {
-    background-color: #4A29A1;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(1.05) scaleY(1.05);
+    @apply bg-[#A8B5A5] text-white font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-300 hover:bg-[#94A091] active:scale-95;
   }
   
   .input-field {
@@ -166,21 +151,7 @@
 
   /* Light theme overrides for input field */
   .light-theme .input-field {
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    color: #1A1A1A;
-  }
-  
-  .light-theme .input-field::placeholder {
-    color: #4A4A4A;
-  }
-  
-  .light-theme .input-field:focus {
-    outline: none;
-    border-color: #5D3FD3;
-    box-shadow: 0 0 0 2px rgba(93, 63, 211, 0.2);
+    @apply bg-white border border-[#A9A9A9]/50 rounded-lg py-3 px-4 text-[#333333] placeholder:text-[#A9A9A9] focus:outline-none focus:ring-2 focus:ring-[#A8B5A5]/50;
   }
 
   /* New styles for landing page */
@@ -188,27 +159,14 @@
     @apply bg-gradient-to-r from-blue-500 to-pink-500 text-white;
   }
   
-  /* Image animation for the carousel */
-  .carousel-image-enter {
-    opacity: 0;
-    transform: scale(0.95);
+  /* Light theme gradient button */
+  .light-theme .bg-gradient-button {
+    background-color: #A8B5A5;
+    color: white;
   }
   
-  .carousel-image-enter-active {
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity 300ms, transform 300ms;
-  }
-  
-  .carousel-image-exit {
-    opacity: 1;
-    transform: scale(1);
-  }
-  
-  .carousel-image-exit-active {
-    opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 300ms, transform 300ms;
+  .light-theme .bg-gradient-button:hover {
+    background-color: #94A091;
   }
   
   /* Add opacity classes */
@@ -245,6 +203,11 @@
   }
   
   .blue-pink-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-pink-500;
+  }
+  
+  /* Light theme blue-pink gradient text */
+  .light-theme .blue-pink-gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-pink-500;
   }
 }
@@ -306,11 +269,11 @@
 /* Custom overrides - placed outside the Tailwind layers to avoid circular dependencies */
 /* Light theme text overrides */
 .light-theme .text-white {
-  color: #1A1A1A;
+  color: #333333;
 }
 
 .light-theme .text-white\/70 {
-  color: #4A4A4A;
+  color: #555555;
 }
 
 .light-theme .text-white\/50 {
@@ -319,82 +282,62 @@
 
 /* Light theme background overrides for sections */
 .light-theme .bg-navy-light\/30 {
-  background-color: #F8F8F8;
+  background-color: #EDEDE8;
 }
 
 .light-theme .bg-navy-dark\/30 {
-  background-color: #F5F5F5;
+  background-color: #E5E5E0;
 }
 
 /* Light theme border overrides */
 .light-theme .border-white\/10 {
-  border-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(169, 169, 169, 0.2);
 }
 
 .light-theme .border-white\/20 {
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(169, 169, 169, 0.3);
 }
 
 .light-theme .border-white\/5 {
-  border-color: rgba(0, 0, 0, 0.03);
+  border-color: rgba(169, 169, 169, 0.1);
 }
 
 /* Light theme border gold override */
 .light-theme .border-gold {
-  border-color: #D4AF37;
+  border-color: #A8B5A5;
 }
 
 /* Light theme button overrides */
 .light-theme .bg-gold {
-  background-color: #5D3FD3;
+  background-color: #A8B5A5;
 }
 
 .light-theme .hover\:bg-gold-dark:hover {
-  background-color: #4A29A1;
+  background-color: #94A091;
 }
 
 /* Light theme gradient overrides */
 .light-theme .from-pink-500 {
-  --tw-gradient-from: #5D3FD3 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgba(93, 63, 211, 0) var(--tw-gradient-to-position);
+  --tw-gradient-from: #A8B5A5 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(168 181 165 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .light-theme .to-blue-500 {
-  --tw-gradient-to: #4A29A1 var(--tw-gradient-to-position);
+  --tw-gradient-to: #94A091 var(--tw-gradient-to-position);
 }
 
 .light-theme .hover\:from-pink-600:hover {
-  --tw-gradient-from: #4A29A1 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgba(74, 41, 161, 0) var(--tw-gradient-to-position);
+  --tw-gradient-from: #94A091 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(148 160 145 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .light-theme .hover\:to-blue-600:hover {
-  --tw-gradient-to: #3B2080 var(--tw-gradient-to-position);
+  --tw-gradient-to: #7F8A7C var(--tw-gradient-to-position);
 }
 
 /* Light theme text-yellow override */
 .light-theme .text-yellow-300 {
-  color: #D4AF37;
-}
-
-/* Light theme link color */
-.light-theme a {
-  color: #0055FF;
-}
-
-.light-theme a:hover {
-  color: #003CC5;
-}
-
-/* Light theme success color */
-.light-theme .text-success,
-.light-theme .bg-success {
-  color: #00A86B;
-}
-
-/* Add common shadow for cards and elements */
-.light-theme .shadow-card {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  color: #A8B5A5;
 }
