@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -142,7 +143,26 @@
   
   /* Light theme button primary */
   .light-theme .button-primary {
-    @apply bg-[#A8B5A5] text-white font-semibold py-3 px-6 rounded-md shadow-md transition-all duration-300 hover:bg-[#94A091] active:scale-95;
+    background-color: #A8B5A5;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+  
+  .light-theme .button-primary:hover {
+    background-color: #94A091;
+  }
+  
+  .light-theme .button-primary:active {
+    --tw-scale-x: .95;
+    --tw-scale-y: .95;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
   
   .input-field {
@@ -151,7 +171,23 @@
 
   /* Light theme overrides for input field */
   .light-theme .input-field {
-    @apply bg-white border border-[#A9A9A9]/50 rounded-lg py-3 px-4 text-[#333333] placeholder:text-[#A9A9A9] focus:outline-none focus:ring-2 focus:ring-[#A8B5A5]/50;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(169, 169, 169, 0.5);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: #333333;
+  }
+  
+  .light-theme .input-field::placeholder {
+    color: #A9A9A9;
+  }
+  
+  .light-theme .input-field:focus {
+    outline: none;
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    --tw-ring-color: rgba(168, 181, 165, 0.5);
   }
 
   /* New styles for landing page */
