@@ -29,22 +29,37 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
       isScrolled 
         ? theme === 'dark' 
           ? 'bg-navy/80 backdrop-blur-md shadow-md py-3' 
-          : 'bg-[#F5F5F0]/80 backdrop-blur-md shadow-md py-3' 
+          : 'bg-white/80 backdrop-blur-md shadow-md py-3' 
         : 'py-5 bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <NavLink to="/" className={`text-2xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#A8B5A5]'}`}>
+        <NavLink to="/" className={`text-2xl font-bold ${
+          theme === 'dark' ? 'gold-gradient-text' : 'text-[#5D3FD3]'
+        }`}>
           DreamDressing
         </NavLink>
         
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#features" className={`${theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>Features</a>
-          <a href="#how-it-works" className={`${theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>How It Works</a>
-          <a href="#pricing" className={`${theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>Pricing</a>
+          <a href="#features" className={`${
+            theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
+          } transition-colors`}>Features</a>
+          <a href="#how-it-works" className={`${
+            theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
+          } transition-colors`}>How It Works</a>
+          <a href="#pricing" className={`${
+            theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
+          } transition-colors`}>Pricing</a>
           <ThemeToggle />
-          <Button onClick={onGetStarted} className={`${theme === 'dark' ? 'bg-gold text-navy-dark hover:bg-gold-dark' : 'bg-[#A8B5A5] text-white hover:bg-[#94A091]'}`}>
+          <Button 
+            onClick={onGetStarted} 
+            className={`${
+              theme === 'dark' 
+                ? 'bg-gold text-navy-dark hover:bg-gold-dark' 
+                : 'bg-[#5D3FD3] text-white hover:bg-[#4A29A1]'
+            }`}
+          >
             Get Started
           </Button>
         </nav>
@@ -52,7 +67,14 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
         {/* Mobile Menu Button - Only show button on mobile, keep theme toggle visible */}
         <div className="flex items-center gap-4 md:hidden">
           <ThemeToggle />
-          <Button onClick={onGetStarted} className={`${theme === 'dark' ? 'bg-gold text-navy-dark hover:bg-gold-dark' : 'bg-[#A8B5A5] text-white hover:bg-[#94A091]'}`}>
+          <Button 
+            onClick={onGetStarted} 
+            className={`${
+              theme === 'dark' 
+                ? 'bg-gold text-navy-dark hover:bg-gold-dark' 
+                : 'bg-[#5D3FD3] text-white hover:bg-[#4A29A1]'
+            }`}
+          >
             Start
           </Button>
         </div>

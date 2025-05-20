@@ -1,34 +1,53 @@
+
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@/contexts/ThemeContext';
+
 interface HeroSectionProps {
   onGetStarted: () => void;
 }
+
 const HeroSection = ({
   onGetStarted
 }: HeroSectionProps) => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  
   const handleGetStarted = () => {
     navigate('/auth');
   };
-  return <section className="pt-16 pb-24 relative overflow-hidden my-0 px-0 py-[59px]">
+  
+  return (
+    <section className="pt-16 pb-24 relative overflow-hidden my-0 px-0 py-[59px]">
       <div className="max-w-5xl mx-auto text-center relative z-10 py-[15px]">
-        <p className="font-atma mb-2 text-sm blue-pink-gradient-text font-extrabold">A smile in every pic :)</p>
-        <h1 className="text-4xl mb-4 leading-tight gold-gradient-text font-playfair text-gold-dark font-bold md:text-7xl">
+        <p className={`font-atma mb-2 text-sm ${theme === 'dark' ? 'blue-pink-gradient-text' : 'text-[#D4AF37]'} font-extrabold`}>
+          A smile in every pic :)
+        </p>
+        <h1 className={`text-4xl mb-4 leading-tight ${theme === 'dark' ? 'gold-gradient-text font-playfair text-gold-dark' : 'text-[#1A1A1A] font-montserrat'} font-bold md:text-7xl`}>
           Even your dress deserves a life!
         </h1>
-        <p className="text-white max-w-2xl mx-auto mb-8">
+        <p className={`${theme === 'dark' ? 'text-white' : 'text-[#4A4A4A]'} max-w-2xl mx-auto mb-8`}>
           The perfect fusion of trend and tech in every click.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Button className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group" onClick={handleGetStarted}>
+          <Button 
+            className={`${
+              theme === 'dark' 
+                ? 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600' 
+                : 'bg-[#5D3FD3] text-white hover:bg-[#4A29A1]'
+            } text-lg py-6 px-8 group`} 
+            onClick={handleGetStarted}
+          >
             Get Started Now
             <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default HeroSection;
