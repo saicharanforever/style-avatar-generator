@@ -85,7 +85,7 @@ const PricingSection = ({
               <ul className="space-y-2 mb-6">
                 {plan.features.map((feature, index) => <li key={index} className="flex items-start gap-2 bg-transparent">
                     <CheckCircle className={`h-5 w-5 ${theme === 'dark' ? 'text-gold' : 'text-white'} mt-0.5 flex-shrink-0`} />
-                    <span className="text-teal-800">
+                    <span className="text-blue-700">
                       {feature}
                     </span>
                   </li>)}
