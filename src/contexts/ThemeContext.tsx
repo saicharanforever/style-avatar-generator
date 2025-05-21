@@ -13,24 +13,19 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Get saved theme from localStorage or use 'light' as default (changed from 'dark')
   const [theme, setTheme] = useState<Theme>(() => {
-    // Always use light theme for landing page
-    if (window.location.pathname === '/' || window.location.pathname === '/auth') {
-      return "light";
-    }
-    
-    // For homepage and other pages, always use dark mode
-    if (window.location.pathname !== '/' && window.location.pathname !== '/auth') {
+    // Check if we're on homepage - if so, force dark theme
+    if (window.location.pathname === '/') {
       return "dark";
     }
     
-    // Fallback to light theme
-    return "light";
+    const savedTheme = localStorage.getItem("theme");
+    return (savedTheme as Theme) || "light"; // Changed default to light
   });
 
   // Update theme in localStorage when it changes
   useEffect(() => {
-    // Only save theme preference if on landing or auth page
-    if (window.location.pathname === '/' || window.location.pathname === '/auth') {
+    // Only save theme preference if not on homepage
+    if (window.location.pathname !== '/') {
       localStorage.setItem("theme", theme);
     }
     
@@ -42,12 +37,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme]);
 
-  // Force dark theme when on the homepage, force light theme when on landing page
+  // Force dark theme when on the homepage
   useEffect(() => {
     const handleRouteChange = () => {
-      if (window.location.pathname === '/' || window.location.pathname === '/auth') {
-        setTheme("light");
-      } else {
+      if (window.location.pathname === '/') {
         setTheme("dark");
       }
     };
@@ -64,8 +57,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleTheme = () => {
-    // Only allow theme toggle if on landing or auth page
-    if (window.location.pathname === '/' || window.location.pathname === '/auth') {
+    // Only allow theme toggle if not on homepage
+    if (window.location.pathname !== '/') {
       setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
     }
   };

@@ -22,13 +22,11 @@ export interface GenerationRequest {
     bangles?: string;
     earrings?: string;
     nosePin?: string;
-    size?: ClothingSize | null;
-    fit?: ClothingFit | null;
   };
 }
 
-// Google Gemini API key - Updated
-const GEMINI_API_KEY = "AIzaSyCYQblZT4zKy4dFEcR6xF0J9I7d0Acf1Wc";
+// Google Gemini API key
+const GEMINI_API_KEY = "AIzaSyDjGudOmLbWdPtNdu16zkkqiOn2QQf9esI";
 
 // Initialize Google Gemini client
 const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
@@ -46,7 +44,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   isOriginal: boolean;
   message?: string;
 }> => {
-  const { imageFile, gender, clothingType, ethnicity, isBackView, advancedOptions } = request;
+  const { imageFile, gender, clothingType, ethnicity, isBackView, advancedOptions, size, fit } = request;
   
   // Validate the request
   if (!imageFile || !gender || !clothingType || !ethnicity) {
@@ -73,24 +71,24 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     let sizeDescription = '';
     let fitDescription = '';
     
+    // Add size description if provided
+    if (size) {
+      sizeDescription = `${size} size`;
+    }
+    
+    // Add fit description if provided
+    if (fit) {
+      const fitMap: Record<string, string> = {
+        'tight': 'form-fitting, close to the body',
+        'normal': 'regular fit, not too tight or loose',
+        'loose': 'relaxed, loose fitting'
+      };
+      
+      fitDescription = fitMap[fit] || '';
+    }
+    
     // Process advanced options
     if (advancedOptions) {
-      // Size description from advanced options
-      if (advancedOptions.size) {
-        sizeDescription = `${advancedOptions.size} size`;
-      }
-      
-      // Fit description from advanced options  
-      if (advancedOptions.fit) {
-        const fitMap: Record<string, string> = {
-          'tight': 'form-fitting, close to the body',
-          'normal': 'regular fit, not too tight or loose',
-          'loose': 'relaxed, loose fitting'
-        };
-        
-        fitDescription = fitMap[advancedOptions.fit] || '';
-      }
-      
       // Body size
       if (advancedOptions.bodySize) {
         bodySizeDescription = `with ${advancedOptions.bodySize} body type`;
