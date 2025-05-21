@@ -1,11 +1,9 @@
-
 import React, { useState } from 'react';
 import { Coins, CheckCircle, Phone, Copy, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from 'sonner';
 import { useTheme } from '@/contexts/ThemeContext';
-
 interface PricingSectionProps {
   onGetStarted: () => void;
 }
@@ -31,7 +29,6 @@ const pricingPlans = [{
   popular: true,
   features: ['Generate unlimited model images', 'Access to all model ethnicities', 'All clothing types supported', 'Maximum priority']
 }];
-
 const PricingSection = ({
   onGetStarted
 }: PricingSectionProps) => {
@@ -53,7 +50,6 @@ const PricingSection = ({
   const makePhoneCall = () => {
     window.location.href = `tel:${phoneNumber.replace(/\s/g, '')}`;
   };
-  
   return <section id="pricing" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl text-center blue-teal-gradient-text mb-16 font-playfair text-gold-dark font-semibold md:text-5xl">
@@ -68,20 +64,20 @@ const PricingSection = ({
                   </div>
                 </div>}
               
-              <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-gold' : 'text-white'} mb-2`}>
+              <h3 className="text-blue-500 text-2xl">
                 {plan.name}
               </h3>
               
               <div className="flex items-end gap-1 mb-4 bg-transparent">
-                <span className="text-gray-950 text-4xl font-medium">
+                <span className="text-4xl font-medium text-green-600">
                   {plan.price}
                 </span>
                 <span className={theme === 'dark' ? 'text-white/70 pb-1' : 'text-white/70 pb-1'}></span>
               </div>
               
               <div className={`flex items-center gap-2 ${theme === 'dark' ? 'bg-navy-dark/50' : 'bg-white/10 border border-white/20'} p-3 rounded-lg mb-4`}>
-                <Coins className={`h-5 w-5 ${theme === 'dark' ? 'text-gold' : 'text-white'}`} />
-                <span className="text-zinc-950 text-xl">
+                <Coins className="bg-transparent" />
+                <span className="text-xl text-amber-700">
                   {typeof plan.credits === 'number' ? plan.credits.toLocaleString() : plan.credits} credits
                 </span>
               </div>
@@ -89,7 +85,7 @@ const PricingSection = ({
               <ul className="space-y-2 mb-6">
                 {plan.features.map((feature, index) => <li key={index} className="flex items-start gap-2 bg-transparent">
                     <CheckCircle className={`h-5 w-5 ${theme === 'dark' ? 'text-gold' : 'text-white'} mt-0.5 flex-shrink-0`} />
-                    <span className="text-zinc-950">
+                    <span className="text-teal-800">
                       {feature}
                     </span>
                   </li>)}
@@ -133,5 +129,4 @@ const PricingSection = ({
       </Dialog>
     </section>;
 };
-
 export default PricingSection;
