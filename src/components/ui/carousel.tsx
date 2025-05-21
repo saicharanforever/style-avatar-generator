@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
@@ -75,12 +76,12 @@ const Carousel = React.forwardRef<
       setCanScrollNext(api.canScrollNext())
     }, [])
 
-    const scrollPrev = React.useCallback(() => {
-      api?.scrollPrev()
+    const scrollPrev = React.useCallback((options?: { duration?: number }) => {
+      api?.scrollPrev(options)
     }, [api])
 
-    const scrollNext = React.useCallback(() => {
-      api?.scrollNext()
+    const scrollNext = React.useCallback((options?: { duration?: number }) => {
+      api?.scrollNext(options)
     }, [api])
 
     const handleKeyDown = React.useCallback(
@@ -182,7 +183,7 @@ const CarouselItem = React.forwardRef<
       role="group"
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full",
+        "min-w-0 shrink-0 grow-0 basis-full transition-opacity duration-300",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
       )}
@@ -204,14 +205,14 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute  h-8 w-8 rounded-full",
+        "absolute  h-8 w-8 rounded-full transition-all duration-300",
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollPrev}
-      onClick={scrollPrev}
+      onClick={() => scrollPrev({ duration: 500 })}
       {...props}
     >
       <ArrowLeft className="h-4 w-4" />
@@ -233,14 +234,14 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-8 w-8 rounded-full",
+        "absolute h-8 w-8 rounded-full transition-all duration-300",
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollNext}
-      onClick={scrollNext}
+      onClick={() => scrollNext({ duration: 500 })}
       {...props}
     >
       <ArrowRight className="h-4 w-4" />

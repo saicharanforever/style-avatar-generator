@@ -73,7 +73,7 @@ const PricingSection = ({
               </h3>
               
               <div className="flex items-end gap-1 mb-4 bg-transparent">
-                <span className="text-gray-950 text-4xl font-medium">
+                <span className={`text-4xl font-medium ${theme === 'dark' ? 'text-white' : 'text-white'}`}>
                   {plan.price}
                 </span>
                 <span className={theme === 'dark' ? 'text-white/70 pb-1' : 'text-white/70 pb-1'}></span>
@@ -81,7 +81,7 @@ const PricingSection = ({
               
               <div className={`flex items-center gap-2 ${theme === 'dark' ? 'bg-navy-dark/50' : 'bg-white/10 border border-white/20'} p-3 rounded-lg mb-4`}>
                 <Coins className={`h-5 w-5 ${theme === 'dark' ? 'text-gold' : 'text-white'}`} />
-                <span className="text-zinc-950 text-xl">
+                <span className={`text-xl ${theme === 'dark' ? 'text-white' : 'text-white'}`}>
                   {typeof plan.credits === 'number' ? plan.credits.toLocaleString() : plan.credits} credits
                 </span>
               </div>
@@ -89,7 +89,7 @@ const PricingSection = ({
               <ul className="space-y-2 mb-6">
                 {plan.features.map((feature, index) => <li key={index} className="flex items-start gap-2 bg-transparent">
                     <CheckCircle className={`h-5 w-5 ${theme === 'dark' ? 'text-gold' : 'text-white'} mt-0.5 flex-shrink-0`} />
-                    <span className="text-zinc-950">
+                    <span className={theme === 'dark' ? 'text-white' : 'text-white'}>
                       {feature}
                     </span>
                   </li>)}

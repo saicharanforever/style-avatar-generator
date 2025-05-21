@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -131,12 +132,12 @@
   }
   
   .glass-card {
-    @apply bg-navy-light/60 backdrop-blur-md border border-white/10 shadow-xl;
+    @apply bg-navy-light/60 backdrop-blur-md border border-white/10 shadow-xl transition-all duration-300;
   }
   
   /* Light theme overrides for glass card */
   .light-theme .glass-card {
-    @apply bg-white/90 backdrop-blur-md border border-[#8E6BFF]/20 shadow-md;
+    @apply bg-white/90 backdrop-blur-md border border-[#8E6BFF]/20 shadow-md transition-all duration-300;
   }
   
   .button-primary {
@@ -248,6 +249,35 @@
   .light-theme .blue-pink-gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-[#7956E5] to-[#C084FC];
   }
+
+  /* Animation classes */
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+  
+  .animate-slide-left {
+    animation: slideLeft 0.8s ease-out forwards;
+  }
+  
+  .animate-slide-right {
+    animation: slideRight 0.8s ease-out forwards;
+  }
+  
+  .animate-scale {
+    animation: scale 0.8s ease-out forwards;
+  }
+  
+  .animate-bounce-subtle {
+    animation: bounceMini 2s infinite;
+  }
+  
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
+  }
 }
 
 @layer utilities {
@@ -266,42 +296,43 @@
   .font-montserrat {
     font-family: 'Montserrat', sans-serif;
   }
-  
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-in-out;
-  }
-  
-  .animate-slide-left {
-    animation: slideLeft 0.5s ease-in-out;
-  }
-  
-  .animate-slide-right {
-    animation: slideRight 0.5s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  
-  @keyframes slideLeft {
-    from { transform: translateX(-20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  
-  @keyframes slideRight {
-    from { transform: translateX(20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideLeft {
+  from { transform: translateX(-30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scale {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes bounceMini {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 /* Custom overrides - placed outside the Tailwind layers to avoid circular dependencies */
