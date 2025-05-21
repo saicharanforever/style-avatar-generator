@@ -16,9 +16,9 @@ const EnhancedGenerateButton = ({ onGenerate, disabled, loading }: EnhancedGener
         <TooltipTrigger asChild>
           <div>
             <GenerateButton 
-              onGenerate={onGenerate}
-              disabled={disabled}
-              loading={loading}
+              onClick={onGenerate}
+              disabled={disabled || false}
+              isGenerating={loading || false}
             />
           </div>
         </TooltipTrigger>
