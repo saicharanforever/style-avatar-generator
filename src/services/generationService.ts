@@ -230,7 +230,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
           config: {
             responseModalities: ["Text", "Image"],
             // Adding generation parameters to improve quality
-            temperature: 0.4, // Lower temperature for more consistent results
+            temperature: 0.2, // Lower temperature for more consistent results
             topK: 32,
             topP: 0.95,
           },
