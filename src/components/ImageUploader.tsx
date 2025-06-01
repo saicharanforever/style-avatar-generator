@@ -1,6 +1,6 @@
 
-import React, { useRef } from 'react';
-import { ImageIcon, Sparkles } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { ImageIcon, Sparkles, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ImageUploaderProps {
@@ -11,6 +11,7 @@ interface ImageUploaderProps {
 
 const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -22,6 +23,28 @@ const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUpl
   const handleGalleryClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const files = Array.from(e.dataTransfer.files);
+    const imageFile = files.find(file => file.type.startsWith('image/'));
+    
+    if (imageFile) {
+      onImageSelect(imageFile);
     }
   };
 
@@ -38,8 +61,12 @@ const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUpl
 
       <div 
         onClick={handleGalleryClick}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
         className={`flex flex-col items-center justify-center rounded-md border-2 border-dashed 
-                   ${selectedImage ? 'border-blue-500' : 'border-blue-900'} 
+                   ${isDragOver ? 'border-blue-300 bg-blue-50/10' : 
+                     selectedImage ? 'border-blue-500' : 'border-blue-900'} 
                    bg-navy-dark/60 hover:bg-navy-dark/80 hover:border-blue-500 
                    cursor-pointer transition-all text-center p-6 h-48 mb-4`}
       >
@@ -50,13 +77,16 @@ const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUpl
               alt="Selected clothing"
               className="max-w-full max-h-36 object-contain mb-2"
             />
-            <p className="text-white text-sm">Click to change image</p>
+            <p className="text-white text-sm">Click to change image or drag & drop</p>
           </div>
         ) : (
           <>
-            <ImageIcon className="h-12 w-12 text-yellow-300 mb-3" />
+            <div className="flex items-center gap-2 mb-3">
+              <ImageIcon className="h-12 w-12 text-yellow-300" />
+              <Upload className="h-8 w-8 text-yellow-300" />
+            </div>
             <p className="text-white font-medium">Upload from Gallery</p>
-            <p className="text-xs text-white/50 mt-1">Click to select from your device</p>
+            <p className="text-xs text-white/50 mt-1">Click to select or drag & drop from your device</p>
           </>
         )}
       </div>

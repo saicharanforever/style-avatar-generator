@@ -50,6 +50,18 @@ const ImagePromptBox = ({ onPromptSubmit, isLoading = false }: ImagePromptBoxPro
           )}
         </Button>
       </div>
+      
+      {isLoading && (
+        <div className="mt-3">
+          <div className="flex items-center gap-2 text-sm text-white/70">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span>Regenerating image with your changes...</span>
+          </div>
+          <div className="w-full bg-navy-dark/60 rounded-full h-1.5 mt-2">
+            <div className="bg-gold h-1.5 rounded-full animate-pulse" style={{ width: '100%' }}></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

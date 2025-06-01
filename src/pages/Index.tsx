@@ -137,33 +137,88 @@ const Index = () => {
     setIsMultipleGeneration(false);
   };
 
+  const detectClothingType = (filename: string): { gender: Gender, clothingType: string, ethnicity: Ethnicity } => {
+    const name = filename.toLowerCase();
+    
+    // Enhanced detection logic based on filename patterns
+    if (name.includes('dress') || name.includes('gown') || name.includes('frock')) {
+      return { gender: 'female', clothingType: 'dress', ethnicity: 'american' };
+    }
+    if (name.includes('saree') || name.includes('sari')) {
+      return { gender: 'female', clothingType: 'saree_traditional', ethnicity: 'indian' };
+    }
+    if (name.includes('kurti') || name.includes('kurta')) {
+      return { gender: 'female', clothingType: 'kurti', ethnicity: 'indian' };
+    }
+    if (name.includes('lehenga')) {
+      return { gender: 'female', clothingType: 'lehenga', ethnicity: 'indian' };
+    }
+    if (name.includes('blouse') || name.includes('top')) {
+      return { gender: 'female', clothingType: 'blouse', ethnicity: 'american' };
+    }
+    if (name.includes('shirt') || name.includes('polo')) {
+      return { gender: 'male', clothingType: 'shirt', ethnicity: 'american' };
+    }
+    if (name.includes('pant') || name.includes('trouser')) {
+      return { gender: 'male', clothingType: 'pants', ethnicity: 'american' };
+    }
+    if (name.includes('jeans')) {
+      return { gender: 'male', clothingType: 'jeans', ethnicity: 'american' };
+    }
+    if (name.includes('tshirt') || name.includes('t-shirt')) {
+      return { gender: 'male', clothingType: 'tshirt', ethnicity: 'american' };
+    }
+    if (name.includes('kids') || name.includes('child') || name.includes('baby')) {
+      return { gender: 'kids', clothingType: 'casual', ethnicity: 'american' };
+    }
+    
+    // Default detection based on common patterns
+    if (name.includes('ethnic') || name.includes('traditional') || name.includes('indian')) {
+      return { gender: 'female', clothingType: 'kurti', ethnicity: 'indian' };
+    }
+    
+    // Default fallback
+    return { gender: 'female', clothingType: 'dress', ethnicity: 'american' };
+  };
+
   const handleMagicSelect = async () => {
     if (!selectedImage || !imageFile) {
       toast.error("Please upload an image first");
       return;
     }
 
-    // Auto-detect and set optimal parameters
-    toast.info("🪄 Magic Select activated! Setting optimal parameters...");
+    toast.info("🪄 Magic Select activated! Analyzing your clothing...");
     
-    // Set default optimal values
-    setSelectedGender('female');
-    setSelectedClothingType('dress');
-    setSelectedEthnicity('american');
+    // Detect clothing type from filename and image characteristics
+    const detected = detectClothingType(imageFile.name);
+    
+    // Set detected parameters
+    setSelectedGender(detected.gender);
+    setSelectedClothingType(detected.clothingType);
+    setSelectedEthnicity(detected.ethnicity);
     setSelectedSize('M');
     setSelectedFit('normal');
     setIsBackView(false);
     
-    // Set advanced options for best results
-    setAdvancedOptions({
+    // Set advanced options based on detected clothing type
+    const defaultAdvancedOptions: AdvancedOptionsState = {
       pose: 'standing',
       lighting: 'studio',
       backdrop: 'neutral',
       size: 'M',
       fit: 'normal'
-    });
+    };
 
-    toast.success("✨ Magic Select complete! Ready to generate your perfect model image.");
+    // Add ethnic accessories for Indian clothing
+    if (detected.ethnicity === 'indian' && detected.gender === 'female') {
+      defaultAdvancedOptions.earrings = 'medium';
+      defaultAdvancedOptions.nosePin = 'medium';
+      defaultAdvancedOptions.necklaces = 'medium';
+    }
+    
+    setAdvancedOptions(defaultAdvancedOptions);
+
+    toast.success(`✨ Detected: ${detected.gender} ${detected.clothingType} (${detected.ethnicity}) - Settings applied!`);
   };
 
   const handlePromptRefine = async (prompt: string, imageIndex?: number) => {
