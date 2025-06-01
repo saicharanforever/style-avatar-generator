@@ -1,6 +1,6 @@
 
-// Update the service to accept all ethnicity types
-export type ServiceEthnicity = 'indian' | 'american' | 'korean' | 'russian' | 'african';
+// Update the service to accept updated ethnicity types
+export type ServiceEthnicity = 'indian' | 'american' | 'korean' | 'russian';
 
 export type GenerationRequest = {
   imageFile: File;

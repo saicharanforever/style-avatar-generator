@@ -139,117 +139,6 @@ const Index = () => {
     setIsMultipleGeneration(false);
   };
 
-  const detectClothingType = (filename: string): { gender: Gender, clothingType: string, ethnicity: Ethnicity } => {
-    const name = filename.toLowerCase();
-    
-    // Enhanced detection logic based on filename patterns
-    if (name.includes('dress') || name.includes('gown') || name.includes('frock')) {
-      return { gender: 'female', clothingType: 'aline_dress', ethnicity: 'american' };
-    }
-    if (name.includes('saree') || name.includes('sari')) {
-      return { gender: 'female', clothingType: 'saree_traditional', ethnicity: 'indian' };
-    }
-    if (name.includes('kurti') || name.includes('kurta')) {
-      if (name.includes('men') || name.includes('male') || name.includes('boy')) {
-        return { gender: 'male', clothingType: 'kurta', ethnicity: 'indian' };
-      }
-      return { gender: 'female', clothingType: 'kurti', ethnicity: 'indian' };
-    }
-    if (name.includes('lehenga')) {
-      return { gender: 'female', clothingType: 'lehenga', ethnicity: 'indian' };
-    }
-    if (name.includes('blouse') || name.includes('top')) {
-      return { gender: 'female', clothingType: 'top', ethnicity: 'american' };
-    }
-    if (name.includes('shirt') || name.includes('polo')) {
-      return { gender: 'male', clothingType: 'shirt', ethnicity: 'american' };
-    }
-    if (name.includes('pant') || name.includes('trouser')) {
-      return { gender: 'male', clothingType: 'cargo', ethnicity: 'american' };
-    }
-    if (name.includes('jeans')) {
-      return { gender: 'male', clothingType: 'jeans', ethnicity: 'american' };
-    }
-    if (name.includes('tshirt') || name.includes('t-shirt')) {
-      return { gender: 'male', clothingType: 'tshirt', ethnicity: 'american' };
-    }
-    if (name.includes('kids') || name.includes('child') || name.includes('baby')) {
-      if (name.includes('boy') || name.includes('male')) {
-        return { gender: 'kids', clothingType: 'tshirt', ethnicity: 'american' };
-      }
-      return { gender: 'kids', clothingType: 'top', ethnicity: 'american' };
-    }
-    if (name.includes('skirt')) {
-      return { gender: 'female', clothingType: 'skirt', ethnicity: 'american' };
-    }
-    if (name.includes('jacket') || name.includes('blazer')) {
-      return { gender: 'male', clothingType: 'jacket', ethnicity: 'american' };
-    }
-    
-    // Enhanced ethnicity detection
-    if (name.includes('ethnic') || name.includes('traditional') || name.includes('indian')) {
-      if (name.includes('men') || name.includes('male') || name.includes('boy')) {
-        return { gender: 'male', clothingType: 'kurta', ethnicity: 'indian' };
-      }
-      return { gender: 'female', clothingType: 'kurti', ethnicity: 'indian' };
-    }
-    
-    if (name.includes('korean') || name.includes('kpop')) {
-      return { gender: 'female', clothingType: 'top', ethnicity: 'korean' };
-    }
-    
-    if (name.includes('african')) {
-      return { gender: 'female', clothingType: 'top', ethnicity: 'african' };
-    }
-    
-    // Default fallback - try to detect gender from filename
-    if (name.includes('men') || name.includes('male') || name.includes('boy')) {
-      return { gender: 'male', clothingType: 'tshirt', ethnicity: 'american' };
-    }
-    
-    return { gender: 'female', clothingType: 'top', ethnicity: 'american' };
-  };
-
-  const handleMagicSelect = async () => {
-    if (!selectedImage || !imageFile) {
-      toast.error("Please upload an image first");
-      return;
-    }
-
-    toast.info("🪄 Magic Select activated! Analyzing your clothing...");
-    
-    // Detect clothing type from filename and image characteristics
-    const detected = detectClothingType(imageFile.name);
-    
-    // Set detected parameters
-    setSelectedGender(detected.gender);
-    setSelectedClothingType(detected.clothingType);
-    setSelectedEthnicity(detected.ethnicity);
-    setSelectedSize('M');
-    setSelectedFit('normal');
-    setIsBackView(false);
-    
-    // Set advanced options based on detected clothing type
-    const defaultAdvancedOptions: AdvancedOptionsState = {
-      pose: 'standing',
-      lighting: 'studio',
-      backdrop: 'neutral',
-      size: 'M',
-      fit: 'normal'
-    };
-
-    // Add ethnic accessories for Indian clothing
-    if (detected.ethnicity === 'indian' && detected.gender === 'female') {
-      defaultAdvancedOptions.earrings = 'medium';
-      defaultAdvancedOptions.nosePin = 'medium';
-      defaultAdvancedOptions.necklaces = 'medium';
-    }
-    
-    setAdvancedOptions(defaultAdvancedOptions);
-
-    toast.success(`✨ Detected: ${detected.gender} ${detected.clothingType} (${detected.ethnicity}) - Settings applied!`);
-  };
-
   const handlePromptRefine = async (prompt: string, imageIndex?: number) => {
     if (!user) {
       navigate('/auth');
@@ -677,7 +566,6 @@ const Index = () => {
         <ImageUploader 
           onImageSelect={handleImageSelect} 
           selectedImage={selectedImage}
-          onMagicSelect={handleMagicSelect}
         />
       </div>
       

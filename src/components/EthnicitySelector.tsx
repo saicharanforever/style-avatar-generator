@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 
-export type Ethnicity = 'indian' | 'american' | 'korean' | 'russian' | 'african';
+export type Ethnicity = 'indian' | 'american' | 'korean' | 'russian';
 
 type EthnicitySelectorProps = {
   selectedEthnicity: Ethnicity | null;
@@ -17,7 +17,6 @@ const EthnicitySelector = ({ selectedEthnicity, onEthnicitySelect }: EthnicitySe
     { value: 'american' as const, label: 'American', flag: '🇺🇸' },
     { value: 'korean' as const, label: 'Korean', flag: '🇰🇷' },
     { value: 'russian' as const, label: 'Russian', flag: '🇷🇺' },
-    { value: 'african' as const, label: 'African', flag: '🌍' },
   ];
 
   return (

@@ -1,16 +1,15 @@
 
 import React, { useRef, useState } from 'react';
-import { ImageIcon, Sparkles, Upload, Camera } from 'lucide-react';
+import { ImageIcon, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface ImageUploaderProps {
   onImageSelect: (file: File) => void;
   selectedImage: string | null;
-  onMagicSelect?: () => void;
 }
 
-const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUploaderProps) => {
+const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const { theme } = useTheme();
@@ -120,21 +119,6 @@ const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUpl
           </>
         )}
       </div>
-
-      {/* Magic Select Button */}
-      <Button
-        onClick={onMagicSelect}
-        disabled={!selectedImage}
-        className={`w-full font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 ${
-          theme === 'light'
-            ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg'
-            : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
-        }`}
-        aria-label="Automatically detect and configure clothing settings"
-      >
-        <Sparkles className="h-5 w-5" />
-        Magic Select
-      </Button>
 
       <p className={`text-xs mt-3 text-center ${theme === 'light' ? 'text-purple-500' : 'text-white/60'}`}>
         Upload a clear image of the clothing item against a plain background for best results
