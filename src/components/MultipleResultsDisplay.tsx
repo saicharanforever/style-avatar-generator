@@ -1,25 +1,19 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, Download } from 'lucide-react';
-import ImagePromptBox from './ImagePromptBox';
 
 interface MultipleResultsDisplayProps {
   generatedImages: string[];
   onRegenerate: (index: number) => void;
-  onPromptRefine?: (index: number, prompt: string) => void;
   regenerationCounts: number[];
-  isRefining?: number | null;
 }
 
 const MultipleResultsDisplay = ({ 
   generatedImages, 
   onRegenerate, 
-  onPromptRefine,
-  regenerationCounts,
-  isRefining = null
+  regenerationCounts
 }: MultipleResultsDisplayProps) => {
-  const [activePromptBox, setActivePromptBox] = useState<number | null>(null);
 
   const handleDownload = (imageUrl: string, index: number) => {
     const link = document.createElement('a');
@@ -28,13 +22,6 @@ const MultipleResultsDisplay = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
-
-  const handlePromptSubmit = (index: number, prompt: string) => {
-    if (onPromptRefine) {
-      onPromptRefine(index, prompt);
-      setActivePromptBox(null);
-    }
   };
 
   return (
@@ -75,28 +62,6 @@ const MultipleResultsDisplay = ({
                 Download
               </Button>
             </div>
-
-            {onPromptRefine && (
-              <>
-                {activePromptBox !== index && (
-                  <Button
-                    onClick={() => setActivePromptBox(index)}
-                    size="sm"
-                    variant="outline"
-                    className="w-full border-gold/50 text-gold hover:bg-gold/10"
-                  >
-                    Refine with AI
-                  </Button>
-                )}
-                
-                {activePromptBox === index && (
-                  <ImagePromptBox 
-                    onPromptSubmit={(prompt) => handlePromptSubmit(index, prompt)}
-                    isLoading={isRefining === index}
-                  />
-                )}
-              </>
-            )}
 
             {regenerationCounts[index] < 2 && (
               <p className="text-xs text-green-400 text-center">

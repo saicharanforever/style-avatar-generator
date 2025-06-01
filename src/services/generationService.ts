@@ -24,37 +24,48 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   // Simulate API call delay
   await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
   
-  // For now, return a placeholder image
+  // For now, return the original uploaded image as a placeholder
+  // In a real implementation, this would call an actual AI service
   const canvas = document.createElement('canvas');
-  canvas.width = 400;
-  canvas.height = 600;
   const ctx = canvas.getContext('2d');
   
-  if (ctx) {
-    // Create a gradient background
-    const gradient = ctx.createLinearGradient(0, 0, 400, 600);
-    gradient.addColorStop(0, '#f3f4f6');
-    gradient.addColorStop(1, '#e5e7eb');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 400, 600);
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+      }
+      
+      resolve({
+        image: canvas.toDataURL(),
+        isOriginal: false
+      });
+    };
     
-    // Add some text
-    ctx.fillStyle = '#374151';
-    ctx.font = '20px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('Generated Model Image', 200, 300);
-    ctx.font = '16px Arial';
-    ctx.fillText(`${request.gender} - ${request.clothingType}`, 200, 330);
-    ctx.fillText(`Ethnicity: ${request.ethnicity}`, 200, 360);
-    if (request.isBackView) {
-      ctx.fillText('Back View', 200, 390);
-    }
-  }
-  
-  return {
-    image: canvas.toDataURL(),
-    isOriginal: false
-  };
+    img.onerror = () => {
+      // Fallback to a simple colored rectangle if image fails to load
+      canvas.width = 400;
+      canvas.height = 600;
+      if (ctx) {
+        ctx.fillStyle = '#f0f0f0';
+        ctx.fillRect(0, 0, 400, 600);
+        ctx.fillStyle = '#666';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Generated Image', 200, 300);
+      }
+      
+      resolve({
+        image: canvas.toDataURL(),
+        isOriginal: false
+      });
+    };
+    
+    img.src = URL.createObjectURL(request.imageFile);
+  });
 };
 
 // Function to get sample image URL

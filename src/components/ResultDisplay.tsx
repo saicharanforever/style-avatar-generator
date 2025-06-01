@@ -1,25 +1,19 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, Download } from 'lucide-react';
-import ImagePromptBox from './ImagePromptBox';
 
 interface ResultDisplayProps {
   generatedImage: string;
   onRegenerate: () => void;
-  onPromptRefine?: (prompt: string) => void;
   isOriginalImage?: boolean;
-  isRefining?: boolean;
 }
 
 const ResultDisplay = ({ 
   generatedImage, 
   onRegenerate, 
-  onPromptRefine,
-  isOriginalImage = false,
-  isRefining = false
+  isOriginalImage = false
 }: ResultDisplayProps) => {
-  const [showPromptBox, setShowPromptBox] = useState(false);
 
   const handleDownload = () => {
     const link = document.createElement('a');
@@ -28,13 +22,6 @@ const ResultDisplay = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
-
-  const handlePromptSubmit = (prompt: string) => {
-    if (onPromptRefine) {
-      onPromptRefine(prompt);
-      setShowPromptBox(false);
-    }
   };
 
   return (
@@ -75,27 +62,6 @@ const ResultDisplay = ({
           Download
         </Button>
       </div>
-
-      {!isOriginalImage && onPromptRefine && (
-        <>
-          {!showPromptBox && (
-            <Button
-              onClick={() => setShowPromptBox(true)}
-              variant="outline"
-              className="w-full mt-3 border-gold/50 text-gold hover:bg-gold/10"
-            >
-              Refine with AI Prompt
-            </Button>
-          )}
-          
-          {showPromptBox && (
-            <ImagePromptBox 
-              onPromptSubmit={handlePromptSubmit}
-              isLoading={isRefining}
-            />
-          )}
-        </>
-      )}
     </div>
   );
 };

@@ -62,8 +62,6 @@ const Index = () => {
   const [isBackView, setIsBackView] = useState<boolean>(false);
   const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
   const [isMultipleGeneration, setIsMultipleGeneration] = useState<boolean>(false);
-  const [isRefining, setIsRefining] = useState<boolean>(false);
-  const [refiningIndex, setRefiningIndex] = useState<number | null>(null);
   
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
@@ -139,76 +137,6 @@ const Index = () => {
     setIsMultipleGeneration(false);
   };
 
-  const handlePromptRefine = async (prompt: string, imageIndex?: number) => {
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
-
-    if (!imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity) {
-      toast.error("Missing required parameters for refinement");
-      return;
-    }
-
-    const creditCost = 30;
-    const success = await consumeCredits(creditCost, false);
-    if (!success) {
-      if (credits < creditCost) {
-        toast.error("You don't have enough credits to refine the image");
-        setTimeout(() => navigate('/pricing'), 1500);
-        return;
-      }
-      return;
-    }
-
-    if (imageIndex !== undefined) {
-      setRefiningIndex(imageIndex);
-    } else {
-      setIsRefining(true);
-    }
-
-    try {
-      const enhancedAdvancedOptions = {
-        ...advancedOptions,
-        customPrompt: prompt,
-        size: selectedSize,
-        fit: selectedFit
-      };
-
-      const result = await generateFashionImage({
-        imageFile,
-        gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
-        clothingType: selectedClothingType,
-        ethnicity: selectedEthnicity,
-        size: selectedSize,
-        fit: selectedFit,
-        isBackView,
-        advancedOptions: enhancedAdvancedOptions
-      });
-
-      if (imageIndex !== undefined) {
-        const newImages = [...generatedImages];
-        newImages[imageIndex] = result.image;
-        setGeneratedImages(newImages);
-      } else {
-        setGeneratedImage(result.image);
-        setIsOriginalImage(result.isOriginal);
-      }
-
-      if (result.isOriginal && result.message) {
-        toast.warning(result.message);
-      } else {
-        toast.success("Image refined successfully!");
-      }
-    } catch (error) {
-      toast.error("Failed to refine image. Please try again.");
-      console.error(error);
-    } finally {
-      setIsRefining(false);
-      setRefiningIndex(null);
-    }
-  };
-  
   const handleGenderSelect = (gender: Gender) => {
     setSelectedGender(gender);
     
@@ -654,9 +582,7 @@ const Index = () => {
         <ResultDisplay 
           generatedImage={generatedImage} 
           onRegenerate={handleRegenerate}
-          onPromptRefine={(prompt) => handlePromptRefine(prompt)}
           isOriginalImage={isOriginalImage}
-          isRefining={isRefining}
         />
       )}
       
@@ -664,9 +590,7 @@ const Index = () => {
         <MultipleResultsDisplay 
           generatedImages={generatedImages}
           onRegenerate={handleRegenerateMultiple}
-          onPromptRefine={(index, prompt) => handlePromptRefine(prompt, index)}
           regenerationCounts={multipleRegenerationCounts}
-          isRefining={refiningIndex}
         />
       )}
     </div>
