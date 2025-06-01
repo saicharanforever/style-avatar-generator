@@ -1,7 +1,8 @@
 
 import React, { useRef, useState } from 'react';
-import { ImageIcon, Sparkles, Upload } from 'lucide-react';
+import { ImageIcon, Sparkles, Upload, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface ImageUploaderProps {
   onImageSelect: (file: File) => void;
@@ -12,6 +13,7 @@ interface ImageUploaderProps {
 const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const { theme } = useTheme();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -49,14 +51,17 @@ const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUpl
   };
 
   return (
-    <div className="mb-6">
-      <h2 className="text-2xl font-bold text-yellow-300 mb-4">Upload Clothing Image</h2>
+    <div className="mb-8">
+      <h2 className={`text-2xl font-bold mb-6 text-center ${theme === 'light' ? 'text-purple-900' : 'text-yellow-300'}`}>
+        UPLOAD CLOTHING IMAGE
+      </h2>
       <input
         ref={fileInputRef}
         type="file"
         accept="image/*"
         onChange={handleFileChange}
         className="hidden"
+        aria-label="Upload clothing image file"
       />
 
       <div 
@@ -64,29 +69,54 @@ const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUpl
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`flex flex-col items-center justify-center rounded-md border-2 border-dashed 
-                   ${isDragOver ? 'border-blue-300 bg-blue-50/10' : 
-                     selectedImage ? 'border-blue-500' : 'border-blue-900'} 
-                   bg-navy-dark/60 hover:bg-navy-dark/80 hover:border-blue-500 
-                   cursor-pointer transition-all text-center p-6 h-48 mb-4`}
+        className={`flex flex-col items-center justify-center rounded-lg cursor-pointer transition-all duration-300 p-8 h-56 mb-6 relative
+                   ${theme === 'light' 
+                     ? `border-4 ${isDragOver ? 'border-purple-400 bg-purple-50' : 'border-purple-600'} bg-white shadow-lg hover:shadow-xl hover:border-purple-500` 
+                     : `border-2 border-dashed ${isDragOver ? 'border-blue-300 bg-blue-50/10' : selectedImage ? 'border-blue-500' : 'border-blue-900'} bg-navy-dark/60 hover:bg-navy-dark/80 hover:border-blue-500`}`}
+        role="button"
+        tabIndex={0}
+        aria-label="Click to upload clothing image or drag and drop"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleGalleryClick();
+          }
+        }}
       >
         {selectedImage ? (
           <div className="flex flex-col items-center w-full h-full">
             <img
               src={selectedImage}
               alt="Selected clothing"
-              className="max-w-full max-h-36 object-contain mb-2"
+              className="max-w-full max-h-32 object-contain mb-4 rounded-md"
             />
-            <p className="text-white text-sm">Click to change image or drag & drop</p>
+            <Button
+              variant="outline"
+              size="sm"
+              className={`${theme === 'light' 
+                ? 'border-purple-300 text-purple-700 hover:bg-purple-50' 
+                : 'border-blue-300 text-blue-300 hover:bg-blue-900/30'}`}
+            >
+              Change Image
+            </Button>
           </div>
         ) : (
           <>
-            <div className="flex items-center gap-2 mb-3">
-              <ImageIcon className="h-12 w-12 text-yellow-300" />
-              <Upload className="h-8 w-8 text-yellow-300" />
+            <div className="flex items-center justify-center mb-4">
+              {theme === 'light' ? (
+                <Upload className={`h-16 w-16 ${isDragOver ? 'text-purple-500' : 'text-purple-400'} opacity-60`} />
+              ) : (
+                <div className="flex items-center gap-2">
+                  <ImageIcon className="h-12 w-12 text-yellow-300" />
+                  <Upload className="h-8 w-8 text-yellow-300" />
+                </div>
+              )}
             </div>
-            <p className="text-white font-medium">Upload from Gallery</p>
-            <p className="text-xs text-white/50 mt-1">Click to select or drag & drop from your device</p>
+            <p className={`font-bold text-lg mb-2 text-center ${theme === 'light' ? 'text-purple-900' : 'text-white'}`}>
+              Upload Clothing Image
+            </p>
+            <p className={`text-sm text-center ${theme === 'light' ? 'text-purple-600' : 'text-white/50'}`}>
+              Click to select or drag & drop from your device
+            </p>
           </>
         )}
       </div>
@@ -95,13 +125,18 @@ const ImageUploader = ({ onImageSelect, selectedImage, onMagicSelect }: ImageUpl
       <Button
         onClick={onMagicSelect}
         disabled={!selectedImage}
-        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+        className={`w-full font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 ${
+          theme === 'light'
+            ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg'
+            : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
+        }`}
+        aria-label="Automatically detect and configure clothing settings"
       >
         <Sparkles className="h-5 w-5" />
         Magic Select
       </Button>
 
-      <p className="text-xs text-white/60 mt-2">
+      <p className={`text-xs mt-3 text-center ${theme === 'light' ? 'text-purple-500' : 'text-white/60'}`}>
         Upload a clear image of the clothing item against a plain background for best results
       </p>
     </div>

@@ -21,6 +21,7 @@ import AdvancedOptions from '@/components/AdvancedOptions';
 import { generateFashionImage, getSampleImageUrl } from '@/services/generationService';
 import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Ticket, Coins } from 'lucide-react';
 
@@ -67,6 +68,7 @@ const Index = () => {
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   // Simulate progress when generating image
   useEffect(() => {
@@ -142,25 +144,28 @@ const Index = () => {
     
     // Enhanced detection logic based on filename patterns
     if (name.includes('dress') || name.includes('gown') || name.includes('frock')) {
-      return { gender: 'female', clothingType: 'dress', ethnicity: 'american' };
+      return { gender: 'female', clothingType: 'aline_dress', ethnicity: 'american' };
     }
     if (name.includes('saree') || name.includes('sari')) {
       return { gender: 'female', clothingType: 'saree_traditional', ethnicity: 'indian' };
     }
     if (name.includes('kurti') || name.includes('kurta')) {
+      if (name.includes('men') || name.includes('male') || name.includes('boy')) {
+        return { gender: 'male', clothingType: 'kurta', ethnicity: 'indian' };
+      }
       return { gender: 'female', clothingType: 'kurti', ethnicity: 'indian' };
     }
     if (name.includes('lehenga')) {
       return { gender: 'female', clothingType: 'lehenga', ethnicity: 'indian' };
     }
     if (name.includes('blouse') || name.includes('top')) {
-      return { gender: 'female', clothingType: 'blouse', ethnicity: 'american' };
+      return { gender: 'female', clothingType: 'top', ethnicity: 'american' };
     }
     if (name.includes('shirt') || name.includes('polo')) {
       return { gender: 'male', clothingType: 'shirt', ethnicity: 'american' };
     }
     if (name.includes('pant') || name.includes('trouser')) {
-      return { gender: 'male', clothingType: 'pants', ethnicity: 'american' };
+      return { gender: 'male', clothingType: 'cargo', ethnicity: 'american' };
     }
     if (name.includes('jeans')) {
       return { gender: 'male', clothingType: 'jeans', ethnicity: 'american' };
@@ -169,16 +174,40 @@ const Index = () => {
       return { gender: 'male', clothingType: 'tshirt', ethnicity: 'american' };
     }
     if (name.includes('kids') || name.includes('child') || name.includes('baby')) {
-      return { gender: 'kids', clothingType: 'casual', ethnicity: 'american' };
+      if (name.includes('boy') || name.includes('male')) {
+        return { gender: 'kids', clothingType: 'tshirt', ethnicity: 'american' };
+      }
+      return { gender: 'kids', clothingType: 'top', ethnicity: 'american' };
+    }
+    if (name.includes('skirt')) {
+      return { gender: 'female', clothingType: 'skirt', ethnicity: 'american' };
+    }
+    if (name.includes('jacket') || name.includes('blazer')) {
+      return { gender: 'male', clothingType: 'jacket', ethnicity: 'american' };
     }
     
-    // Default detection based on common patterns
+    // Enhanced ethnicity detection
     if (name.includes('ethnic') || name.includes('traditional') || name.includes('indian')) {
+      if (name.includes('men') || name.includes('male') || name.includes('boy')) {
+        return { gender: 'male', clothingType: 'kurta', ethnicity: 'indian' };
+      }
       return { gender: 'female', clothingType: 'kurti', ethnicity: 'indian' };
     }
     
-    // Default fallback
-    return { gender: 'female', clothingType: 'dress', ethnicity: 'american' };
+    if (name.includes('korean') || name.includes('kpop')) {
+      return { gender: 'female', clothingType: 'top', ethnicity: 'korean' };
+    }
+    
+    if (name.includes('african')) {
+      return { gender: 'female', clothingType: 'top', ethnicity: 'african' };
+    }
+    
+    // Default fallback - try to detect gender from filename
+    if (name.includes('men') || name.includes('male') || name.includes('boy')) {
+      return { gender: 'male', clothingType: 'tshirt', ethnicity: 'american' };
+    }
+    
+    return { gender: 'female', clothingType: 'top', ethnicity: 'american' };
   };
 
   const handleMagicSelect = async () => {
@@ -589,15 +618,27 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative">
+    <div className={`min-h-screen px-4 pb-12 max-w-2xl mx-auto relative ${
+      theme === 'light' 
+        ? 'bg-gradient-to-br from-white via-purple-50 to-pink-50' 
+        : ''
+    }`}>
       <BackgroundParticles />
       <Header />
       
-      <div className="text-center mb-8 animate-fade-in">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight gold-gradient-text animate-slide-up">
+      <div className="text-center mb-8 animate-fade-in" style={{ paddingTop: '30px' }}>
+        <h1 className={`text-4xl md:text-5xl font-bold mb-4 leading-tight animate-slide-up ${
+          theme === 'light' 
+            ? 'bg-gradient-to-r from-purple-700 via-purple-800 to-pink-700 bg-clip-text text-transparent' 
+            : 'gold-gradient-text'
+        }`}>
           Generate Model Images of Your Clothing
         </h1>
-        <p className="text-white/70 max-w-md mx-auto text-sm mb-4 animate-slide-up animation-delay-200">
+        <p className={`max-w-md mx-auto text-sm mb-4 animate-slide-up animation-delay-200 ${
+          theme === 'light' 
+            ? 'text-purple-800 font-medium' 
+            : 'text-white/70'
+        }`}>
           Upload your clothing image and see how it would look on a professional model.
         </p>
         
@@ -606,7 +647,11 @@ const Index = () => {
             <Button 
               onClick={handleCouponsClick}
               variant="outline" 
-              className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600"
+              className={`flex items-center gap-2 ${
+                theme === 'light'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 border-0'
+                  : 'bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600'
+              }`}
             >
               <Ticket className="h-4 w-4 text-white" />
               <span className="font-semibold">Coupons</span>
@@ -614,7 +659,11 @@ const Index = () => {
             
             <Button 
               variant="outline" 
-              className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600"
+              className={`flex items-center gap-2 ${
+                theme === 'light'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 border-0'
+                  : 'bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600'
+              }`}
               onClick={() => navigate('/pricing')}
             >
               <Coins className="h-4 w-4 text-white" />
@@ -624,7 +673,7 @@ const Index = () => {
         )}
       </div>
 
-      <div className="animate-slide-up animation-delay-600">
+      <div className="animate-slide-up animation-delay-600" style={{ marginBottom: '30px' }}>
         <ImageUploader 
           onImageSelect={handleImageSelect} 
           selectedImage={selectedImage}
@@ -632,12 +681,12 @@ const Index = () => {
         />
       </div>
       
-      <div className="animate-slide-up animation-delay-800">
+      <div className="animate-slide-up animation-delay-800" style={{ marginBottom: '30px' }}>
         <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />
       </div>
       
       {!user && (
-        <div className="animate-slide-up animation-delay-1000">
+        <div className="animate-slide-up animation-delay-1000" style={{ marginBottom: '30px' }}>
           <SampleButton 
             onClick={handleSampleClick} 
             disabled={isGenerating} 
@@ -645,7 +694,7 @@ const Index = () => {
         </div>
       )}
       
-      <div className="animate-slide-up animation-delay-1200">
+      <div className="animate-slide-up animation-delay-1200" style={{ marginBottom: '30px' }}>
         <GenderSelector 
           selectedGender={selectedGender} 
           onGenderSelect={handleGenderSelect} 
@@ -653,7 +702,7 @@ const Index = () => {
       </div>
       
       {selectedGender === 'kids' && (
-        <div className="animate-slide-up animation-delay-1400">
+        <div className="animate-slide-up animation-delay-1400" style={{ marginBottom: '30px' }}>
           <KidsGenderSelector
             selectedKidsGender={selectedKidsGender}
             onKidsGenderSelect={handleKidsGenderSelect}
@@ -661,7 +710,7 @@ const Index = () => {
         </div>
       )}
       
-      <div className="animate-slide-up animation-delay-1600">
+      <div className="animate-slide-up animation-delay-1600" style={{ marginBottom: '30px' }}>
         <ClothingTypeSelector 
           selectedType={selectedClothingType} 
           onTypeSelect={handleTypeSelect}
@@ -669,7 +718,7 @@ const Index = () => {
         />
       </div>
 
-      <div className="animate-slide-up animation-delay-1800">
+      <div className="animate-slide-up animation-delay-1800" style={{ marginBottom: '30px' }}>
         <EthnicitySelector
           selectedEthnicity={selectedEthnicity}
           onEthnicitySelect={handleEthnicitySelect}
@@ -677,7 +726,7 @@ const Index = () => {
       </div>
       
       {!isGenerateDisabled && (
-        <div className="animate-slide-up animation-delay-2000">
+        <div className="animate-slide-up animation-delay-2000" style={{ marginBottom: '30px' }}>
           <AdvancedOptions 
             isBackView={isBackView}
             selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
@@ -691,7 +740,7 @@ const Index = () => {
         </div>
       )}
       
-      <div className="flex gap-2 animate-slide-up animation-delay-2200">
+      <div className="flex gap-4 animate-slide-up animation-delay-2200" style={{ marginBottom: '30px' }}>
         <div className="w-1/2">
           <GenerateButton 
             onClick={() => handleGenerateImage(false)} 

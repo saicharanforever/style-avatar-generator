@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Sparkles, Grid3X3 } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type GenerateMultipleButtonProps = {
   onClick: () => void;
@@ -9,11 +10,18 @@ type GenerateMultipleButtonProps = {
 };
 
 const GenerateMultipleButton = ({ onClick, disabled, isGenerating }: GenerateMultipleButtonProps) => {
+  const { theme } = useTheme();
+
   return (
     <button
-      className="w-full max-w-md mx-auto flex items-center justify-center gap-2 py-4 px-6 rounded-md text-white font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700"
+      className={`w-full max-w-md mx-auto flex items-center justify-center gap-2 py-4 px-6 rounded-lg font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+        theme === 'light'
+          ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-xl'
+          : 'bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white'
+      }`}
       onClick={onClick}
       disabled={disabled || isGenerating}
+      aria-label="Generate three model images with different poses"
     >
       {isGenerating ? (
         <>
@@ -23,7 +31,7 @@ const GenerateMultipleButton = ({ onClick, disabled, isGenerating }: GenerateMul
       ) : (
         <>
           <Grid3X3 className="h-5 w-5" />
-          <span>Generate 3 Images (80 credits)</span>
+          <span>GENERATE 3 IMAGES</span>
         </>
       )}
     </button>

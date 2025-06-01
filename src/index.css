@@ -37,41 +37,32 @@
     --radius: 0.75rem;
   }
 
-  /* Enhanced Light theme variables - Purple theme inspired by reference image */
+  /* Enhanced Light theme variables */
   .light-theme {
-    /* Clean white background */
     --background: 0 0% 98%;
     --foreground: 240 10% 15%;
 
-    /* Card colors with subtle purple tint */
     --card: 0 0% 100%;
     --card-foreground: 240 10% 15%;
 
-    /* Popover colors */
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 15%;
 
-    /* Purple as primary color */
     --primary: 252 100% 67%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary colors with purple accent */
     --secondary: 252 30% 96%;
     --secondary-foreground: 252 70% 40%;
 
-    /* Muted variant */
     --muted: 252 20% 96%;
     --muted-foreground: 252 30% 40%;
 
-    /* Accent colors - vibrant purple */
     --accent: 252 100% 67%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Border, input, and ring colors */
     --border: 252 20% 90%;
     --input: 252 20% 94%;
     --ring: 252 100% 67%;
@@ -91,7 +82,7 @@
 
   /* Enhanced Light theme overrides for body */
   .light-theme body {
-    background-color: #FAFAFA;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f4ff 50%, #fdf2f8 100%);
     color: #1A1A2E;
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
@@ -105,7 +96,6 @@
     @apply font-playfair font-bold;
   }
   
-  /* Light theme heading styles */
   .light-theme h1, .light-theme h2, .light-theme h3, 
   .light-theme h4, .light-theme h5, .light-theme h6 {
     @apply font-montserrat font-bold text-[#1A1A2E];
@@ -117,7 +107,6 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-light via-gold to-gold-dark;
   }
   
-  /* Enhanced light theme gold gradient text */
   .light-theme .gold-gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#8B5CF6];
   }
@@ -134,7 +123,6 @@
     @apply bg-navy-light/60 backdrop-blur-md border border-white/10 shadow-xl;
   }
   
-  /* Enhanced light theme glass card */
   .light-theme .glass-card {
     @apply bg-white/95 backdrop-blur-sm border border-purple-200/50 shadow-lg;
   }
@@ -143,7 +131,6 @@
     @apply bg-gold text-navy-dark font-semibold py-3 px-6 rounded-md shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95;
   }
   
-  /* Enhanced light theme button primary */
   .light-theme .button-primary {
     background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
     color: white;
@@ -164,7 +151,6 @@
     @apply bg-navy-dark/80 border border-white/20 rounded-lg py-3 px-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold/50;
   }
 
-  /* Enhanced light theme input field */
   .light-theme .input-field {
     background-color: #FFFFFF;
     border: 2px solid #E5E7EB;
@@ -184,7 +170,21 @@
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
   }
 
-  /* Enhanced light theme component overrides */
+  /* Text size utilities */
+  .text-18px {
+    font-size: 18px;
+  }
+  
+  /* Accessibility improvements */
+  .contrast-enhanced {
+    color: #1a1a2e;
+    font-weight: 500;
+  }
+  
+  .light-theme .contrast-enhanced {
+    color: #1a1a2e;
+  }
+  
   .light-theme .text-yellow-300 {
     color: #7C3AED !important;
   }
@@ -263,7 +263,7 @@
   
   /* Light theme blue-pink gradient text */
   .light-theme .blue-pink-gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#7956E5] to-[#C084FC];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#7956E5] via-[#A855F7] to-[#8B5CF6];
   }
 }
 

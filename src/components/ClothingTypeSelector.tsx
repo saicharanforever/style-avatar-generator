@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Shirt, ShoppingBag } from 'lucide-react';
+import { Shirt, ShoppingBag, ChevronDown } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Define clothing types with categories and gender-specific options
 export const clothingTypes = {
@@ -159,6 +160,9 @@ const ClothingTypeSelector = ({
   onTypeSelect,
   selectedGender
 }: ClothingTypeSelectorProps) => {
+  const { theme } = useTheme();
+  const [expandedCategory, setExpandedCategory] = useState<Category | null>(null);
+
   // Find the label for the selected type
   const selectedTypeLabel = useMemo(() => {
     if (!selectedType) return '';
@@ -177,71 +181,153 @@ const ClothingTypeSelector = ({
     return [...clothingTypes[category].both, ...clothingTypes[category][selectedGender]];
   };
 
-  // Render dropdown menu for each category
-  const renderDropdownMenu = (category: Category, icon: React.ReactNode, color: string) => {
+  // Check if a category contains the selected type
+  const isCategorySelected = (category: Category) => {
+    if (!selectedType) return false;
     const availableTypes = getAvailableTypes(category);
-    const isSelected = selectedType && availableTypes.some(type => type.value === selectedType);
+    return availableTypes.some(type => type.value === selectedType);
+  };
+
+  // Handle category click
+  const handleCategoryClick = (category: Category) => {
+    if (!selectedGender) return;
+    
+    if (expandedCategory === category) {
+      setExpandedCategory(null);
+    } else {
+      setExpandedCategory(category);
+    }
+  };
+
+  // Handle type selection
+  const handleTypeSelect = (type: string) => {
+    onTypeSelect(type);
+    setExpandedCategory(null);
+  };
+
+  // Render category button
+  const renderCategoryButton = (category: Category, icon: React.ReactNode, color: string) => {
+    const availableTypes = getAvailableTypes(category);
+    const isSelected = isCategorySelected(category);
+    const isExpanded = expandedCategory === category;
     
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button 
-            disabled={!selectedGender} 
-            className={`relative h-32 w-full flex flex-col items-center justify-center gap-2 border-2 
-              ${isSelected 
+      <div className="w-full">
+        <Button 
+          disabled={!selectedGender} 
+          onClick={() => handleCategoryClick(category)}
+          className={`relative h-32 w-full flex flex-col items-center justify-center gap-2 border-2 rounded-xl overflow-hidden transition-all duration-300 ${
+            theme === 'light'
+              ? isSelected
+                ? 'border-blue-600 bg-blue-50 shadow-md border-4'
+                : !selectedGender
+                ? 'border-gray-300 bg-gray-100 opacity-50 cursor-not-allowed'
+                : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 shadow-sm hover:shadow-md'
+              : isSelected 
                 ? 'border-white bg-navy-dark' 
-                : `border-${color}-900 bg-transparent hover:border-${color}-500 hover:bg-yellow-300 group`} 
-              rounded-xl overflow-hidden ${!selectedGender ? 'opacity-50 cursor-not-allowed' : ''}`} 
-            variant="ghost"
-          >
-            <div className={`h-8 w-8 flex items-center justify-center ${isSelected ? `text-${color}-400` : `text-${color}-500 group-hover:text-black`}`}>
-              {icon}
-            </div>
-            <span className={`text-xs ${isSelected ? 'text-white' : 'text-white/70 group-hover:text-black'}`}>
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </span>
-          </Button>
-        </DropdownMenuTrigger>
+                : `border-${color}-900 bg-transparent hover:border-${color}-500 hover:bg-yellow-300 group`
+          } ${!selectedGender ? 'opacity-50 cursor-not-allowed' : ''}`} 
+          variant="ghost"
+          aria-label={`Select ${category} clothing type`}
+        >
+          <div className={`h-8 w-8 flex items-center justify-center ${
+            theme === 'light'
+              ? isSelected
+                ? 'text-blue-600'
+                : `text-purple-600`
+              : isSelected 
+                ? `text-${color}-400` 
+                : `text-${color}-500 group-hover:text-black`
+          }`}>
+            {icon}
+          </div>
+          <span className={`text-xs font-medium ${
+            theme === 'light'
+              ? isSelected
+                ? 'text-blue-600'
+                : 'text-purple-700'
+              : isSelected 
+                ? 'text-white' 
+                : 'text-white/70 group-hover:text-black'
+          }`}>
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </span>
+          {selectedGender && (
+            <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${
+              isExpanded ? 'rotate-180' : ''
+            } ${
+              theme === 'light'
+                ? isSelected
+                  ? 'text-blue-600'
+                  : 'text-purple-600'
+                : isSelected 
+                  ? `text-${color}-400` 
+                  : `text-${color}-500 group-hover:text-black`
+            }`} />
+          )}
+        </Button>
         
-        <DropdownMenuContent align="center" className="w-52 max-h-60 bg-navy-dark border-white/10">
-          <DropdownMenuLabel className="text-white text-xs">Select style</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <ScrollArea className="h-40">
-            <div className="p-1">
+        {/* Expanded options */}
+        <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <div className={`mt-2 p-3 rounded-lg border ${
+            theme === 'light'
+              ? 'bg-white border-purple-200 shadow-sm'
+              : 'bg-navy-dark border-white/10'
+          }`}>
+            <div className="grid gap-2">
               {availableTypes.map(type => (
-                <DropdownMenuItem 
-                  key={type.value} 
-                  onClick={() => onTypeSelect(type.value)} 
-                  className={`${selectedType === type.value ? 'bg-navy-light text-white' : 'text-white/80 hover:text-black hover:bg-yellow-300'} text-xs`}
+                <button
+                  key={type.value}
+                  onClick={() => handleTypeSelect(type.value)}
+                  className={`text-left p-2 rounded-md text-xs transition-all duration-200 ${
+                    selectedType === type.value
+                      ? theme === 'light'
+                        ? 'bg-blue-100 text-blue-800 border-2 border-blue-600'
+                        : 'bg-navy-light text-white border border-white'
+                      : theme === 'light'
+                        ? 'text-gray-800 hover:bg-purple-50 hover:text-purple-700'
+                        : 'text-white/80 hover:text-black hover:bg-yellow-300'
+                  }`}
+                  aria-label={`Select ${type.label}`}
                 >
                   {type.label}
-                </DropdownMenuItem>
+                </button>
               ))}
             </div>
-          </ScrollArea>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </div>
+        </div>
+      </div>
     );
   };
   
   return (
-    <div className="w-full max-w-md mx-auto mb-6">
-      <h2 className="font-bold text-yellow-300 mb-3 text-2xl">Dress Type</h2>
+    <div className="w-full max-w-md mx-auto mb-8">
+      <h2 className={`font-bold mb-6 text-18px text-center ${
+        theme === 'light' ? 'text-purple-900' : 'text-yellow-300'
+      }`}>
+        DRESS TYPE
+      </h2>
       
       {!selectedGender && (
-        <div className="text-center text-white/70 mb-3 text-xs">
+        <div className={`text-center mb-4 text-sm ${
+          theme === 'light' ? 'text-purple-600' : 'text-white/70'
+        }`}>
           Please select a model first
         </div>
       )}
       
-      <div className="grid grid-cols-3 gap-4">
-        {renderDropdownMenu('casual', <Shirt className="h-6 w-6" />, 'blue')}
-        {renderDropdownMenu('ethnic', <ShoppingBag className="h-6 w-6" />, 'pink')}
-        {renderDropdownMenu('western', <Shirt className="h-6 w-6" />, 'blue')}
+      <div className="grid grid-cols-1 gap-4">
+        {renderCategoryButton('casual', <Shirt className="h-6 w-6" />, 'blue')}
+        {renderCategoryButton('ethnic', <ShoppingBag className="h-6 w-6" />, 'pink')}
+        {renderCategoryButton('western', <Shirt className="h-6 w-6" />, 'blue')}
       </div>
       
       {selectedType && (
-        <div className="mt-3 text-center text-white text-xs">
+        <div className={`mt-4 text-center text-sm ${
+          theme === 'light' ? 'text-purple-700' : 'text-white'
+        }`}>
           <span className="font-medium">Selected: </span>{selectedTypeLabel}
         </div>
       )}
