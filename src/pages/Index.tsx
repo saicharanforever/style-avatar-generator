@@ -624,6 +624,7 @@ const Index = () => {
       {!isGenerateDisabled && (
         <div className="animate-slide-up animation-delay-2000">
           <AdvancedOptions 
+            isBackView={isBackView}
             selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
             selectedClothingType={selectedClothingType}
             selectedSize={selectedSize}
