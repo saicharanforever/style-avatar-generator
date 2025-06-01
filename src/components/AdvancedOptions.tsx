@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -9,7 +8,11 @@ type AdvancedOptionsProps = {
   isBackView: boolean;
   selectedGender: 'male' | 'female' | 'kids' | null;
   selectedClothingType: string | null;
+  selectedSize?: string | null;
+  selectedFit?: string | null;
   onOptionChange: (category: string, value: string) => void;
+  onSizeChange?: (size: string) => void;
+  onFitChange?: (fit: string) => void;
 };
 
 const AdvancedOptions = ({ 

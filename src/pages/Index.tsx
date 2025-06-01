@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -436,6 +435,8 @@ const Index = () => {
     navigate('/profile?tab=coupons');
   };
 
+  const EnhancedGenerateButton = GenerateButton;
+
   return (
     <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative">
       <BackgroundParticles />
@@ -530,13 +531,17 @@ const Index = () => {
           isBackView={isBackView}
           selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
           selectedClothingType={selectedClothingType}
+          selectedSize={selectedSize}
+          selectedFit={selectedFit}
           onOptionChange={handleAdvancedOptionChange}
+          onSizeChange={handleSizeSelect}
+          onFitChange={handleFitSelect}
         />
       )}
       
       <div className="flex gap-2">
         <div className="w-1/2">
-          <GenerateButton 
+          <EnhancedGenerateButton 
             onClick={() => handleGenerateImage(false)} 
             disabled={isGenerateDisabled}
             isGenerating={isGenerating && !isMultipleGeneration}
