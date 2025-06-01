@@ -59,13 +59,13 @@ const BeforeAfterCarousel = () => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const { theme } = useTheme();
 
-  // Auto-rotation effect - smooth transition every 4 seconds
+  // Auto-rotation effect - smooth transition every 5 seconds
   useEffect(() => {
     if (!api) return;
     
     const interval = setInterval(() => {
       api.scrollNext();
-    }, 4000);
+    }, 5000);
     
     return () => clearInterval(interval);
   }, [api]);
@@ -98,21 +98,26 @@ const BeforeAfterCarousel = () => {
         opts={{
           loop: true,
           align: "center",
+          skipSnaps: false,
+          dragFree: false,
         }}
       >
-        <CarouselContent className="transition-transform duration-700 ease-in-out">
+        <CarouselContent className="-ml-4">
           {beforeAfterImages.map((item, index) => (
-            <CarouselItem key={index} className="md:basis-4/5 lg:basis-2/3">
+            <CarouselItem key={index} className="pl-4 md:basis-4/5 lg:basis-2/3">
               <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8">
                 {/* Before Image */}
-                <div className="flex-1 flex flex-col items-center transform transition-all duration-500 hover:scale-105">
-                  <div className={`border-2 ${borderColor} rounded-md overflow-hidden ${bgColor} w-full shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-                    <div className={`text-center py-2 font-semibold ${labelColor}`}>Before</div>
-                    <div className="aspect-[3/4] relative w-full">
+                <div className="flex-1 flex flex-col items-center group">
+                  <div className={`border-2 ${borderColor} rounded-lg overflow-hidden ${bgColor} w-full shadow-lg transition-all duration-500 ease-out group-hover:shadow-2xl group-hover:scale-105`}>
+                    <div className={`text-center py-3 font-semibold ${labelColor} transition-colors duration-300`}>
+                      Before
+                    </div>
+                    <div className="aspect-[3/4] relative w-full overflow-hidden">
                       <img 
                         src={item.before} 
                         alt={`${item.label} before`}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
+                        loading="lazy"
                         onError={(e) => {
                           console.error(`Error loading image: ${item.before}`);
                           (e.target as HTMLImageElement).src = '/placeholder.svg';
@@ -123,14 +128,17 @@ const BeforeAfterCarousel = () => {
                 </div>
                 
                 {/* After Image */}
-                <div className="flex-1 flex flex-col items-center transform transition-all duration-500 hover:scale-105">
-                  <div className={`border-2 ${borderColor} rounded-md overflow-hidden ${bgColor} w-full shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-                    <div className={`text-center py-2 font-semibold ${labelColor}`}>After</div>
-                    <div className="aspect-[3/4] relative w-full">
+                <div className="flex-1 flex flex-col items-center group">
+                  <div className={`border-2 ${borderColor} rounded-lg overflow-hidden ${bgColor} w-full shadow-lg transition-all duration-500 ease-out group-hover:shadow-2xl group-hover:scale-105`}>
+                    <div className={`text-center py-3 font-semibold ${labelColor} transition-colors duration-300`}>
+                      After
+                    </div>
+                    <div className="aspect-[3/4] relative w-full overflow-hidden">
                       <img 
                         src={item.after} 
                         alt={`${item.label} after`}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
+                        loading="lazy"
                         onError={(e) => {
                           console.error(`Error loading image: ${item.after}`);
                           (e.target as HTMLImageElement).src = '/placeholder.svg';
@@ -143,16 +151,18 @@ const BeforeAfterCarousel = () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-2 md:left-0 hover:scale-110 transition-transform duration-200" />
-        <CarouselNext className="right-2 md:right-0 hover:scale-110 transition-transform duration-200" />
+        <CarouselPrevious className="left-2 md:left-0 transition-all duration-300 hover:scale-110 hover:shadow-lg" />
+        <CarouselNext className="right-2 md:right-0 transition-all duration-300 hover:scale-110 hover:shadow-lg" />
       </Carousel>
       
-      <div className="flex justify-center mt-4 gap-2">
+      <div className="flex justify-center mt-6 gap-3">
         {beforeAfterImages.map((_, index) => (
           <button
             key={index}
-            className={`h-2 rounded-full transition-all duration-300 hover:scale-125 ${
-              currentSlide === index ? `${dotActiveColor} w-6` : `${dotInactiveColor} w-2`
+            className={`h-3 rounded-full transition-all duration-500 ease-out hover:scale-125 ${
+              currentSlide === index 
+                ? `${dotActiveColor} w-8 shadow-lg` 
+                : `${dotInactiveColor} w-3 hover:opacity-60`
             }`}
             onClick={() => api?.scrollTo(index)}
           />

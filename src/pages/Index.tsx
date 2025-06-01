@@ -38,6 +38,8 @@ type AdvancedOptionsState = {
   bangles?: string;
   earrings?: string;
   nosePin?: string;
+  size?: ClothingSize;
+  fit?: ClothingFit;
 };
 
 const Index = () => {
@@ -59,6 +61,8 @@ const Index = () => {
   const [isBackView, setIsBackView] = useState<boolean>(false);
   const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
   const [isMultipleGeneration, setIsMultipleGeneration] = useState<boolean>(false);
+  const [isRefining, setIsRefining] = useState<boolean>(false);
+  const [refiningIndex, setRefiningIndex] = useState<number | null>(null);
   
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
@@ -131,6 +135,105 @@ const Index = () => {
     setRegenerationCount(0);
     setMultipleRegenerationCounts([0, 0, 0]);
     setIsMultipleGeneration(false);
+  };
+
+  const handleMagicSelect = async () => {
+    if (!selectedImage || !imageFile) {
+      toast.error("Please upload an image first");
+      return;
+    }
+
+    // Auto-detect and set optimal parameters
+    toast.info("🪄 Magic Select activated! Setting optimal parameters...");
+    
+    // Set default optimal values
+    setSelectedGender('female');
+    setSelectedClothingType('dress');
+    setSelectedEthnicity('american');
+    setSelectedSize('M');
+    setSelectedFit('normal');
+    setIsBackView(false);
+    
+    // Set advanced options for best results
+    setAdvancedOptions({
+      pose: 'standing',
+      lighting: 'studio',
+      backdrop: 'neutral',
+      size: 'M',
+      fit: 'normal'
+    });
+
+    toast.success("✨ Magic Select complete! Ready to generate your perfect model image.");
+  };
+
+  const handlePromptRefine = async (prompt: string, imageIndex?: number) => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+
+    if (!imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity) {
+      toast.error("Missing required parameters for refinement");
+      return;
+    }
+
+    const creditCost = 30;
+    const success = await consumeCredits(creditCost, false);
+    if (!success) {
+      if (credits < creditCost) {
+        toast.error("You don't have enough credits to refine the image");
+        setTimeout(() => navigate('/pricing'), 1500);
+        return;
+      }
+      return;
+    }
+
+    if (imageIndex !== undefined) {
+      setRefiningIndex(imageIndex);
+    } else {
+      setIsRefining(true);
+    }
+
+    try {
+      const enhancedAdvancedOptions = {
+        ...advancedOptions,
+        customPrompt: prompt,
+        size: selectedSize,
+        fit: selectedFit
+      };
+
+      const result = await generateFashionImage({
+        imageFile,
+        gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
+        clothingType: selectedClothingType,
+        ethnicity: selectedEthnicity,
+        size: selectedSize,
+        fit: selectedFit,
+        isBackView,
+        advancedOptions: enhancedAdvancedOptions
+      });
+
+      if (imageIndex !== undefined) {
+        const newImages = [...generatedImages];
+        newImages[imageIndex] = result.image;
+        setGeneratedImages(newImages);
+      } else {
+        setGeneratedImage(result.image);
+        setIsOriginalImage(result.isOriginal);
+      }
+
+      if (result.isOriginal && result.message) {
+        toast.warning(result.message);
+      } else {
+        toast.success("Image refined successfully!");
+      }
+    } catch (error) {
+      toast.error("Failed to refine image. Please try again.");
+      console.error(error);
+    } finally {
+      setIsRefining(false);
+      setRefiningIndex(null);
+    }
   };
   
   const handleGenderSelect = (gender: Gender) => {
@@ -216,7 +319,6 @@ const Index = () => {
 
   const handleGenerateImage = async (multiple = false) => {
     if (!user) {
-      // Instead of showing modal, navigate directly to auth page
       navigate('/auth');
       return;
     }
@@ -226,27 +328,19 @@ const Index = () => {
       return;
     }
     
-    // If kids but no kids gender selected
     if (selectedGender === 'kids' && !selectedKidsGender) {
       toast.error("Please select boy or girl for kids model");
       return;
     }
     
-    // Check if this is a regeneration
     const isRegeneration = regenerationCount > 0;
-    
-    // Calculate credit cost
     const creditCost = multiple ? 80 : 30;
     
-    // Attempt to consume credits
     const success = await consumeCredits(creditCost, isRegeneration);
     if (!success) {
-      // If not enough credits, redirect to pricing page
       if (credits < creditCost) {
         toast.error("You don't have enough credits to generate an image");
-        setTimeout(() => {
-          navigate('/pricing');
-        }, 1500);
+        setTimeout(() => navigate('/pricing'), 1500);
         return;
       }
       return;
@@ -256,14 +350,19 @@ const Index = () => {
     setIsMultipleGeneration(multiple);
     
     try {
+      const finalAdvancedOptions = {
+        ...advancedOptions,
+        size: selectedSize,
+        fit: selectedFit
+      };
+
       if (multiple) {
         const images: string[] = [];
         const originalImages: boolean[] = [];
         const poses = ['standing', 's-curve', 'walking'];
         
         for (let i = 0; i < 3; i++) {
-          // Generate each image with a different pose
-          const tempAdvancedOptions = { ...advancedOptions };
+          const tempAdvancedOptions = { ...finalAdvancedOptions };
           tempAdvancedOptions.pose = poses[i];
           
           const result = await generateFashionImage({
@@ -299,7 +398,7 @@ const Index = () => {
           size: selectedSize,
           fit: selectedFit,
           isBackView,
-          advancedOptions
+          advancedOptions: finalAdvancedOptions
         });
         
         setGeneratedImage(result.image);
@@ -310,7 +409,6 @@ const Index = () => {
           toast.warning(result.message);
         } else {
           toast.success("Image generated successfully!");
-          // Increment regeneration count only for successful generations
           if (isRegeneration) {
             setRegenerationCount(prev => prev + 1);
           } else {
@@ -435,24 +533,21 @@ const Index = () => {
     navigate('/profile?tab=coupons');
   };
 
-  const EnhancedGenerateButton = GenerateButton;
-
   return (
     <div className="min-h-screen px-4 pb-12 max-w-2xl mx-auto relative">
       <BackgroundParticles />
       <Header />
       
-      <div className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight gold-gradient-text">
+      <div className="text-center mb-8 animate-fade-in">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight gold-gradient-text animate-slide-up">
           Generate Model Images of Your Clothing
         </h1>
-        <p className="text-white/70 max-w-md mx-auto text-sm mb-4">
+        <p className="text-white/70 max-w-md mx-auto text-sm mb-4 animate-slide-up animation-delay-200">
           Upload your clothing image and see how it would look on a professional model.
         </p>
         
-        {/* Credits and Coupons buttons */}
         {user && (
-          <div className="flex justify-center gap-3 mb-4">
+          <div className="flex justify-center gap-3 mb-4 animate-slide-up animation-delay-400">
             <Button 
               onClick={handleCouponsClick}
               variant="outline" 
@@ -474,74 +569,75 @@ const Index = () => {
         )}
       </div>
 
-      <ImageUploader 
-        onImageSelect={handleImageSelect} 
-        selectedImage={selectedImage} 
-      />
+      <div className="animate-slide-up animation-delay-600">
+        <ImageUploader 
+          onImageSelect={handleImageSelect} 
+          selectedImage={selectedImage}
+          onMagicSelect={handleMagicSelect}
+        />
+      </div>
       
-      {/* ViewToggle always visible */}
-      <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />
+      <div className="animate-slide-up animation-delay-800">
+        <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />
+      </div>
       
-      {/* Size Selector - moved up */}
-      <SizeSelector
-        selectedSize={selectedSize}
-        onSizeSelect={handleSizeSelect}
-      />
-      
-      {/* Fit Selector - moved up */}
-      <FitSelector
-        selectedFit={selectedFit}
-        onFitSelect={handleFitSelect}
-      />
-      
-      {/* Remove Sample Button for logged in users */}
       {!user && (
-        <SampleButton 
-          onClick={handleSampleClick} 
-          disabled={isGenerating} 
-        />
+        <div className="animate-slide-up animation-delay-1000">
+          <SampleButton 
+            onClick={handleSampleClick} 
+            disabled={isGenerating} 
+          />
+        </div>
       )}
       
-      <GenderSelector 
-        selectedGender={selectedGender} 
-        onGenderSelect={handleGenderSelect} 
-      />
+      <div className="animate-slide-up animation-delay-1200">
+        <GenderSelector 
+          selectedGender={selectedGender} 
+          onGenderSelect={handleGenderSelect} 
+        />
+      </div>
       
-      {/* Show Kids Gender Selector if 'kids' is selected */}
       {selectedGender === 'kids' && (
-        <KidsGenderSelector
-          selectedKidsGender={selectedKidsGender}
-          onKidsGenderSelect={handleKidsGenderSelect}
-        />
+        <div className="animate-slide-up animation-delay-1400">
+          <KidsGenderSelector
+            selectedKidsGender={selectedKidsGender}
+            onKidsGenderSelect={handleKidsGenderSelect}
+          />
+        </div>
       )}
       
-      <ClothingTypeSelector 
-        selectedType={selectedClothingType} 
-        onTypeSelect={handleTypeSelect}
-        selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
-      />
+      <div className="animate-slide-up animation-delay-1600">
+        <ClothingTypeSelector 
+          selectedType={selectedClothingType} 
+          onTypeSelect={handleTypeSelect}
+          selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
+        />
+      </div>
 
-      <EthnicitySelector
-        selectedEthnicity={selectedEthnicity}
-        onEthnicitySelect={handleEthnicitySelect}
-      />
+      <div className="animate-slide-up animation-delay-1800">
+        <EthnicitySelector
+          selectedEthnicity={selectedEthnicity}
+          onEthnicitySelect={handleEthnicitySelect}
+        />
+      </div>
       
       {!isGenerateDisabled && (
-        <AdvancedOptions 
-          isBackView={isBackView}
-          selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
-          selectedClothingType={selectedClothingType}
-          selectedSize={selectedSize}
-          selectedFit={selectedFit}
-          onOptionChange={handleAdvancedOptionChange}
-          onSizeChange={handleSizeSelect}
-          onFitChange={handleFitSelect}
-        />
+        <div className="animate-slide-up animation-delay-2000">
+          <AdvancedOptions 
+            selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
+            selectedClothingType={selectedClothingType}
+            selectedSize={selectedSize}
+            selectedFit={selectedFit}
+            onOptionChange={handleAdvancedOptionChange}
+            onSizeChange={handleSizeSelect}
+            onFitChange={handleFitSelect}
+          />
+        </div>
       )}
       
-      <div className="flex gap-2">
+      <div className="flex gap-2 animate-slide-up animation-delay-2200">
         <div className="w-1/2">
-          <EnhancedGenerateButton 
+          <GenerateButton 
             onClick={() => handleGenerateImage(false)} 
             disabled={isGenerateDisabled}
             isGenerating={isGenerating && !isMultipleGeneration}
@@ -565,7 +661,9 @@ const Index = () => {
         <ResultDisplay 
           generatedImage={generatedImage} 
           onRegenerate={handleRegenerate}
+          onPromptRefine={(prompt) => handlePromptRefine(prompt)}
           isOriginalImage={isOriginalImage}
+          isRefining={isRefining}
         />
       )}
       
@@ -573,7 +671,9 @@ const Index = () => {
         <MultipleResultsDisplay 
           generatedImages={generatedImages}
           onRegenerate={handleRegenerateMultiple}
+          onPromptRefine={(index, prompt) => handlePromptRefine(prompt, index)}
           regenerationCounts={multipleRegenerationCounts}
+          isRefining={refiningIndex}
         />
       )}
     </div>
