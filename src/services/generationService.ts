@@ -1,3 +1,4 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { toast } from "sonner";
 
@@ -253,7 +254,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     while (retries <= MAX_RETRIES) {
       try {
         // Call Gemini API for image generation with optimized parameters
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+        const model = genAI.generativeModel({ model: "gemini-2.0-flash-exp" });
         
         response = await model.generateContent({
           contents: contents,
