@@ -1,5 +1,4 @@
-
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/genai";
 import { toast } from "sonner";
 
 export interface GenerationRequest {
@@ -30,7 +29,7 @@ export interface GenerationRequest {
 const GEMINI_API_KEY = "AIzaSyBxx7menL2ghGwgmNNzLMn_IgK8F2LxlUg";
 
 // Initialize Google Gemini client
-const genAI = new GoogleGenAI(GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 // Maximum number of retry attempts
 const MAX_RETRIES = 2;
