@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { toast } from "sonner";
 
@@ -30,9 +29,7 @@ export interface GenerationRequest {
 const GEMINI_API_KEY = "AIzaSyBxx7menL2ghGwgmNNzLMn_IgK8F2LxlUg";
 
 // Initialize Google Gemini client
-const genAI = new GoogleGenAI({
-  apiKey: GEMINI_API_KEY
-});
+const genAI = new GoogleGenAI(GEMINI_API_KEY);
 
 // Maximum number of retry attempts
 const MAX_RETRIES = 2;
@@ -254,7 +251,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     while (retries <= MAX_RETRIES) {
       try {
         // Call Gemini API for image generation with optimized parameters
-        const model = genAI.generativeModel({ model: "gemini-2.0-flash-exp" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
         
         response = await model.generateContent({
           contents: contents,
