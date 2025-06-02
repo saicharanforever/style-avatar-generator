@@ -1,9 +1,9 @@
-import { GoogleGenerativeAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai"; // Corrected import
 import { toast } from "sonner";
 
 export interface GenerationRequest {
   imageFile: File | null;
-  gender: 'male' | 'female' | null;
+  gender: 'male' | 'female' | 'kids' | null; // Added 'kids' to support image option
   clothingType: string | null;
   ethnicity: 'american' | 'indian' | 'korean' | 'russian' | null;
   size?: string | null;
@@ -25,8 +25,8 @@ export interface GenerationRequest {
   };
 }
 
-// Google Gemini API key
-const GEMINI_API_KEY = "AIzaSyBxx7menL2ghGwgmNNzLMn_IgK8F2LxlUg";
+// Google Gemini API key (hidden by user)
+const GEMINI_API_KEY = "AIzaSyBxx7menL2ghGwgmNNzL***************";
 
 // Initialize Google Gemini client
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
@@ -193,7 +193,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         } else {
           // For non-ethnic wear, only add if explicitly selected
           if (advancedOptions.earrings && advancedOptions.earrings !== 'none') {
-            accessories.push(`${advancedOptions.earrings} earrings`);
+            accessories.push(`${ répondreOptions.earrings} earrings`);
           }
           
           if (advancedOptions.nosePin && advancedOptions.nosePin !== 'none') {
@@ -217,12 +217,19 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     }
     
     // Create gender-specific pose and expression
-    const genderDescription = gender === 'male' 
-      ? `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with dark hair'} ${skinToneDescription} ${bodySizeDescription}` 
-      : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with dark hair'} ${skinToneDescription} ${bodySizeDescription}`;
+    let genderDescription;
+    if (gender === 'male') {
+      genderDescription = `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with dark hair'} ${skinToneDescription} ${bodySizeDescription}`;
+    } else if (gender === 'female') {
+      genderDescription = `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with dark hair'} ${skinToneDescription} ${bodySizeDescription}`;
+    } else if (gender === 'kids') {
+      genderDescription = `a professional ${ethnicityDescription} child model ${hairColorDescription || 'with dark hair'} ${skinToneDescription} ${bodySizeDescription}`;
+    } else {
+      throw new Error('Invalid gender specified');
+    }
     
     // Craft the prompt for the AI - optimized for showing complete garments with full-body shots
-    const prompt = `Generate a high-quality full-body fashion photography image of ${genderDescription} wearing the COMPLETE ${clothingType} shown in this reference image. CRITICAL REQUIREMENTS: 1) Show the ENTIRE garment from top to bottom in a FULL-BODY shot - do not crop or cut off any part of the clothing item. 2) The model must be positioned far enough away from the camera to show the complete outfit without any cropping. 3) This must be a full-body product photography shot that clearly displays the entire clothing piece. The model should be positioned ${poseDescription || (gender === 'male' ? 'in a confident professional pose showing the full outfit' : 'in an elegant pose displaying the complete garment')} (${viewDescription}). ${sizeDescription} ${fitDescription} ${accessoryDescription} ${makeupDescription} ${expressionDescription}. The image should be a full-body professional fashion catalog photo that clearly shows the complete clothing item without any cropping ${backdropDescription || 'with a clean studio background'} ${lightingDescription || 'with professional studio lighting'}. Ensure the entire garment is visible and properly displayed for product photography purposes. High resolution, professional quality, fashion photography style, full-body shot.`;
+    const prompt = `Generate a high-quality full-body fashion photography image of ${genderDescription} wearing the COMPLETE ${clothingType} shown in this reference image. CRITICAL REQUIREMENTS: 1) Show the ENTIRE garment from top to bottom in a FULL-BODY shot - do not crop or cut off any part of the clothing item. 2) The model must be positioned far enough away from the camera to show the complete outfit without any cropping. 3) This must be a full-body product photography shot that clearly displays the entire clothing piece. The model should be positioned ${poseDescription || (gender === 'male' ? 'in a confident professional pose showing the full outfit' : gender === 'female' ? 'in an elegant pose displaying the complete garment' : 'in a natural pose suitable for a child model showing the full outfit')} (${viewDescription}). ${sizeDescription} ${fitDescription} ${accessoryDescription} ${makeupDescription} ${expressionDescription}. The image should be a full-body professional fashion catalog photo that clearly shows the complete clothing item without any cropping ${backdropDescription || 'with a clean studio background'} ${lightingDescription || 'with professional studio lighting'}. Ensure the entire garment is visible and properly displayed for product photography purposes. High resolution, professional quality, fashion photography style, full-body shot.`;
     
     console.log("Generation prompt:", prompt);
     
