@@ -10,7 +10,7 @@
     --foreground: 50 100% 60%;
 
     --card: 252 76% 14%;
-    --card-foreground: 50 100% 60%;
+    --card-foreground: 50 100% 70%;
 
     --popover: 252 87% 9%;
     --popover-foreground: 50 100% 60%;
@@ -399,15 +399,15 @@
 /* Custom overrides - placed outside the Tailwind layers to avoid circular dependencies */
 /* Light theme text overrides */
 .light-theme .text-white {
-  color: #1F2937 !important;
+  color: #FFFFFF;
 }
 
 .light-theme .text-white\/70 {
-  color: rgba(31, 41, 55, 0.7) !important;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .light-theme .text-white\/50 {
-  color: rgba(31, 41, 55, 0.5) !important;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Light theme profile page text overrides */
@@ -498,41 +498,6 @@
 /* Light theme auth page text color fix */
 .light-theme .auth-page-text {
   color: #FFFFFF;
-}
-
-/* Light theme button text overrides - Make all button text white in light theme */
-.light-theme button {
-  color: white !important;
-}
-
-.light-theme .button-primary {
-  color: white !important;
-}
-
-/* Light theme avatar background override */
-.light-theme .bg-navy-light {
-  background-color: #7C3AED !important;
-}
-
-/* Light theme dropdown menu text color overrides */
-.light-theme .text-gold {
-  color: #374151 !important;
-}
-
-.light-theme .text-gold-light {
-  color: #4B5563 !important;
-}
-
-.light-theme .text-gold-light\/70 {
-  color: rgba(75, 85, 99, 0.7) !important;
-}
-
-.light-theme .text-gold-light\/90 {
-  color: rgba(75, 85, 99, 0.9) !important;
-}
-
-.light-theme .hover\:text-gold-light:hover {
-  color: #374151 !important;
 }
 
 /* Smooth carousel transitions */
