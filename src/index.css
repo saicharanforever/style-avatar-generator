@@ -410,6 +410,23 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* Light theme profile page text overrides */
+.light-theme .text-gold {
+  color: #1F2937 !important;
+}
+
+.light-theme .text-gold-light {
+  color: #374151 !important;
+}
+
+.light-theme .text-gold-dark {
+  color: #111827 !important;
+}
+
+.light-theme .text-gold-light\/70 {
+  color: rgba(55, 65, 81, 0.7) !important;
+}
+
 /* Light theme background overrides for sections */
 .light-theme .bg-navy-light\/30 {
   background-color: #F5F0FF;
