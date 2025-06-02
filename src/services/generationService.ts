@@ -26,7 +26,7 @@ export interface GenerationRequest {
 }
 
 // Google Gemini API key (hidden by user)
-const GEMINI_API_KEY = "AIzaSyBxx7menL2ghGwgmNNzL***************";
+const GEMINI_API_KEY = "AIzaSyBxx7menL2ghGwgmNNzLMn_IgK8F2LxlUg";
 
 // Initialize Google Gemini client
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
