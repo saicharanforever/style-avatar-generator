@@ -7,6 +7,8 @@ export interface GenerationRequest {
   gender: 'male' | 'female' | null;
   clothingType: string | null;
   ethnicity: 'american' | 'indian' | 'korean' | 'russian' | null;
+  size?: string | null;
+  fit?: string | null;
   isBackView?: boolean;
   advancedOptions?: {
     bodySize?: string;
@@ -43,7 +45,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   isOriginal: boolean;
   message?: string;
 }> => {
-  const { imageFile, gender, clothingType, ethnicity, isBackView, advancedOptions } = request;
+  const { imageFile, gender, clothingType, ethnicity, size, fit, isBackView, advancedOptions } = request;
   
   // Validate the request
   if (!imageFile || !gender || !clothingType || !ethnicity) {
@@ -65,6 +67,23 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     
     // Create view description
     const viewDescription = isBackView ? 'back view showing the complete garment from behind' : 'front view showing the complete garment';
+    
+    // Create size and fit description
+    let sizeDescription = '';
+    let fitDescription = '';
+    
+    if (size) {
+      sizeDescription = `wearing size ${size}`;
+    }
+    
+    if (fit) {
+      const fitMap: Record<string, string> = {
+        'tight': 'fitted tightly to show the body silhouette',
+        'normal': 'with a regular comfortable fit',
+        'loose': 'with a relaxed loose fit'
+      };
+      fitDescription = fitMap[fit] || 'with regular fit';
+    }
     
     // Create accessory description for ethnic female wear
     let accessoryDescription = '';
@@ -203,8 +222,8 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       ? `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with dark hair'} ${skinToneDescription} ${bodySizeDescription}` 
       : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with dark hair'} ${skinToneDescription} ${bodySizeDescription}`;
     
-    // Craft the prompt for the AI - optimized for showing complete garments
-    const prompt = `Generate a high-quality fashion photography image of ${genderDescription} wearing the COMPLETE ${clothingType} shown in this reference image. IMPORTANT: Show the ENTIRE garment from top to bottom - do not crop or cut off any part of the clothing item. The model should be positioned ${poseDescription || (gender === 'male' ? 'in a confident professional pose showing the full outfit' : 'in an elegant pose displaying the complete garment')} (${viewDescription}). ${accessoryDescription} ${makeupDescription} ${expressionDescription}. The image should be a full-body professional fashion catalog photo that clearly shows the complete clothing item without any cropping ${backdropDescription || 'with a clean studio background'} ${lightingDescription || 'with professional studio lighting'}. Ensure the entire garment is visible and properly displayed for product photography purposes. High resolution, professional quality, fashion photography style.`;
+    // Craft the prompt for the AI - optimized for showing complete garments with full-body shots
+    const prompt = `Generate a high-quality full-body fashion photography image of ${genderDescription} wearing the COMPLETE ${clothingType} shown in this reference image. CRITICAL REQUIREMENTS: 1) Show the ENTIRE garment from top to bottom in a FULL-BODY shot - do not crop or cut off any part of the clothing item. 2) The model must be positioned far enough away from the camera to show the complete outfit without any cropping. 3) This must be a full-body product photography shot that clearly displays the entire clothing piece. The model should be positioned ${poseDescription || (gender === 'male' ? 'in a confident professional pose showing the full outfit' : 'in an elegant pose displaying the complete garment')} (${viewDescription}). ${sizeDescription} ${fitDescription} ${accessoryDescription} ${makeupDescription} ${expressionDescription}. The image should be a full-body professional fashion catalog photo that clearly shows the complete clothing item without any cropping ${backdropDescription || 'with a clean studio background'} ${lightingDescription || 'with professional studio lighting'}. Ensure the entire garment is visible and properly displayed for product photography purposes. High resolution, professional quality, fashion photography style, full-body shot.`;
     
     console.log("Generation prompt:", prompt);
     
@@ -214,8 +233,8 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         parts: [
           { text: prompt },
           {
-            inline_data: {
-              mime_type: imageFile.type,
+            inlineData: {
+              mimeType: imageFile.type,
               data: base64Image.split(',')[1], // Remove data:image/jpeg;base64, part
             },
           },
