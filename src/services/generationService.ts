@@ -5,7 +5,7 @@ export interface GenerationRequest {
   imageFile: File | null;
   gender: 'male' | 'female' | 'kids' | null;
   clothingType: string | null;
-  ethnicity: 'american' | 'indian' | 'korean' | 'russian' | null; // FIXED: Added 'russian'
+  ethnicity: 'american' | 'indian' | 'korean' | 'russian' | null;
   isBackView?: boolean;
   size?: string | null; 
   fit?: string | null;  
@@ -157,7 +157,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
             accessories.push(`${advancedOptions.necklaces || 'small'} necklace chain`);
           }
           
-          // Always add bindi for ethnic wear
+          // Always add bindi for Indian ethnic wear
           if (ethnicity === 'indian') {
             accessories.push('small bindi');
           }
@@ -193,7 +193,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       : `a professional ${ethnicityDescription} ${ageDescription ? `${ageDescription} ` : ''}female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}`;
     
     // Craft the prompt for the AI - optimized for quality and clarity
-    const prompt = `Generate a realistic product photography image of ${genderDescription} wearing the ${clothingType} shown in this image (${viewDescription}). The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details of the clothing item and ensure high resolution output.`;
+    const prompt = `Generate a hyper-realistic, perfected product photography image of ${genderDescription} wearing the *exact* same ${clothingType} as shown in the provided image (${viewDescription}). It is crucial that the color, pattern, design, and texture of the clothing are perfectly and accurately preserved from the original image. The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. The final output must look like a professional fashion catalog photo of a real human model, ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Ensure the highest possible resolution and realism.`;
     
     console.log("Generation prompt:", prompt);
     
