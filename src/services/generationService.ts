@@ -5,10 +5,10 @@ export interface GenerationRequest {
   imageFile: File | null;
   gender: 'male' | 'female' | null;
   clothingType: string | null;
-  ethnicity: 'american' | 'indian' | 'korean' | null; // FIXED: Added 'korean'
+  ethnicity: 'american' | 'indian' | 'korean' | 'russian' | null; // FIXED: Added 'russian'
   isBackView?: boolean;
-  size?: string | null; // ADDED: To match what's passed from the component
-  fit?: string | null;  // ADDED: To match what's passed from the component
+  size?: string | null; 
+  fit?: string | null;  
   advancedOptions?: {
     bodySize?: string;
     pose?: string;
@@ -56,9 +56,10 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     const ethnicityMap: Record<string, string> = {
       'american': 'American',
       'indian': 'Indian',
-      'korean': 'Korean'
+      'korean': 'Korean',
+      'russian': 'Russian' // FIXED: Added Russian
     };
-    const ethnicityDescription = ethnicity ? ethnicityMap[ethnicity] : 'Indian'; // FIXED: Handle all ethnicities
+    const ethnicityDescription = ethnicity ? ethnicityMap[ethnicity] : 'Indian'; 
     
     // Create view description
     const viewDescription = isBackView ? 'back view' : 'front view';
@@ -150,7 +151,9 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
           }
           
           // Always add bindi for ethnic wear
-          accessories.push('small bindi');
+          if (ethnicity === 'indian') {
+            accessories.push('small bindi');
+          }
         } else {
           // For non-ethnic wear, only add if explicitly selected
           if (advancedOptions.earrings && advancedOptions.earrings !== 'none') {
