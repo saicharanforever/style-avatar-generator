@@ -26,6 +26,7 @@ import { getSampleImageUrl } from '@/services/generationService';
 import ResultDisplay from '@/components/ResultDisplay';
 import MultipleResultsDisplay from '@/components/MultipleResultsDisplay';
 import EnhancedGenerateButton from '@/components/EnhancedGenerateButton';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 type Gender = 'male' | 'female' | 'kids';
 type KidsGender = 'boy' | 'girl';
@@ -34,19 +35,15 @@ type ClothingType =
   'lehenga' | 'palazzo' | 'indo_western' | 'tunic' | 'harem_pant' | 'gown' | 'top' | 'shorts' | 'leggings' | 'jacket' |
   'coat' | 'sweater' | 'hoodie' | 'sweatpants' | 'swimsuit' | 'lingerie' | 'nightgown' | 'robe' | 'jumpsuit' | 'romper';
 type Ethnicity = 'american' | 'indian' | 'korean' | 'russian';
-type ClothingSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
-type ClothingFit = 'slim' | 'regular' | 'oversized';
 
 const Index = () => {
   const { user } = useAuth();
-  const { credits, updateCredits } = useCredits();
+  const { credits, deductCredits } = useCredits();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [selectedKidsGender, setSelectedKidsGender] = useState<KidsGender | null>(null);
   const [selectedClothingType, setSelectedClothingType] = useState<ClothingType | null>(null);
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
-  const [selectedSize, setSelectedSize] = useState<ClothingSize | null>(null);
-  const [selectedFit, setSelectedFit] = useState<ClothingFit | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
@@ -202,7 +199,7 @@ const Index = () => {
       }
 
       // Deduct credits after successful generation
-      await updateCredits(-requiredCredits);
+      await deductCredits(requiredCredits);
       
       toast.success(multiple ? "3 images generated successfully!" : "Image generated successfully!");
     } catch (error) {
@@ -283,7 +280,7 @@ const Index = () => {
         setGenerationMessage(result.message || '');
         
         if (creditsToDeduct > 0) {
-          await updateCredits(-creditsToDeduct); // Deduct credits for paid regenerations
+          await deductCredits(creditsToDeduct); // Deduct credits for paid regenerations
         }
         
         toast.success("Image regenerated successfully!");
@@ -347,7 +344,7 @@ const Index = () => {
         setGeneratedImages(newImages);
         
         if (newCounts[index] > 2) {
-          await updateCredits(-30); // Deduct credits for paid regenerations
+          await deductCredits(30); // Deduct credits for paid regenerations
         }
         
         toast.success(`Image ${index + 1} regenerated successfully!`);
@@ -764,6 +761,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+      
+      {/* WhatsApp Button */}
+      <WhatsAppButton />
     </div>
   );
 };
