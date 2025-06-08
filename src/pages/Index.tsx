@@ -24,6 +24,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Ticket, Coins } from 'lucide-react';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 type Gender = 'male' | 'female' | 'kids';
 type KidsGender = 'boy' | 'girl';
@@ -52,7 +53,7 @@ const Index = () => {
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
   const [selectedSize, setSelectedSize] = useState<ClothingSize | null>(null);
   const [selectedFit, setSelectedFit] = useState<ClothingFit | null>(null);
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [isGenerating, setIsGenerating] = useState<boolean>(isGenerating);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
@@ -593,6 +594,9 @@ const Index = () => {
           regenerationCounts={multipleRegenerationCounts}
         />
       )}
+      
+      {/* WhatsApp Button */}
+      <WhatsAppButton />
     </div>
   );
 };

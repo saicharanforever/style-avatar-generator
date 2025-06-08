@@ -15,13 +15,11 @@ import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
 import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
+import WhatsAppButton from '@/components/WhatsAppButton';
+
 const Landing = () => {
-  const {
-    user
-  } = useAuth();
-  const {
-    theme
-  } = useTheme();
+  const { user } = useAuth();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   // Redirect if user is already authenticated
@@ -30,10 +28,13 @@ const Landing = () => {
       navigate('/');
     }
   }, [user, navigate]);
+
   const handleGetStarted = () => {
     navigate('/auth');
   };
-  return <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-[#F5F5F0]'} overflow-x-hidden`}>
+
+  return (
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-[#F5F5F0]'} overflow-x-hidden`}>
       {theme === 'dark' && <BackgroundParticles />}
       
       {/* Sticky Navigation */}
@@ -73,6 +74,11 @@ const Landing = () => {
       
       {/* Footer */}
       <Footer />
-    </div>;
+      
+      {/* WhatsApp Button */}
+      <WhatsAppButton />
+    </div>
+  );
 };
+
 export default Landing;

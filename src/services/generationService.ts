@@ -25,7 +25,7 @@ export interface GenerationRequest {
 const GEMINI_API_KEY = "AIzaSyDjGudOmLbWdPtNdu16zkkqiOn2QQf9esI";
 
 // Initialize Google Gemini client
-const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+const genAI = new GoogleGenAI(GEMINI_API_KEY);
 
 // Maximum number of retry attempts
 const MAX_RETRIES = 2;
@@ -176,8 +176,8 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       ? `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}` 
       : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}`;
     
-    // Craft the prompt for the AI - optimized for quality and clarity
-    const prompt = `Generate a realistic product photography image of ${genderDescription} wearing the ${clothingType} shown in this image (${viewDescription}). The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details of the clothing item and ensure high resolution output.`;
+    // Enhanced prompt for complete dress visibility
+    const prompt = `Generate a realistic full-body product photography image of ${genderDescription} wearing the exact ${clothingType} shown in this image (${viewDescription}). IMPORTANT: Show the COMPLETE outfit from head to toe, ensuring the entire dress/clothing item is fully visible in the frame. The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. Frame the shot to show the complete garment without any cropping. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details, colors, patterns, and design elements of the clothing item exactly as shown in the reference image. Ensure high resolution output with the full outfit clearly visible.`;
     
     console.log("Generation prompt:", prompt);
     
@@ -202,22 +202,12 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     while (retries <= MAX_RETRIES) {
       try {
         // Call Gemini API for image generation with optimized parameters
-        response = await genAI.models.generateContent({
-          model: "gemini-2.0-flash-exp-image-generation",
-          contents: contents,
-          config: {
-            responseModalities: ["Text", "Image"],
-            // Adding generation parameters to improve quality
-            temperature: 0.1, // Lower temperature for more consistent results
-            topK: 32,
-            topP: 0.95,
-          },
-        });
+        response = await genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" }).generateContent(contents);
         
         console.log("Response received from Gemini API");
         
         // Extract generated image
-        for (const part of response.candidates[0].content.parts) {
+        for (const part of response.response.candidates[0].content.parts) {
           if (part.inlineData) {
             // Convert the generated image to data URL
             const generatedImageBase64 = part.inlineData.data;
