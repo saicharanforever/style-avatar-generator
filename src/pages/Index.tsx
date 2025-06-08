@@ -53,7 +53,7 @@ const Index = () => {
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
   const [selectedSize, setSelectedSize] = useState<ClothingSize | null>(null);
   const [selectedFit, setSelectedFit] = useState<ClothingFit | null>(null);
-  const [isGenerating, setIsGenerating] = useState<boolean>(isGenerating);
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
@@ -68,6 +68,21 @@ const Index = () => {
   const { consumeCredits, credits } = useCredits();
   const navigate = useNavigate();
   const { theme } = useTheme();
+
+  // Helper function to map ethnicity to generation service format
+  const mapEthnicityForGeneration = (ethnicity: Ethnicity): 'american' | 'indian' => {
+    // Map new ethnicities to the supported ones in the generation service
+    switch (ethnicity) {
+      case 'american':
+      case 'korean':
+      case 'russian':
+        return 'american';
+      case 'indian':
+        return 'indian';
+      default:
+        return 'american';
+    }
+  };
 
   // Simulate progress when generating image
   useEffect(() => {
@@ -258,6 +273,9 @@ const Index = () => {
         fit: selectedFit
       };
 
+      // Map ethnicity to supported format
+      const mappedEthnicity = mapEthnicityForGeneration(selectedEthnicity);
+
       if (multiple) {
         const images: string[] = [];
         const originalImages: boolean[] = [];
@@ -271,7 +289,7 @@ const Index = () => {
             imageFile,
             gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
             clothingType: selectedClothingType,
-            ethnicity: selectedEthnicity,
+            ethnicity: mappedEthnicity,
             size: selectedSize,
             fit: selectedFit,
             isBackView,
@@ -296,7 +314,7 @@ const Index = () => {
           imageFile,
           gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
           clothingType: selectedClothingType,
-          ethnicity: selectedEthnicity,
+          ethnicity: mappedEthnicity,
           size: selectedSize,
           fit: selectedFit,
           isBackView,
@@ -378,6 +396,9 @@ const Index = () => {
     newCounts[index] = newCounts[index] + 1;
     setMultipleRegenerationCounts(newCounts);
     
+    // Map ethnicity to supported format
+    const mappedEthnicity = mapEthnicityForGeneration(selectedEthnicity!);
+    
     // Generate a new image for this index
     setTimeout(async () => {
       try {
@@ -392,7 +413,7 @@ const Index = () => {
           imageFile,
           gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
           clothingType: selectedClothingType,
-          ethnicity: selectedEthnicity,
+          ethnicity: mappedEthnicity,
           size: selectedSize,
           fit: selectedFit,
           isBackView,
