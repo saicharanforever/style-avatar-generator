@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { toast } from "sonner";
 
@@ -6,8 +5,10 @@ export interface GenerationRequest {
   imageFile: File | null;
   gender: 'male' | 'female' | null;
   clothingType: string | null;
-  ethnicity: 'american' | 'indian' | null;
+  ethnicity: 'american' | 'indian' | 'korean' | null; // FIXED: Added 'korean'
   isBackView?: boolean;
+  size?: string | null; // ADDED: To match what's passed from the component
+  fit?: string | null;  // ADDED: To match what's passed from the component
   advancedOptions?: {
     bodySize?: string;
     pose?: string;
@@ -51,8 +52,13 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     // Convert image file to base64
     const base64Image = await fileToBase64(imageFile);
     
-    // Create ethnicity description
-    const ethnicityDescription = ethnicity === 'american' ? 'American' : 'Indian';
+    // Create ethnicity description using a map for better scalability
+    const ethnicityMap: Record<string, string> = {
+      'american': 'American',
+      'indian': 'Indian',
+      'korean': 'Korean'
+    };
+    const ethnicityDescription = ethnicity ? ethnicityMap[ethnicity] : 'Indian'; // FIXED: Handle all ethnicities
     
     // Create view description
     const viewDescription = isBackView ? 'back view' : 'front view';
