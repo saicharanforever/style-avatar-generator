@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -38,7 +39,7 @@ type Ethnicity = 'american' | 'indian' | 'korean' | 'russian';
 
 const Index = () => {
   const { user } = useAuth();
-  const { credits, deductCredits } = useCredits();
+  const { credits, consumeCredits } = useCredits();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [selectedKidsGender, setSelectedKidsGender] = useState<KidsGender | null>(null);
@@ -198,8 +199,8 @@ const Index = () => {
         setSingleRegenerationCount(0);
       }
 
-      // Deduct credits after successful generation
-      await deductCredits(requiredCredits);
+      // Consume credits after successful generation
+      await consumeCredits(requiredCredits, false);
       
       toast.success(multiple ? "3 images generated successfully!" : "Image generated successfully!");
     } catch (error) {
@@ -229,10 +230,10 @@ const Index = () => {
     }
 
     // Check if regeneration is free or paid
-    let creditsToDeduct = 0;
+    let creditsToConsume = 0;
     if (singleRegenerationCount >= 2) {
-      creditsToDeduct = 30;
-      if (credits < creditsToDeduct) {
+      creditsToConsume = 30;
+      if (credits < creditsToConsume) {
         toast.error("Insufficient credits for regeneration. Please purchase more.");
         navigate('/pricing');
         return;
@@ -279,8 +280,8 @@ const Index = () => {
         setIsOriginalImage(result.isOriginal);
         setGenerationMessage(result.message || '');
         
-        if (creditsToDeduct > 0) {
-          await deductCredits(creditsToDeduct); // Deduct credits for paid regenerations
+        if (creditsToConsume > 0) {
+          await consumeCredits(creditsToConsume, true); // Mark as regeneration
         }
         
         toast.success("Image regenerated successfully!");
@@ -344,7 +345,7 @@ const Index = () => {
         setGeneratedImages(newImages);
         
         if (newCounts[index] > 2) {
-          await deductCredits(30); // Deduct credits for paid regenerations
+          await consumeCredits(30, true); // Mark as regeneration
         }
         
         toast.success(`Image ${index + 1} regenerated successfully!`);
