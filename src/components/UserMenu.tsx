@@ -13,11 +13,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { User, LogOut, Ticket, Shield, Coins } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTheme } from '@/contexts/ThemeContext';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
-  const { theme } = useTheme();
   const navigate = useNavigate();
   
   if (!user) {
@@ -61,47 +59,29 @@ const UserMenu = () => {
       <DropdownMenuContent className="w-56 glass-card" align="end">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className={`text-sm font-medium leading-none ${
-              theme === 'light' ? 'text-gray-900' : 'text-gold'
-            }`}>
-              Account
-            </p>
-            <p className={`text-xs leading-none truncate max-w-[200px] ${
-              theme === 'light' ? 'text-gray-600' : 'text-gold-light/70'
-            }`}>
+            <p className="text-sm font-medium leading-none text-gold">Account</p>
+            <p className="text-xs leading-none text-gold-light/70 truncate max-w-[200px]">
               {userEmail}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem 
-          className={`flex cursor-pointer items-center ${
-            theme === 'light' 
-              ? 'text-gray-700 hover:text-gray-900' 
-              : 'text-gold-light/90 hover:text-gold-light'
-          }`}
+          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
           onClick={() => navigate('/profile')}
         >
           <User className="mr-2 h-4 w-4" />
           <span>Profile</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
-          className={`flex cursor-pointer items-center ${
-            theme === 'light' 
-              ? 'text-gray-700 hover:text-gray-900' 
-              : 'text-gold-light/90 hover:text-gold-light'
-          }`}
+          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
           onClick={() => navigate('/profile?tab=coupons')}
         >
           <Ticket className="mr-2 h-4 w-4" />
           <span>Coupons</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
-          className={`flex cursor-pointer items-center ${
-            theme === 'light' 
-              ? 'text-gray-700 hover:text-gray-900' 
-              : 'text-gold-light/90 hover:text-gold-light'
-          }`}
+          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
           onClick={() => navigate('/pricing')}
         >
           <Coins className="mr-2 h-4 w-4" />
@@ -112,11 +92,7 @@ const UserMenu = () => {
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
-              className={`flex cursor-pointer items-center ${
-                theme === 'light' 
-                  ? 'text-gray-700 hover:text-gray-900' 
-                  : 'text-gold-light/90 hover:text-gold-light'
-              }`}
+              className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
               onClick={() => navigate('/admin')}
             >
               <Shield className="mr-2 h-4 w-4" />
@@ -127,11 +103,7 @@ const UserMenu = () => {
         
         <DropdownMenuSeparator />
         <DropdownMenuItem 
-          className={`flex cursor-pointer items-center ${
-            theme === 'light' 
-              ? 'text-gray-700 hover:text-gray-900' 
-              : 'text-gold-light/90 hover:text-gold-light'
-          }`}
+          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
           onClick={handleSignOut}
         >
           <LogOut className="mr-2 h-4 w-4" />
