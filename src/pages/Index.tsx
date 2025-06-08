@@ -419,7 +419,7 @@ const Index = () => {
   };
   
   const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity || 
-                           (selectedGender === 'kids' && !selectedKidsGender);
+                               (selectedGender === 'kids' && !selectedKidsGender);
 
   const handleTypeSelect = (type: string) => {
     setSelectedClothingType(type);
