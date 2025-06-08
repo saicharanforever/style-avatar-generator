@@ -67,21 +67,33 @@ const UserMenu = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem 
-          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
+          className={`flex cursor-pointer items-center ${
+            document.documentElement.classList.contains('light-theme')
+              ? 'text-black hover:text-black' 
+              : 'text-gold-light/90 hover:text-gold-light'
+          }`}
           onClick={() => navigate('/profile')}
         >
           <User className="mr-2 h-4 w-4" />
           <span>Profile</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
-          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
+          className={`flex cursor-pointer items-center ${
+            document.documentElement.classList.contains('light-theme')
+              ? 'text-black hover:text-black' 
+              : 'text-gold-light/90 hover:text-gold-light'
+          }`}
           onClick={() => navigate('/profile?tab=coupons')}
         >
           <Ticket className="mr-2 h-4 w-4" />
           <span>Coupons</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
-          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
+          className={`flex cursor-pointer items-center ${
+            document.documentElement.classList.contains('light-theme')
+              ? 'text-black hover:text-black' 
+              : 'text-gold-light/90 hover:text-gold-light'
+          }`}
           onClick={() => navigate('/pricing')}
         >
           <Coins className="mr-2 h-4 w-4" />
@@ -92,7 +104,11 @@ const UserMenu = () => {
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
-              className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
+              className={`flex cursor-pointer items-center ${
+                document.documentElement.classList.contains('light-theme')
+                  ? 'text-black hover:text-black' 
+                  : 'text-gold-light/90 hover:text-gold-light'
+              }`}
               onClick={() => navigate('/admin')}
             >
               <Shield className="mr-2 h-4 w-4" />
@@ -103,7 +119,11 @@ const UserMenu = () => {
         
         <DropdownMenuSeparator />
         <DropdownMenuItem 
-          className="flex cursor-pointer items-center text-gold-light/90 hover:text-gold-light"
+          className={`flex cursor-pointer items-center ${
+            document.documentElement.classList.contains('light-theme')
+              ? 'text-black hover:text-black' 
+              : 'text-gold-light/90 hover:text-gold-light'
+          }`}
           onClick={handleSignOut}
         >
           <LogOut className="mr-2 h-4 w-4" />

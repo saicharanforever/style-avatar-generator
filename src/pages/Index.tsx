@@ -24,6 +24,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Ticket, Coins } from 'lucide-react';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 type Gender = 'male' | 'female' | 'kids';
 type KidsGender = 'boy' | 'girl';
@@ -593,6 +594,8 @@ const Index = () => {
           regenerationCounts={multipleRegenerationCounts}
         />
       )}
+      
+      <WhatsAppButton />
     </div>
   );
 };

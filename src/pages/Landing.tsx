@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -15,6 +14,8 @@ import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
 import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
+import WhatsAppButton from '@/components/WhatsAppButton';
+
 const Landing = () => {
   const {
     user
@@ -73,6 +74,9 @@ const Landing = () => {
       
       {/* Footer */}
       <Footer />
+      
+      <WhatsAppButton />
     </div>;
 };
+
 export default Landing;
