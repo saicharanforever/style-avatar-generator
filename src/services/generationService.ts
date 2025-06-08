@@ -1,5 +1,4 @@
-
-import { GoogleGenerativeAI } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { toast } from "sonner";
 
 export interface GenerationRequest {
@@ -25,7 +24,7 @@ export interface GenerationRequest {
 const GEMINI_API_KEY = "AIzaSyDjGudOmLbWdPtNdu16zkkqiOn2QQf9esI";
 
 // Initialize Google Gemini client
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const genAI = new GoogleGenAI(GEMINI_API_KEY);
 
 // Maximum number of retry attempts
 const MAX_RETRIES = 2;
@@ -177,7 +176,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}`;
     
     // Enhanced prompt for complete dress visibility
-    const prompt = `Generate a realistic full-body product photography image of ${genderDescription} wearing the exact ${clothingType} shown in this image (${viewDescription}). IMPORTANT: Show the COMPLETE outfit from head to toe, ensuring the entire dress/clothing item is fully visible in the frame. The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. Frame the shot to show the complete garment without any cropping. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details, colors, patterns, and design elements of the clothing item exactly as shown in the reference image. Ensure high resolution output with the full outfit clearly visible.`;
+    const prompt = `Generate a realistic full-body product photography image of ${genderDescription} wearing the exact ${clothingType} shown in this image (${viewDescription}). IMPORTANT: Show the COMPLETE outfit from head to toe, ensuring the entire dress/clothing item is fully visible in the frame without any cropping. The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. Frame the shot to show the complete garment from top to bottom without any parts being cut off. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details, colors, patterns, and design elements of the clothing item exactly as shown in the reference image. Ensure high resolution output with the full outfit clearly visible and properly framed to show the entire garment.`;
     
     console.log("Generation prompt:", prompt);
     
