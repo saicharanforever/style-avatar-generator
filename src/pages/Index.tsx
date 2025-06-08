@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -44,6 +43,7 @@ type AdvancedOptionsState = {
   nosePin?: string;
   size?: ClothingSize;
   fit?: ClothingFit;
+  age?: number;
 };
 
 const Index = () => {
@@ -51,6 +51,7 @@ const Index = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [selectedKidsGender, setSelectedKidsGender] = useState<KidsGender | null>(null);
+  const [selectedAge, setSelectedAge] = useState<number>(8);
   const [selectedClothingType, setSelectedClothingType] = useState<string | null>(null);
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
   const [selectedSize, setSelectedSize] = useState<ClothingSize | null>(null);
@@ -143,9 +144,10 @@ const Index = () => {
   const handleGenderSelect = (gender: Gender) => {
     setSelectedGender(gender);
     
-    // Reset kids gender if not kids
+    // Reset kids gender and age if not kids
     if (gender !== 'kids') {
       setSelectedKidsGender(null);
+      setSelectedAge(8);
     }
     
     setGeneratedImage(null);
@@ -158,6 +160,20 @@ const Index = () => {
 
   const handleKidsGenderSelect = (kidsGender: KidsGender) => {
     setSelectedKidsGender(kidsGender);
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
+  };
+
+  const handleAgeChange = (age: number) => {
+    setSelectedAge(age);
+    setAdvancedOptions(prev => ({
+      ...prev,
+      age: age
+    }));
     setGeneratedImage(null);
     setGeneratedImages([]);
     setIsOriginalImage(false);
@@ -257,7 +273,8 @@ const Index = () => {
       const finalAdvancedOptions = {
         ...advancedOptions,
         size: selectedSize,
-        fit: selectedFit
+        fit: selectedFit,
+        age: selectedGender === 'kids' ? selectedAge : undefined
       };
 
       if (multiple) {
@@ -528,6 +545,15 @@ const Index = () => {
           />
         </div>
       )}
+
+      {selectedGender === 'kids' && selectedKidsGender && (
+        <div className="animate-slide-up animation-delay-1500" style={{ marginBottom: '30px' }}>
+          <KidsAgeSelector
+            selectedAge={selectedAge}
+            onAgeChange={handleAgeChange}
+          />
+        </div>
+      )}
       
       <div className="animate-slide-up animation-delay-1600" style={{ marginBottom: '30px' }}>
         <ClothingTypeSelector 
@@ -552,6 +578,7 @@ const Index = () => {
             selectedClothingType={selectedClothingType}
             selectedSize={selectedSize}
             selectedFit={selectedFit}
+            advancedOptions={advancedOptions}
             onOptionChange={handleAdvancedOptionChange}
             onSizeChange={handleSizeSelect}
             onFitChange={handleFitSelect}
