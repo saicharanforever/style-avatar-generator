@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
@@ -5,6 +6,7 @@ import Header from '@/components/Header';
 import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
 import KidsGenderSelector from '@/components/KidsGenderSelector';
+import KidsAgeSelector from '@/components/KidsAgeSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
 import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
 import SizeSelector, { ClothingSize } from '@/components/SizeSelector';

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -12,6 +13,17 @@ type AdvancedOptionsProps = {
   selectedClothingType: string | null;
   selectedSize?: string | null;
   selectedFit?: string | null;
+  advancedOptions?: {
+    bodySize?: string;
+    pose?: string;
+    hairColor?: string;
+    backdrop?: string;
+    lighting?: string;
+    necklaces?: string;
+    bangles?: string;
+    earrings?: string;
+    nosePin?: string;
+  };
   onOptionChange: (category: string, value: string) => void;
   onSizeChange?: (size: string) => void;
   onFitChange?: (fit: string) => void;
@@ -23,6 +35,7 @@ const AdvancedOptions = ({
   selectedClothingType,
   selectedSize,
   selectedFit,
+  advancedOptions = {},
   onOptionChange,
   onSizeChange,
   onFitChange 
@@ -51,7 +64,11 @@ const AdvancedOptions = ({
           : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 shadow-sm hover:shadow-md'
       }`;
     } else {
-      return `relative h-16 w-full flex flex-col items-center justify-center border-2 border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black rounded-xl`;
+      return `relative h-16 w-full flex flex-col items-center justify-center border-2 rounded-xl transition-all duration-300 ${
+        isSelected
+          ? 'border-blue-600 bg-navy-dark shadow-md border-4'
+          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+      }`;
     }
   };
 
@@ -59,7 +76,7 @@ const AdvancedOptions = ({
     if (theme === 'light') {
       return `text-sm ${isSelected ? 'text-blue-600' : 'text-purple-700'}`;
     } else {
-      return `text-sm text-white/70 group-hover:text-black`;
+      return `text-sm ${isSelected ? 'text-white' : 'text-white/70 group-hover:text-black'}`;
     }
   };
   
@@ -152,18 +169,18 @@ const AdvancedOptions = ({
             <div className="grid grid-cols-2 gap-4">
               <Button
                 onClick={() => onOptionChange('bodySize', 'short')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.bodySize === 'short')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Short</span>
+                <span className={getTextClass(advancedOptions.bodySize === 'short')}>Short</span>
               </Button>
               
               <Button
                 onClick={() => onOptionChange('bodySize', 'tall')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.bodySize === 'tall')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Tall</span>
+                <span className={getTextClass(advancedOptions.bodySize === 'tall')}>Tall</span>
               </Button>
             </div>
           </div>
@@ -176,68 +193,68 @@ const AdvancedOptions = ({
                 <>
                   <Button
                     onClick={() => onOptionChange('pose', 'standing')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 'standing')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Standing Pose</span>
+                    <span className={getTextClass(advancedOptions.pose === 'standing')}>Standing Pose</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('pose', 's-curve')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 's-curve')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>The S-Curve Pose</span>
+                    <span className={getTextClass(advancedOptions.pose === 's-curve')}>The S-Curve Pose</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('pose', 'walking')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 'walking')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Walking Pose</span>
+                    <span className={getTextClass(advancedOptions.pose === 'walking')}>Walking Pose</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('pose', 'leaning')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 'leaning')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>The Leaning Pose</span>
+                    <span className={getTextClass(advancedOptions.pose === 'leaning')}>The Leaning Pose</span>
                   </Button>
                 </>
               ) : (
                 <>
                   <Button
                     onClick={() => onOptionChange('pose', 'standing-back')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 'standing-back')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Standing Pose</span>
+                    <span className={getTextClass(advancedOptions.pose === 'standing-back')}>Standing Pose</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('pose', 'over-shoulder')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 'over-shoulder')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Looking Over Shoulder</span>
+                    <span className={getTextClass(advancedOptions.pose === 'over-shoulder')}>Looking Over Shoulder</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('pose', 'contrapposto')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 'contrapposto')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Contrapposto Pose</span>
+                    <span className={getTextClass(advancedOptions.pose === 'contrapposto')}>Contrapposto Pose</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('pose', 'leaning-wall')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.pose === 'leaning-wall')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Leaning Against Wall</span>
+                    <span className={getTextClass(advancedOptions.pose === 'leaning-wall')}>Leaning Against Wall</span>
                   </Button>
                 </>
               )}
@@ -250,34 +267,34 @@ const AdvancedOptions = ({
             <div className="grid grid-cols-2 gap-4">
               <Button
                 onClick={() => onOptionChange('hairColor', 'black')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.hairColor === 'black')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Black</span>
+                <span className={getTextClass(advancedOptions.hairColor === 'black')}>Black</span>
               </Button>
               
               <Button
                 onClick={() => onOptionChange('hairColor', 'brunette')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.hairColor === 'brunette')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Brunette</span>
+                <span className={getTextClass(advancedOptions.hairColor === 'brunette')}>Brunette</span>
               </Button>
               
               <Button
                 onClick={() => onOptionChange('hairColor', 'blonde')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.hairColor === 'blonde')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Blonde</span>
+                <span className={getTextClass(advancedOptions.hairColor === 'blonde')}>Blonde</span>
               </Button>
               
               <Button
                 onClick={() => onOptionChange('hairColor', 'brown')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.hairColor === 'brown')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Brown</span>
+                <span className={getTextClass(advancedOptions.hairColor === 'brown')}>Brown</span>
               </Button>
             </div>
           </div>
@@ -290,68 +307,68 @@ const AdvancedOptions = ({
                 <>
                   <Button
                     onClick={() => onOptionChange('backdrop', 'white')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'white')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>White Color</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'white')}>White Color</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('backdrop', 'yellow')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'yellow')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Yellow Color</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'yellow')}>Yellow Color</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('backdrop', 'graffiti')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'graffiti')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Graffiti Walls</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'graffiti')}>Graffiti Walls</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('backdrop', 'textured')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'textured')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Textured Backdrops</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'textured')}>Textured Backdrops</span>
                   </Button>
                 </>
               ) : (
                 <>
                   <Button
                     onClick={() => onOptionChange('backdrop', 'white')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'white')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>White Color</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'white')}>White Color</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('backdrop', 'garden')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'garden')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Garden</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'garden')}>Garden</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('backdrop', 'wedding')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'wedding')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Wedding Backdrop</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'wedding')}>Wedding Backdrop</span>
                   </Button>
                   
                   <Button
                     onClick={() => onOptionChange('backdrop', 'historic')}
-                    className={getButtonClass(false)}
+                    className={getButtonClass(advancedOptions.backdrop === 'historic')}
                     variant="ghost"
                   >
-                    <span className={getTextClass(false)}>Historic Buildings</span>
+                    <span className={getTextClass(advancedOptions.backdrop === 'historic')}>Historic Buildings</span>
                   </Button>
                 </>
               )}
@@ -364,26 +381,26 @@ const AdvancedOptions = ({
             <div className="grid grid-cols-3 gap-4">
               <Button
                 onClick={() => onOptionChange('lighting', 'natural')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.lighting === 'natural')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Natural Light</span>
+                <span className={getTextClass(advancedOptions.lighting === 'natural')}>Natural Light</span>
               </Button>
               
               <Button
                 onClick={() => onOptionChange('lighting', 'indoor')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.lighting === 'indoor')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Indoor Lights</span>
+                <span className={getTextClass(advancedOptions.lighting === 'indoor')}>Indoor Lights</span>
               </Button>
               
               <Button
                 onClick={() => onOptionChange('lighting', 'studio')}
-                className={getButtonClass(false)}
+                className={getButtonClass(advancedOptions.lighting === 'studio')}
                 variant="ghost"
               >
-                <span className={getTextClass(false)}>Studio Lights</span>
+                <span className={getTextClass(advancedOptions.lighting === 'studio')}>Studio Lights</span>
               </Button>
             </div>
           </div>
@@ -401,36 +418,48 @@ const AdvancedOptions = ({
                       onClick={() => onOptionChange('necklaces', 'none')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.necklaces === 'none'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.necklaces === 'none'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Nothing</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.necklaces === 'none' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.necklaces === 'none' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Nothing</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('necklaces', 'medium')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.necklaces === 'medium'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.necklaces === 'medium'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Medium</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.necklaces === 'medium' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.necklaces === 'medium' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Medium</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('necklaces', 'heavy')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.necklaces === 'heavy'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.necklaces === 'heavy'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Heavy</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.necklaces === 'heavy' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.necklaces === 'heavy' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Heavy</span>
                     </Button>
                   </div>
                 </div>
@@ -442,36 +471,48 @@ const AdvancedOptions = ({
                       onClick={() => onOptionChange('bangles', 'none')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.bangles === 'none'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.bangles === 'none'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Nothing</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.bangles === 'none' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.bangles === 'none' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Nothing</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('bangles', 'medium')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.bangles === 'medium'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.bangles === 'medium'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Medium</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.bangles === 'medium' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.bangles === 'medium' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Medium</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('bangles', 'heavy')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.bangles === 'heavy'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.bangles === 'heavy'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Heavy</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.bangles === 'heavy' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.bangles === 'heavy' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Heavy</span>
                     </Button>
                   </div>
                 </div>
@@ -483,36 +524,48 @@ const AdvancedOptions = ({
                       onClick={() => onOptionChange('earrings', 'none')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.earrings === 'none'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.earrings === 'none'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Nothing</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.earrings === 'none' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.earrings === 'none' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Nothing</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('earrings', 'medium')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.earrings === 'medium'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.earrings === 'medium'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Medium</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.earrings === 'medium' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.earrings === 'medium' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Medium</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('earrings', 'heavy')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.earrings === 'heavy'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.earrings === 'heavy'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Heavy</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.earrings === 'heavy' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.earrings === 'heavy' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Heavy</span>
                     </Button>
                   </div>
                 </div>
@@ -524,36 +577,48 @@ const AdvancedOptions = ({
                       onClick={() => onOptionChange('nosePin', 'none')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.nosePin === 'none'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.nosePin === 'none'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Nothing</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.nosePin === 'none' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.nosePin === 'none' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Nothing</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('nosePin', 'medium')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.nosePin === 'medium'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.nosePin === 'medium'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Medium</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.nosePin === 'medium' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.nosePin === 'medium' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Medium</span>
                     </Button>
                     
                     <Button
                       onClick={() => onOptionChange('nosePin', 'heavy')}
                       className={`relative h-12 w-full flex items-center justify-center border-2 rounded-xl transition-all ${
                         theme === 'light'
-                          ? 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
-                          : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
+                          ? advancedOptions.nosePin === 'heavy'
+                            ? 'border-blue-600 bg-blue-50 border-4 text-blue-600'
+                            : 'border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 text-purple-700'
+                          : advancedOptions.nosePin === 'heavy'
+                            ? 'border-blue-600 bg-navy-dark border-4 text-white'
+                            : 'border-blue-900 hover:border-blue-500 hover:bg-yellow-300 hover:text-black'
                       }`}
                       variant="ghost"
                     >
-                      <span className={`text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white/70 group-hover:text-black'}`}>Heavy</span>
+                      <span className={`text-sm ${theme === 'light' ? (advancedOptions.nosePin === 'heavy' ? 'text-blue-600' : 'text-purple-700') : (advancedOptions.nosePin === 'heavy' ? 'text-white' : 'text-white/70 group-hover:text-black')}`}>Heavy</span>
                     </Button>
                   </div>
                 </div>

@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 export interface GenerationRequest {
   imageFile: File | null;
-  gender: 'male' | 'female' | null;
+  gender: 'male' | 'female' | 'kids' | null;
   clothingType: string | null;
   ethnicity: 'american' | 'indian' | 'korean' | 'russian' | null; // FIXED: Added 'russian'
   isBackView?: boolean;
@@ -19,6 +19,7 @@ export interface GenerationRequest {
     bangles?: string;
     earrings?: string;
     nosePin?: string;
+    age?: number;
   };
 }
 
@@ -57,7 +58,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       'american': 'American',
       'indian': 'Indian',
       'korean': 'Korean',
-      'russian': 'Russian' // FIXED: Added Russian
+      'russian': 'Russian'
     };
     const ethnicityDescription = ethnicity ? ethnicityMap[ethnicity] : 'Indian'; 
     
@@ -71,9 +72,15 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     let hairColorDescription = '';
     let backdropDescription = '';
     let lightingDescription = '';
+    let ageDescription = '';
     
     // Process advanced options
     if (advancedOptions) {
+      // Age for kids
+      if (advancedOptions.age) {
+        ageDescription = `${advancedOptions.age} years old`;
+      }
+      
       // Body size
       if (advancedOptions.bodySize) {
         bodySizeDescription = `with ${advancedOptions.bodySize} body type`;
@@ -182,8 +189,8 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     
     // Create gender-specific pose and expression
     const genderDescription = gender === 'male' 
-      ? `a professional ${ethnicityDescription} male model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}` 
-      : `a professional ${ethnicityDescription} female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}`;
+      ? `a professional ${ethnicityDescription} ${ageDescription ? `${ageDescription} ` : ''}male model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}` 
+      : `a professional ${ethnicityDescription} ${ageDescription ? `${ageDescription} ` : ''}female model ${hairColorDescription || 'with black hair'} and fair skin ${bodySizeDescription}`;
     
     // Craft the prompt for the AI - optimized for quality and clarity
     const prompt = `Generate a realistic product photography image of ${genderDescription} wearing the ${clothingType} shown in this image (${viewDescription}). The model should be positioned ${poseDescription || (gender === 'male' ? 'with a confident pose facing the camera, with a strong alpha look' : 'with a warm, friendly smile facing the camera')} ${accessoryDescription}. The image should look like a professional fashion catalog photo ${backdropDescription || 'with a neutral background'} ${lightingDescription || 'with studio lighting'}. Preserve all details of the clothing item and ensure high resolution output.`;
