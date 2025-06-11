@@ -111,43 +111,40 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       'leaning': 'leaning casually',
       'contrapposto': 'in a classic contrapposto pose',
       'leaning-wall': 'leaning against a textured wall',
-      // Specific back view poses
       'standing-back': 'standing straight with their back to the camera',
       'over-shoulder': 'glancing over their shoulder towards the camera',
     };
 
     let poseDescription = '';
     if (isBackView) {
-        // Default to a specific back view pose if none is provided in advanced options
-        poseDescription = advancedOptions?.pose && ['standing-back', 'over-shoulder'].includes(advancedOptions.pose)
-            ? poseMap[advancedOptions.pose]
-            : 'standing with their back fully to the camera to showcase the garment';
+      poseDescription = advancedOptions?.pose && ['standing-back', 'over-shoulder'].includes(advancedOptions.pose)
+        ? poseMap[advancedOptions.pose]
+        : 'standing with their back fully to the camera to showcase the garment';
     } else {
-        // Default front view poses
-        poseDescription = advancedOptions?.pose && poseMap[advancedOptions.pose]
-            ? poseMap[advancedOptions.pose]
-            : 'in a neutral, professional modeling pose facing the camera';
+      poseDescription = advancedOptions?.pose && poseMap[advancedOptions.pose]
+        ? poseMap[advancedOptions.pose]
+        : 'in a neutral, professional modeling pose facing the camera';
     }
 
 
     // 3. Accessories Description
     let accessoryDescription = '';
     if (gender === 'female' && advancedOptions) {
-        const accessories = [];
-        const isEthnic = ['saree_traditional', 'saree_party', 'kurti', 'blouse', 'lehenga', 'palazzo', 'indo_western', 'tunic'].includes(clothingType);
+      const accessories = [];
+      const isEthnic = ['saree_traditional', 'saree_party', 'kurti', 'blouse', 'lehenga', 'palazzo', 'indo_western', 'tunic'].includes(clothingType);
 
-        if (isEthnic) {
-            if (advancedOptions.earrings !== 'none') accessories.push(`${advancedOptions.earrings || 'simple'} earrings`);
-            if (advancedOptions.nosePin !== 'none') accessories.push(`${advancedOptions.nosePin || 'small'} nose pin`);
-            if (advancedOptions.necklaces !== 'none') accessories.push(`${advancedOptions.necklaces || 'small'} necklace`);
-            if (ethnicity === 'indian') accessories.push('a delicate bindi');
-        } else {
-            if (advancedOptions.earrings && advancedOptions.earrings !== 'none') accessories.push(`${advancedOptions.earrings} earrings`);
-            if (advancedOptions.nosePin && advancedOptions.nosePin !== 'none') accessories.push(`${advancedOptions.nosePin} nose pin`);
-            if (advancedOptions.necklaces && advancedOptions.necklaces !== 'none') accessories.push(`${advancedOptions.necklaces} necklace`);
-        }
-        if (advancedOptions.bangles && advancedOptions.bangles !== 'none') accessories.push(`${advancedOptions.bangles} bangles`);
-        if (accessories.length > 0) accessoryDescription = `accessorized with ${accessories.join(', ')}`;
+      if (isEthnic) {
+        if (advancedOptions.earrings !== 'none') accessories.push(`${advancedOptions.earrings || 'simple'} earrings`);
+        if (advancedOptions.nosePin !== 'none') accessories.push(`${advancedOptions.nosePin || 'small'} nose pin`);
+        if (advancedOptions.necklaces !== 'none') accessories.push(`${advancedOptions.necklaces || 'small'} necklace`);
+        if (ethnicity === 'indian') accessories.push('a delicate bindi');
+      } else {
+        if (advancedOptions.earrings && advancedOptions.earrings !== 'none') accessories.push(`${advancedOptions.earrings} earrings`);
+        if (advancedOptions.nosePin && advancedOptions.nosePin !== 'none') accessories.push(`${advancedOptions.nosePin} nose pin`);
+        if (advancedOptions.necklaces && advancedOptions.necklaces !== 'none') accessories.push(`${advancedOptions.necklaces} necklace`);
+      }
+      if (advancedOptions.bangles && advancedOptions.bangles !== 'none') accessories.push(`${advancedOptions.bangles} bangles`);
+      if (accessories.length > 0) accessoryDescription = `accessorized with ${accessories.join(', ')}`;
     }
 
     // 4. Scene and Style Description (Backdrop, Lighting)
@@ -158,20 +155,20 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     const lightingDescription = advancedOptions?.lighting ? lightingMap[advancedOptions.lighting] : 'professional studio lighting';
     
     // --- THE BRILLIANT PROMPT ---
-    // This prompt is structured for clarity, quality, and control.
     const viewSpecifics = isBackView
-        ? `showcasing the *back view* of the ${clothingType}`
-        : `wearing the *exact* same ${clothingType} as shown in the provided image`;
+      ? `showcasing the *back view* of the ${clothingType}`
+      : `wearing the *exact* same ${clothingType} as shown in the provided image`;
 
     const prompt = `
       **Primary Goal:** Create a photorealistic, ultra-high-resolution fashion catalog image.
       **Subject:** ${fullModelDescription}.
-      **Attire:** The model is ${viewSpecifics}. **Crucial directive:** The color, pattern, fabric texture, and design of the clothing must be an *identical match* to the provided image. If generating a back view, intelligently and realistically infer the back design based on the front.
+      **Attire:** The model is ${viewSpecifics}. 
+      **Crucial Directive:** The clothing's color, pattern, texture, and design must be an *identical match* to the provided image. **Strictly maintain the original color saturation and hue; do not alter shades (e.g., dark blue must remain dark blue, not light blue).** If generating a back view, intelligently infer the back design based on the front.
       **Pose & Composition:** The model is positioned ${poseDescription}. The composition should be clean, focusing entirely on the model and attire.
       **Environment & Lighting:** The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}. This should enhance the garment's details.
       **Accessories:** ${accessoryDescription || 'No distracting accessories unless specified.'}
       **Final Output Style:** The image must be of commercial quality, sharp, and hyper-realistic, suitable for a high-end online fashion store. Avoid any hint of being AI-generated.
-    `.replace(/\s+/g, ' ').trim(); // Clean up whitespace for the API call
+    `.replace(/\s+/g, ' ').trim();
 
     console.log("Final Generation Prompt:", prompt);
 
@@ -187,11 +184,11 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     while (retries <= MAX_RETRIES) {
       try {
         const response = await genAI.models.generateContent({
-          model: "gemini-2.0-flash-exp-image-generation", // Using the specified experimental model
+          model: "gemini-2.0-flash-exp-image-generation",
           contents: contents,
           config: {
             responseModalities: ["Text", "Image"],
-            temperature: 0.2, // Slightly lowered for more predictable adherence to the prompt
+            temperature: 0, // Set to 0 for maximum determinism and color preservation
             topK: 32,
             topP: 0.95,
           },
@@ -217,7 +214,6 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
           await sleep(RETRY_DELAY);
           retries++;
         } else {
-          // If all retries fail, throw the last known error to be caught by the outer block
           throw error;
         }
       }
@@ -225,14 +221,13 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   } catch (error) {
     console.error('All attempts to generate image with Gemini failed:', error);
     toast.error("The AI model seems to be overloaded. We'll use your original image as a fallback for now.");
-    const originalImage = await fileToBase64(imageFile!); // Non-null assertion as it's checked at the start
+    const originalImage = await fileToBase64(imageFile!);
     return {
       image: originalImage,
       isOriginal: true,
       message: "The AI model is currently overloaded. Using your original image as a fallback."
     };
   }
-  // This part should ideally not be reached, but as a safeguard:
   throw new Error('Image generation failed after all retries.');
 };
 
