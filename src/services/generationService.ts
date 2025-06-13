@@ -154,19 +154,19 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     const backdropDescription = advancedOptions?.backdrop ? backdropMap[advancedOptions.backdrop] : 'a neutral, non-distracting studio background';
     const lightingDescription = advancedOptions?.lighting ? lightingMap[advancedOptions.lighting] : 'professional studio lighting';
     
-    // --- THE ENHANCED PROMPT ---
+    // --- THE ENHANCED PROMPT FOR COLOR ACCURACY ---
     const viewSpecifics = isBackView
       ? `showcasing the *back view* of the ${clothingType}`
       : `wearing the *exact* same ${clothingType} as shown in the provided image`;
 
     const prompt = `
-      **Primary Goal:** Create a **hyper-realistic, lifelike, and consistent** ultra-high-resolution fashion catalog image.
-      **Subject:** ${fullModelDescription}. The model must look like a **real human being** with natural skin texture, authentic features, and realistic human expressions.
-      **Attire:** The model is ${viewSpecifics}.
-      **Crucial Directive:** The clothing's color, pattern, texture, and design must be an **identical match** to the provided image. **Strictly maintain the original color saturation and hue; do not alter shades (e.g., dark blue must remain dark blue, not light blue).** If generating a back view, intelligently infer the back design based on the front.
-      **Realism & Consistency Mandate:** This is the most important instruction. The generated model must be **indistinguishable from a real person in a photograph**. Avoid any plastic, doll-like, or overly airbrushed appearances. The generation must be stable. **Absolutely no hallucinations**: no extra limbs, distorted facial features, or nonsensical patterns. The result must be consistent and believable.
+      **Primary Goal:** Create a hyper-realistic, lifelike, ultra-high-resolution fashion catalog image.
+      **NON-NEGOTIABLE COLOR ACCURACY:** This is the most critical instruction. The color of the garment in the generated image MUST be an **exact, pixel-perfect match** to the color in the provided source image. For example, if the input is 'light blue', the output must be 'light blue', NOT 'dark blue' or 'royal blue'. Do not interpret, enhance, or change the color profile. Replicate the original garment's hue, saturation, and brightness with absolute fidelity, even considering the specified lighting. Any deviation in color is a failure.
+      **Subject:** ${fullModelDescription}. The model must look like a **real human being** with natural skin texture and authentic features.
+      **Attire & Design Integrity:** The model is ${viewSpecifics}. The clothing's pattern, texture, and design details must be an **identical match** to the provided image. If generating a back view, intelligently and realistically infer the back design based on the front.
+      **Realism & Consistency Mandate:** The generated model must be **indistinguishable from a real person in a photograph**. Avoid any plastic, doll-like, or overly airbrushed appearances. Absolutely no hallucinations: no extra limbs, distorted features, or nonsensical patterns.
       **Pose & Composition:** The model is positioned ${poseDescription}. The composition should be clean, focusing entirely on the model and attire.
-      **Environment & Lighting:** The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}. This should enhance the garment's details.
+      **Environment & Lighting:** The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}.
       **Accessories:** ${accessoryDescription || 'No distracting accessories unless specified.'}
       **Final Output Style:** The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer. **It must not look AI-generated in any way.**
     `.replace(/\s+/g, ' ').trim();
