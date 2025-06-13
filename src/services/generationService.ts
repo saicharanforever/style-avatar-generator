@@ -154,20 +154,21 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     const backdropDescription = advancedOptions?.backdrop ? backdropMap[advancedOptions.backdrop] : 'a neutral, non-distracting studio background';
     const lightingDescription = advancedOptions?.lighting ? lightingMap[advancedOptions.lighting] : 'professional studio lighting';
     
-    // --- THE BRILLIANT PROMPT ---
+    // --- THE ENHANCED PROMPT ---
     const viewSpecifics = isBackView
       ? `showcasing the *back view* of the ${clothingType}`
       : `wearing the *exact* same ${clothingType} as shown in the provided image`;
 
     const prompt = `
-      **Primary Goal:** Create a photorealistic, ultra-high-resolution fashion catalog image.
-      **Subject:** ${fullModelDescription}.
-      **Attire:** The model is ${viewSpecifics}. 
-      **Crucial Directive:** The clothing's color, pattern, texture, and design must be an *identical match* to the provided image. **Strictly maintain the original color saturation and hue; do not alter shades (e.g., dark blue must remain dark blue, not light blue).** If generating a back view, intelligently infer the back design based on the front.
+      **Primary Goal:** Create a **hyper-realistic, lifelike, and consistent** ultra-high-resolution fashion catalog image.
+      **Subject:** ${fullModelDescription}. The model must look like a **real human being** with natural skin texture, authentic features, and realistic human expressions.
+      **Attire:** The model is ${viewSpecifics}.
+      **Crucial Directive:** The clothing's color, pattern, texture, and design must be an **identical match** to the provided image. **Strictly maintain the original color saturation and hue; do not alter shades (e.g., dark blue must remain dark blue, not light blue).** If generating a back view, intelligently infer the back design based on the front.
+      **Realism & Consistency Mandate:** This is the most important instruction. The generated model must be **indistinguishable from a real person in a photograph**. Avoid any plastic, doll-like, or overly airbrushed appearances. The generation must be stable. **Absolutely no hallucinations**: no extra limbs, distorted facial features, or nonsensical patterns. The result must be consistent and believable.
       **Pose & Composition:** The model is positioned ${poseDescription}. The composition should be clean, focusing entirely on the model and attire.
       **Environment & Lighting:** The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}. This should enhance the garment's details.
       **Accessories:** ${accessoryDescription || 'No distracting accessories unless specified.'}
-      **Final Output Style:** The image must be of commercial quality, sharp, and hyper-realistic, suitable for a high-end online fashion store. Avoid any hint of being AI-generated.
+      **Final Output Style:** The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer. **It must not look AI-generated in any way.**
     `.replace(/\s+/g, ' ').trim();
 
     console.log("Final Generation Prompt:", prompt);
