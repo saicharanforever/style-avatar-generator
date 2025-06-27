@@ -2,6 +2,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
+import { Typewriter } from "@/components/ui/typewriter"
 
 interface HeroSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
@@ -77,13 +78,13 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
   (
     {
       className,
-      title = "Build products for everyone",
+      title = "A smile in every pic :)",
       subtitle = {
-        regular: "Designing your projects faster with ",
-        gradient: "the largest figma UI kit.",
+        regular: "Even your dress deserves ",
+        gradient: "a life!"
       },
-      description = "Sed ut perspiciatis unde omnis iste natus voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.",
-      ctaText = "Browse courses",
+      description = "The perfect fusion of trend and tech in every click.",
+      ctaText = "Get Started for Free",
       onCtaClick,
       gridOptions,
       ...props
@@ -101,11 +102,18 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 {title}
                 <ChevronRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 duration-300" />
               </h1>
-              <h2 className="text-4xl tracking-tighter font-geist bg-clip-text text-transparent mx-auto md:text-6xl bg-[linear-gradient(180deg,_#000_0%,_rgba(0,_0,_0,_0.75)_100%)] dark:bg-[linear-gradient(180deg,_#FFF_0%,_rgba(255,_255,_255,_0.00)_202.08%)]">
-                {subtitle.regular}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 dark:from-purple-300 dark:to-orange-200">
-                  {subtitle.gradient}
+              <h2 className="text-4xl tracking-tighter font-geist mx-auto md:text-6xl">
+                <span className="bg-clip-text text-transparent bg-[linear-gradient(180deg,_#000_0%,_rgba(0,_0,_0,_0.75)_100%)] dark:bg-[linear-gradient(180deg,_#FFF_0%,_rgba(255,_255,_255,_0.00)_202.08%)]">
+                  {subtitle.regular}
                 </span>
+                <Typewriter
+                  text={[subtitle.gradient, "a makeover!", "attention!", "spotlight!"]}
+                  speed={100}
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 dark:from-purple-300 dark:to-orange-200"
+                  waitTime={2000}
+                  deleteSpeed={50}
+                  cursorChar="|"
+                />
               </h2>
               <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
                 {description}

@@ -58,15 +58,20 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         navy: {
-          DEFAULT: '#0A0529', // Darker navy from the image
-          light: '#10083C',   // Lighter navy from the image
-          dark: '#070420',    // Darkest navy from the image
+          DEFAULT: '#0A0529',
+          light: '#10083C',
+          dark: '#070420',
         },
         gold: {
-          DEFAULT: '#FFDC31', // Bright yellow from the logo
-          light: '#FFEB82',   // Lighter yellow
-          dark: '#FFCC00',    // Darker yellow
+          DEFAULT: '#FFDC31',
+          light: '#FFEB82',
+          dark: '#FFCC00',
         },
+        "color-1": "hsl(var(--color-1))",
+        "color-2": "hsl(var(--color-2))",
+        "color-3": "hsl(var(--color-3))",
+        "color-4": "hsl(var(--color-4))",
+        "color-5": "hsl(var(--color-5))",
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -94,6 +99,29 @@ export default {
           '0%': { backgroundPosition: '-500px 0' },
           '100%': { backgroundPosition: '500px 0' },
         },
+        rainbow: {
+          "0%": { "background-position": "0%" },
+          "100%": { "background-position": "200%" },
+        },
+        "pulse-slow": {
+          '0%, 100%': {
+            transform: 'translateX(-100%)',
+          },
+          '50%': {
+            transform: 'translateX(100%)',
+          },
+        },
+        shine: {
+          '0%': {
+            transform: 'translateX(-100%)',
+          },
+          '50%': {
+            transform: 'translateX(100%)',
+          },
+          '100%': {
+            transform: 'translateX(-100%)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -101,11 +129,13 @@ export default {
         'float': 'float 5s ease-in-out infinite',
         'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
         'shimmer': 'shimmer 2s infinite linear',
+        rainbow: "rainbow var(--speed, 2s) infinite linear",
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
       },
       backgroundImage: {
         'gradient-royal': 'linear-gradient(135deg, #0A0529 0%, #10083C 100%)',
         'gradient-gold': 'linear-gradient(135deg, #FFDC31 0%, #FFCC00 100%)',
-        'gradient-button': 'linear-gradient(90deg, #FFDC31 0%, #FFCC00 100%)', // Changed to gold
+        'gradient-button': 'linear-gradient(90deg, #FFDC31 0%, #FFCC00 100%)',
         'particle-pattern': "url('/public/lovable-uploads/7caec776-da84-4ecf-8d48-9977ab6f2f98.png')",
       },
     }

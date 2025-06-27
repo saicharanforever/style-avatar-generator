@@ -37,10 +37,10 @@ const Landing = () => {
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-[#F5F5F0]'} overflow-x-hidden`}>
       {theme === 'dark' && <BackgroundParticles />}
       
-      {/* Sticky Navigation */}
+      {/* Navigation with anime navbar */}
       <Navigation onGetStarted={handleGetStarted} />
       
-      {/* Hero Section */}
+      {/* Hero Section with typewriter effect */}
       <HeroSection onGetStarted={handleGetStarted} />
       
       {/* Before & After Section */}
@@ -64,7 +64,7 @@ const Landing = () => {
       {/* FAQ Section */}
       <FAQSection />
       
-      {/* Final CTA */}
+      {/* Final CTA with gooey text morphing */}
       <CallToAction onGetStarted={handleGetStarted} />
       
       {/* Footer */}
