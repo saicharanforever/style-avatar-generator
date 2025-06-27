@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -5,6 +6,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
+import BeforeAfterSection from '@/components/landing/BeforeAfterSection';
 import BrandsSection from '@/components/landing/BrandsSection';
 import FeaturesSection from '@/components/landing/FeaturesSection';
 import HowItWorksSection from '@/components/landing/HowItWorksSection';
@@ -12,17 +14,12 @@ import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import PricingSection from '@/components/landing/PricingSection';
 import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
-import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
 const Landing = () => {
-  const {
-    user
-  } = useAuth();
-  const {
-    theme
-  } = useTheme();
+  const { user } = useAuth();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   // Redirect if user is already authenticated
@@ -31,10 +28,13 @@ const Landing = () => {
       navigate('/');
     }
   }, [user, navigate]);
+  
   const handleGetStarted = () => {
     navigate('/auth');
   };
-  return <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-[#F5F5F0]'} overflow-x-hidden`}>
+  
+  return (
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-[#F5F5F0]'} overflow-x-hidden`}>
       {theme === 'dark' && <BackgroundParticles />}
       
       {/* Sticky Navigation */}
@@ -43,13 +43,8 @@ const Landing = () => {
       {/* Hero Section */}
       <HeroSection onGetStarted={handleGetStarted} />
       
-      {/* Before & After Section - Right below Hero Section - removed extra padding */}
-      <section className={`px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-[#EDEDE8]'}`}>
-        <h2 className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-8 font-playfair text-gold-dark font-semibold md:text-5xl`}>
-          Before & After Transformations
-        </h2>
-        <BeforeAfterCarousel />
-      </section>
+      {/* Before & After Section */}
+      <BeforeAfterSection />
       
       {/* Brands Section */}
       <BrandsSection />
@@ -60,7 +55,7 @@ const Landing = () => {
       {/* How It Works Section */}
       <HowItWorksSection />
       
-      {/* Testimonials Section - Added between How It Works and Pricing */}
+      {/* Testimonials Section */}
       <TestimonialsSection />
       
       {/* Pricing Section */}
@@ -76,7 +71,8 @@ const Landing = () => {
       <Footer />
       
       <WhatsAppButton />
-    </div>;
+    </div>
+  );
 };
 
 export default Landing;
