@@ -39,6 +39,7 @@ const Index = () => {
     const { theme } = useTheme();
     const navigate = useNavigate();
     
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [uploadedImage, setUploadedImage] = useState<string>('');
     const [selectedGender, setSelectedGender] = useState<'male' | 'female' | 'kids' | null>(null);
     const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
@@ -66,9 +67,10 @@ const Index = () => {
       earrings: '',
       nosePin: ''
     });
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleImageUpload = useCallback((imageUrl: string) => {
+    const handleImageSelect = useCallback((file: File) => {
+      setSelectedFile(file);
+      const imageUrl = URL.createObjectURL(file);
       setUploadedImage(imageUrl);
       setGeneratedImage('');
       setMultipleResults([]);
@@ -94,11 +96,6 @@ const Index = () => {
         earrings: '',
         nosePin: ''
       });
-    }, []);
-
-    const handleSampleLoad = useCallback((sampleData: any) => {
-      // Sample data would be loaded here
-      toast.info('Sample functionality not implemented yet');
     }, []);
 
     const updateProgress = useCallback((progress: number, message: string) => {
@@ -146,10 +143,10 @@ const Index = () => {
       }));
     }, []);
 
-    const canGenerate = !!(uploadedImage && selectedGender && selectedEthnicity && selectedSize && selectedClothingType);
+    const canGenerate = !!(selectedFile && selectedGender && selectedEthnicity && selectedSize && selectedClothingType);
 
     const handleGenerate = useCallback(async () => {
-      if (!canGenerate) {
+      if (!canGenerate || !selectedFile) {
         toast.error('Please fill in all required fields');
         return;
       }
@@ -161,7 +158,7 @@ const Index = () => {
       }
 
       const request: GenerationRequest = {
-        imageFile: new File([], 'temp'), // This would be the actual file
+        imageFile: selectedFile,
         gender: selectedGender!,
         ethnicity: selectedEthnicity!,
         size: selectedSize!,
@@ -189,10 +186,10 @@ const Index = () => {
         setGenerationProgress(0);
         setProgressMessage('');
       }
-    }, [canGenerate, credits, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, isBackView, advancedOptions, navigate, refreshCredits, updateProgress]);
+    }, [canGenerate, selectedFile, credits, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, isBackView, advancedOptions, navigate, refreshCredits, updateProgress]);
 
     const handleGenerateMultiple = useCallback(async (count: number) => {
-      if (!canGenerate) {
+      if (!canGenerate || !selectedFile) {
         toast.error('Please fill in all required fields');
         return;
       }
@@ -204,7 +201,7 @@ const Index = () => {
       }
 
       const request: GenerationRequest = {
-        imageFile: new File([], 'temp'), // This would be the actual file
+        imageFile: selectedFile,
         gender: selectedGender!,
         ethnicity: selectedEthnicity!,
         size: selectedSize!,
@@ -238,7 +235,7 @@ const Index = () => {
         setGenerationProgress(0);
         setProgressMessage('');
       }
-    }, [canGenerate, credits, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, isBackView, advancedOptions, navigate, refreshCredits, updateProgress]);
+    }, [canGenerate, selectedFile, credits, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, isBackView, advancedOptions, navigate, refreshCredits, updateProgress]);
 
     console.log('Rendering Index component UI...');
 
@@ -264,18 +261,16 @@ const Index = () => {
                   </div>
                   
                   <ImageUploader 
-                    onImageSelect={handleImageUpload}
+                    onImageSelect={handleImageSelect}
                     selectedImage={uploadedImage}
-                    fileInputRef={fileInputRef}
                   />
                   
-                  <SampleButton onSampleLoad={handleSampleLoad} />
+                  <SampleButton onClick={() => toast.info('Sample functionality not implemented yet')} disabled={false} />
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <GenderSelector 
                       selectedGender={selectedGender} 
                       onGenderSelect={handleGenderChange}
-                      onReset={resetToDefaults}
                     />
                     
                     {selectedGender === 'kids' && (
@@ -285,8 +280,8 @@ const Index = () => {
                           onKidsGenderSelect={handleKidsGenderChange}
                         />
                         <KidsAgeSelector 
-                          selectedAge={selectedKidsAge}
-                          onAgeSelect={handleKidsAgeChange}
+                          selectedAge={selectedKidsAge || 5}
+                          onAgeChange={handleKidsAgeChange}
                         />
                       </>
                     )}
@@ -304,7 +299,7 @@ const Index = () => {
                     <ClothingTypeSelector 
                       selectedType={selectedClothingType} 
                       onTypeSelect={handleClothingTypeChange}
-                      selectedGender={selectedGender}
+                      selectedGender={selectedGender === 'kids' ? 'male' : selectedGender}
                     />
                   </div>
                   
@@ -319,7 +314,7 @@ const Index = () => {
                   {showAdvanced && (
                     <AdvancedOptions 
                       isBackView={isBackView}
-                      selectedGender={selectedGender}
+                      selectedGender={selectedGender === 'kids' ? 'male' : selectedGender}
                       selectedClothingType={selectedClothingType}
                       selectedSize={selectedSize}
                       selectedFit={selectedFit}
@@ -335,15 +330,13 @@ const Index = () => {
                       <GenerateButton 
                         onClick={handleGenerate}
                         isGenerating={isGenerating}
-                        canGenerate={canGenerate}
-                        credits={credits}
+                        disabled={!canGenerate}
                       />
                     ) : (
                       <GenerateMultipleButton 
-                        onClick={handleGenerateMultiple}
+                        onClick={() => handleGenerateMultiple(3)}
                         isGenerating={isGenerating}
-                        canGenerate={canGenerate}
-                        credits={credits}
+                        disabled={!canGenerate}
                       />
                     )}
                   </div>
@@ -352,7 +345,6 @@ const Index = () => {
                     <GenerationProgress 
                       progress={generationProgress}
                       isVisible={isGenerating}
-                      message={progressMessage}
                     />
                   )}
                 </CardContent>
