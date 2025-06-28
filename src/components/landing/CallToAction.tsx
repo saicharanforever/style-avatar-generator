@@ -2,8 +2,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
-import { GooeyText } from '@/components/ui/gooey-text-morphing';
-import { MagnetizeButton } from '@/components/ui/magnetize-button';
+import { WavyBackground } from '@/components/ui/wavy-background';
+import { Button } from '@/components/ui/button';
 
 interface CallToActionProps {
   onGetStarted: () => void;
@@ -18,33 +18,27 @@ const CallToAction = ({ onGetStarted }: CallToActionProps) => {
   };
   
   return (
-    <section className="py-24 px-4">
-      <div className="max-w-3xl mx-auto text-center">
-        <div className="h-[200px] flex items-center justify-center mb-8">
-          <GooeyText
-            texts={["Ready to Elevate", "Transform Your", "Revolutionize Your", "Upgrade Your"]}
-            morphTime={1.2}
-            cooldownTime={0.3}
-            className="font-bold"
-            textClassName={`text-3xl md:text-5xl ${
-              theme === 'dark' ? 'text-gold' : 'text-[#5D3FD3]'
-            }`}
-          />
-        </div>
-        <h3 className={`text-xl md:text-2xl mb-8 ${
-          theme === 'dark' ? 'text-gold-light' : 'text-[#4A4A4A]'
-        }`}>
-          Fashion Photography?
-        </h3>
-        <MagnetizeButton 
+    <WavyBackground 
+      className="max-w-4xl mx-auto pb-40"
+      colors={theme === 'dark' ? ["#38bdf8", "#818cf8", "#c084fc", "#e879f9", "#22d3ee"] : ["#3b82f6", "#8b5cf6", "#d946ef", "#ec4899", "#06b6d4"]}
+      backgroundFill={theme === 'dark' ? "#0A0529" : "#F5F5F0"}
+    >
+      <div className="text-center space-y-8">
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white">
+          Ready to Elevate Your Fashion Photography?
+        </h2>
+        <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
+          Transform your style with our AI-powered fashion photography tools
+        </p>
+        <Button 
           onClick={handleGetStarted}
-          className="text-xl py-8 px-12 hover:scale-105 shadow-lg"
-          particleCount={16}
+          size="lg"
+          className="bg-white text-black hover:bg-white/90 text-lg px-8 py-4"
         >
           Get Started Now
-        </MagnetizeButton>
+        </Button>
       </div>
-    </section>
+    </WavyBackground>
   );
 };
 

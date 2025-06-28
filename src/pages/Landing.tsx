@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -37,10 +36,10 @@ const Landing = () => {
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-[#F5F5F0]'} overflow-x-hidden`}>
       {theme === 'dark' && <BackgroundParticles />}
       
-      {/* Navigation with anime navbar */}
+      {/* Navigation with improved mobile spacing */}
       <Navigation onGetStarted={handleGetStarted} />
       
-      {/* Hero Section with typewriter effect */}
+      {/* Hero Section with new futuristic design */}
       <HeroSection onGetStarted={handleGetStarted} />
       
       {/* Before & After Section */}
@@ -64,7 +63,7 @@ const Landing = () => {
       {/* FAQ Section */}
       <FAQSection />
       
-      {/* Final CTA with gooey text morphing */}
+      {/* Final CTA with wavy background */}
       <CallToAction onGetStarted={handleGetStarted} />
       
       {/* Footer */}
