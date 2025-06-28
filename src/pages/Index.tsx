@@ -1,3 +1,4 @@
+
 import { useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -22,7 +23,7 @@ import ViewToggle from '@/components/ViewToggle';
 import SampleButton from '@/components/SampleButton';
 import GenerationProgress from '@/components/GenerationProgress';
 import BackgroundParticles from '@/components/BackgroundParticles';
-import { generateModelImage, generateMultipleModelImages, GenerationRequest } from '@/services/generationService';
+import { generateFashionImage, GenerationRequest } from '@/services/generationService';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -37,9 +38,9 @@ const Index = () => {
     const { theme } = useTheme();
     const navigate = useNavigate();
     
-    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-    const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
-    const [selectedEthnicity, setSelectedEthnicity] = useState<string | null>(null);
+    const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+    const [selectedGender, setSelectedGender] = useState<'male' | 'female' | 'kids' | null>(null);
+    const [selectedEthnicity, setSelectedEthnicity] = useState<'american' | 'indian' | 'korean' | 'russian' | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
     const [selectedClothingType, setSelectedClothingType] = useState<string | null>(null);
     const [selectedFit, setSelectedFit] = useState<ClothingFit | null>(null);
@@ -52,10 +53,11 @@ const Index = () => {
     const [viewMode, setViewMode] = useState<ViewMode>('single');
     const [generationProgress, setGenerationProgress] = useState(0);
     const [progressMessage, setProgressMessage] = useState('');
+    const [isBackView, setIsBackView] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleImageUpload = useCallback((imageUrl: string) => {
-      setUploadedImage(imageUrl);
+    const handleImageSelect = useCallback((file: File) => {
+      setUploadedImage(file);
       setGeneratedImage(null);
       setMultipleResults([]);
     }, []);
@@ -71,19 +73,9 @@ const Index = () => {
       setShowAdvanced(false);
     }, []);
 
-    const handleSampleLoad = useCallback((sampleData: any) => {
-      setUploadedImage(sampleData.image);
-      setSelectedGender(sampleData.gender);
-      setSelectedEthnicity(sampleData.ethnicity);
-      setSelectedSize(sampleData.size);
-      setSelectedClothingType(sampleData.clothingType);
-      setSelectedFit(sampleData.fit || 'regular');
-      if (sampleData.gender === 'kids') {
-        setSelectedKidsGender(sampleData.kidsGender);
-        setSelectedKidsAge(sampleData.kidsAge);
-      }
-      setGeneratedImage(null);
-      setMultipleResults([]);
+    const handleSampleLoad = useCallback(() => {
+      // Sample data would be loaded here
+      toast.info('Sample functionality not implemented yet');
     }, []);
 
     const updateProgress = useCallback((progress: number, message: string) => {
@@ -104,14 +96,16 @@ const Index = () => {
       }
 
       const request: GenerationRequest = {
-        image: uploadedImage,
+        imageFile: uploadedImage,
         gender: selectedGender,
         ethnicity: selectedEthnicity,
         size: selectedSize,
         clothingType: selectedClothingType,
+        isBackView: isBackView,
         fit: selectedFit || 'regular',
-        kidsGender: selectedKidsGender,
-        kidsAge: selectedKidsAge,
+        advancedOptions: {
+          // Add advanced options if needed
+        }
       };
 
       setIsGenerating(true);
@@ -120,8 +114,8 @@ const Index = () => {
       updateProgress(10, 'Starting generation...');
 
       try {
-        const result = await generateModelImage(request, updateProgress);
-        setGeneratedImage(result);
+        const result = await generateFashionImage(request);
+        setGeneratedImage(result.image);
         await refreshCredits();
         toast.success('Image generated successfully!');
       } catch (error) {
@@ -132,7 +126,7 @@ const Index = () => {
         setGenerationProgress(0);
         setProgressMessage('');
       }
-    }, [uploadedImage, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, selectedKidsGender, selectedKidsAge, credits, navigate, refreshCredits, updateProgress]);
+    }, [uploadedImage, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, selectedKidsGender, selectedKidsAge, credits, navigate, refreshCredits, updateProgress, isBackView]);
 
     const handleGenerateMultiple = useCallback(async (count: number) => {
       if (!uploadedImage || !selectedGender || !selectedEthnicity || !selectedSize || !selectedClothingType) {
@@ -147,14 +141,16 @@ const Index = () => {
       }
 
       const request: GenerationRequest = {
-        image: uploadedImage,
+        imageFile: uploadedImage,
         gender: selectedGender,
         ethnicity: selectedEthnicity,
         size: selectedSize,
         clothingType: selectedClothingType,
+        isBackView: isBackView,
         fit: selectedFit || 'regular',
-        kidsGender: selectedKidsGender,
-        kidsAge: selectedKidsAge,
+        advancedOptions: {
+          // Add advanced options if needed
+        }
       };
 
       setIsGenerating(true);
@@ -163,7 +159,13 @@ const Index = () => {
       updateProgress(5, 'Starting batch generation...');
 
       try {
-        const results = await generateMultipleModelImages(request, count, updateProgress);
+        // Generate multiple images
+        const results = [];
+        for (let i = 0; i < count; i++) {
+          updateProgress(5 + (i * 85 / count), `Generating image ${i + 1} of ${count}...`);
+          const result = await generateFashionImage(request);
+          results.push(result.image);
+        }
         setMultipleResults(results);
         await refreshCredits();
         toast.success(`${count} images generated successfully!`);
@@ -175,7 +177,16 @@ const Index = () => {
         setGenerationProgress(0);
         setProgressMessage('');
       }
-    }, [uploadedImage, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, selectedKidsGender, selectedKidsAge, credits, navigate, refreshCredits, updateProgress]);
+    }, [uploadedImage, selectedGender, selectedEthnicity, selectedSize, selectedClothingType, selectedFit, selectedKidsGender, selectedKidsAge, credits, navigate, refreshCredits, updateProgress, isBackView]);
+
+    const handleRegenerate = useCallback(() => {
+      handleGenerate();
+    }, [handleGenerate]);
+
+    const handleRegenerateMultiple = useCallback((index: number) => {
+      // Regenerate specific image
+      toast.info('Individual regeneration not implemented yet');
+    }, []);
 
     console.log('Rendering Index component UI...');
 
@@ -197,50 +208,48 @@ const Index = () => {
                 <CardContent className="p-6 space-y-6">
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-bold">Create Your Model</h2>
-                    <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+                    <ViewToggle isBackView={isBackView} onToggle={setIsBackView} />
                   </div>
                   
                   <ImageUploader 
-                    onImageUpload={handleImageUpload}
-                    uploadedImage={uploadedImage}
-                    fileInputRef={fileInputRef}
+                    onImageSelect={handleImageSelect}
+                    selectedImage={uploadedImage ? URL.createObjectURL(uploadedImage) : null}
                   />
                   
-                  <SampleButton onSampleLoad={handleSampleLoad} />
+                  <SampleButton onClick={handleSampleLoad} disabled={isGenerating} />
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <GenderSelector 
                       selectedGender={selectedGender} 
-                      onGenderChange={setSelectedGender}
-                      onReset={resetToDefaults}
+                      onGenderSelect={setSelectedGender}
                     />
                     
                     {selectedGender === 'kids' && (
                       <>
                         <KidsGenderSelector 
                           selectedKidsGender={selectedKidsGender}
-                          onKidsGenderChange={setSelectedKidsGender}
+                          onKidsGenderSelect={setSelectedKidsGender}
                         />
                         <KidsAgeSelector 
-                          selectedKidsAge={selectedKidsAge}
-                          onKidsAgeChange={setSelectedKidsAge}
+                          selectedAge={selectedKidsAge}
+                          onAgeSelect={setSelectedKidsAge}
                         />
                       </>
                     )}
                     
                     <EthnicitySelector 
                       selectedEthnicity={selectedEthnicity} 
-                      onEthnicityChange={setSelectedEthnicity} 
+                      onEthnicitySelect={setSelectedEthnicity} 
                     />
                     
                     <SizeSelector 
                       selectedSize={selectedSize} 
-                      onSizeChange={setSelectedSize} 
+                      onSizeSelect={setSelectedSize} 
                     />
                     
                     <ClothingTypeSelector 
-                      selectedClothingType={selectedClothingType} 
-                      onClothingTypeChange={setSelectedClothingType} 
+                      selectedType={selectedClothingType} 
+                      onTypeSelect={setSelectedClothingType} 
                     />
                     
                     <FitSelector
@@ -258,26 +267,21 @@ const Index = () => {
                   </Button>
                   
                   {showAdvanced && (
-                    <AdvancedOptions
-                      selectedFit={selectedFit}
-                      onFitSelect={setSelectedFit}
-                    />
+                    <AdvancedOptions />
                   )}
                   
                   <div className="space-y-3">
                     {viewMode === 'single' ? (
                       <GenerateButton 
-                        onGenerate={handleGenerate}
+                        onClick={handleGenerate}
+                        disabled={!!(isGenerating || !uploadedImage || !selectedGender || !selectedEthnicity || !selectedSize || !selectedClothingType)}
                         isGenerating={isGenerating}
-                        canGenerate={!!(uploadedImage && selectedGender && selectedEthnicity && selectedSize && selectedClothingType)}
-                        credits={credits}
                       />
                     ) : (
                       <GenerateMultipleButton 
-                        onGenerate={handleGenerateMultiple}
+                        onClick={() => handleGenerateMultiple(3)}
+                        disabled={!!(isGenerating || !uploadedImage || !selectedGender || !selectedEthnicity || !selectedSize || !selectedClothingType)}
                         isGenerating={isGenerating}
-                        canGenerate={!!(uploadedImage && selectedGender && selectedEthnicity && selectedSize && selectedClothingType)}
-                        credits={credits}
                       />
                     )}
                   </div>
@@ -285,7 +289,7 @@ const Index = () => {
                   {isGenerating && (
                     <GenerationProgress 
                       progress={generationProgress}
-                      message={progressMessage}
+                      isVisible={isGenerating}
                     />
                   )}
                 </CardContent>
@@ -295,17 +299,20 @@ const Index = () => {
             {/* Right Panel - Results */}
             <div className="lg:w-1/2">
               {viewMode === 'single' ? (
-                <ResultDisplay 
-                  originalImage={uploadedImage}
-                  generatedImage={generatedImage}
-                  isGenerating={isGenerating}
-                />
+                generatedImage && (
+                  <ResultDisplay 
+                    generatedImage={generatedImage}
+                    onRegenerate={handleRegenerate}
+                  />
+                )
               ) : (
-                <MultipleResultsDisplay 
-                  originalImage={uploadedImage}
-                  generatedImages={multipleResults}
-                  isGenerating={isGenerating}
-                />
+                multipleResults.length > 0 && (
+                  <MultipleResultsDisplay 
+                    generatedImages={multipleResults}
+                    onRegenerate={handleRegenerateMultiple}
+                    regenerationCounts={[0, 0, 0]}
+                  />
+                )
               )}
             </div>
           </div>
