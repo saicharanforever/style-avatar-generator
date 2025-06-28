@@ -2,12 +2,14 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 
+export type ClothingFit = 'regular' | 'slim' | 'loose' | 'oversized';
+
 interface FitSelectorProps {
-  selectedFit: string;
-  onFitChange: (fit: string) => void;
+  selectedFit: ClothingFit | null;
+  onFitChange: (fit: ClothingFit) => void;
 }
 
-const fitOptions = [
+const fitOptions: { value: ClothingFit; label: string }[] = [
   { value: 'regular', label: 'Regular Fit' },
   { value: 'slim', label: 'Slim Fit' },
   { value: 'loose', label: 'Loose Fit' },
