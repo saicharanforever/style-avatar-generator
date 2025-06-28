@@ -359,7 +359,7 @@ const Index = () => {
         setSelectedClothingType('dress');
         setSelectedEthnicity('american');
         setSelectedSize('M');
-        setSelectedFit('normal');
+        setSelectedFit('regular');
         setIsBackView(false);
       });
   };
