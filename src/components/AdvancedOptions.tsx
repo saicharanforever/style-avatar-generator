@@ -82,7 +82,7 @@ const AdvancedOptions = ({
               />
               <FitSelector
                 selectedFit={selectedFit}
-                onFitChange={onFitChange}
+                onFitSelect={onFitChange}
               />
             </div>
 

@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useEffect, useState } from "react"
@@ -44,7 +45,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
     <div className="fixed top-5 left-0 right-0 z-[9999]">
       <div className="flex justify-center pt-6">
         <motion.div 
-          className="flex items-center gap-2 sm:gap-3 bg-black/50 border border-white/10 backdrop-blur-lg py-1.5 sm:py-2 px-1.5 sm:px-2 rounded-full shadow-lg relative"
+          className="flex items-center gap-3 bg-black/50 border border-white/10 backdrop-blur-lg py-2 px-2 rounded-full shadow-lg relative"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{
@@ -61,8 +62,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
             return (
               <button
                 key={item.name}
-                onClick={(e) => {
-                  e.preventDefault()
+                onClick={() => {
                   setActiveTab(item.name)
                   if (item.onClick) {
                     item.onClick()
@@ -71,7 +71,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
                 onMouseEnter={() => setHoveredTab(item.name)}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={cn(
-                  "relative cursor-pointer text-xs sm:text-sm font-semibold px-2 sm:px-6 py-2 sm:py-3 rounded-full transition-all duration-300",
+                  "relative cursor-pointer text-sm font-semibold px-6 py-3 rounded-full transition-all duration-300",
                   "text-white/70 hover:text-white",
                   isActive && "text-white"
                 )}
@@ -105,7 +105,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
                 )}
 
                 <motion.span
-                  className="hidden sm:inline relative z-10"
+                  className="hidden md:inline relative z-10"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
@@ -113,11 +113,11 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
                   {item.name}
                 </motion.span>
                 <motion.span 
-                  className="sm:hidden relative z-10"
+                  className="md:hidden relative z-10"
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <Icon size={16} strokeWidth={2.5} />
+                  <Icon size={18} strokeWidth={2.5} />
                 </motion.span>
           
                 <AnimatePresence>
@@ -134,7 +134,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
                 {isActive && (
                   <motion.div
                     layoutId="anime-mascot"
-                    className="absolute -top-8 sm:-top-12 left-1/2 -translate-x-1/2 pointer-events-none"
+                    className="absolute -top-12 left-1/2 -translate-x-1/2 pointer-events-none"
                     initial={false}
                     transition={{
                       type: "spring",
@@ -142,9 +142,9 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
                       damping: 30,
                     }}
                   >
-                    <div className="relative w-8 h-8 sm:w-12 sm:h-12">
+                    <div className="relative w-12 h-12">
                       <motion.div 
-                        className="absolute w-6 h-6 sm:w-10 sm:h-10 bg-white rounded-full left-1/2 -translate-x-1/2"
+                        className="absolute w-10 h-10 bg-white rounded-full left-1/2 -translate-x-1/2"
                         animate={
                           hoveredTab ? {
                             scale: [1, 1.1, 1],
@@ -163,10 +163,86 @@ export function AnimeNavBar({ items, className, defaultActive = "Home" }: NavBar
                           }
                         }
                       >
+                        <motion.div 
+                          className="absolute w-2 h-2 bg-black rounded-full"
+                          animate={
+                            hoveredTab ? {
+                              scaleY: [1, 0.2, 1],
+                              transition: {
+                                duration: 0.2,
+                                times: [0, 0.5, 1]
+                              }
+                            } : {}
+                          }
+                          style={{ left: '25%', top: '40%' }}
+                        />
+                        <motion.div 
+                          className="absolute w-2 h-2 bg-black rounded-full"
+                          animate={
+                            hoveredTab ? {
+                              scaleY: [1, 0.2, 1],
+                              transition: {
+                                duration: 0.2,
+                                times: [0, 0.5, 1]
+                              }
+                            } : {}
+                          }
+                          style={{ right: '25%', top: '40%' }}
+                        />
+                        <motion.div 
+                          className="absolute w-2 h-1.5 bg-pink-300 rounded-full"
+                          animate={{
+                            opacity: hoveredTab ? 0.8 : 0.6
+                          }}
+                          style={{ left: '15%', top: '55%' }}
+                        />
+                        <motion.div 
+                          className="absolute w-2 h-1.5 bg-pink-300 rounded-full"
+                          animate={{
+                            opacity: hoveredTab ? 0.8 : 0.6
+                          }}
+                          style={{ right: '15%', top: '55%' }}
+                        />
                         
+                        <motion.div 
+                          className="absolute w-4 h-2 border-b-2 border-black rounded-full"
+                          animate={
+                            hoveredTab ? {
+                              scaleY: 1.5,
+                              y: -1
+                            } : {
+                              scaleY: 1,
+                              y: 0
+                            }
+                          }
+                          style={{ left: '30%', top: '60%' }}
+                        />
+                        <AnimatePresence>
+                          {hoveredTab && (
+                            <>
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0 }}
+                                className="absolute -top-1 -right-1 w-2 h-2 text-yellow-300"
+                              >
+                                ✨
+                              </motion.div>
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="absolute -top-2 left-0 w-2 h-2 text-yellow-300"
+                              >
+                                ✨
+                              </motion.div>
+                            </>
+                          )}
+                        </AnimatePresence>
                       </motion.div>
                       <motion.div
-                        className="absolute -bottom-0.5 sm:-bottom-1 left-1/2 w-2 h-2 sm:w-4 sm:h-4 -translate-x-1/2"
+                        className="absolute -bottom-1 left-1/2 w-4 h-4 -translate-x-1/2"
                         animate={
                           hoveredTab ? {
                             y: [0, -4, 0],
