@@ -25,17 +25,17 @@ const CallToAction = ({ onGetStarted }: CallToActionProps) => {
     >
       <div className="text-center space-y-8">
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white">
-          Ready to Elevate Your Fashion Photography?
+          Ready to Transform Your Fashion Photography?
         </h2>
         <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-          Transform your style with our AI-powered fashion photography tools
+          Join thousands of fashion brands already using our AI-powered tools
         </p>
         <Button 
           onClick={handleGetStarted}
           size="lg"
-          className="bg-white text-black hover:bg-white/90 text-lg px-8 py-4"
+          className="bg-white text-black hover:bg-white/90 text-lg px-8 py-4 rounded-full"
         >
-          Get Started Now
+          Start Your Free Trial
         </Button>
       </div>
     </WavyBackground>

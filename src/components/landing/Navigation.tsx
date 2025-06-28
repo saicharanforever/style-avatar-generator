@@ -49,12 +49,12 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
     <>
       <AnimeNavBar items={navItems} defaultActive="Home" />
       
-      {/* Fixed positioned theme toggle and get started button - improved mobile spacing */}
-      <div className="fixed top-4 right-4 z-[10000] flex items-center gap-2 sm:gap-4 sm:top-5 sm:right-5">
-        <ThemeToggle />
+      {/* Fixed positioned theme toggle and get started button - improved mobile layout */}
+      <div className="fixed top-4 right-4 z-[10001] flex items-center gap-2">
+        <ThemeToggle className="w-12 h-6 sm:w-16 sm:h-8" />
         <RainbowButton 
           onClick={onGetStarted}
-          className="text-xs px-3 py-2 h-8 sm:text-sm sm:px-4 sm:py-2 sm:h-11"
+          className="text-xs px-2 py-1 h-6 min-w-[60px] sm:text-sm sm:px-4 sm:py-2 sm:h-11 sm:min-w-[100px]"
         >
           Get Started
         </RainbowButton>
