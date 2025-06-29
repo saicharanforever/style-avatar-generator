@@ -15,92 +15,85 @@ export function AppleIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function MyntraIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
+export function MyntraIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" {...props}>
       <img 
         src="/lovable-uploads/0c322226-bea8-433b-9a09-215a2724b8a5.png" 
         alt="Myntra" 
         className="max-w-full max-h-full object-contain"
-        {...props}
       />
     </div>
   );
 }
 
-export function AmazonIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
+export function AmazonIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" {...props}>
       <img 
         src="/lovable-uploads/7c0d9cc9-76ef-4db2-8080-e0692cc0c3f9.png" 
         alt="Amazon" 
         className="max-w-full max-h-full object-contain"
-        {...props}
       />
     </div>
   );
 }
 
-export function FlipkartIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
+export function FlipkartIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" {...props}>
       <img 
         src="/lovable-uploads/556d0390-1f4e-4cfe-82ec-9df4e40e6e81.png" 
         alt="Flipkart" 
         className="max-w-full max-h-full object-contain"
-        {...props}
       />
     </div>
   );
 }
 
-export function MeeshoIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
+export function MeeshoIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" {...props}>
       <img 
         src="/lovable-uploads/d6e2fbd1-ba7a-4601-95ce-0bf4ef051a4b.png" 
         alt="Meesho" 
         className="max-w-full max-h-full object-contain"
-        {...props}
       />
     </div>
   );
 }
 
-export function AjioIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
+export function AjioIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" {...props}>
       <img 
         src="/lovable-uploads/2464f41b-3eb6-46a6-b863-fdcb1842e2df.png" 
         alt="Ajio" 
         className="max-w-full max-h-full object-contain"
-        {...props}
       />
     </div>
   );
 }
 
-export function SnapdealIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
+export function SnapdealIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" {...props}>
       <img 
         src="/lovable-uploads/f4e0d080-234c-41b0-abda-0437fcc7246d.png" 
         alt="Snapdeal" 
         className="max-w-full max-h-full object-contain"
-        {...props}
       />
     </div>
   );
 }
 
-export function WalmartIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
+export function WalmartIcon(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" {...props}>
       <img 
         src="/lovable-uploads/de1e3c39-33dd-4c1c-8649-ecf6505e212a.png" 
         alt="Walmart" 
         className="max-w-full max-h-full object-contain"
-        {...props}
       />
     </div>
   );
