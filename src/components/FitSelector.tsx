@@ -40,15 +40,12 @@ const FitSelector = ({ selectedFit, onFitSelect }: FitSelectorProps) => {
       <div className="grid grid-cols-3 gap-3">
         {fits.map((fit) => {
           const Icon = fit.icon;
+          const buttonStyles = getButtonStyle(fit.value);
           return (
             <button
               key={fit.value}
               onClick={() => onFitSelect(fit.value)}
-              className={`
-                flex flex-col items-center justify-center rounded-xl h-20
-                ${getButtonStyle(fit.value)}
-                text-center py-3 px-2
-              `}
+              className={`flex flex-col items-center justify-center rounded-xl h-20 text-center py-3 px-2 ${buttonStyles}`}
             >
               <Icon className={`h-4 w-4 mb-1 ${
                 selectedFit === fit.value 
