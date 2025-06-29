@@ -17,66 +17,91 @@ export function AppleIcon(props: SVGProps<SVGSVGElement>) {
 
 export function MyntraIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <rect width="100" height="100" fill="#FF3F6C" rx="20"/>
-      <text x="50" y="60" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold">M</text>
-    </svg>
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src="/lovable-uploads/0c322226-bea8-433b-9a09-215a2724b8a5.png" 
+        alt="Myntra" 
+        className="max-w-full max-h-full object-contain"
+        {...props}
+      />
+    </div>
   );
 }
 
 export function AmazonIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <rect width="100" height="100" fill="#FF9900" rx="20"/>
-      <text x="50" y="40" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold">amazon</text>
-      <path d="M20 70 Q50 85 80 70" stroke="white" strokeWidth="3" fill="none"/>
-    </svg>
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src="/lovable-uploads/7c0d9cc9-76ef-4db2-8080-e0692cc0c3f9.png" 
+        alt="Amazon" 
+        className="max-w-full max-h-full object-contain"
+        {...props}
+      />
+    </div>
   );
 }
 
 export function FlipkartIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <rect width="100" height="100" fill="#2874F0" rx="20"/>
-      <text x="50" y="60" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">F</text>
-    </svg>
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src="/lovable-uploads/556d0390-1f4e-4cfe-82ec-9df4e40e6e81.png" 
+        alt="Flipkart" 
+        className="max-w-full max-h-full object-contain"
+        {...props}
+      />
+    </div>
   );
 }
 
 export function MeeshoIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <rect width="100" height="100" fill="#832729" rx="20"/>
-      <text x="50" y="40" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">meesho</text>
-    </svg>
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src="/lovable-uploads/d6e2fbd1-ba7a-4601-95ce-0bf4ef051a4b.png" 
+        alt="Meesho" 
+        className="max-w-full max-h-full object-contain"
+        {...props}
+      />
+    </div>
   );
 }
 
 export function AjioIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <rect width="100" height="100" fill="#D4005F" rx="20"/>
-      <text x="50" y="60" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">AJIO</text>
-    </svg>
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src="/lovable-uploads/2464f41b-3eb6-46a6-b863-fdcb1842e2df.png" 
+        alt="Ajio" 
+        className="max-w-full max-h-full object-contain"
+        {...props}
+      />
+    </div>
+  );
+}
+
+export function SnapdealIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src="/lovable-uploads/f4e0d080-234c-41b0-abda-0437fcc7246d.png" 
+        alt="Snapdeal" 
+        className="max-w-full max-h-full object-contain"
+        {...props}
+      />
+    </div>
+  );
+}
+
+export function WalmartIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <img 
+        src="/lovable-uploads/de1e3c39-33dd-4c1c-8649-ecf6505e212a.png" 
+        alt="Walmart" 
+        className="max-w-full max-h-full object-contain"
+        {...props}
+      />
+    </div>
   );
 }

@@ -8,7 +8,7 @@ import PricingSection from '@/components/landing/PricingSection';
 import { GradientHeading } from '@/components/ui/gradient-heading';
 import { LogoCarousel } from '@/components/ui/logo-carousel';
 import { GlowCard } from '@/components/ui/spotlight-card';
-import { AppleIcon, MyntraIcon, AmazonIcon, FlipkartIcon, MeeshoIcon, AjioIcon } from '@/components/ui/logo-icons';
+import { AppleIcon, MyntraIcon, AmazonIcon, FlipkartIcon, MeeshoIcon, AjioIcon, SnapdealIcon, WalmartIcon } from '@/components/ui/logo-icons';
 import { Upload, Palette, Download } from 'lucide-react';
 
 const NewLanding = () => {
@@ -20,12 +20,14 @@ const NewLanding = () => {
 
   // Logo data for carousel
   const brandLogos = [
-    { name: "Apple", id: 1, img: AppleIcon },
-    { name: "Myntra", id: 2, img: MyntraIcon },
-    { name: "Amazon", id: 3, img: AmazonIcon },
-    { name: "Flipkart", id: 4, img: FlipkartIcon },
-    { name: "Meesho", id: 5, img: MeeshoIcon },
-    { name: "Ajio", id: 6, img: AjioIcon },
+    { name: "Amazon", id: 1, img: AmazonIcon },
+    { name: "Flipkart", id: 2, img: FlipkartIcon },
+    { name: "Myntra", id: 3, img: MyntraIcon },
+    { name: "Meesho", id: 4, img: MeeshoIcon },
+    { name: "Ajio", id: 5, img: AjioIcon },
+    { name: "Snapdeal", id: 6, img: SnapdealIcon },
+    { name: "Walmart", id: 7, img: WalmartIcon },
+    { name: "Apple", id: 8, img: AppleIcon },
   ];
 
   return (
@@ -45,7 +47,7 @@ const NewLanding = () => {
             </GradientHeading>
           </div>
           <div className="flex justify-center">
-            <LogoCarousel columnCount={3} logos={brandLogos} />
+            <LogoCarousel columnCount={4} logos={brandLogos} />
           </div>
         </div>
       </section>
