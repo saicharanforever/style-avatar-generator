@@ -8,7 +8,6 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { CreditsProvider } from "./contexts/CreditsContext"; 
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Landing from "./pages/Landing";
-import NewLanding from "./pages/NewLanding";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Pricing from "./pages/Pricing";
@@ -51,7 +50,6 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/landing" element={<Landing />} />
-      <Route path="/newlanding" element={<NewLanding />} />
       <Route path="/" element={
         <ProtectedRoute>
           <Index />
@@ -70,6 +68,7 @@ const AppRoutes = () => {
           <AdminDashboard />
         </AdminRoute>
       } />
+      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
