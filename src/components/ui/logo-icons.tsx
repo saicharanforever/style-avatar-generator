@@ -1,7 +1,7 @@
 
-import React, { type SVGProps } from "react";
+import React, { type ImgHTMLAttributes } from "react";
 
-export function AppleIcon(props: SVGProps<SVGSVGElement>) {
+export function AppleIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,7 @@ export function AppleIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function MyntraIcon(props: SVGProps<SVGSVGElement>) {
+export function MyntraIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <img 
@@ -28,7 +28,7 @@ export function MyntraIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function AmazonIcon(props: SVGProps<SVGSVGElement>) {
+export function AmazonIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <img 
@@ -41,7 +41,7 @@ export function AmazonIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function FlipkartIcon(props: SVGProps<SVGSVGElement>) {
+export function FlipkartIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <img 
@@ -54,7 +54,7 @@ export function FlipkartIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function MeeshoIcon(props: SVGProps<SVGSVGElement>) {
+export function MeeshoIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <img 
@@ -67,7 +67,7 @@ export function MeeshoIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function AjioIcon(props: SVGProps<SVGSVGElement>) {
+export function AjioIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <img 
@@ -80,7 +80,7 @@ export function AjioIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function SnapdealIcon(props: SVGProps<SVGSVGElement>) {
+export function SnapdealIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <img 
@@ -93,7 +93,7 @@ export function SnapdealIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function WalmartIcon(props: SVGProps<SVGSVGElement>) {
+export function WalmartIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <img 

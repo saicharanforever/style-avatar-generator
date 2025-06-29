@@ -6,14 +6,14 @@ import React, {
   useEffect,
   useMemo,
   useState,
-  type SVGProps,
+  type ImgHTMLAttributes,
 } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
 interface Logo {
   name: string
   id: number
-  img: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  img: React.ComponentType<ImgHTMLAttributes<HTMLImageElement> | React.SVGProps<SVGSVGElement>>
 }
 
 interface LogoColumnProps {
