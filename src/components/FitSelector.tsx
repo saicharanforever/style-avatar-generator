@@ -32,6 +32,18 @@ const FitSelector = ({ selectedFit, onFitSelect }: FitSelectorProps) => {
     
     return 'border border-blue-900 bg-navy-dark text-white hover:bg-yellow-300 hover:text-black hover:border-blue-500 hover:scale-105 transition-all duration-200';
   };
+
+  const getIconStyle = (fitValue: ClothingFit): string => {
+    if (selectedFit === fitValue) {
+      return 'text-blue-700';
+    }
+    
+    if (theme === 'light') {
+      return 'text-purple-600';
+    }
+    
+    return 'text-yellow-300';
+  };
   
   return (
     <div>
@@ -44,19 +56,14 @@ const FitSelector = ({ selectedFit, onFitSelect }: FitSelectorProps) => {
         {fits.map((fit) => {
           const Icon = fit.icon;
           const buttonStyles = getButtonStyle(fit.value);
+          const iconStyles = getIconStyle(fit.value);
           return (
             <button
               key={fit.value}
               onClick={() => onFitSelect(fit.value)}
               className={`flex flex-col items-center justify-center rounded-xl h-20 text-center py-3 px-2 ${buttonStyles}`}
             >
-              <Icon className={`h-4 w-4 mb-1 ${
-                selectedFit === fit.value 
-                  ? 'text-blue-700' 
-                  : theme === 'light' 
-                    ? 'text-purple-600' 
-                    : 'text-yellow-300'
-              }`} />
+              <Icon className={`h-4 w-4 mb-1 ${iconStyles}`} />
               <span className="font-medium text-sm">{fit.label}</span>
               <span className="text-xs opacity-75">{fit.description}</span>
             </button>
