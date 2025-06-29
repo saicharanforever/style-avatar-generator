@@ -19,7 +19,7 @@ const FitSelector = ({ selectedFit, onFitSelect }: FitSelectorProps) => {
     { value: 'loose', label: 'Loose', description: 'Relaxed fit', icon: Maximize2 },
   ];
 
-  const getButtonStyle = (fitValue: ClothingFit) => {
+  const getButtonStyle = (fitValue: ClothingFit): string => {
     const isSelected = selectedFit === fitValue;
     if (isSelected) {
       return 'border-2 border-blue-600 bg-blue-50 text-blue-700 transform scale-105 transition-all duration-200';
