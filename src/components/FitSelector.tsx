@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Maximize2, AlignCenter, Minimize2 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -33,7 +34,9 @@ const FitSelector = ({ selectedFit, onFitSelect }: FitSelectorProps) => {
   };
 
   const getIconStyle = (fitValue: ClothingFit): string => {
-    if (selectedFit === fitValue) {
+    const isSelected = selectedFit === fitValue;
+    
+    if (isSelected) {
       return 'text-blue-700';
     }
 
