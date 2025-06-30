@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { StaggerTestimonials } from '@/components/ui/stagger-testimonials';
+import { MarqueeTestimonials } from '@/components/ui/marquee-testimonials';
 
 const TestimonialsSection = () => {
   const { theme } = useTheme();
@@ -13,7 +13,7 @@ const TestimonialsSection = () => {
           See what our clients say.
         </h2>
         
-        <StaggerTestimonials />
+        <MarqueeTestimonials />
       </div>
     </section>
   );

@@ -7,7 +7,6 @@ import BackgroundParticles from '@/components/BackgroundParticles';
 import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
 import BrandsSection from '@/components/landing/BrandsSection';
-import FeaturesSection from '@/components/landing/FeaturesSection';
 import HowItWorksSection from '@/components/landing/HowItWorksSection';
 import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import PricingSection from '@/components/landing/PricingSection';
@@ -53,9 +52,6 @@ const Landing = () => {
       
       {/* Brands Section */}
       <BrandsSection />
-      
-      {/* Features Section */}
-      <FeaturesSection />
       
       {/* How It Works Section */}
       <HowItWorksSection />

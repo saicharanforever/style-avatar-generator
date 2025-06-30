@@ -49,13 +49,13 @@ const BrandsSection = () => {
         {/* Marquee Container */}
         <div className="relative overflow-hidden">
           {/* First marquee row */}
-          <div className="flex animate-[marquee_20s_linear_infinite] space-x-8">
+          <div className="flex animate-[marquee_20s_linear_infinite] md:animate-[marquee_20s_linear_infinite] space-x-8">
             {[...brandLogos, ...brandLogos].map((brand, index) => (
               <div key={index} className="flex-shrink-0">
                 <img 
                   src={brand.logo} 
                   alt={brand.name}
-                  className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                  className="h-12 w-auto object-contain transition-all duration-300"
                 />
               </div>
             ))}

@@ -1,24 +1,35 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 // FAQ data
-const faqs = [{
-  question: 'How many credits do I need per image?',
-  answer: 'Each generation costs 30 credits. You get 100 free credits when you sign up, and the first 3 regenerations are free.'
-}, {
-  question: 'What file formats are supported?',
-  answer: 'We support JPG, PNG, and WebP formats for your clothing images.'
-}, {
-  question: 'How accurate are the generated images?',
-  answer: 'Our AI produces high-quality model images that accurately represent how your clothing would look on real models.'
-}, {
-  question: 'Can I use the images commercially?',
-  answer: 'Yes, all generated images can be used for your commercial purposes including e-commerce and marketing.'
-}];
+const faqs = [
+  {
+    question: 'How many credits do I need per image?',
+    answer: 'Each generation costs 30 credits. You get 100 free credits when you sign up, and the first 3 regenerations are free.'
+  },
+  {
+    question: 'What file formats are supported?',
+    answer: 'We support JPG, PNG, and WebP formats for your clothing images.'
+  },
+  {
+    question: 'How accurate are the generated images?',
+    answer: 'Our AI produces high-quality model images that accurately represent how your clothing would look on real models.'
+  },
+  {
+    question: 'Can I use the images commercially?',
+    answer: 'Yes, all generated images can be used for your commercial purposes including e-commerce and marketing.'
+  }
+];
 
 const FAQSection = () => {
   const { theme } = useTheme();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
   
   return (
     <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-white'}`}>
@@ -29,11 +40,40 @@ const FAQSection = () => {
           Frequently Asked Questions
         </h2>
         
-        <div className="space-y-6">
+        <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="glass-card p-6 rounded-lg border border-white/10">
-              <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-gold' : 'text-[#A8B5A5]'} mb-2`}>{faq.question}</h3>
-              <p className={theme === 'dark' ? 'text-white' : 'text-[#333333]'}>{faq.answer}</p>
+            <div key={index} className={`${
+              theme === 'dark' ? 'bg-navy-light/50' : 'bg-gray-50'
+            } rounded-lg border ${
+              theme === 'dark' ? 'border-white/10' : 'border-gray-200'
+            } overflow-hidden transition-all duration-200`}>
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-opacity-80 transition-colors"
+              >
+                <h3 className={`text-lg font-semibold ${
+                  theme === 'dark' ? 'text-gold' : 'text-gray-800'
+                }`}>
+                  {faq.question}
+                </h3>
+                <ChevronDown 
+                  className={`w-5 h-5 ${
+                    theme === 'dark' ? 'text-gold' : 'text-gray-600'
+                  } transition-transform duration-200 ${
+                    openIndex === index ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              
+              <div className={`px-6 overflow-hidden transition-all duration-300 ${
+                openIndex === index ? 'max-h-40 pb-4' : 'max-h-0'
+              }`}>
+                <p className={`${
+                  theme === 'dark' ? 'text-white' : 'text-gray-600'
+                } leading-relaxed`}>
+                  {faq.answer}
+                </p>
+              </div>
             </div>
           ))}
         </div>

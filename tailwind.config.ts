@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -126,6 +125,8 @@ export default {
         'shimmer': 'shimmer 2s infinite linear',
         ripple: "ripple 2s ease calc(var(--i, 0) * 0.2s) infinite",
         orbit: "orbit calc(var(--duration) * 1s) linear infinite",
+        'marquee': 'marquee 15s linear infinite',
+        'marquee-reverse': 'marquee-reverse 15s linear infinite',
       },
       backgroundImage: {
         'gradient-royal': 'linear-gradient(135deg, #0A0529 0%, #10083C 100%)',
