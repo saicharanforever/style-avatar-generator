@@ -50,7 +50,7 @@ export const AuroraHero = () => {
         >
           a Smile in every pic :)
         </motion.span>
-        <h1 className="max-w-3xl bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-center text-3xl font-medium leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight" style={{ fontFamily: 'Keania One, cursive' }}>
+        <h1 className="max-w-3xl bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-center text-4xl font-medium leading-tight text-transparent sm:text-6xl sm:leading-tight md:text-8xl md:leading-tight" style={{ fontFamily: 'Keania One, cursive' }}>
           Add life to your dress
         </h1>
         <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed">
