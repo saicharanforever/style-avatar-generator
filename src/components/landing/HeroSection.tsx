@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
+import { AuroraHero } from '@/components/ui/AuroraHero';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -18,7 +18,13 @@ const HeroSection = ({
   const handleGetStarted = () => {
     navigate('/auth');
   };
+
+  // Return AuroraHero for light theme
+  if (theme === 'light') {
+    return <AuroraHero />;
+  }
   
+  // Keep existing dark theme hero section
   return (
     <section className="pt-16 pb-24 relative overflow-hidden my-0 px-0 py-[59px]">
       <div className="max-w-5xl mx-auto text-center relative z-10 py-[15px]">
