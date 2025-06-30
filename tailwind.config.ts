@@ -27,8 +27,9 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        skeleton: 'var(--skeleton)',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))'
@@ -58,20 +59,28 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         navy: {
-          DEFAULT: '#0A0529', // Darker navy from the image
-          light: '#10083C',   // Lighter navy from the image
-          dark: '#070420',    // Darkest navy from the image
+          DEFAULT: '#0A0529',
+          light: '#10083C',
+          dark: '#070420',
         },
         gold: {
-          DEFAULT: '#FFDC31', // Bright yellow from the logo
-          light: '#FFEB82',   // Lighter yellow
-          dark: '#FFCC00',    // Darker yellow
+          DEFAULT: '#FFDC31',
+          light: '#FFEB82',
+          dark: '#FFCC00',
         },
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        sm: 'calc(var(--radius) - 4px)',
+        DEFAULT: '0.5rem',
+      },
+      boxShadow: {
+        input: [
+          "0px 2px 3px -1px rgba(0, 0, 0, 0.1)",
+          "0px 1px 0px 0px rgba(25, 28, 33, 0.02)",
+          "0px 0px 0px 1px rgba(25, 28, 33, 0.08)",
+        ].join(", "),
       },
       keyframes: {
         'accordion-down': {
@@ -94,6 +103,20 @@ export default {
           '0%': { backgroundPosition: '-500px 0' },
           '100%': { backgroundPosition: '500px 0' },
         },
+        ripple: {
+          "0%, 100%": { transform: "translate(-50%, -50%) scale(1)" },
+          "50%": { transform: "translate(-50%, -50%) scale(0.9)" },
+        },
+        orbit: {
+          "0%": {
+            transform:
+              "rotate(0deg) translateY(calc(var(--radius) * 1px)) rotate(0deg)",
+          },
+          "100%": {
+            transform:
+              "rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg)",
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -101,11 +124,13 @@ export default {
         'float': 'float 5s ease-in-out infinite',
         'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
         'shimmer': 'shimmer 2s infinite linear',
+        ripple: "ripple 2s ease calc(var(--i, 0) * 0.2s) infinite",
+        orbit: "orbit calc(var(--duration) * 1s) linear infinite",
       },
       backgroundImage: {
         'gradient-royal': 'linear-gradient(135deg, #0A0529 0%, #10083C 100%)',
         'gradient-gold': 'linear-gradient(135deg, #FFDC31 0%, #FFCC00 100%)',
-        'gradient-button': 'linear-gradient(90deg, #FFDC31 0%, #FFCC00 100%)', // Changed to gold
+        'gradient-button': 'linear-gradient(90deg, #FFDC31 0%, #FFCC00 100%)',
         'particle-pattern': "url('/public/lovable-uploads/7caec776-da84-4ecf-8d48-9977ab6f2f98.png')",
       },
     }

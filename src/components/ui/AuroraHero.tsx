@@ -9,11 +9,13 @@ import {
   motion,
   animate,
 } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
 
 export const AuroraHero = () => {
   const color = useMotionValue(COLORS_TOP[0]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     animate(color, COLORS_TOP, {
@@ -27,6 +29,10 @@ export const AuroraHero = () => {
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #FFFFFF 70%, ${color})`;
   const border = useMotionTemplate`1px solid ${color}`;
   const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
+
+  const handleGetStarted = () => {
+    navigate('/auth');
+  };
 
   return (
     <motion.section
@@ -42,14 +48,13 @@ export const AuroraHero = () => {
           }}
           className="mb-1.5 inline-block rounded-full bg-white/90 px-3 py-1.5 text-sm text-gray-700 backdrop-blur-sm border border-white/20"
         >
-          Beta Now Live!
+          a Smile in every pic :)
         </motion.span>
-        <h1 className="max-w-3xl bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-center text-3xl font-medium leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight">
-          Decrease your SaaS churn by over 90%
+        <h1 className="max-w-3xl bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-center text-3xl font-medium leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight" style={{ fontFamily: 'Keania One, cursive' }}>
+          Add life to your dress
         </h1>
         <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae, et,
-          distinctio eum impedit nihil ipsum modi.
+          Style your products with the magic of AI
         </p>
         <motion.button
           style={{
@@ -62,9 +67,10 @@ export const AuroraHero = () => {
           whileTap={{
             scale: 0.985,
           }}
+          onClick={handleGetStarted}
           className="group relative flex w-fit items-center gap-1.5 rounded-full bg-white/90 px-4 py-2 text-gray-900 transition-colors hover:bg-white backdrop-blur-sm"
         >
-          Start free trial
+          Start for Free...
           <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
         </motion.button>
       </div>
