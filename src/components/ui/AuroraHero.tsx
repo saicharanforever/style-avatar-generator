@@ -10,6 +10,8 @@ import {
   animate,
 } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
+import { AnimatedText } from './AnimatedText';
+import { ImageMarquee } from './ImageMarquee';
 
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
 
@@ -50,8 +52,15 @@ export const AuroraHero = () => {
         >
           a Smile in every pic :)
         </motion.span>
-        <h1 className="max-w-3xl bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-center text-6xl md:text-4xl font-medium leading-tight text-transparent sm:text-6xl sm:leading-tight md:text-8xl md:leading-tight" style={{ fontFamily: 'Keania One, cursive' }}>
-          Add life to your dress
+        <h1 className="max-w-3xl text-center text-6xl font-medium leading-tight sm:text-6xl sm:leading-tight md:text-8xl md:leading-tight font-rubik-dirt">
+          <AnimatedText
+            baseText="Add life to your dress"
+            animatedWord="dress"
+            words={["dress", "Saree", "Pant", "Shirt", "Tops"]}
+            className="block"
+            whiteTextClassName="text-white"
+            yellowTextClassName="text-yellow-400"
+          />
         </h1>
         <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed">
           Style your products with the magic of AI
@@ -75,6 +84,8 @@ export const AuroraHero = () => {
         </motion.button>
       </div>
 
+      <ImageMarquee />
+      
       <div className="absolute inset-0 z-0">
         <Canvas>
           <Stars radius={50} count={2500} factor={4} fade speed={2} />

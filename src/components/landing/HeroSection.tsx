@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { AuroraHero } from '@/components/ui/AuroraHero';
+import { AnimatedText } from '@/components/ui/AnimatedText';
+import { ImageMarquee } from '@/components/ui/ImageMarquee';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -27,15 +29,20 @@ const HeroSection = ({
   // Keep existing dark theme hero section
   return (
     <section className="pt-16 pb-24 relative overflow-hidden my-0 px-0 py-[59px]">
+      <ImageMarquee />
       <div className="max-w-5xl mx-auto text-center relative z-10 py-[15px]">
         <p className={`font-atma mb-2 text-sm ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-pink-gradient-text'} font-extrabold`}>
           A smile in every pic :)
         </p>
-        <h1 className={`text-4xl mb-4 leading-tight ${
-          theme === 'dark' 
-            ? 'gold-gradient-text font-playfair text-gold-dark' 
-            : 'gold-gradient-text font-montserrat shadow-gold'} font-bold md:text-7xl`}>
-          Even your dress deserves a life!
+        <h1 className={`text-4xl mb-4 leading-tight font-bold md:text-7xl font-rubik-dirt`}>
+          <AnimatedText
+            baseText="Add life to your dress"
+            animatedWord="dress"
+            words={["dress", "Saree", "Pant", "Shirt", "Tops"]}
+            className="block"
+            whiteTextClassName="text-white"
+            yellowTextClassName="text-yellow-400"
+          />
         </h1>
         <p className={`${theme === 'dark' ? 'text-white' : 'text-[#333333]'} max-w-2xl mx-auto mb-8`}>
           The perfect fusion of trend and tech in every click.

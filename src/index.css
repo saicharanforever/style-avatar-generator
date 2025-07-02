@@ -121,6 +121,10 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.font-rubik-dirt {
+  font-family: 'Rubik Dirt', cursive;
+}
+
 /* Custom utility classes */
 .text-gold-dark {
   color: #FFCC00;
