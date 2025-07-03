@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const images = [
@@ -18,9 +19,9 @@ export const ImageMarquee: React.FC = () => {
   const extendedImages = [...images, ...images, ...images];
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none flex items-center">
       {/* Desktop View */}
-      <div className="hidden md:block">
+      <div className="hidden md:block w-full">
         <div className="flex animate-[marquee_18s_linear_infinite] items-center h-full">
           {extendedImages.map((image, index) => {
             const position = (index % 5) + 1;
@@ -62,7 +63,7 @@ export const ImageMarquee: React.FC = () => {
       </div>
 
       {/* Mobile View */}
-      <div className="block md:hidden">
+      <div className="block md:hidden w-full">
         <div className="flex animate-[marquee_18s_linear_infinite] items-center h-full">
           {extendedImages.map((image, index) => {
             const position = (index % 3) + 1;

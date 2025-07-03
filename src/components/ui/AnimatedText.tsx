@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -28,9 +29,9 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     return () => clearInterval(interval);
   }, [words.length]);
 
-  const textParts = baseText.split(animatedWord);
-  const beforeText = textParts[0];
-  const afterText = textParts[1] || '';
+  // Split the text to handle the period separately
+  const beforeText = baseText.split(animatedWord)[0]; // "Add life to your "
+  const afterText = baseText.split(animatedWord)[1] || ''; // "."
 
   return (
     <span className={className}>

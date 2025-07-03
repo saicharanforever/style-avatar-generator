@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,35 +27,45 @@ const HeroSection = ({
     return <AuroraHero />;
   }
   
-  // Keep existing dark theme hero section
+  // Dark theme hero section with new layout
   return (
-    <section className="pt-16 pb-24 relative overflow-hidden my-0 px-0 py-[59px]">
-      <ImageMarquee />
-      <div className="max-w-5xl mx-auto text-center relative z-10 py-[15px]">
-        <p className={`font-atma mb-2 text-sm ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-pink-gradient-text'} font-extrabold`}>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image Marquee */}
+      <div className="absolute inset-0 z-0">
+        <ImageMarquee />
+      </div>
+      
+      {/* Semi-transparent overlay for better text readability */}
+      <div className="absolute inset-0 z-5 bg-black/20"></div>
+      
+      {/* Main Content */}
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        {/* Tagline */}
+        <p className="font-atma mb-6 text-sm blue-pink-gradient-text font-extrabold">
           A smile in every pic :)
         </p>
-        <h1 className={`text-4xl mb-4 leading-tight font-bold md:text-7xl font-rubik-dirt`}>
+        
+        {/* Main Headline */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8 font-rubik-dirt">
           <AnimatedText
-            baseText="Add life to your dress"
+            baseText="Add life to your dress."
             animatedWord="dress"
             words={["dress", "Saree", "Pant", "Shirt", "Tops"]}
             className="block"
-            whiteTextClassName="text-white"
-            yellowTextClassName="text-yellow-400"
+            whiteTextClassName="text-gray-800 drop-shadow-lg"
+            yellowTextClassName="text-yellow-400 drop-shadow-lg"
           />
         </h1>
-        <p className={`${theme === 'dark' ? 'text-white' : 'text-[#333333]'} max-w-2xl mx-auto mb-8`}>
+        
+        {/* Subtitle */}
+        <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 drop-shadow-md">
           The perfect fusion of trend and tech in every click.
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        {/* CTA Button */}
+        <div className="flex justify-center">
           <Button 
-            className={`${
-              theme === 'dark' 
-                ? 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600' 
-                : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'
-            } text-lg py-6 px-8 group`} 
+            className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl" 
             onClick={handleGetStarted}
           >
             Get Started for Free

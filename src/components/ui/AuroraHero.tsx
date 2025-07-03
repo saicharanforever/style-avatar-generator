@@ -41,30 +41,42 @@ export const AuroraHero = () => {
       style={{
         backgroundImage,
       }}
-      className="relative grid min-h-screen place-content-center overflow-hidden bg-white px-4 py-24 text-gray-800"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white px-4"
     >
-      <div className="relative z-10 flex flex-col items-center">
+      {/* Background Image Marquee */}
+      <div className="absolute inset-0 z-0">
+        <ImageMarquee />
+      </div>
+
+      {/* Semi-transparent overlay for better text readability */}
+      <div className="absolute inset-0 z-5 bg-white/30"></div>
+
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
         <motion.span 
           style={{
             boxShadow: useMotionTemplate`0px 0px 20px ${color}`,
           }}
-          className="mb-1.5 inline-block rounded-full bg-white/90 px-3 py-1.5 text-sm text-gray-700 backdrop-blur-sm border border-white/20"
+          className="mb-6 inline-block rounded-full bg-white/90 px-3 py-1.5 text-sm text-gray-700 backdrop-blur-sm border border-white/20"
         >
           a Smile in every pic :)
         </motion.span>
-        <h1 className="max-w-3xl text-center text-6xl font-medium leading-tight sm:text-6xl sm:leading-tight md:text-8xl md:leading-tight font-rubik-dirt">
+        
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8 font-rubik-dirt">
           <AnimatedText
-            baseText="Add life to your dress"
+            baseText="Add life to your dress."
             animatedWord="dress"
             words={["dress", "Saree", "Pant", "Shirt", "Tops"]}
             className="block"
-            whiteTextClassName="text-white"
-            yellowTextClassName="text-yellow-400"
+            whiteTextClassName="text-gray-800 drop-shadow-lg"
+            yellowTextClassName="text-yellow-500 drop-shadow-lg"
           />
         </h1>
-        <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed">
+        
+        <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed text-gray-700 drop-shadow-sm">
           Style your products with the magic of AI
         </p>
+        
         <motion.button
           style={{
             border,
@@ -77,15 +89,14 @@ export const AuroraHero = () => {
             scale: 0.985,
           }}
           onClick={handleGetStarted}
-          className="group relative flex w-fit items-center gap-1.5 rounded-full bg-white/90 px-4 py-2 text-gray-900 transition-colors hover:bg-white backdrop-blur-sm"
+          className="group relative flex w-fit items-center gap-1.5 rounded-full bg-white/90 px-6 py-3 text-gray-900 transition-colors hover:bg-white backdrop-blur-sm shadow-xl"
         >
           Start for Free...
           <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
         </motion.button>
       </div>
 
-      <ImageMarquee />
-      
+      {/* Stars background */}
       <div className="absolute inset-0 z-0">
         <Canvas>
           <Stars radius={50} count={2500} factor={4} fade speed={2} />
