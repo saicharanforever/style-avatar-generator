@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -69,13 +68,6 @@ export default {
           dark: '#FFCC00',
         },
       },
-      fontFamily: {
-        'anton': ['Anton', 'sans-serif'],
-        'atma': ['Atma', 'cursive'],
-        'playfair': ['Playfair Display', 'serif'],
-        'montserrat': ['Montserrat', 'sans-serif'],
-        'rubik-dirt': ['Rubik Dirt', 'cursive'],
-      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -124,14 +116,6 @@ export default {
               "rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg)",
           },
         },
-        aurora: {
-          from: {
-            backgroundPosition: "50% 50%, 50% 50%"
-          },
-          to: {
-            backgroundPosition: "350% 50%, 350% 50%"
-          }
-        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -143,7 +127,6 @@ export default {
         orbit: "orbit calc(var(--duration) * 1s) linear infinite",
         'marquee': 'marquee 15s linear infinite',
         'marquee-reverse': 'marquee-reverse 15s linear infinite',
-        aurora: "aurora 60s linear infinite",
       },
       backgroundImage: {
         'gradient-royal': 'linear-gradient(135deg, #0A0529 0%, #10083C 100%)',
