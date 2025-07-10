@@ -10,8 +10,8 @@ import {
   animate,
 } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
-import { AnimatedText } from './AnimatedText';
 import { ImageMarquee } from './ImageMarquee';
+import SparklesText from './SparklesText';
 
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
 
@@ -62,16 +62,15 @@ export const AuroraHero = () => {
           a Smile in every pic :)
         </motion.span>
         
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8 font-rubik-dirt">
-          <AnimatedText
-            baseText="Add life to your dress."
-            animatedWord="dress"
-            words={["dress", "Saree", "Pant", "Shirt", "Tops"]}
-            className="block"
-            whiteTextClassName="text-gray-800 drop-shadow-lg"
-            yellowTextClassName="text-yellow-500 drop-shadow-lg"
+        {/* SparklesText Component */}
+        <div className="mb-8">
+          <SparklesText 
+            text="Give Life to Dresses with Trylum"
+            className="text-center font-rubik-dirt"
+            sparklesCount={15}
+            colors={{ first: '#9E7AFF', second: '#FE8BBB' }}
           />
-        </h1>
+        </div>
         
         <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed text-gray-700 drop-shadow-sm">
           Style your products with the magic of AI

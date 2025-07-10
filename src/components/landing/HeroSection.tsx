@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { AuroraHero } from '@/components/ui/AuroraHero';
-import { AnimatedText } from '@/components/ui/AnimatedText';
 import { ImageMarquee } from '@/components/ui/ImageMarquee';
+import SparklesText from '@/components/ui/SparklesText';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -27,7 +27,7 @@ const HeroSection = ({
     return <AuroraHero />;
   }
   
-  // Dark theme hero section with new layout
+  // Dark theme hero section with SparklesText
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image Marquee */}
@@ -45,17 +45,15 @@ const HeroSection = ({
           A smile in every pic :)
         </p>
         
-        {/* Main Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8 font-rubik-dirt">
-          <AnimatedText
-            baseText="Add life to your dress."
-            animatedWord="dress"
-            words={["dress", "Saree", "Pant", "Shirt", "Tops"]}
-            className="block"
-            whiteTextClassName="text-gray-800 drop-shadow-lg"
-            yellowTextClassName="text-yellow-400 drop-shadow-lg"
+        {/* SparklesText Component */}
+        <div className="mb-8">
+          <SparklesText 
+            text="Give Life to Dresses with Trylum"
+            className="text-center font-rubik-dirt"
+            sparklesCount={15}
+            colors={{ first: '#9E7AFF', second: '#FE8BBB' }}
           />
-        </h1>
+        </div>
         
         {/* Subtitle */}
         <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 drop-shadow-md">
