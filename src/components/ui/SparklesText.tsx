@@ -115,7 +115,7 @@ const SparklesText: React.FC<SparklesTextProps> = ({
 
   return (
     <div
-      className={cn("text-4xl md:text-6xl font-bold", className)}
+      className={cn("text-4xl md:text-6xl font-bold font-anton", className)}
       {...props}
       style={
         {
@@ -127,15 +127,9 @@ const SparklesText: React.FC<SparklesTextProps> = ({
       <span className="relative inline-block">
         {/* Smoke effect layers */}
         <div className="absolute inset-0 opacity-30">
-          <div 
-            className="absolute inset-0 animate-pulse sparkles-smoke-1"
-          />
-          <div 
-            className="absolute inset-0 animate-pulse sparkles-smoke-2"
-          />
-          <div 
-            className="absolute inset-0 animate-pulse sparkles-smoke-3"
-          />
+          <div className="absolute inset-0 animate-pulse sparkles-smoke-1" />
+          <div className="absolute inset-0 animate-pulse sparkles-smoke-2" />
+          <div className="absolute inset-0 animate-pulse sparkles-smoke-3" />
         </div>
         
         {sparkles.map((sparkle) => (

@@ -7,11 +7,10 @@ import BackgroundParticles from '@/components/BackgroundParticles';
 import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
 import BrandsSection from '@/components/landing/BrandsSection';
-import HowItWorksSection from '@/components/landing/HowItWorksSection';
 import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import PricingSection from '@/components/landing/PricingSection';
 import FAQSection from '@/components/landing/FAQSection';
-import CallToAction from '@/components/landing/CallToAction';
+import AuroraBackgroundDemo from '@/components/ui/AuroraBackground';
 import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
 import Footer from '@/components/landing/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
@@ -53,9 +52,6 @@ const Landing = () => {
       {/* Brands Section */}
       <BrandsSection />
       
-      {/* How It Works Section */}
-      <HowItWorksSection />
-      
       {/* Testimonials Section */}
       <TestimonialsSection />
       
@@ -65,8 +61,8 @@ const Landing = () => {
       {/* FAQ Section */}
       <FAQSection />
       
-      {/* Final CTA */}
-      <CallToAction onGetStarted={handleGetStarted} />
+      {/* Aurora Background CTA */}
+      <AuroraBackgroundDemo />
       
       {/* Footer */}
       <Footer />

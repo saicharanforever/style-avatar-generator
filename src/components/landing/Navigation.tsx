@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { NavLink } from 'react-router-dom';
@@ -40,17 +39,18 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
           DreamDressing
         </NavLink>
         
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center space-x-6">
+        {/* Centered Navigation Links */}
+        <nav className="hidden md:flex items-center justify-center space-x-8 flex-1">
           <a href="#features" className={`${
             theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
           } transition-colors`}>Features</a>
-          <a href="#how-it-works" className={`${
-            theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
-          } transition-colors`}>How It Works</a>
           <a href="#pricing" className={`${
             theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
           } transition-colors`}>Pricing</a>
+        </nav>
+        
+        {/* Right side controls */}
+        <div className="flex items-center gap-3">
           <ThemeToggle />
           <Button 
             onClick={onGetStarted} 
@@ -62,11 +62,10 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
           >
             Get Started
           </Button>
-        </nav>
+        </div>
         
         {/* Mobile Menu Button - Only show button on mobile, keep theme toggle visible */}
         <div className="flex items-center gap-4 md:hidden">
-          <ThemeToggle />
           <Button 
             onClick={onGetStarted} 
             className={`${

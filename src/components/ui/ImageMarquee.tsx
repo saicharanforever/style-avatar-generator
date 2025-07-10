@@ -62,9 +62,9 @@ export const ImageMarquee: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile View */}
+      {/* Mobile View - 1.5x faster animation */}
       <div className="block md:hidden w-full">
-        <div className="flex animate-[marquee_18s_linear_infinite] items-center h-full">
+        <div className="flex animate-[marquee_12s_linear_infinite] items-center h-full">
           {extendedImages.map((image, index) => {
             const position = (index % 3) + 1;
             let size = '100px';
