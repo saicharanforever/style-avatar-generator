@@ -113,7 +113,7 @@ const SparklesText: React.FC<SparklesTextProps> = ({
     return () => clearInterval(interval);
   }, [colors.first, colors.second, sparklesCount]);
 
-    return (
+  return (
     <div
       className={cn("text-4xl md:text-6xl font-bold", className)}
       {...props}
@@ -128,25 +128,13 @@ const SparklesText: React.FC<SparklesTextProps> = ({
         {/* Smoke effect layers */}
         <div className="absolute inset-0 opacity-30">
           <div 
-            className="absolute inset-0 animate-pulse"
-            style={{
-              background: 'radial-gradient(ellipse 200% 100% at 50% 90%, rgba(158, 122, 255, 0.1) 0%, transparent 50%)',
-              animation: 'smokeFlow1 4s ease-in-out infinite alternate'
-            }}
+            className="absolute inset-0 animate-pulse sparkles-smoke-1"
           />
           <div 
-            className="absolute inset-0 animate-pulse"
-            style={{
-              background: 'radial-gradient(ellipse 150% 80% at 30% 70%, rgba(254, 139, 187, 0.08) 0%, transparent 60%)',
-              animation: 'smokeFlow2 3.5s ease-in-out infinite alternate-reverse'
-            }}
+            className="absolute inset-0 animate-pulse sparkles-smoke-2"
           />
           <div 
-            className="absolute inset-0 animate-pulse"
-            style={{
-              background: 'radial-gradient(ellipse 180% 90% at 70% 80%, rgba(158, 122, 255, 0.06) 0%, transparent 55%)',
-              animation: 'smokeFlow3 4.5s ease-in-out infinite alternate'
-            }}
+            className="absolute inset-0 animate-pulse sparkles-smoke-3"
           />
         </div>
         
@@ -154,47 +142,10 @@ const SparklesText: React.FC<SparklesTextProps> = ({
           <Sparkle key={sparkle.id} {...sparkle} />
         ))}
         <strong className="relative z-10 text-center block leading-tight">
-          <span className="block">Give <span className="gradient-text">Life</span> to</span>
-          <span className="block"><span className="gradient-text">Dresses</span> with <span className="gradient-text">Trylum</span></span>
+          <span className="block">Give <span className="sparkles-gradient-text">Life</span> to</span>
+          <span className="block"><span className="sparkles-gradient-text">Dresses</span> with <span className="sparkles-gradient-text">Trylum</span></span>
         </strong>
       </span>
-      
-      <style jsx>{`
-        @keyframes smokeFlow1 {
-          0% { transform: translateY(0px) scale(1); opacity: 0.1; }
-          50% { transform: translateY(-10px) scale(1.05); opacity: 0.15; }
-          100% { transform: translateY(-5px) scale(0.98); opacity: 0.08; }
-        }
-        
-        @keyframes smokeFlow2 {
-          0% { transform: translateX(0px) translateY(0px) scale(1); opacity: 0.08; }
-          50% { transform: translateX(-8px) translateY(-8px) scale(1.03); opacity: 0.12; }
-          100% { transform: translateX(5px) translateY(-3px) scale(0.97); opacity: 0.06; }
-        }
-        
-        @keyframes smokeFlow3 {
-          0% { transform: translateX(0px) translateY(0px) scale(1); opacity: 0.06; }
-          50% { transform: translateX(10px) translateY(-12px) scale(1.04); opacity: 0.1; }
-          100% { transform: translateX(-3px) translateY(-6px) scale(0.99); opacity: 0.04; }
-        }
-        
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          25% { background-position: 100% 50%; }
-          50% { background-position: 100% 100%; }
-          75% { background-position: 0% 100%; }
-          100% { background-position: 0% 50%; }
-        }
-        
-        .gradient-text {
-          background: linear-gradient(45deg, #9E7AFF, #FE8BBB, #00D4FF, #FFB800, #9E7AFF, #FE8BBB);
-          background-size: 300% 300%;
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: gradientShift 3s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };
