@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { NavLink } from 'react-router-dom';
@@ -40,18 +39,21 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
           DreamDressing
         </NavLink>
         
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center space-x-6">
+        {/* Centered Navigation Links */}
+        <nav className="hidden md:flex items-center justify-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
           <a href="#features" className={`${
             theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
           } transition-colors`}>Features</a>
-          <a href="#how-it-works" className={`${
-            theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
-          } transition-colors`}>How It Works</a>
           <a href="#pricing" className={`${
             theme === 'dark' ? 'text-gold-light hover:text-gold' : 'text-[#4A4A4A] hover:text-[#1A1A1A]'
           } transition-colors`}>Pricing</a>
-          <ThemeToggle />
+        </nav>
+        
+        {/* Right side items */}
+        <div className="flex items-center space-x-3">
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
           <Button 
             onClick={onGetStarted} 
             className={`${
@@ -62,21 +64,11 @@ const Navigation = ({ onGetStarted }: NavigationProps) => {
           >
             Get Started
           </Button>
-        </nav>
+        </div>
         
         {/* Mobile Menu Button - Only show button on mobile, keep theme toggle visible */}
         <div className="flex items-center gap-4 md:hidden">
           <ThemeToggle />
-          <Button 
-            onClick={onGetStarted} 
-            className={`${
-              theme === 'dark' 
-                ? 'bg-gold text-navy-dark hover:bg-gold-dark' 
-                : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'
-            }`}
-          >
-            Start
-          </Button>
         </div>
       </div>
     </div>

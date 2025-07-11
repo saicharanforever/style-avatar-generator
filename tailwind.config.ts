@@ -68,6 +68,13 @@ export default {
           dark: '#FFCC00',
         },
       },
+      fontFamily: {
+        'atma': ['Atma', 'cursive'],
+        'playfair': ['Playfair Display', 'serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
+        'rubik-dirt': ['Rubik Dirt', 'cursive'],
+        'anton': ['Anton', 'sans-serif'],
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

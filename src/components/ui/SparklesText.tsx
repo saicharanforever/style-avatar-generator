@@ -141,7 +141,7 @@ const SparklesText: React.FC<SparklesTextProps> = ({
         {sparkles.map((sparkle) => (
           <Sparkle key={sparkle.id} {...sparkle} />
         ))}
-        <strong className="relative z-10 text-center block leading-tight">
+        <strong className="relative z-10 text-center block leading-tight font-anton">
           <span className="block">Give <span className="sparkles-gradient-text">Life</span> to</span>
           <span className="block"><span className="sparkles-gradient-text">Dresses</span> with <span className="sparkles-gradient-text">Trylum</span></span>
         </strong>
