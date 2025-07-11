@@ -8,7 +8,7 @@ import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
 import BrandsSection from '@/components/landing/BrandsSection';
 import TestimonialsSection from '@/components/landing/TestimonialsSection';
-import PricingSection from '@/components/landing/PricingSection';
+import TrylumPricing from '@/components/TrylumPricing';
 import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
 import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
@@ -55,8 +55,8 @@ const Landing = () => {
       {/* Testimonials Section */}
       <TestimonialsSection />
       
-      {/* Pricing Section */}
-      <PricingSection onGetStarted={handleGetStarted} />
+      {/* New Pricing Section */}
+      <TrylumPricing />
       
       {/* FAQ Section */}
       <FAQSection />
