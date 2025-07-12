@@ -51,7 +51,7 @@ export const AuroraHero = () => {
         }} className="text-center font-rubik-dirt rounded-full" />
         </div>
         
-        <p className="my-6 max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center font-semibold text-xl text-[#343402]">
+        <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center font-semibold text-xl text-[#343402] my-0 mx-[17px] py-0">
           Style your products with the magic of AI
         </p>
         
@@ -62,7 +62,7 @@ export const AuroraHero = () => {
         scale: 1.015
       }} whileTap={{
         scale: 0.985
-      }} onClick={handleGetStarted} className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl text-slate-100 bg-indigo-950 hover:bg-indigo-800 rounded-lg">
+      }} onClick={handleGetStarted} className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl my-[24px] rounded-full bg-white text-black text-xl">
           Start for Free...
           <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
         </motion.button>
