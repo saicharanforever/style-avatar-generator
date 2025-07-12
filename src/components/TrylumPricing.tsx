@@ -80,41 +80,6 @@ function TrylumPricing() {
     window.open(whatsappUrl, '_blank');
   };
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const cardHover = {
-    rest: { scale: 1, y: 0 },
-    hover: { 
-      scale: 1.05, 
-      y: -10,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut"
-      }
-    }
-  };
-
   return (
     <section className="relative py-32 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 text-slate-900 overflow-hidden min-h-screen">
       {/* Enhanced Background Effects */}
@@ -190,15 +155,21 @@ function TrylumPricing() {
       <motion.div 
         ref={containerRef}
         className="relative z-10 max-w-6xl mx-auto px-6"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
+        transition={{
+          staggerChildren: 0.2,
+          delayChildren: 0.3
+        }}
       >
         {/* Header */}
         <motion.div 
           className="text-center mb-20"
-          variants={fadeInUp}
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
           <motion.div
             className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/80 border border-blue-200 backdrop-blur-sm mb-6 shadow-lg"
@@ -218,7 +189,10 @@ function TrylumPricing() {
 
           <motion.h2 
             className="text-4xl sm:text-6xl md:text-7xl font-bold mb-8 tracking-tight"
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
             <span className="text-slate-900">
               Simple, Transparent
@@ -244,7 +218,10 @@ function TrylumPricing() {
           
           <motion.p 
             className="text-xl sm:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-12"
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
             Choose the perfect plan for your AI fashion journey. One-time payment, lifetime value.
           </motion.p>
@@ -253,13 +230,22 @@ function TrylumPricing() {
         {/* Pricing Cards */}
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-5xl mx-auto"
-          variants={staggerContainer}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            staggerChildren: 0.2,
+            delayChildren: 0.3
+          }}
         >
           {pricingTiers.map((plan, index) => (
             <motion.div
               key={plan.name}
               className="relative"
-              variants={fadeInUp}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
               onHoverStart={() => setHoveredPlan(index)}
               onHoverEnd={() => setHoveredPlan(null)}
             >
@@ -269,9 +255,9 @@ function TrylumPricing() {
                     ? 'bg-gradient-to-br from-white/90 to-white/70 border-blue-300 shadow-2xl'
                     : 'bg-gradient-to-br from-white/80 to-white/60 border-slate-200 shadow-xl'
                 }`}
-                variants={cardHover}
-                initial="rest"
-                whileHover="hover"
+                initial={{ scale: 1, y: 0 }}
+                whileHover={{ scale: 1.05, y: -10 }}
+                transition={{ duration: 0.4 }}
                 style={{
                   boxShadow: plan.highlight 
                     ? "0 25px 50px -12px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.2)"
@@ -412,7 +398,10 @@ function TrylumPricing() {
         {/* WhatsApp CTA Section */}
         <motion.div 
           className="text-center"
-          variants={fadeInUp}
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
           <div className="relative bg-gradient-to-br from-green-50 to-green-100 backdrop-blur-xl rounded-3xl border border-green-200 p-8 md:p-12 overflow-hidden group max-w-4xl mx-auto shadow-xl">
             <motion.div
