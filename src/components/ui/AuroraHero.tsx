@@ -45,10 +45,10 @@ export const AuroraHero = () => {
         
         {/* SparklesText Component */}
         <div className="mb-8">
-          <SparklesText text="Give Life to Dresses with Trylum" className="text-center font-rubik-dirt" sparklesCount={15} colors={{
+          <SparklesText text="Give Life to Dresses with Trylum" sparklesCount={15} colors={{
           first: '#9E7AFF',
           second: '#FE8BBB'
-        }} />
+        }} className="text-center font-rubik-dirt rounded-full" />
         </div>
         
         <p className="my-6 max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center font-semibold text-xl text-[#343402]">
