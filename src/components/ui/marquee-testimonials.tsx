@@ -13,27 +13,27 @@ const testimonials = [
   {
     testimonial: "The quality and realism of these AI generated models is incredible. We've reduced our photography costs by 75%.",
     by: "Rajesh Kumar, StyleCraft India",
-    image: "/lovable-uploads/e9a8bda8-d392-4cdc-8afb-a976a0af8460.png"
+    image: "https://i.ibb.co/7tX8yp5c/img2.png"
   },
   {
     testimonial: "This tool has transformed our small business. We can now compete with larger brands with professional-looking product photos.",
     by: "Ananya Patel, TrendyWear",
-    image: "/lovable-uploads/eed275da-4a68-4a5e-8ef8-7a68d02e7b7d.png"
+    image: "https://i.ibb.co/5g24dPHb/img3.png"
   },
   {
     testimonial: "The diversity of model options helps us showcase our traditional wear for different ethnic markets. This is a game-changer!",
     by: "Vikram Singh, Ethnic Elegance",
-    image: "/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png"
+    image: "https://i.ibb.co/6JRZZGMD/img4.png"
   },
   {
     testimonial: "The speed at which we can now update our catalog is remarkable. What took weeks now takes minutes with these AI models.",
     by: "Meera Reddy, Urban Threads",
-    image: "/lovable-uploads/e9a8bda8-d392-4cdc-8afb-a976a0af8460.png"
+    image: "https://i.ibb.co/NgXbmR1g/img5.png"
   },
   {
     testimonial: "Customer engagement has doubled since we started using these model images. They look incredibly professional and realistic.",
     by: "Arjun Kapoor, NextGen Apparel",
-    image: "/lovable-uploads/eed275da-4a68-4a5e-8ef8-7a68d02e7b7d.png"
+    image: "https://i.ibb.co/V0j40rN8/img6.png"
   }
 ];
 
