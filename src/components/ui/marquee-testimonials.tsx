@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { Quote } from 'lucide-react';
 
 // Testimonials data with profile images
 const testimonials = [
@@ -44,27 +45,47 @@ export const MarqueeTestimonials = () => {
       {/* First row - left to right */}
       <div className="flex animate-[marquee_30s_linear_infinite] space-x-6 mb-6">
         {[...testimonials.slice(0, 3), ...testimonials.slice(0, 3)].map((testimonial, index) => (
-          <div key={index} className="flex-shrink-0 w-80 h-80">
-            <div className={`relative p-1 rounded-lg ${
-              theme === 'dark' ? 'bg-navy-light/50' : 'bg-white'
-            } backdrop-blur-sm border border-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-border h-full`}>
-              <div className={`h-full w-full rounded-lg p-6 ${
-                theme === 'dark' ? 'bg-navy-light' : 'bg-white'
-              } relative flex flex-col justify-between`}>
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 animate-shimmer bg-[length:200%_100%]"></div>
-                <div className="relative z-10 flex flex-col h-full">
-                  <p className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} mb-4 text-sm leading-relaxed flex-1`}>
-                    "{testimonial.testimonial}"
+          <div key={index} className="flex-shrink-0 w-80 h-72">
+            <div className="relative group h-full">
+              {/* Glassmorphism card with gradient border */}
+              <div className={`relative h-full rounded-2xl p-[1px] bg-gradient-to-br from-pink-200/40 via-purple-200/40 to-blue-200/40 backdrop-blur-sm transition-all duration-300 group-hover:from-pink-300/60 group-hover:via-purple-300/60 group-hover:to-blue-300/60`}>
+                <div className={`h-full w-full rounded-2xl p-5 ${
+                  theme === 'dark' 
+                    ? 'bg-navy-light/80 backdrop-blur-xl' 
+                    : 'bg-white/80 backdrop-blur-xl'
+                } shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col`}>
+                  
+                  {/* Quote icon watermark */}
+                  <div className="absolute top-4 right-5 opacity-10">
+                    <Quote className="w-8 h-8 text-current" />
+                  </div>
+                  
+                  {/* Quote icon at start */}
+                  <Quote className={`w-5 h-5 mb-3 ${theme === 'dark' ? 'text-gold/60' : 'text-blue-500/60'} flex-shrink-0`} />
+                  
+                  {/* Testimonial text */}
+                  <p className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-sm leading-relaxed flex-1 relative z-10`}>
+                    {testimonial.testimonial}
                   </p>
-                  <div className="flex items-center gap-3 mt-auto">
-                    <img 
-                      src={testimonial.image} 
-                      alt={testimonial.by.split(',')[0]} 
-                      className="w-10 h-10 rounded-full object-cover border-2 border-gradient-to-r from-blue-500 to-pink-500"
-                    />
-                    <p className={`${theme === 'dark' ? 'text-gold' : 'text-blue-600'} font-semibold text-sm`}>
-                      - {testimonial.by}
-                    </p>
+                  
+                  {/* Profile section with reduced spacing */}
+                  <div className="flex items-center gap-3 mt-4 pt-3 border-t border-current/10">
+                    <div className="relative">
+                      <img 
+                        src={testimonial.image} 
+                        alt={testimonial.by.split(',')[0]} 
+                        className="w-12 h-12 rounded-full object-cover shadow-md border-2 border-white/20"
+                      />
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-200/20 to-blue-200/20"></div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`${theme === 'dark' ? 'text-gold' : 'text-blue-600'} font-medium text-sm leading-tight`}>
+                        {testimonial.by.split(',')[0]}
+                      </p>
+                      <p className={`${theme === 'dark' ? 'text-white/70' : 'text-gray-600'} text-xs leading-tight`}>
+                        {testimonial.by.split(',')[1]?.trim()}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -76,27 +97,47 @@ export const MarqueeTestimonials = () => {
       {/* Second row - right to left */}
       <div className="flex animate-[marquee-reverse_30s_linear_infinite] space-x-6">
         {[...testimonials.slice(3), ...testimonials.slice(3)].map((testimonial, index) => (
-          <div key={index} className="flex-shrink-0 w-80 h-80">
-            <div className={`relative p-1 rounded-lg ${
-              theme === 'dark' ? 'bg-navy-light/50' : 'bg-white'
-            } backdrop-blur-sm border border-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-border h-full`}>
-              <div className={`h-full w-full rounded-lg p-6 ${
-                theme === 'dark' ? 'bg-navy-light' : 'bg-white'
-              } relative flex flex-col justify-between`}>
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 animate-shimmer bg-[length:200%_100%]"></div>
-                <div className="relative z-10 flex flex-col h-full">
-                  <p className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} mb-4 text-sm leading-relaxed flex-1`}>
-                    "{testimonial.testimonial}"
+          <div key={index} className="flex-shrink-0 w-80 h-72">
+            <div className="relative group h-full">
+              {/* Glassmorphism card with gradient border */}
+              <div className={`relative h-full rounded-2xl p-[1px] bg-gradient-to-br from-teal-200/40 via-cyan-200/40 to-purple-200/40 backdrop-blur-sm transition-all duration-300 group-hover:from-teal-300/60 group-hover:via-cyan-300/60 group-hover:to-purple-300/60`}>
+                <div className={`h-full w-full rounded-2xl p-5 ${
+                  theme === 'dark' 
+                    ? 'bg-navy-light/80 backdrop-blur-xl' 
+                    : 'bg-white/80 backdrop-blur-xl'
+                } shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col`}>
+                  
+                  {/* Quote icon watermark */}
+                  <div className="absolute top-4 right-5 opacity-10">
+                    <Quote className="w-8 h-8 text-current" />
+                  </div>
+                  
+                  {/* Quote icon at start */}
+                  <Quote className={`w-5 h-5 mb-3 ${theme === 'dark' ? 'text-gold/60' : 'text-teal-500/60'} flex-shrink-0`} />
+                  
+                  {/* Testimonial text */}
+                  <p className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-sm leading-relaxed flex-1 relative z-10`}>
+                    {testimonial.testimonial}
                   </p>
-                  <div className="flex items-center gap-3 mt-auto">
-                    <img 
-                      src={testimonial.image} 
-                      alt={testimonial.by.split(',')[0]} 
-                      className="w-10 h-10 rounded-full object-cover border-2 border-gradient-to-r from-pink-500 to-blue-500"
-                    />
-                    <p className={`${theme === 'dark' ? 'text-gold' : 'text-blue-600'} font-semibold text-sm`}>
-                      - {testimonial.by}
-                    </p>
+                  
+                  {/* Profile section with reduced spacing */}
+                  <div className="flex items-center gap-3 mt-4 pt-3 border-t border-current/10">
+                    <div className="relative">
+                      <img 
+                        src={testimonial.image} 
+                        alt={testimonial.by.split(',')[0]} 
+                        className="w-12 h-12 rounded-full object-cover shadow-md border-2 border-white/20"
+                      />
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-teal-200/20 to-purple-200/20"></div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`${theme === 'dark' ? 'text-gold' : 'text-teal-600'} font-medium text-sm leading-tight`}>
+                        {testimonial.by.split(',')[0]}
+                      </p>
+                      <p className={`${theme === 'dark' ? 'text-white/70' : 'text-gray-600'} text-xs leading-tight`}>
+                        {testimonial.by.split(',')[1]?.trim()}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
