@@ -8,7 +8,7 @@ const testimonials = [
   {
     testimonial: "Our sales increased by 32% after switching to these AI model images. Customers can now visualize our clothing better than ever.",
     by: "Priya Sharma, FashionHub Online",
-    image: "/lovable-uploads/bb1a850a-b604-4784-ac3b-778c6d7c21e1.png"
+    image: "https://i.ibb.co/GQnvnfzT/img1.png"
   },
   {
     testimonial: "The quality and realism of these AI generated models is incredible. We've reduced our photography costs by 75%.",
