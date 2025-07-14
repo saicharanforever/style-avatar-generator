@@ -18,8 +18,8 @@ const BeforeAfterSection = () => {
           {/* First Compare Component */}
           <div className="flex-1 flex justify-center w-full">
             <CompareDemo
-              firstImage="https://i.ibb.co/y214T3W/after1.png"
-              secondImage="https://i.ibb.co/fG9RV07x/after1.png"
+              firstImage="https://i.ibb.co/y214T3W/after1.webp"
+              secondImage="https://i.ibb.co/fG9RV07x/after1.webp"
               className="w-full max-w-md"
             />
           </div>
@@ -27,8 +27,8 @@ const BeforeAfterSection = () => {
           {/* Second Compare Component */}
           <div className="flex-1 flex justify-center w-full">
             <CompareDemo
-              firstImage="https://i.ibb.co/RrDkqBW/before2.png"
-              secondImage="https://i.ibb.co/PZBNswdb/after2.png"
+              firstImage="https://i.ibb.co/RrDkqBW/before2.webp"
+              secondImage="https://i.ibb.co/PZBNswdb/after2.webp"
               className="w-full max-w-md"
             />
           </div>
