@@ -11,7 +11,7 @@ import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import TrylumPricing from '@/components/TrylumPricing';
 import FAQSection from '@/components/landing/FAQSection';
 import CallToAction from '@/components/landing/CallToAction';
-import BeforeAfterCarousel from '@/components/landing/BeforeAfterCarousel';
+import BeforeAfterSection from '@/components/landing/BeforeAfterSection';
 import Footer from '@/components/landing/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
@@ -42,12 +42,7 @@ const Landing = () => {
       <HeroSection onGetStarted={handleGetStarted} />
       
       {/* Before & After Section - Right below Hero Section */}
-      <section className={`px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-white'}`}>
-        <h2 className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-8 font-playfair text-gold-dark font-semibold md:text-5xl`}>
-          Before & After Transformations
-        </h2>
-        <BeforeAfterCarousel />
-      </section>
+      <BeforeAfterSection />
       
       {/* Brands Section */}
       <BrandsSection />
