@@ -42,8 +42,8 @@ export const MarqueeTestimonials = () => {
   
   return (
     <div className="w-full overflow-hidden">
-      {/* First row - left to right */}
-      <div className="flex animate-[marquee_30s_linear_infinite] space-x-6 mb-6">
+      {/* First row - left to right with faster speed on mobile */}
+      <div className="flex animate-[marquee_30s_linear_infinite] md:animate-[marquee_30s_linear_infinite] sm:animate-[marquee_20s_linear_infinite] space-x-6 mb-6">
         {[...testimonials.slice(0, 3), ...testimonials.slice(0, 3)].map((testimonial, index) => (
           <div key={index} className="flex-shrink-0 w-80 h-72">
             <div className="relative group h-full">
@@ -94,8 +94,8 @@ export const MarqueeTestimonials = () => {
         ))}
       </div>
       
-      {/* Second row - right to left */}
-      <div className="flex animate-[marquee-reverse_30s_linear_infinite] space-x-6">
+      {/* Second row - right to left with faster speed on mobile */}
+      <div className="flex animate-[marquee-reverse_30s_linear_infinite] md:animate-[marquee-reverse_30s_linear_infinite] sm:animate-[marquee-reverse_20s_linear_infinite] space-x-6">
         {[...testimonials.slice(3), ...testimonials.slice(3)].map((testimonial, index) => (
           <div key={index} className="flex-shrink-0 w-80 h-72">
             <div className="relative group h-full">

@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { AuroraHero } from '@/components/ui/AuroraHero';
-import { ImageMarquee } from '@/components/ui/ImageMarquee';
 import SparklesText from '@/components/ui/SparklesText';
 
 interface HeroSectionProps {
@@ -27,17 +26,9 @@ const HeroSection = ({
     return <AuroraHero />;
   }
   
-  // Dark theme hero section with SparklesText
+  // Dark theme hero section without background marquee
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image Marquee */}
-      <div className="absolute inset-0 z-0">
-        <ImageMarquee />
-      </div>
-      
-      {/* Semi-transparent overlay for better text readability */}
-      <div className="absolute inset-0 z-5 bg-black/20"></div>
-      
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         {/* Tagline */}
@@ -60,10 +51,10 @@ const HeroSection = ({
           The perfect fusion of trend and tech in every click.
         </p>
         
-        {/* CTA Button */}
+        {/* CTA Button with blue-pink gradient background and white text */}
         <div className="flex justify-center">
           <Button 
-            className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl" 
+            className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl font-bold" 
             onClick={handleGetStarted}
           >
             Get Started for Free

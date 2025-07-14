@@ -48,8 +48,8 @@ const BrandsSection = () => {
         
         {/* Marquee Container */}
         <div className="relative overflow-hidden">
-          {/* First marquee row */}
-          <div className="flex animate-[marquee_20s_linear_infinite] md:animate-[marquee_20s_linear_infinite] space-x-8">
+          {/* First marquee row with faster speed on mobile */}
+          <div className="flex animate-[marquee_20s_linear_infinite] md:animate-[marquee_20s_linear_infinite] sm:animate-[marquee_13.3s_linear_infinite] space-x-8">
             {[...brandLogos, ...brandLogos].map((brand, index) => (
               <div key={index} className="flex-shrink-0">
                 <img 
