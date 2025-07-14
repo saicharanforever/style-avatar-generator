@@ -26,7 +26,7 @@ const HeroSection = ({
     return <AuroraHero />;
   }
   
-  // Dark theme hero section without background marquee
+  // Dark theme hero section
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Main Content */}
