@@ -10,13 +10,13 @@ interface CompareDemoProps {
 
 export function CompareDemo({ firstImage, secondImage, className }: CompareDemoProps) {
   return (
-    <div className="p-4 border rounded-3xl dark:bg-neutral-900 bg-neutral-100 border-neutral-200 dark:border-neutral-800 px-4">
+    <div className="p-2 sm:p-4 border rounded-3xl dark:bg-neutral-900 bg-neutral-100 border-neutral-200 dark:border-neutral-800 w-full max-w-sm sm:max-w-md lg:max-w-lg">
       <Compare
         firstImage={firstImage}
         secondImage={secondImage}
-        firstImageClassName="object-cover object-left-top"
-        secondImageClassname="object-cover object-left-top"
-        className={`h-[250px] w-[200px] md:h-[500px] md:w-[500px] ${className || ''}`}
+        firstImageClassName="object-cover object-center"
+        secondImageClassname="object-cover object-center"
+        className="h-[300px] w-full sm:h-[350px] md:h-[400px] lg:h-[450px]"
         slideMode="hover"
       />
     </div>

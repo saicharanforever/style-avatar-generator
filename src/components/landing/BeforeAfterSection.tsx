@@ -16,19 +16,19 @@ const BeforeAfterSection = () => {
         {/* Desktop: Side by side, Mobile: Stacked */}
         <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-12">
           {/* First Compare Component */}
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 flex justify-center w-full">
             <CompareDemo
-              firstImage="https://ibb.co/WvZ3dxXW.png"
-              secondImage="https://ibb.co/qLBjcSYr.png"
+              firstImage="https://i.ibb.co/WvZ3dxX/before1.png"
+              secondImage="https://i.ibb.co/qLBjcSY/after1.png"
               className="w-full max-w-md"
             />
           </div>
           
           {/* Second Compare Component */}
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 flex justify-center w-full">
             <CompareDemo
-              firstImage="https://i.ibb.co/1YW4QDLB.png"
-              secondImage="https://i.ibb.co/b5cHWB0X.png"
+              firstImage="https://i.ibb.co/1YW4QDL/before2.png"
+              secondImage="https://i.ibb.co/b5cHWB0/after2.png"
               className="w-full max-w-md"
             />
           </div>
