@@ -19,7 +19,7 @@ const BeforeAfterSection = () => {
           <div className="flex-1 flex justify-center w-full">
             <CompareDemo
               firstImage="https://i.ibb.co/yFYQd5nN/after1.png"
-              secondImage="https://i.ibb.co/848BmH8x/before1.png"
+              secondImage="https://drive.google.com/uc?export=view&id=1ua_DgHIe9-g53rFgA7MRYGHp-ztSiRTA.png"
               className="w-full max-w-md"
             />
           </div>
