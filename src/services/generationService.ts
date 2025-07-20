@@ -25,7 +25,7 @@ export interface GenerationRequest {
 
 // NOTE: It is recommended to handle API keys securely, for example, via environment variables.
 // The key is masked here for security.
-const GEMINI_API_KEY = "AIzaSyDjGudOmLbWdPtNdu16zkkqiOn2QQf9esI";
+const GEMINI_API_KEY = "AIzaSyDylreEZEOya70Fg1rIFmgEZQoC632VOgA";
 
 // Initialize Google Gemini client
 const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
