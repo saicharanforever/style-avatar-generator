@@ -1,7 +1,7 @@
 
 import { Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { useMotionTemplate, useMotionValue, motion, animate } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
 export const AuroraHero = () => {
   const color = useMotionValue(COLORS_TOP[0]);
   const navigate = useNavigate();
+  const [webglSupported, setWebglSupported] = useState(true);
 
   useEffect(() => {
     animate(color, COLORS_TOP, {
@@ -20,6 +21,23 @@ export const AuroraHero = () => {
       repeat: Infinity,
       repeatType: "mirror"
     });
+  }, []);
+
+  // Check WebGL support
+  useEffect(() => {
+    const checkWebGLSupport = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) {
+          setWebglSupported(false);
+        }
+      } catch (e) {
+        setWebglSupported(false);
+      }
+    };
+    
+    checkWebGLSupport();
   }, []);
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #FFFFFF 70%, ${color})`;
@@ -74,12 +92,44 @@ export const AuroraHero = () => {
         </motion.button>
       </div>
 
-      {/* Stars background */}
-      <div className="absolute inset-0 z-0">
-        <Canvas>
-          <Stars radius={50} count={2500} factor={4} fade speed={2} />
-        </Canvas>
-      </div>
+      {/* Stars background with error handling */}
+      {webglSupported && (
+        <div className="absolute inset-0 z-0">
+          <Canvas
+            onCreated={(state) => {
+              // Success callback - WebGL context created successfully
+              console.log('WebGL context created successfully');
+            }}
+            onError={(error) => {
+              console.warn('WebGL error, disabling 3D background:', error);
+              setWebglSupported(false);
+            }}
+            fallback={null}
+          >
+            <Stars radius={50} count={2500} factor={4} fade speed={2} />
+          </Canvas>
+        </div>
+      )}
+
+      {/* Fallback background when WebGL is not supported */}
+      {!webglSupported && (
+        <div className="absolute inset-0 z-0 opacity-20">
+          {/* Simple CSS animation fallback */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-purple-100/30 to-pink-100/30 animate-pulse"></div>
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white/40 rounded-full animate-pulse"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 3}s`
+              }}
+            />
+          ))}
+        </div>
+      )}
     </motion.section>
   );
 };
