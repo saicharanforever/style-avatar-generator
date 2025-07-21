@@ -163,7 +163,7 @@ const ScrollTriggeredCarousel: React.FC<ScrollTriggeredCarouselProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative h-[400vh] w-full ${className}`}
+      className={`relative h-[200vh] w-full ${className}`}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white">
         {/* Stage Contents */}
