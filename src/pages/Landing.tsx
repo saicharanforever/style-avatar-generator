@@ -7,7 +7,6 @@ import BackgroundParticles from '@/components/BackgroundParticles';
 import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
 import BrandsSection from '@/components/landing/BrandsSection';
-import HowItWorksSection from '@/components/landing/HowItWorksSection';
 import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import TrylumPricing from '@/components/TrylumPricing';
 import FAQSection from '@/components/landing/FAQSection';
@@ -47,9 +46,6 @@ const Landing = () => {
       
       {/* Brands Section */}
       <BrandsSection />
-      
-      {/* How it Works Section */}
-      <HowItWorksSection />
       
       {/* Testimonials Section */}
       <TestimonialsSection />
