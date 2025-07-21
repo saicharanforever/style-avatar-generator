@@ -3,39 +3,39 @@
 import React, { useRef } from "react"
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion"
 
+// Interface for props if you need to pass any, like className
 interface ScrollTriggeredCarouselProps {
   className?: string
 }
 
+// Interface for the structure of each stage in the carousel
 interface CarouselStage {
   id: number
   image?: string
   video?: string
   text: string
-  textPosition: "bottom" | "center"
 }
 
+// Default content for the carousel stages
 const defaultStages: CarouselStage[] = [
   {
     id: 1,
     image: "https://ik.imagekit.io/8vwmxazvj/Untitled%20design%20(26).png?updatedAt=1753090014723",
     text: "Take the image of your dress",
-    textPosition: "center"
   },
   {
     id: 2,
     image: "https://ik.imagekit.io/8vwmxazvj/Untitled%20design%20(26).png?updatedAt=1753090014723",
     text: "Adjust your model preferences and click generate",
-    textPosition: "center"
   },
   {
     id: 3,
     image: "https://ik.imagekit.io/8vwmxazvj/Untitled%20design%20(26).png?updatedAt=1753090014723",
     text: "Download and charge premium price for your clothing",
-    textPosition: "center"
   }
 ]
 
+// Props for the individual stage content component
 interface StageContentProps {
   stage: CarouselStage
   scrollProgress: MotionValue<number>
@@ -44,112 +44,90 @@ interface StageContentProps {
 }
 
 const StageContent: React.FC<StageContentProps> = ({ stage, scrollProgress, stageIndex, totalStages }) => {
+  // Define the start and end points for this stage's animation within the overall scroll progress (0 to 1)
   const stageProgressStart = stageIndex / totalStages;
   const stageProgressEnd = (stageIndex + 1) / totalStages;
 
-  const imageScale = useTransform(
+  // Animate scale: The card shrinks as you scroll past it
+  const scale = useTransform(
     scrollProgress,
     [stageProgressStart, stageProgressEnd],
-    [1, 0.8] 
+    [1, 0.8]
   );
-  
-  const imageOpacity = useTransform(
+
+  // Animate opacity: The card fades in and out at the boundaries of its section
+  const opacity = useTransform(
     scrollProgress,
     [stageProgressStart, stageProgressStart + 0.05, stageProgressEnd - 0.05, stageProgressEnd],
     [0, 1, 1, 0]
   );
   
-  const imageZ = useTransform(
+  // Animate z-index: Move the current card to the back as the next one comes forward
+  // This gives the "stacking" effect.
+  const zIndex = useTransform(
     scrollProgress,
     [stageProgressStart, stageProgressEnd],
     [stageIndex, totalStages - stageIndex]
   );
-  
-  const textOpacity = useTransform(
-    scrollProgress,
-    [stageProgressStart + 0.1, stageProgressStart + 0.2, stageProgressEnd - 0.2, stageProgressEnd - 0.1],
-    [0, 1, 1, 0]
-  );
-  
-  const textY = useTransform(
-    scrollProgress,
-    [stageProgressStart + 0.1, stageProgressEnd - 0.1],
-    [20, -20]
-  );
 
   return (
-    <>
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{
-          scale: imageScale,
-          opacity: imageOpacity,
-          zIndex: imageZ,
-        }}
-      >
+    <motion.div
+      className="absolute inset-0 flex items-center justify-center"
+      style={{
+        scale,
+        opacity,
+        zIndex,
+      }}
+    >
+      <div className="relative w-[70%] max-w-sm aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl bg-gray-100">
         {stage.image ? (
-          <div className="relative w-[70%] max-w-sm aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-            <img
-              src={stage.image}
-              alt={`Fashion stage ${stage.id}`}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          </div>
+          <img
+            src={stage.image}
+            alt={stage.text}
+            className="w-full h-full object-cover"
+          />
         ) : stage.video ? (
-          <div className="relative w-[70%] max-w-sm aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-            <video
-              src={stage.video}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          </div>
+          <video
+            src={stage.video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          />
         ) : null}
-      </motion.div>
-
-      <motion.div
-        className="absolute inset-x-0 bottom-16 z-20 flex items-center justify-center px-8"
-        style={{
-          opacity: textOpacity,
-          y: textY,
-        }}
-      >
-        <div className="text-center max-w-md">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-800 leading-tight relative overflow-hidden">
-            <span className="relative z-10">{stage.text}</span>
-            <span className="absolute inset-0 z-20 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" 
-                  style={{
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 2s infinite linear'
-                  }}
-            />
-          </h2>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent p-6 flex flex-col justify-end">
+           <h2 className="text-xl md:text-2xl font-bold text-white leading-tight">{stage.text}</h2>
         </div>
-      </motion.div>
-    </>
+      </div>
+    </motion.div>
   )
 }
 
 const ScrollTriggeredCarousel: React.FC<ScrollTriggeredCarouselProps> = ({
   className = ""
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
   
+  // useScroll hook to track scroll progress within the container
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
-  })
+    // Animate from the moment the container's top hits the viewport top,
+    // until the container's bottom hits the viewport bottom.
+    offset: ["start start", "end end"] 
+  });
 
   return (
+    // This container needs to have a height larger than the screen (100vh)
+    // to create a scrollable area. 300vh for 3 stages.
     <div
       ref={containerRef}
       className={`relative h-[300vh] w-full ${className}`}
     >
+      {/* This div is sticky, so it stays in view while the parent scrolls */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white flex items-center justify-center">
+        
+        {/* Render each stage */}
         {defaultStages.map((stage, index) => (
           <StageContent
             key={stage.id}
@@ -160,26 +138,34 @@ const ScrollTriggeredCarousel: React.FC<ScrollTriggeredCarouselProps> = ({
           />
         ))}
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
-          <div className="flex space-x-2">
-            {defaultStages.map((_, index) => (
+        {/* Optional: Progress Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex space-x-2">
+          {defaultStages.map((_, index) => {
+             const progressIndicatorOpacity = useTransform(
+                scrollYProgress,
+                [index / defaultStages.length, (index + 0.5) / defaultStages.length, (index + 1) / defaultStages.length],
+                [0.5, 1, 0.5]
+             );
+             const progressIndicatorScale = useTransform(
+                scrollYProgress,
+                [index / defaultStages.length, (index + 0.5) / defaultStages.length, (index + 1) / defaultStages.length],
+                [0.8, 1.2, 0.8]
+             );
+             return (
               <motion.div
                 key={index}
-                className="w-3 h-3 rounded-full bg-gray-300"
+                className="w-3 h-3 rounded-full bg-blue-500"
                 style={{
-                  backgroundColor: useTransform(
-                    scrollYProgress,
-                    [index / defaultStages.length, (index + 1) / defaultStages.length],
-                    ["rgba(59, 130, 246, 1)", "rgba(156, 163, 175, 0.5)"]
-                  ),
+                  opacity: progressIndicatorOpacity,
+                  scale: progressIndicatorScale
                 }}
               />
-            ))}
-          </div>
+            )
+          })}
         </div>
       </div>
     </div>
   )
 }
 
-export default ScrollTriggeredCarousel
+export default ScrollTriggeredCarousel;
