@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { User, Users, Baby } from 'lucide-react';
+import { User, UserRound } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
-type Gender = 'male' | 'female' | 'kids';
+type Gender = 'male' | 'female';
 
 type GenderSelectorProps = {
   selectedGender: Gender | null;
@@ -15,8 +15,7 @@ const GenderSelector = ({ selectedGender, onGenderSelect }: GenderSelectorProps)
 
   const genderOptions = [
     { value: 'male' as const, label: 'Male', icon: User },
-    { value: 'female' as const, label: 'Female', icon: Users },
-    { value: 'kids' as const, label: 'Kids', icon: Baby },
+    { value: 'female' as const, label: 'Female', icon: UserRound },
   ];
 
   return (
@@ -26,7 +25,7 @@ const GenderSelector = ({ selectedGender, onGenderSelect }: GenderSelectorProps)
       }`}>
         MODEL
       </h2>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {genderOptions.map(({ value, label, icon: Icon }) => {
           const isSelected = selectedGender === value;
           return (

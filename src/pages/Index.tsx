@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
-import KidsGenderSelector from '@/components/KidsGenderSelector';
-import KidsAgeSelector from '@/components/KidsAgeSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
 import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
 import SizeSelector, { ClothingSize } from '@/components/SizeSelector';
@@ -27,8 +25,7 @@ import { Button } from '@/components/ui/button';
 import { Ticket, Coins } from 'lucide-react';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
-type Gender = 'male' | 'female' | 'kids';
-type KidsGender = 'boy' | 'girl';
+type Gender = 'male' | 'female';
 
 // Type for advanced options
 type AdvancedOptionsState = {
@@ -43,15 +40,12 @@ type AdvancedOptionsState = {
   nosePin?: string;
   size?: ClothingSize;
   fit?: ClothingFit;
-  age?: number;
 };
 
 const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
-  const [selectedKidsGender, setSelectedKidsGender] = useState<KidsGender | null>(null);
-  const [selectedAge, setSelectedAge] = useState<number>(8);
   const [selectedClothingType, setSelectedClothingType] = useState<string | null>(null);
   const [selectedEthnicity, setSelectedEthnicity] = useState<Ethnicity | null>(null);
   const [selectedSize, setSelectedSize] = useState<ClothingSize | null>(null);
@@ -143,37 +137,6 @@ const Index = () => {
 
   const handleGenderSelect = (gender: Gender) => {
     setSelectedGender(gender);
-    
-    // Reset kids gender and age if not kids
-    if (gender !== 'kids') {
-      setSelectedKidsGender(null);
-      setSelectedAge(8);
-    }
-    
-    setGeneratedImage(null);
-    setGeneratedImages([]);
-    setIsOriginalImage(false);
-    setRegenerationCount(0);
-    setMultipleRegenerationCounts([0, 0, 0]);
-    setIsMultipleGeneration(false);
-  };
-
-  const handleKidsGenderSelect = (kidsGender: KidsGender) => {
-    setSelectedKidsGender(kidsGender);
-    setGeneratedImage(null);
-    setGeneratedImages([]);
-    setIsOriginalImage(false);
-    setRegenerationCount(0);
-    setMultipleRegenerationCounts([0, 0, 0]);
-    setIsMultipleGeneration(false);
-  };
-
-  const handleAgeChange = (age: number) => {
-    setSelectedAge(age);
-    setAdvancedOptions(prev => ({
-      ...prev,
-      age: age
-    }));
     setGeneratedImage(null);
     setGeneratedImages([]);
     setIsOriginalImage(false);
@@ -248,11 +211,6 @@ const Index = () => {
       return;
     }
     
-    if (selectedGender === 'kids' && !selectedKidsGender) {
-      toast.error("Please select boy or girl for kids model");
-      return;
-    }
-    
     const isRegeneration = regenerationCount > 0;
     const creditCost = multiple ? 80 : 30;
     
@@ -273,8 +231,7 @@ const Index = () => {
       const finalAdvancedOptions = {
         ...advancedOptions,
         size: selectedSize,
-        fit: selectedFit,
-        age: selectedGender === 'kids' ? selectedAge : undefined
+        fit: selectedFit
       };
 
       if (multiple) {
@@ -288,7 +245,7 @@ const Index = () => {
           
           const result = await generateFashionImage({
             imageFile,
-            gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
+            gender: selectedGender,
             clothingType: selectedClothingType,
             ethnicity: selectedEthnicity,
             size: selectedSize,
@@ -313,7 +270,7 @@ const Index = () => {
       } else {
         const result = await generateFashionImage({
           imageFile,
-          gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
+          gender: selectedGender,
           clothingType: selectedClothingType,
           ethnicity: selectedEthnicity,
           size: selectedSize,
@@ -409,7 +366,7 @@ const Index = () => {
         
         const result = await generateFashionImage({
           imageFile,
-          gender: selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : 'female') : selectedGender,
+          gender: selectedGender,
           clothingType: selectedClothingType,
           ethnicity: selectedEthnicity,
           size: selectedSize,
@@ -437,8 +394,7 @@ const Index = () => {
     }, 500);
   };
   
-  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity || 
-                               (selectedGender === 'kids' && !selectedKidsGender);
+  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity;
 
   const handleTypeSelect = (type: string) => {
     setSelectedClothingType(type);
@@ -537,29 +493,11 @@ const Index = () => {
         />
       </div>
       
-      {selectedGender === 'kids' && (
-        <div className="animate-slide-up animation-delay-1400" style={{ marginBottom: '30px' }}>
-          <KidsGenderSelector
-            selectedKidsGender={selectedKidsGender}
-            onKidsGenderSelect={handleKidsGenderSelect}
-          />
-        </div>
-      )}
-
-      {selectedGender === 'kids' && selectedKidsGender && (
-        <div className="animate-slide-up animation-delay-1500" style={{ marginBottom: '30px' }}>
-          <KidsAgeSelector
-            selectedAge={selectedAge}
-            onAgeChange={handleAgeChange}
-          />
-        </div>
-      )}
-      
       <div className="animate-slide-up animation-delay-1600" style={{ marginBottom: '30px' }}>
         <ClothingTypeSelector 
           selectedType={selectedClothingType} 
           onTypeSelect={handleTypeSelect}
-          selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
+          selectedGender={selectedGender}
         />
       </div>
 
@@ -574,7 +512,7 @@ const Index = () => {
         <div className="animate-slide-up animation-delay-2000" style={{ marginBottom: '30px' }}>
           <AdvancedOptions 
             isBackView={isBackView}
-            selectedGender={selectedGender === 'kids' ? (selectedKidsGender === 'boy' ? 'male' : selectedKidsGender === 'girl' ? 'female' : null) : selectedGender}
+            selectedGender={selectedGender}
             selectedClothingType={selectedClothingType}
             selectedSize={selectedSize}
             selectedFit={selectedFit}

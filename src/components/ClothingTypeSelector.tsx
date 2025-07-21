@@ -1,8 +1,7 @@
+
 import React, { useState, useMemo } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Shirt, ShoppingBag, ChevronDown } from 'lucide-react';
+import { Shirt, ShoppingBag, X, ChevronDown } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 // Define clothing types with categories and gender-specific options
@@ -202,6 +201,10 @@ const ClothingTypeSelector = ({
   // Handle type selection
   const handleTypeSelect = (type: string) => {
     onTypeSelect(type);
+  };
+
+  // Handle close button
+  const handleClose = () => {
     setExpandedCategory(null);
   };
 
@@ -266,38 +269,6 @@ const ClothingTypeSelector = ({
             }`} />
           )}
         </Button>
-        
-        {/* Expanded options */}
-        <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}>
-          <div className={`mt-2 p-3 rounded-lg border ${
-            theme === 'light'
-              ? 'bg-white border-purple-200 shadow-sm'
-              : 'bg-navy-dark border-white/10'
-          }`}>
-            <div className="grid gap-2">
-              {availableTypes.map(type => (
-                <button
-                  key={type.value}
-                  onClick={() => handleTypeSelect(type.value)}
-                  className={`text-left p-2 rounded-md text-xs transition-all duration-200 ${
-                    selectedType === type.value
-                      ? theme === 'light'
-                        ? 'bg-blue-100 text-blue-800 border-2 border-blue-600'
-                        : 'bg-navy-light text-white border border-white'
-                      : theme === 'light'
-                        ? 'text-gray-800 hover:bg-purple-50 hover:text-purple-700'
-                        : 'text-white/80 hover:text-black hover:bg-yellow-300'
-                  }`}
-                  aria-label={`Select ${type.label}`}
-                >
-                  {type.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
     );
   };
@@ -318,11 +289,67 @@ const ClothingTypeSelector = ({
         </div>
       )}
       
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-3 gap-2">
         {renderCategoryButton('casual', <Shirt className="h-6 w-6" />, 'blue')}
         {renderCategoryButton('ethnic', <ShoppingBag className="h-6 w-6" />, 'pink')}
         {renderCategoryButton('western', <Shirt className="h-6 w-6" />, 'blue')}
       </div>
+      
+      {/* Expanded category overlay */}
+      {expandedCategory && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className={`relative w-full max-w-lg rounded-lg border ${
+            theme === 'light'
+              ? 'bg-white border-purple-200 shadow-lg'
+              : 'bg-navy-dark border-white/10'
+          }`}>
+            {/* Close button */}
+            <button
+              onClick={handleClose}
+              className={`absolute top-3 right-3 p-1 rounded-md ${
+                theme === 'light'
+                  ? 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <X className="h-5 w-5" />
+            </button>
+            
+            {/* Category header */}
+            <div className="p-4 border-b border-gray-200 dark:border-white/10">
+              <h3 className={`text-lg font-semibold ${
+                theme === 'light' ? 'text-gray-900' : 'text-white'
+              }`}>
+                {expandedCategory.charAt(0).toUpperCase() + expandedCategory.slice(1)} Clothing
+              </h3>
+            </div>
+            
+            {/* Category content */}
+            <div className="p-4 max-h-96 overflow-y-auto">
+              <div className="grid gap-2">
+                {getAvailableTypes(expandedCategory).map(type => (
+                  <button
+                    key={type.value}
+                    onClick={() => handleTypeSelect(type.value)}
+                    className={`text-left p-3 rounded-md text-sm transition-all duration-200 ${
+                      selectedType === type.value
+                        ? theme === 'light'
+                          ? 'bg-blue-100 text-blue-800 border-2 border-blue-600'
+                          : 'bg-navy-light text-white border border-white'
+                        : theme === 'light'
+                          ? 'text-gray-800 hover:bg-purple-50 hover:text-purple-700'
+                          : 'text-white/80 hover:text-black hover:bg-yellow-300'
+                    }`}
+                    aria-label={`Select ${type.label}`}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       {selectedType && (
         <div className={`mt-4 text-center text-sm ${

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { CSSProperties, ReactElement, useEffect, useState } from "react";
@@ -129,8 +130,8 @@ const SparklesText: React.FC<SparklesTextProps> = ({
         
         {sparkles.map(sparkle => <Sparkle key={sparkle.id} {...sparkle} />)}
         <strong className="relative z-10 text-center block leading-tight font-anton">
-          <span className="block text-6xl mx-0 my-0 py-0">Give <span className="sparkles-gradient-text">Life</span> to</span>
-          <span className="block text-6xl mx-0"><span className="sparkles-gradient-text">Dresses</span> with <span className="sparkles-gradient-text">Trylum</span></span>
+          <span className="block text-6xl mx-0 my-0 py-0">Give <span className="text-black">Life</span> to</span>
+          <span className="block text-6xl mx-0"><span className="text-black">Dresses</span> with <span className="text-black">Trylum</span></span>
         </strong>
       </span>
     </div>;

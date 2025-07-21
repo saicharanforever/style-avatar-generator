@@ -56,10 +56,10 @@ const ResultDisplay = ({
         <Button 
           onClick={handleDownload}
           variant="outline"
-          className="flex-1 border-white/20 hover:bg-navy-light text-white flex items-center justify-center gap-2"
+          className="flex-1 border-white/20 hover:bg-navy-light text-black hover:text-black flex items-center justify-center gap-2"
         >
-          <Download className="h-4 w-4" />
-          Download
+          <Download className="h-4 w-4 text-black" />
+          <span className="text-black font-medium">Download</span>
         </Button>
       </div>
     </div>

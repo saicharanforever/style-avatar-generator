@@ -60,7 +60,7 @@ const UserMenu = () => {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none text-gold">Account</p>
-            <p className="text-xs leading-none text-gold-light/70 truncate max-w-[200px]">
+            <p className="text-xs leading-none font-bold text-black truncate max-w-[200px]">
               {userEmail}
             </p>
           </div>
