@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useRef } from "react"
@@ -41,57 +40,45 @@ interface StageContentProps {
   stage: CarouselStage
   scrollProgress: MotionValue<number>
   stageIndex: number
+  totalStages: number
 }
 
-const StageContent: React.FC<StageContentProps> = ({ stage, scrollProgress, stageIndex }) => {
-  const isFirstStage = stageIndex === 0
-  const isLastStage = stageIndex === 2
-  
-  // Image/Video transforms - adjusted for better visibility
+const StageContent: React.FC<StageContentProps> = ({ stage, scrollProgress, stageIndex, totalStages }) => {
+  const stageProgressStart = stageIndex / totalStages;
+  const stageProgressEnd = (stageIndex + 1) / totalStages;
+
   const imageScale = useTransform(
     scrollProgress,
-    [stageIndex * 0.33, (stageIndex + 1) * 0.33],
-    isFirstStage ? [1, 0.9] : isLastStage ? [0.9, 1.1] : [0.9, 0.9]
-  )
+    [stageProgressStart, stageProgressEnd],
+    [1, 0.8] 
+  );
   
   const imageOpacity = useTransform(
     scrollProgress,
-    [
-      Math.max(0, (stageIndex - 0.3) * 0.33),
-      stageIndex * 0.33,
-      (stageIndex + 1) * 0.33,
-      Math.min(1, (stageIndex + 1.3) * 0.33)
-    ],
+    [stageProgressStart, stageProgressStart + 0.05, stageProgressEnd - 0.05, stageProgressEnd],
     [0, 1, 1, 0]
-  )
+  );
   
   const imageZ = useTransform(
     scrollProgress,
-    [stageIndex * 0.33, (stageIndex + 1) * 0.33],
-    isFirstStage ? [10, 8] : isLastStage ? [8, 12] : [8, 8]
-  )
+    [stageProgressStart, stageProgressEnd],
+    [stageIndex, totalStages - stageIndex]
+  );
   
-  // Text transforms - made more visible
   const textOpacity = useTransform(
     scrollProgress,
-    [
-      stageIndex * 0.33 + 0.02,
-      stageIndex * 0.33 + 0.1,
-      (stageIndex + 1) * 0.33 - 0.1,
-      (stageIndex + 1) * 0.33 - 0.02
-    ],
+    [stageProgressStart + 0.1, stageProgressStart + 0.2, stageProgressEnd - 0.2, stageProgressEnd - 0.1],
     [0, 1, 1, 0]
-  )
+  );
   
   const textY = useTransform(
     scrollProgress,
-    [stageIndex * 0.33, (stageIndex + 1) * 0.33],
-    [30, 0]
-  )
+    [stageProgressStart + 0.1, stageProgressEnd - 0.1],
+    [20, -20]
+  );
 
   return (
     <>
-      {/* Image/Video Content */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
         style={{
@@ -124,7 +111,6 @@ const StageContent: React.FC<StageContentProps> = ({ stage, scrollProgress, stag
         ) : null}
       </motion.div>
 
-      {/* Text Content */}
       <motion.div
         className="absolute inset-x-0 bottom-16 z-20 flex items-center justify-center px-8"
         style={{
@@ -155,26 +141,25 @@ const ScrollTriggeredCarousel: React.FC<ScrollTriggeredCarouselProps> = ({
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start start", "end end"]
   })
 
   return (
     <div
       ref={containerRef}
-      className={`relative h-[100vh] w-full ${className}`}
+      className={`relative h-[300vh] w-full ${className}`}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white flex items-center justify-center">
-        {/* Stage Contents */}
         {defaultStages.map((stage, index) => (
           <StageContent
             key={stage.id}
             stage={stage}
             scrollProgress={scrollYProgress}
             stageIndex={index}
+            totalStages={defaultStages.length}
           />
         ))}
 
-        {/* Progress Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
           <div className="flex space-x-2">
             {defaultStages.map((_, index) => (
@@ -184,8 +169,8 @@ const ScrollTriggeredCarousel: React.FC<ScrollTriggeredCarouselProps> = ({
                 style={{
                   backgroundColor: useTransform(
                     scrollYProgress,
-                    [index * 0.33, (index + 1) * 0.33],
-                    ["rgba(156, 163, 175, 0.5)", "rgba(59, 130, 246, 1)"]
+                    [index / defaultStages.length, (index + 1) / defaultStages.length],
+                    ["rgba(59, 130, 246, 1)", "rgba(156, 163, 175, 0.5)"]
                   ),
                 }}
               />
