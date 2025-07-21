@@ -26,22 +26,9 @@ const HeroSection = ({
     return <AuroraHero />;
   }
   
-  // Dark theme hero section with Framer background
+  // Dark theme hero section
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Framer Background */}
-      <iframe
-        src="https://broad-cogwheel-648373.framer.app/"
-        className="absolute inset-0 w-full h-full border-0 pointer-events-none z-0"
-        style={{ 
-          transform: 'scale(1.1)',
-          transformOrigin: 'center center'
-        }}
-      />
-      
-      {/* Dark overlay to maintain dark theme appearance */}
-      <div className="absolute inset-0 bg-navy/60 backdrop-blur-[1px] z-5" />
-      
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         {/* Tagline */}
