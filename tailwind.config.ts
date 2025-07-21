@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -106,8 +107,8 @@ export default {
           '50%': { opacity: '0.8' },
         },
         'shimmer': {
-          '0%': { backgroundPosition: '-500px 0' },
-          '100%': { backgroundPosition: '500px 0' },
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
         },
         ripple: {
           "0%, 100%": { transform: "translate(-50%, -50%) scale(1)" },
