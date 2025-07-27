@@ -38,37 +38,37 @@ const testimonials = [
   {
     testimonial: "These AI models have revolutionized our product photography workflow. We can now showcase seasonal collections instantly without waiting for photoshoots.",
     by: "Kavya Nair, Monsoon Styles",
-    image: "https://i.ibb.co/8KmP4nX2/img7.png"
+    image: "https://i.ibb.co/vCgLgJkB/img7.png"
   },
   {
     testimonial: "Our return rates dropped by 40% because customers now have a much clearer idea of how garments fit and look. The AI models are incredibly lifelike.",
     by: "Deepak Agarwal, Perfect Fit Fashion",
-    image: "https://i.ibb.co/3zL9wR7H/img8.png"
+    image: "https://i.ibb.co/q3wtGkjT/img8.png"
   },
   {
     testimonial: "As a startup, this tool gave us the professional edge we needed. Our social media engagement increased by 85% with these stunning model images.",
     by: "Shreya Gupta, Boho Chic Boutique",
-    image: "https://i.ibb.co/2N6yK8Qm/img9.png"
+    image: "https://i.ibb.co/rfmr85hc/img9.png"
   },
   {
     testimonial: "The variety of poses and expressions available is amazing. We can match the perfect model mood to each of our brand's different product lines.",
     by: "Rohit Malhotra, Versatile Vogue",
-    image: "https://i.ibb.co/4F8pL5Jx/img10.png"
+    image: "https://i.ibb.co/KzGtGrS5/img10.png"
   },
   {
     testimonial: "International expansion became so much easier with models representing different regions. Our global sales have increased by 58% this quarter.",
     by: "Sonia Iyer, Global Garments Co.",
-    image: "https://i.ibb.co/7QrN8sP4/img11.png"
+    image: "https://i.ibb.co/G3pdxRS1/img11.png"
   },
   {
     testimonial: "The consistency in lighting and quality across all our product images has elevated our brand perception tremendously. Customers trust us more now.",
     by: "Aditya Sharma, Premium Threads",
-    image: "https://i.ibb.co/9vT2mK6L/img12.png"
+    image: "https://i.ibb.co/JjyD3KCh/img12.png"
   },
   {
     testimonial: "We launched 3 new collections this month instead of our usual 1, thanks to the speed of AI model generation. Our inventory turnover has never been better.",
     by: "Riya Joshi, Fast Fashion Forward",
-    image: "https://i.ibb.co/8XhG3nM9/img13.png"
+    image: "https://i.ibb.co/JjyD3KCh/img13.png"
   }
 ];
 
