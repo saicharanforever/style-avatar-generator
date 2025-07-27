@@ -12,12 +12,12 @@ const HowItWorksSection = () => {
     },
     {
       id: 2,
-      image: "https://ik.imagekit.io/8vwmxazvj/Untitled%20design%20(26).png?updatedAt=1753090014723",
+      image: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_8_ygjdot&profile=cld-default.mp4",
       text: "2. Upload that image, adjust your preferences and click generate"
     },
     {
       id: 3,
-      image: "https://ik.imagekit.io/8vwmxazvj/Untitled%20design%20(26).png?updatedAt=1753090014723",
+      image: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_10_bfwtgs&profile=cld-default.mp4",
       text: "3. Download the model image/video and use it in your eCommerce marketplace"
     }
   ];
