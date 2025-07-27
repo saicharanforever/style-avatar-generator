@@ -34,6 +34,41 @@ const testimonials = [
     testimonial: "Customer engagement has doubled since we started using these model images. They look incredibly professional and realistic.",
     by: "Arjun Kapoor, NextGen Apparel",
     image: "https://i.ibb.co/V0j40rN8/img6.png"
+  },
+  {
+    testimonial: "These AI models have revolutionized our product photography workflow. We can now showcase seasonal collections instantly without waiting for photoshoots.",
+    by: "Kavya Nair, Monsoon Styles",
+    image: "https://i.ibb.co/8KmP4nX2/img7.png"
+  },
+  {
+    testimonial: "Our return rates dropped by 40% because customers now have a much clearer idea of how garments fit and look. The AI models are incredibly lifelike.",
+    by: "Deepak Agarwal, Perfect Fit Fashion",
+    image: "https://i.ibb.co/3zL9wR7H/img8.png"
+  },
+  {
+    testimonial: "As a startup, this tool gave us the professional edge we needed. Our social media engagement increased by 85% with these stunning model images.",
+    by: "Shreya Gupta, Boho Chic Boutique",
+    image: "https://i.ibb.co/2N6yK8Qm/img9.png"
+  },
+  {
+    testimonial: "The variety of poses and expressions available is amazing. We can match the perfect model mood to each of our brand's different product lines.",
+    by: "Rohit Malhotra, Versatile Vogue",
+    image: "https://i.ibb.co/4F8pL5Jx/img10.png"
+  },
+  {
+    testimonial: "International expansion became so much easier with models representing different regions. Our global sales have increased by 58% this quarter.",
+    by: "Sonia Iyer, Global Garments Co.",
+    image: "https://i.ibb.co/7QrN8sP4/img11.png"
+  },
+  {
+    testimonial: "The consistency in lighting and quality across all our product images has elevated our brand perception tremendously. Customers trust us more now.",
+    by: "Aditya Sharma, Premium Threads",
+    image: "https://i.ibb.co/9vT2mK6L/img12.png"
+  },
+  {
+    testimonial: "We launched 3 new collections this month instead of our usual 1, thanks to the speed of AI model generation. Our inventory turnover has never been better.",
+    by: "Riya Joshi, Fast Fashion Forward",
+    image: "https://i.ibb.co/8XhG3nM9/img13.png"
   }
 ];
 
@@ -43,8 +78,8 @@ export const MarqueeTestimonials = () => {
   return (
     <div className="w-full overflow-hidden">
       {/* First row - left to right with 1.5x speed on mobile */}
-      <div className="flex animate-[marquee_30s_linear_infinite] md:animate-[marquee_30s_linear_infinite] sm:animate-[marquee_13.3s_linear_infinite] space-x-6 mb-6">
-        {[...testimonials.slice(0, 3), ...testimonials.slice(0, 3)].map((testimonial, index) => (
+      <div className="flex animate-[marquee_30s_linear_infinite] md:animate-[marquee_30s_linear_infinite] sm:animate-[marquee_10s_linear_infinite] space-x-6 mb-6">
+        {[...testimonials.slice(0, 7), ...testimonials.slice(0, 7)].map((testimonial, index) => (
           <div key={index} className="flex-shrink-0 w-80 h-72">
             <div className="relative group h-full">
               {/* Glassmorphism card with gradient border */}
@@ -95,8 +130,8 @@ export const MarqueeTestimonials = () => {
       </div>
       
       {/* Second row - right to left with 1.5x speed on mobile */}
-      <div className="flex animate-[marquee-reverse_30s_linear_infinite] md:animate-[marquee-reverse_30s_linear_infinite] sm:animate-[marquee-reverse_13.3s_linear_infinite] space-x-6">
-        {[...testimonials.slice(3), ...testimonials.slice(3)].map((testimonial, index) => (
+      <div className="flex animate-[marquee-reverse_30s_linear_infinite] md:animate-[marquee-reverse_30s_linear_infinite] sm:animate-[marquee-reverse_10s_linear_infinite] space-x-6">
+        {[...testimonials.slice(7), ...testimonials.slice(7)].map((testimonial, index) => (
           <div key={index} className="flex-shrink-0 w-80 h-72">
             <div className="relative group h-full">
               {/* Glassmorphism card with gradient border */}

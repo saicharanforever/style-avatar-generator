@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
+import Silk from '@/components/ui/Silk';
 
 interface CallToActionProps {
   onGetStarted: () => void;
@@ -17,8 +18,20 @@ const CallToAction = ({ onGetStarted }: CallToActionProps) => {
   };
   
   return (
-    <section className="py-24 px-4">
-      <div className="max-w-3xl mx-auto text-center">
+    <section className="relative py-24 px-4 overflow-hidden">
+      {/* Silk Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <Silk
+          speed={5}
+          scale={1}
+          color={theme === 'dark' ? "#2D1B69" : "#E0F2FE"}
+          noiseIntensity={1.5}
+          rotation={0}
+        />
+      </div>
+      
+      {/* Content */}
+      <div className="relative z-10 max-w-3xl mx-auto text-center">
         <h2 className={`text-3xl md:text-5xl font-bold ${
           theme === 'dark' ? 'gold-gradient-text font-playfair' : 'blue-teal-gradient-text font-montserrat'
         } mb-8`}>
