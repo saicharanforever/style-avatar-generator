@@ -22,10 +22,10 @@ const CallToAction = ({ onGetStarted }: CallToActionProps) => {
       {/* Silk Background */}
       <div className="absolute inset-0 w-full h-full">
         <Silk
-          speed={5}
-          scale={1}
+          speed={18.6}
+          scale={1.2}
           color="#99007D"
-          noiseIntensity={1.5}
+          noiseIntensity={0}
           rotation={0}
         />
       </div>
