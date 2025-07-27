@@ -38,7 +38,7 @@ const Navigation = ({
           <div className="hidden md:block">
             <ThemeToggle />
           </div>
-          <Button onClick={onGetStarted} className={`${theme === 'dark' ? 'bg-gold text-navy-dark hover:bg-gold-dark' : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'}`}>
+          <Button onClick={onGetStarted} className={`${theme === 'dark' ? 'bg-gold text-navy-dark hover:bg-gold-dark' : 'bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600'} rounded-full`}>
             Get Started
           </Button>
         </div>
