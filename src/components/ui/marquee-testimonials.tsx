@@ -63,7 +63,7 @@ const testimonials = [
   {
     testimonial: "The consistency in lighting and quality across all our product images has elevated our brand perception tremendously. Customers trust us more now.",
     by: "Aditya Sharma, Premium Threads",
-    image: "https://i.ibb.co/JjyD3KCh/img12.png"
+    image: "https://i.ibb.co/5XwhBxJF/img12.png"
   },
   {
     testimonial: "We launched 3 new collections this month instead of our usual 1, thanks to the speed of AI model generation. Our inventory turnover has never been better.",
