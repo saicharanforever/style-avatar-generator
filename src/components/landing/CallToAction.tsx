@@ -24,7 +24,7 @@ const CallToAction = ({ onGetStarted }: CallToActionProps) => {
         <Silk
           speed={5}
           scale={1}
-          color={theme === 'dark' ? "#2D1B69" : "#E0F2FE"}
+          color="#99007D"
           noiseIntensity={1.5}
           rotation={0}
         />
@@ -32,9 +32,7 @@ const CallToAction = ({ onGetStarted }: CallToActionProps) => {
       
       {/* Content */}
       <div className="relative z-10 max-w-3xl mx-auto text-center">
-        <h2 className={`text-3xl md:text-5xl font-bold ${
-          theme === 'dark' ? 'gold-gradient-text font-playfair' : 'blue-teal-gradient-text font-montserrat'
-        } mb-8`}>
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">
           Ready to Elevate Your Fashion Photography?
         </h2>
         <Button 
