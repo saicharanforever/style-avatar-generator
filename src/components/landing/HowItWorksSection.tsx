@@ -7,17 +7,20 @@ const HowItWorksSection = () => {
   const steps = [
     {
       id: 1,
-      image: "https://ik.imagekit.io/8vwmxazvj/Untitled%20design%20(26).png?updatedAt=1753090014723",
+      type: 'image',
+      src: "https://ik.imagekit.io/8vwmxazvj/Untitled%20design%20(26).png?updatedAt=1753090014723",
       text: "1. Take the photo of your dress"
     },
     {
       id: 2,
-      image: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_8_ygjdot&profile=cld-default",
+      type: 'video',
+      src: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_8_ygjdot&profile=cld-default",
       text: "2. Upload that image, adjust your preferences and click generate"
     },
     {
       id: 3,
-      image: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_10_bfwtgs&profile=cld-default",
+      type: 'video',
+      src: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_10_bfwtgs&profile=cld-default",
       text: "3. Download the model image/video and use it in your eCommerce marketplace"
     }
   ];
@@ -32,13 +35,23 @@ const HowItWorksSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {steps.map((step) => (
             <div key={step.id} className="flex flex-col items-center text-center">
-              {/* Image Container with 3:4 aspect ratio */}
+              {/* Media Container with 3:4 aspect ratio */}
               <div className="w-full max-w-xs aspect-[3/4] mb-6 rounded-2xl overflow-hidden shadow-lg">
-                <img
-                  src={step.image}
-                  alt={step.text}
-                  className="w-full h-full object-cover"
-                />
+                {step.type === 'image' ? (
+                  <img
+                    src={step.src}
+                    alt={step.text}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <iframe
+                    src={step.src}
+                    className="w-full h-full border-0"
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    title={step.text}
+                  />
+                )}
               </div>
               
               {/* Step Text */}
