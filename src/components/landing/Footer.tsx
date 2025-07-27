@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
-            <h1 className={`text-xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#A8B5A5]'}`}>TrylumDressing</h1>
+            <h1 className={`text-xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#0A0A0A]'}`}>TrylumDressing</h1>
           </div>
           <div className="flex flex-wrap gap-6">
             <a href="#features" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>Features</a>
@@ -19,7 +19,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={`mt-12 text-center ${theme === 'dark' ? 'text-gold-light/50' : 'text-[#666666]'} text-sm`}>
-          &copy; {new Date().getFullYear()} DreamDressing. All rights reserved.
+          &copy; {new Date().getFullYear()} TrylumDressing. All rights reserved.
         </div>
       </div>
     </footer>;
