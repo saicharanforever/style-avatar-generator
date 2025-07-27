@@ -14,13 +14,13 @@ const HowItWorksSection = () => {
     {
       id: 2,
       type: 'video',
-      src: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_8_ygjdot&profile=cld-default",
+      src: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_8_ygjdot&profile=cld-default&autoplay=true&muted=true&loop=true&controls=false",
       text: "2. Upload that image, adjust your preferences and click generate"
     },
     {
       id: 3,
       type: 'video',
-      src: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_10_bfwtgs&profile=cld-default",
+      src: "https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_10_bfwtgs&profile=cld-default&autoplay=true&muted=true&loop=true&controls=false",
       text: "3. Download the model image/video and use it in your eCommerce marketplace"
     }
   ];
