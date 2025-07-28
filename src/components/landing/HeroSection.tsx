@@ -75,14 +75,14 @@ const HeroSection = ({
           </div>
         </div>
 
-        {/* Right Video - Fixed sizing */}
+        {/* Right Video - 3:4 aspect ratio with new video */}
         <div className="w-2/5 p-4 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-72 h-[65vh] max-h-[520px]">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[480px]">
             <iframe
-              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_600_x_800_px_ysfsjm&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
               className="w-full h-full"
               allow="autoplay; fullscreen; encrypted-media"
-              style={{ border: 'none' }}
+              style={{ border: 'none', objectFit: 'cover' }}
             />
           </div>
         </div>
