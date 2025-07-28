@@ -79,14 +79,16 @@ export const AuroraHero = () => {
           <div className="mb-8">
             <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
               <span className="text-[#2D2D2D]">Give </span>
+              {/* FIX START */}
               <motion.span 
                 style={{
-                  background: useMotionTemplate`linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7)`
+                  background: `linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7)`
                 }}
                 className="bg-clip-text text-transparent inline-block"
               >
                 Life
               </motion.span>
+              {/* FIX END */}
               <motion.span 
                 className="inline-block mx-2"
                 animate={{ 
@@ -169,14 +171,16 @@ export const AuroraHero = () => {
         <div className="mb-8">
           <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
             <span className="text-[#2D2D2D]">Give </span>
+            {/* FIX START */}
             <motion.span 
               style={{
-                background: useMotionTemplate`linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7)`
+                background: `linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7)`
               }}
               className="bg-clip-text text-transparent inline-block"
             >
               Life
             </motion.span>
+            {/* FIX END */}
             <motion.span 
               className="inline-block mx-2"
               animate={{ 
