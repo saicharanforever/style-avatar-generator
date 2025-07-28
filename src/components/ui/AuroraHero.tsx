@@ -57,7 +57,7 @@ export const AuroraHero = () => {
       <div className="absolute inset-0 z-0 md:hidden">
         <iframe
           src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-          className="w-full h-full object-cover"
+          className="w-full h-full"
           allow="autoplay; fullscreen; encrypted-media"
           style={{ border: 'none' }}
         />
@@ -110,7 +110,7 @@ export const AuroraHero = () => {
           <div className="relative rounded-2xl overflow-hidden shadow-2xl">
             <iframe
               src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-              className="w-full aspect-video"
+              className="w-full aspect-[9/16]"
               allow="autoplay; fullscreen; encrypted-media"
               style={{ border: 'none' }}
             />
