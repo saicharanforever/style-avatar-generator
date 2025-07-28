@@ -29,8 +29,68 @@ const HeroSection = ({
   // Dark theme hero section
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Main Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+      {/* Background Video for Mobile */}
+      <div className="absolute inset-0 z-0 md:hidden">
+        <iframe
+          src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+          className="w-full h-full object-cover"
+          allow="autoplay; fullscreen; encrypted-media"
+          style={{ border: 'none' }}
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden md:flex w-full max-w-7xl mx-auto px-4 items-center justify-between">
+        {/* Left Content */}
+        <div className="w-3/5 pr-8">
+          {/* Tagline */}
+          <p className="font-atma mb-6 text-sm blue-pink-gradient-text font-extrabold">
+            A smile in every pic :)
+          </p>
+          
+          {/* SparklesText Component */}
+          <div className="mb-8">
+            <SparklesText 
+              text="Give Life to Dresses with Trylum"
+              className="text-left font-rubik-dirt"
+              sparklesCount={15}
+              colors={{ first: '#9E7AFF', second: '#FE8BBB' }}
+            />
+          </div>
+          
+          {/* Subtitle */}
+          <p className="text-white text-lg md:text-xl max-w-2xl mb-12 drop-shadow-md">
+            The perfect fusion of trend and tech in every click.
+          </p>
+          
+          {/* CTA Button */}
+          <div className="flex justify-start">
+            <Button 
+              className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl font-bold" 
+              onClick={handleGetStarted}
+            >
+              Get Started for Free
+              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Right Video */}
+        <div className="w-2/5 p-4">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <iframe
+              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+              className="w-full aspect-video"
+              allow="autoplay; fullscreen; encrypted-media"
+              style={{ border: 'none' }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Content */}
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto md:hidden">
         {/* Tagline */}
         <p className="font-atma mb-6 text-sm blue-pink-gradient-text font-extrabold">
           A smile in every pic :)

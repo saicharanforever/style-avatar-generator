@@ -53,8 +53,73 @@ export const AuroraHero = () => {
       style={{ backgroundImage }} 
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white px-4"
     >
-      {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
+      {/* Background Video for Mobile */}
+      <div className="absolute inset-0 z-0 md:hidden">
+        <iframe
+          src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+          className="w-full h-full object-cover"
+          allow="autoplay; fullscreen; encrypted-media"
+          style={{ border: 'none' }}
+        />
+        <div className="absolute inset-0 bg-white/70"></div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden md:flex w-full max-w-7xl mx-auto items-center justify-between relative z-10">
+        {/* Left Content */}
+        <div className="w-3/5 pr-8">
+          <motion.span 
+            style={{
+              boxShadow: useMotionTemplate`0px 0px 20px ${color}`
+            }} 
+            className="mb-6 inline-block rounded-full bg-white/90 px-3 text-sm backdrop-blur-sm border border-white/20 font-medium text-purple-800 py-[7px]"
+          >
+            a Smile in every pic :)
+          </motion.span>
+          
+          {/* SparklesText Component */}
+          <div className="mb-8">
+            <SparklesText 
+              text="Give Life to Dresses with Trylum" 
+              sparklesCount={15} 
+              colors={{
+                first: '#9E7AFF',
+                second: '#FE8BBB'
+              }} 
+              className="text-left font-rubik-dirt rounded-full" 
+            />
+          </div>
+          
+          <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-left text-[#343402] my-0 py-0 text-xl font-normal mb-6">
+            Style your products with the magic of AI
+          </p>
+          
+          <motion.button 
+            whileHover={{ scale: 1.015 }}
+            whileTap={{ scale: 0.985 }}
+            onClick={handleGetStarted} 
+            className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600"
+          >
+            Start for Free...
+            <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
+          </motion.button>
+        </div>
+
+        {/* Right Video */}
+        <div className="w-2/5 p-4">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <iframe
+              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+              className="w-full aspect-video"
+              allow="autoplay; fullscreen; encrypted-media"
+              style={{ border: 'none' }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Content */}
+      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto md:hidden">
         <motion.span 
           style={{
             boxShadow: useMotionTemplate`0px 0px 20px ${color}`
