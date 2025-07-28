@@ -63,10 +63,10 @@ const HeroSection = ({
             The perfect fusion of trend and tech in every click.
           </p>
           
-          {/* CTA Button */}
+          {/* CTA Button with pulsating and wobble effect */}
           <div className="flex justify-center">
             <Button 
-              className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl font-bold" 
+              className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl font-bold animate-pulse hover:animate-none transition-all duration-300 hover:scale-105 hover:-rotate-1" 
               onClick={handleGetStarted}
             >
               Get Started for Free
@@ -75,26 +75,17 @@ const HeroSection = ({
           </div>
         </div>
 
-        {/* Right Video - Using HTML5 video instead of iframe */}
+        {/* Right Video - White background instead of black sides */}
         <div className="w-2/5 p-4 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[480px]">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-              style={{ objectFit: 'cover' }}
-            >
-              <source src="https://res.cloudinary.com/dtealftsb/video/upload/q_auto/Untitled_600_x_800_px_ysfsjm.mp4" type="video/mp4" />
-              {/* Fallback iframe if video doesn't work */}
-              <iframe
-                src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_600_x_800_px_ysfsjm&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-                className="w-full h-full"
-                allow="autoplay; fullscreen; encrypted-media"
-                style={{ border: 'none', objectFit: 'cover' }}
-              />
-            </video>
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[480px] bg-white">
+            <iframe
+              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_600_x_800_px_ysfsjm&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+              className="w-full h-full"
+              allow="autoplay; fullscreen; encrypted-media"
+              style={{ 
+                border: 'none'
+              }}
+            />
           </div>
         </div>
       </div>
@@ -121,10 +112,10 @@ const HeroSection = ({
           The perfect fusion of trend and tech in every click.
         </p>
         
-        {/* CTA Button with blue-pink gradient background and white text */}
+        {/* CTA Button with pulsating and wobble effect */}
         <div className="flex justify-center">
           <Button 
-            className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl font-bold" 
+            className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl font-bold animate-pulse hover:animate-none transition-all duration-300 hover:scale-105 hover:-rotate-1" 
             onClick={handleGetStarted}
           >
             Get Started for Free
