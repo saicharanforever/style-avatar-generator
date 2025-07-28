@@ -95,8 +95,26 @@ export const AuroraHero = () => {
           
           <div className="flex justify-center">
             <motion.button 
-              whileHover={{ scale: 1.015 }}
+              whileHover={{ scale: 1.05, rotate: -1 }}
               whileTap={{ scale: 0.985 }}
+              animate={{ 
+                scale: [1, 1.02, 1],
+                rotate: [0, 0.5, 0, -0.5, 0]
+              }}
+              transition={{
+                scale: {
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                },
+                rotate: {
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }
+              }}
               onClick={handleGetStarted} 
               className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600"
             >
@@ -106,26 +124,15 @@ export const AuroraHero = () => {
           </div>
         </div>
 
-        {/* Right Video - Using HTML5 video instead of iframe */}
+        {/* Right Video - White background instead of black sides */}
         <div className="w-2/5 p-4 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[500px]">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-              style={{ objectFit: 'cover' }}
-            >
-              <source src="https://res.cloudinary.com/dtealftsb/video/upload/q_auto/Untitled_design_12_mbyezr.mp4" type="video/mp4" />
-              {/* Fallback iframe if video doesn't work */}
-              <iframe
-                src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-                className="w-full h-full"
-                allow="autoplay; fullscreen; encrypted-media"
-                style={{ border: 'none', objectFit: 'cover' }}
-              />
-            </video>
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[500px] bg-white">
+            <iframe
+              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+              className="w-full h-full"
+              allow="autoplay; fullscreen; encrypted-media"
+              style={{ border: 'none' }}
+            />
           </div>
         </div>
       </div>
@@ -159,8 +166,26 @@ export const AuroraHero = () => {
         </p>
         
         <motion.button 
-          whileHover={{ scale: 1.015 }}
+          whileHover={{ scale: 1.05, rotate: -1 }}
           whileTap={{ scale: 0.985 }}
+          animate={{ 
+            scale: [1, 1.02, 1],
+            rotate: [0, 0.5, 0, -0.5, 0]
+          }}
+          transition={{
+            scale: {
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            },
+            rotate: {
+              duration: 3,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }
+          }}
           onClick={handleGetStarted} 
           className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl my-[24px] rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600"
         >
