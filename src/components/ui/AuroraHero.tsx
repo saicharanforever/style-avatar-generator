@@ -124,14 +124,14 @@ export const AuroraHero = () => {
           </div>
         </div>
 
-        {/* Right Video - White background for light theme */}
-        <div className="w-2/5 p-4 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[500px] bg-white">
+        {/* Right Video - Square container for desktop */}
+        <div className="w-2/5 flex justify-center items-center">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-80 bg-white flex justify-center items-center">
             <iframe
-              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-              className="w-full h-full object-cover"
+              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_1080_x_1080_px_cliyod&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+              className="w-full h-full"
               allow="autoplay; fullscreen; encrypted-media"
-              style={{ border: 'none' }}
+              style={{ border: 'none', objectFit: 'fill' }}
             />
           </div>
         </div>
