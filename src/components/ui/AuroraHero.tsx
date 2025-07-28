@@ -1,4 +1,3 @@
-
 import { Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React, { useEffect, useState } from "react";
@@ -105,12 +104,12 @@ export const AuroraHero = () => {
           </motion.button>
         </div>
 
-        {/* Right Video */}
-        <div className="w-2/5 p-4">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+        {/* Right Video - Fixed sizing */}
+        <div className="w-2/5 p-4 flex justify-center items-center">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-sm">
             <iframe
               src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-              className="w-full aspect-[9/16]"
+              className="w-full h-[60vh] max-h-[500px]"
               allow="autoplay; fullscreen; encrypted-media"
               style={{ border: 'none' }}
             />
