@@ -66,7 +66,7 @@ export const AuroraHero = () => {
       {/* Desktop Layout */}
       <div className="hidden md:flex w-full max-w-7xl mx-auto items-center justify-between relative z-10">
         {/* Left Content */}
-        <div className="w-3/5 pr-8">
+        <div className="w-3/5 pr-8 text-center">
           <motion.span 
             style={{
               boxShadow: useMotionTemplate`0px 0px 20px ${color}`
@@ -85,23 +85,25 @@ export const AuroraHero = () => {
                 first: '#9E7AFF',
                 second: '#FE8BBB'
               }} 
-              className="text-left font-rubik-dirt rounded-full" 
+              className="text-center font-rubik-dirt rounded-full" 
             />
           </div>
           
-          <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-left text-[#343402] my-0 py-0 text-xl font-normal mb-6">
+          <p className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6">
             Style your products with the magic of AI
           </p>
           
-          <motion.button 
-            whileHover={{ scale: 1.015 }}
-            whileTap={{ scale: 0.985 }}
-            onClick={handleGetStarted} 
-            className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600"
-          >
-            Start for Free...
-            <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
-          </motion.button>
+          <div className="flex justify-center">
+            <motion.button 
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.985 }}
+              onClick={handleGetStarted} 
+              className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600"
+            >
+              Start for Free...
+              <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
+            </motion.button>
+          </div>
         </div>
 
         {/* Right Video - Fixed sizing */}
