@@ -75,14 +75,19 @@ const HeroSection = ({
           </div>
         </div>
 
-        {/* Right Video - 3:4 aspect ratio with new video */}
+        {/* Right Video - Fixed black sides issue */}
         <div className="w-2/5 p-4 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[480px]">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[480px] bg-transparent">
             <iframe
-              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_600_x_800_px_ysfsjm&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-              className="w-full h-full"
+              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_600_x_800_px_ysfsjm&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false&fit=crop&crop=fill"
+              className="w-full h-full scale-110 origin-center"
               allow="autoplay; fullscreen; encrypted-media"
-              style={{ border: 'none', objectFit: 'cover' }}
+              style={{ 
+                border: 'none', 
+                objectFit: 'cover',
+                transform: 'scale(1.1)',
+                margin: '-5%'
+              }}
             />
           </div>
         </div>
