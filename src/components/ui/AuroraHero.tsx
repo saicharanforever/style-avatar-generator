@@ -126,7 +126,7 @@ export const AuroraHero = () => {
 
         {/* Right Video - White background instead of black sides */}
         <div className="w-2/5 p-4 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[500px] bg-white">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-[60vh] max-h-[500px]" style={{ backgroundColor: 'white' }}>
             <iframe
               src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
               className="w-full h-full"
