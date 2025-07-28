@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { useMotionTemplate, useMotionValue, motion, animate } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
-import SparklesText from './SparklesText';
-import { SplitTextAnimation } from './SplitTextAnimation';
 
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
 
@@ -77,12 +75,35 @@ export const AuroraHero = () => {
             a Smile in every pic :)
           </motion.span>
           
-          {/* SparklesText Component */}
+          {/* Custom Text with Spacing and Gradient */}
           <div className="mb-8">
-            <SplitTextAnimation 
-              text="Give Life to Dresses with Trylum"
-              className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
-            />
+            <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
+              <span className="text-[#2D2D2D]">Give </span>
+              <motion.span 
+                style={{
+                  background: useMotionTemplate`linear-gradient(45deg, ${color}, #8B5CF6, #F59E0B)`
+                }}
+                className="bg-clip-text text-transparent inline-block"
+              >
+                Life
+              </motion.span>
+              <motion.span 
+                className="inline-block mx-2"
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 10, 0, -10, 0]
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                ❤️
+              </motion.span>
+              <span className="text-[#2D2D2D]"> to Dresses with </span>
+              <span className="text-[#2D2D2D]">Trylum</span>
+            </h1>
           </div>
           
           <p className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6 block">
@@ -144,12 +165,35 @@ export const AuroraHero = () => {
           a Smile in every pic :)
         </motion.span>
         
-        {/* SparklesText Component */}
+        {/* Custom Text with Spacing and Gradient */}
         <div className="mb-8">
-          <SplitTextAnimation 
-            text="Give Life to Dresses with Trylum"
-            className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
-          />
+          <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
+            <span className="text-[#2D2D2D]">Give </span>
+            <motion.span 
+              style={{
+                background: useMotionTemplate`linear-gradient(45deg, ${color}, #8B5CF6, #F59E0B)`
+              }}
+              className="bg-clip-text text-transparent inline-block"
+            >
+              Life
+            </motion.span>
+            <motion.span 
+              className="inline-block mx-2"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 10, 0, -10, 0]
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              ❤️
+            </motion.span>
+            <span className="text-[#2D2D2D]"> to Dresses with </span>
+            <span className="text-[#2D2D2D]">Trylum</span>
+          </h1>
         </div>
         
         <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 mx-[17px] py-0 text-xl font-normal block">
