@@ -42,7 +42,7 @@ const HeroSection = ({
       {/* Desktop Layout */}
       <div className="hidden md:flex w-full max-w-7xl mx-auto px-4 items-center justify-between">
         {/* Left Content */}
-        <div className="w-3/5 pr-8">
+        <div className="w-3/5 pr-8 text-center">
           {/* Tagline */}
           <p className="font-atma mb-6 text-sm blue-pink-gradient-text font-extrabold">
             A smile in every pic :)
@@ -52,19 +52,19 @@ const HeroSection = ({
           <div className="mb-8">
             <SparklesText 
               text="Give Life to Dresses with Trylum"
-              className="text-left font-rubik-dirt"
+              className="text-center font-rubik-dirt"
               sparklesCount={15}
               colors={{ first: '#9E7AFF', second: '#FE8BBB' }}
             />
           </div>
           
           {/* Subtitle */}
-          <p className="text-white text-lg md:text-xl max-w-2xl mb-12 drop-shadow-md">
+          <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 drop-shadow-md">
             The perfect fusion of trend and tech in every click.
           </p>
           
           {/* CTA Button */}
-          <div className="flex justify-start">
+          <div className="flex justify-center">
             <Button 
               className="bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:from-blue-600 hover:to-pink-600 text-lg py-6 px-8 group shadow-xl font-bold" 
               onClick={handleGetStarted}
