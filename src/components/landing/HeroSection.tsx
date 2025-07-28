@@ -77,10 +77,10 @@ const HeroSection = ({
 
         {/* Right Video - Fixed sizing */}
         <div className="w-2/5 p-4 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-sm">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-72 h-[65vh] max-h-[520px]">
             <iframe
               src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-              className="w-full h-[60vh] max-h-[500px]"
+              className="w-full h-full"
               allow="autoplay; fullscreen; encrypted-media"
               style={{ border: 'none' }}
             />
