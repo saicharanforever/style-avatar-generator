@@ -6,7 +6,6 @@ import { useMotionTemplate, useMotionValue, motion, animate } from "framer-motio
 import { useNavigate } from 'react-router-dom';
 import SparklesText from './SparklesText';
 import { SplitTextAnimation } from './SplitTextAnimation';
-import { TypingAnimation } from './TypingAnimation';
 
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
 
@@ -86,12 +85,9 @@ export const AuroraHero = () => {
             />
           </div>
           
-          <TypingAnimation 
-            text="Style your products with the magic of AI"
-            className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6 block"
-            speed={100}
-            delay={1000}
-          />
+          <p className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6 block">
+            Style your products with the magic of AI
+          </p>
           
           <div className="flex justify-center">
             <motion.button 
@@ -156,12 +152,9 @@ export const AuroraHero = () => {
           />
         </div>
         
-        <TypingAnimation 
-          text="Style your products with the magic of AI"
-          className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 mx-[17px] py-0 text-xl font-normal block"
-          speed={100}
-          delay={1000}
-        />
+        <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 mx-[17px] py-0 text-xl font-normal block">
+          Style your products with the magic of AI
+        </p>
         
         <motion.button 
           whileHover={{ scale: 1.05, rotate: -1 }}
