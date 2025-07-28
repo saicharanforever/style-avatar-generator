@@ -10,7 +10,7 @@ interface TypingAnimationProps {
 export const TypingAnimation: React.FC<TypingAnimationProps> = ({
   text,
   className = '',
-  speed = 100,
+  speed = 500,
   delay = 0
 }) => {
   const [displayedText, setDisplayedText] = useState('');
