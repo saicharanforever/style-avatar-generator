@@ -81,7 +81,7 @@ export const AuroraHero = () => {
               <span className="text-[#2D2D2D]">Give </span>
               <motion.span 
                 style={{
-                  background: useMotionTemplate`linear-gradient(45deg, ${color}, #8B5CF6, #F59E0B)`
+                  background: useMotionTemplate`linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7)`
                 }}
                 className="bg-clip-text text-transparent inline-block"
               >
@@ -171,7 +171,7 @@ export const AuroraHero = () => {
             <span className="text-[#2D2D2D]">Give </span>
             <motion.span 
               style={{
-                background: useMotionTemplate`linear-gradient(45deg, ${color}, #8B5CF6, #F59E0B)`
+                background: useMotionTemplate`linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7)`
               }}
               className="bg-clip-text text-transparent inline-block"
             >
