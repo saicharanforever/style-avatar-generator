@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { SplitTextAnimation } from '@/components/ui/SplitTextAnimation';
 
 // Brand logos with the uploaded images
 const brandLogos = [
@@ -40,11 +41,12 @@ const BrandsSection = () => {
   return (
     <section className={`py-12 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-white'}`}>
       <div className="max-w-6xl mx-auto px-4">
-        <p className={`text-center py-[10px] ${
-          theme === 'dark' ? 'text-gold-dark' : 'blue-teal-gradient-text'
-        } font-semibold text-3xl mb-8`}>
-          Trusted by top e-commerce platforms
-        </p>
+        <SplitTextAnimation 
+          text="Trusted by top e-commerce platforms"
+          className={`text-center py-[10px] ${
+            theme === 'dark' ? 'text-gold-dark' : 'blue-teal-gradient-text'
+          } font-semibold text-3xl mb-8`}
+        />
         
         {/* Marquee Container */}
         <div className="relative overflow-hidden">

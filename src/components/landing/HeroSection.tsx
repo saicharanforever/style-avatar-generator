@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { AuroraHero } from '@/components/ui/AuroraHero';
 import SparklesText from '@/components/ui/SparklesText';
+import { SplitTextAnimation } from '@/components/ui/SplitTextAnimation';
+import { TypingAnimation } from '@/components/ui/TypingAnimation';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -50,18 +52,19 @@ const HeroSection = ({
           
           {/* SparklesText Component */}
           <div className="mb-8">
-            <SparklesText 
+            <SplitTextAnimation 
               text="Give Life to Dresses with Trylum"
-              className="text-center font-rubik-dirt"
-              sparklesCount={15}
-              colors={{ first: '#9E7AFF', second: '#FE8BBB' }}
+              className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent"
             />
           </div>
           
           {/* Subtitle */}
-          <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 drop-shadow-md">
-            The perfect fusion of trend and tech in every click.
-          </p>
+          <TypingAnimation 
+            text="Style your products with the magic of AI"
+            className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 drop-shadow-md block"
+            speed={100}
+            delay={1000}
+          />
           
           {/* CTA Button with pulsating and wobble effect */}
           <div className="flex justify-center">
@@ -99,18 +102,19 @@ const HeroSection = ({
         
         {/* SparklesText Component */}
         <div className="mb-8">
-          <SparklesText 
+          <SplitTextAnimation 
             text="Give Life to Dresses with Trylum"
-            className="text-center font-rubik-dirt"
-            sparklesCount={15}
-            colors={{ first: '#9E7AFF', second: '#FE8BBB' }}
+            className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent"
           />
         </div>
         
         {/* Subtitle */}
-        <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 drop-shadow-md">
-          The perfect fusion of trend and tech in every click.
-        </p>
+        <TypingAnimation 
+          text="Style your products with the magic of AI"
+          className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 drop-shadow-md block"
+          speed={100}
+          delay={1000}
+        />
         
         {/* CTA Button with pulsating and wobble effect */}
         <div className="flex justify-center">

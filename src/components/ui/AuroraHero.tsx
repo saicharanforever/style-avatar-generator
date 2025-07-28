@@ -5,6 +5,8 @@ import { FiArrowRight } from "react-icons/fi";
 import { useMotionTemplate, useMotionValue, motion, animate } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import SparklesText from './SparklesText';
+import { SplitTextAnimation } from './SplitTextAnimation';
+import { TypingAnimation } from './TypingAnimation';
 
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
 
@@ -78,20 +80,18 @@ export const AuroraHero = () => {
           
           {/* SparklesText Component */}
           <div className="mb-8">
-            <SparklesText 
-              text="Give Life to Dresses with Trylum" 
-              sparklesCount={15} 
-              colors={{
-                first: '#9E7AFF',
-                second: '#FE8BBB'
-              }} 
-              className="text-center font-rubik-dirt rounded-full" 
+            <SplitTextAnimation 
+              text="Give Life to Dresses with Trylum"
+              className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
             />
           </div>
           
-          <p className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6">
-            Style your products with the magic of AI
-          </p>
+          <TypingAnimation 
+            text="Style your products with the magic of AI"
+            className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6 block"
+            speed={100}
+            delay={1000}
+          />
           
           <div className="flex justify-center">
             <motion.button 
@@ -150,20 +150,18 @@ export const AuroraHero = () => {
         
         {/* SparklesText Component */}
         <div className="mb-8">
-          <SparklesText 
-            text="Give Life to Dresses with Trylum" 
-            sparklesCount={15} 
-            colors={{
-              first: '#9E7AFF',
-              second: '#FE8BBB'
-            }} 
-            className="text-center font-rubik-dirt rounded-full" 
+          <SplitTextAnimation 
+            text="Give Life to Dresses with Trylum"
+            className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"
           />
         </div>
         
-        <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 mx-[17px] py-0 text-xl font-normal">
-          Style your products with the magic of AI
-        </p>
+        <TypingAnimation 
+          text="Style your products with the magic of AI"
+          className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 mx-[17px] py-0 text-xl font-normal block"
+          speed={100}
+          delay={1000}
+        />
         
         <motion.button 
           whileHover={{ scale: 1.05, rotate: -1 }}

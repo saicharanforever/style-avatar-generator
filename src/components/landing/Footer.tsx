@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { TypingAnimation } from '@/components/ui/TypingAnimation';
 const Footer = () => {
   const {
     theme
@@ -8,18 +9,27 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
-            <h1 className={`text-xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#0A0A0A]'}`}>TrylumDressing</h1>
+            <TypingAnimation 
+              text="TrylumDressing" 
+              className={`text-xl font-bold ${theme === 'dark' ? 'gold-gradient-text' : 'text-[#0A0A0A]'}`}
+              speed={150}
+            />
           </div>
           <div className="flex flex-wrap gap-6">
-            <a href="#features" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>Features</a>
-            <a href="#how-it-works" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>How It Works</a>
-            <a href="#pricing" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>Pricing</a>
-            <a href="/privacy" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>Privacy Policy</a>
-            <a href="/terms" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`}>Terms of Service</a>
+            <TypingAnimation text="Features" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={500} />
+            <TypingAnimation text="How It Works" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={800} />
+            <TypingAnimation text="Pricing" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={1100} />
+            <TypingAnimation text="Privacy Policy" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={1400} />
+            <TypingAnimation text="Terms of Service" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={1700} />
           </div>
         </div>
         <div className={`mt-12 text-center ${theme === 'dark' ? 'text-gold-light/50' : 'text-[#666666]'} text-sm`}>
-          &copy; {new Date().getFullYear()} TrylumDressing. All rights reserved.
+          <TypingAnimation 
+            text={`© ${new Date().getFullYear()} TrylumDressing. All rights reserved.`}
+            className=""
+            speed={80}
+            delay={2000}
+          />
         </div>
       </div>
     </footer>;

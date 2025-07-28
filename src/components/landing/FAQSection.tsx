@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { SplitTextAnimation } from '@/components/ui/SplitTextAnimation';
 
 // FAQ data
 const faqs = [
@@ -34,11 +35,12 @@ const FAQSection = () => {
   return (
     <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-white'}`}>
       <div className="max-w-4xl mx-auto">
-        <h2 className={`text-3xl text-center ${
-          theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'
-        } mb-16 font-playfair text-gold-dark font-semibold md:text-5xl`}>
-          Frequently Asked Questions
-        </h2>
+        <SplitTextAnimation 
+          text="Frequently Asked Questions"
+          className={`text-3xl text-center ${
+            theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'
+          } mb-16 font-playfair text-gold-dark font-semibold md:text-5xl`}
+        />
         
         <div className="space-y-4">
           {faqs.map((faq, index) => (

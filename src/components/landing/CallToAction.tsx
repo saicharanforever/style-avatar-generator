@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import Silk from '@/components/ui/Silk';
+import { SplitTextAnimation } from '@/components/ui/SplitTextAnimation';
 
 interface CallToActionProps {
   onGetStarted: () => void;
@@ -32,9 +33,10 @@ const CallToAction = ({ onGetStarted }: CallToActionProps) => {
       
       {/* Content */}
       <div className="relative z-10 max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">
-          Ready to Elevate Your Fashion Photography?
-        </h2>
+        <SplitTextAnimation 
+          text="Ready to Elevate Your Fashion Photography?"
+          className="text-3xl md:text-5xl font-bold text-white mb-8"
+        />
         <Button 
           className={`${
             theme === 'dark' 

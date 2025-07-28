@@ -2,6 +2,7 @@
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { CompareDemo } from '@/components/ui/compare-demo';
+import { SplitTextAnimation } from '@/components/ui/SplitTextAnimation';
 
 const BeforeAfterSection = () => {
   const { theme } = useTheme();
@@ -9,9 +10,10 @@ const BeforeAfterSection = () => {
   return (
     <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-white'}`}>
       <div className="max-w-6xl mx-auto">
-        <h2 className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-16 font-playfair text-gold-dark font-semibold md:text-5xl`}>
-          Before & After Transformations
-        </h2>
+        <SplitTextAnimation 
+          text="Before & After Transformations"
+          className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-16 font-playfair text-gold-dark font-semibold md:text-5xl`}
+        />
         
         {/* Desktop: Side by side, Mobile: Stacked */}
         <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-12">

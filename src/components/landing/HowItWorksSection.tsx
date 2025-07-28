@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { SplitTextAnimation } from '@/components/ui/SplitTextAnimation';
+import { BlurTextAnimation } from '@/components/ui/BlurTextAnimation';
 
 const HowItWorksSection = () => {
   const { theme } = useTheme();
@@ -28,9 +30,10 @@ const HowItWorksSection = () => {
   return (
     <section className={`py-16 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-white'}`}>
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-12 font-playfair font-semibold md:text-5xl`}>
-          How It Works?
-        </h2>
+        <SplitTextAnimation 
+          text="How It Works?"
+          className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-12 font-playfair font-semibold md:text-5xl`}
+        />
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {steps.map((step) => (
@@ -55,11 +58,13 @@ const HowItWorksSection = () => {
               </div>
               
               {/* Step Text */}
-              <p className={`text-lg font-medium ${
-                theme === 'dark' ? 'text-white' : 'text-gray-800'
-              } leading-relaxed`}>
-                {step.text}
-              </p>
+              <BlurTextAnimation 
+                text={step.text}
+                className={`text-lg font-medium ${
+                  theme === 'dark' ? 'text-white' : 'text-gray-800'
+                } leading-relaxed`}
+                delay={step.id * 0.2}
+              />
             </div>
           ))}
         </div>
