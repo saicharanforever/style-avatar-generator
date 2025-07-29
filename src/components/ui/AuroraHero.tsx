@@ -2,10 +2,30 @@ import { Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import React, { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import { useMotionTemplate, useMotionValue, motion, animate } from "framer-motion";
+import { useMotionTemplate, useMotionValue, motion, animate, useTransform } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
+
+// A reusable component for the count-up animation
+const CountUp = ({ to }) => {
+  const count = useMotionValue(0);
+  // useTransform formats the number with commas as it counts up
+  const rounded = useTransform(count, latest => Math.round(latest).toLocaleString());
+
+  useEffect(() => {
+    // Animate the count from 0 to the target number
+    const controls = animate(count, to, {
+      duration: 2.5, // Animation duration in seconds
+      ease: "easeOut" // Animation easing function
+    });
+    // Stop the animation when the component unmounts
+    return controls.stop;
+  }, [to]);
+
+  return <motion.span>{rounded}</motion.span>;
+};
+
 
 export const AuroraHero = () => {
   const color = useMotionValue(COLORS_TOP[0]);
@@ -38,7 +58,6 @@ export const AuroraHero = () => {
   }, []);
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #FFFFFF 70%, ${color})`;
-  const border = useMotionTemplate`1px solid ${color}`;
   const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
 
   const handleGetStarted = () => {
@@ -117,14 +136,14 @@ export const AuroraHero = () => {
               <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
             </motion.button>
             {/* START: Trust Badge */}
-            <div className="mt-8 flex justify-center items-center">
+            <div className="mt-6 flex justify-center items-center">
                 <div className="flex flex-shrink-0 -space-x-4">
-                    <img className="w-10 h-10 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 1"/>
-                    <img className="w-10 h-10 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 2"/>
-                    <img className="w-10 h-10 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 3"/>
-                    <img className="w-10 h-10 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 4"/>
+                    <img className="w-9 h-9 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/yY1Z3zS/dane-wetton-t1-Yv-D-u-4-A-unsplash.jpg" alt="User 1"/>
+                    <img className="w-9 h-9 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/qYx2P20/albert-dera-ILip77-Sbm-OE-unsplash.jpg" alt="User 2"/>
+                    <img className="w-9 h-9 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/P9M1Dbc/guilherme-stecanella-3-M3-Po-Cpk-MU-unsplash.jpg" alt="User 3"/>
+                    <img className="w-9 h-9 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/Y05k06W/philip-martin-5a-GUy-CW-PJw-unsplash.jpg" alt="User 4"/>
                 </div>
-                <p className="ml-3 text-sm font-medium text-gray-700">Trusted by 1,00,000+ sellers</p>
+                <p className="ml-3 text-sm font-medium text-gray-700">Trusted by <CountUp to={100000} />+ sellers</p>
             </div>
             {/* END: Trust Badge */}
           </div>
@@ -149,7 +168,6 @@ export const AuroraHero = () => {
           a Smile in every pic :)
         </motion.span>
         
-        {/* Custom Text with Spacing and Gradient */}
         <div className="mb-8">
           <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
             <span className="text-[#2D2D2D]">Give </span>
@@ -194,20 +212,20 @@ export const AuroraHero = () => {
             repeatType: "reverse",
             ease: "easeInOut"
           }
-        }} onClick={handleGetStarted} className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl my-[24px] rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600">
+        }} onClick={handleGetStarted} className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl mt-[24px] mb-4 rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600">
           Start for Free...
           <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
         </motion.button>
 
         {/* START: Trust Badge */}
-        <div className="mt-4 flex justify-center items-center bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full">
+        <div className="flex justify-center items-center bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full">
             <div className="flex flex-shrink-0 -space-x-4">
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 1"/>
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 2"/>
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 3"/>
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User 4"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/yY1Z3zS/dane-wetton-t1-Yv-D-u-4-A-unsplash.jpg" alt="User 1"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/qYx2P20/albert-dera-ILip77-Sbm-OE-unsplash.jpg" alt="User 2"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/P9M1Dbc/guilherme-stecanella-3-M3-Po-Cpk-MU-unsplash.jpg" alt="User 3"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/Y05k06W/philip-martin-5a-GUy-CW-PJw-unsplash.jpg" alt="User 4"/>
             </div>
-            <p className="ml-3 text-xs font-medium text-gray-800">Trusted by 1,00,000+ sellers</p>
+            <p className="ml-3 text-xs font-medium text-gray-800">Trusted by <CountUp to={100000} />+ sellers</p>
         </div>
         {/* END: Trust Badge */}
       </div>
@@ -227,7 +245,6 @@ export const AuroraHero = () => {
 
       {/* Fallback background when WebGL is not supported */}
       {!webglSupported && <div className="absolute inset-0 z-0 opacity-20">
-          {/* Simple CSS animation fallback */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-purple-100/30 to-pink-100/30 animate-pulse"></div>
           {Array.from({
         length: 50
