@@ -15,6 +15,7 @@ import CallToAction from '@/components/landing/CallToAction';
 import BeforeAfterSection from '@/components/landing/BeforeAfterSection';
 import Footer from '@/components/landing/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import PurchaseNotifications from '@/components/PurchaseNotifications';
 
 const Landing = () => {
   const { user } = useAuth();
@@ -67,6 +68,7 @@ const Landing = () => {
       <Footer />
       
       <WhatsAppButton />
+      <PurchaseNotifications />
     </div>
   );
 };

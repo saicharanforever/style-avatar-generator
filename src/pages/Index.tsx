@@ -10,6 +10,7 @@ import SizeSelector, { ClothingSize } from '@/components/SizeSelector';
 import FitSelector, { ClothingFit } from '@/components/FitSelector';
 import GenerateButton from '@/components/GenerateButton';
 import GenerateMultipleButton from '@/components/GenerateMultipleButton';
+import GenerateVideoButton from '@/components/GenerateVideoButton';
 import GenerationProgress from '@/components/GenerationProgress';
 import ResultDisplay from '@/components/ResultDisplay';
 import MultipleResultsDisplay from '@/components/MultipleResultsDisplay';
@@ -539,6 +540,10 @@ const Index = () => {
             isGenerating={isGenerating && isMultipleGeneration}
           />
         </div>
+      </div>
+      
+      <div className="animate-slide-up animation-delay-2400" style={{ marginBottom: '30px' }}>
+        <GenerateVideoButton disabled={isGenerateDisabled} />
       </div>
       
       <GenerationProgress 
