@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { TypingAnimation } from '@/components/ui/TypingAnimation';
+import { useNavigate } from 'react-router-dom';
 const Footer = () => {
-  const {
-    theme
-  } = useTheme();
+  const { theme } = useTheme();
+  const navigate = useNavigate();
   return <footer className={`py-12 px-4 border-t ${theme === 'dark' ? 'border-white/5' : 'border-[#A9A9A9]/10'}`}>
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
@@ -19,7 +19,9 @@ const Footer = () => {
             <TypingAnimation text="Features" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={500} />
             <TypingAnimation text="How It Works" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={800} />
             <TypingAnimation text="Pricing" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={1100} />
-            <TypingAnimation text="Privacy Policy" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={1400} />
+            <button onClick={() => navigate('/privacy-policy')}>
+              <TypingAnimation text="Privacy Policy" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={1400} />
+            </button>
             <TypingAnimation text="Terms of Service" className={`${theme === 'dark' ? 'text-gold-light/80 hover:text-gold-light' : 'text-[#555555] hover:text-[#333333]'} transition-colors`} speed={100} delay={1700} />
           </div>
         </div>

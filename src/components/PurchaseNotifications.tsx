@@ -27,7 +27,7 @@ const PurchaseNotifications = () => {
   ];
 
   useEffect(() => {
-    // Generate notifications with random intervals
+    // Generate notifications with specific timing
     const generateNotification = () => {
       const randomNotification = fakeNotifications[Math.floor(Math.random() * fakeNotifications.length)];
       const newNotification: Notification = {
@@ -45,13 +45,13 @@ const PurchaseNotifications = () => {
       }, 4000);
     };
 
-    // Show first notification after 3 seconds
-    const initialTimeout = setTimeout(generateNotification, 3000);
+    // Show first notification after 5 seconds when user enters
+    const initialTimeout = setTimeout(generateNotification, 5000);
 
-    // Then show notifications every 8-15 seconds
+    // Then show notifications every 30 seconds
     const interval = setInterval(() => {
       generateNotification();
-    }, Math.random() * 7000 + 8000); // Random between 8-15 seconds
+    }, 30000); // Every 30 seconds
 
     return () => {
       clearTimeout(initialTimeout);

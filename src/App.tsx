@@ -13,6 +13,7 @@ import Auth from "./pages/Auth";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import ResetPassword from "./components/auth/ResetPassword";
 import { useAuth } from "./contexts/AuthContext";
@@ -58,6 +59,7 @@ const AppRoutes = () => {
       <Route path="/auth" element={<Auth />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/profile" element={
         <ProtectedRoute>
           <Profile />
