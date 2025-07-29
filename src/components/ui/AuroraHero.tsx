@@ -220,10 +220,10 @@ export const AuroraHero = () => {
         {/* START: Trust Badge */}
         <div className="flex justify-center items-center bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full">
             <div className="flex flex-shrink-0 -space-x-4">
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/yY1Z3zS/dane-wetton-t1-Yv-D-u-4-A-unsplash.jpg" alt="User 1"/>
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/qYx2P20/albert-dera-ILip77-Sbm-OE-unsplash.jpg" alt="User 2"/>
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/P9M1Dbc/guilherme-stecanella-3-M3-Po-Cpk-MU-unsplash.jpg" alt="User 3"/>
-                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/Y05k06W/philip-martin-5a-GUy-CW-PJw-unsplash.jpg" alt="User 4"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/zdbGqqj/dane-wetton-t1-Yv-D-u-4-A-unsplash.jpg" alt="User 1"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/KccQ8TSD/albert-dera-ILip77-Sbm-OE-unsplash.jpg" alt="User 2"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/VpYN617s/guilherme-stecanella-3-M3-Po-Cpk-MU-unsplash.jpg" alt="User 3"/>
+                <img className="w-8 h-8 border-2 border-white rounded-full object-cover" src="https://i.ibb.co/5XyJZr6V/philip-martin-5a-GUy-CW-PJw-unsplash.jpg" alt="User 4"/>
             </div>
             <p className="ml-3 text-xs font-medium text-gray-800">Trusted by <CountUp to={100000} />+ sellers</p>
         </div>
