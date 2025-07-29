@@ -4,14 +4,11 @@ import React, { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { useMotionTemplate, useMotionValue, motion, animate } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
-
 const COLORS_TOP = ["#13B5EA", "#8B5CF6", "#F59E0B", "#EF4444"];
-
 export const AuroraHero = () => {
   const color = useMotionValue(COLORS_TOP[0]);
   const navigate = useNavigate();
   const [webglSupported, setWebglSupported] = useState(true);
-
   useEffect(() => {
     animate(color, COLORS_TOP, {
       ease: "easeInOut",
@@ -34,31 +31,22 @@ export const AuroraHero = () => {
         setWebglSupported(false);
       }
     };
-    
     checkWebGLSupport();
   }, []);
-
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #FFFFFF 70%, ${color})`;
   const border = useMotionTemplate`1px solid ${color}`;
   const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
-
   const handleGetStarted = () => {
     navigate('/auth');
   };
-
-  return (
-    <motion.section 
-      style={{ backgroundImage }} 
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white px-4"
-    >
+  return <motion.section style={{
+    backgroundImage
+  }} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white px-4">
       {/* Background Video for Mobile */}
       <div className="absolute inset-0 z-0 md:hidden">
-        <iframe
-          src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-          className="w-full h-full"
-          allow="autoplay; fullscreen; encrypted-media"
-          style={{ border: 'none' }}
-        />
+        <iframe src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false" className="w-full h-full" allow="autoplay; fullscreen; encrypted-media" style={{
+        border: 'none'
+      }} />
         <div className="absolute inset-0 bg-white/70"></div>
       </div>
 
@@ -66,12 +54,9 @@ export const AuroraHero = () => {
       <div className="hidden md:flex w-full max-w-7xl mx-auto items-center justify-between relative z-10">
         {/* Left Content */}
         <div className="w-3/5 pr-8 text-center">
-          <motion.span 
-            style={{
-              boxShadow: useMotionTemplate`0px 0px 20px ${color}`
-            }} 
-            className="mb-6 inline-block rounded-full bg-white/90 px-3 text-sm backdrop-blur-sm border border-white/20 font-medium text-purple-800 py-[7px]"
-          >
+          <motion.span style={{
+          boxShadow: useMotionTemplate`0px 0px 20px ${color}`
+        }} className="mb-6 inline-block rounded-full bg-white/90 px-3 text-sm backdrop-blur-sm border border-white/20 font-medium text-purple-800 py-[7px]">
             a Smile in every pic :)
           </motion.span>
           
@@ -82,18 +67,14 @@ export const AuroraHero = () => {
               {/* FIX START */}
               <span className="text-[#2D2D2D]">Life</span>
               {/* FIX END */}
-              <motion.span 
-                className="inline-block mx-2"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  rotate: [0, 10, 0, -10, 0]
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
+              <motion.span className="inline-block mx-2" animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 10, 0, -10, 0]
+            }} transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}>
                 ❤️
               </motion.span>
               <span className="text-[#2D2D2D]"> to Dresses with </span>
@@ -101,103 +82,18 @@ export const AuroraHero = () => {
             </h1>
           </div>
           
-          <p className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6 block">
-            Style your products with the magic of AI
-          </p>
+          <p className="max-w-xl mx-auto leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 py-0 text-xl font-normal mb-6 block">Style your products with the magic of Trylum Dressing</p>
           
           <div className="flex justify-center">
-            <motion.button 
-              whileHover={{ scale: 1.05, rotate: -1 }}
-              whileTap={{ scale: 0.985 }}
-              animate={{ 
-                scale: [1, 1.02, 1],
-                rotate: [0, 0.5, 0, -0.5, 0]
-              }}
-              transition={{
-                scale: {
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut"
-                },
-                rotate: {
-                  duration: 3,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut"
-                }
-              }}
-              onClick={handleGetStarted} 
-              className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600"
-            >
-              Start for Free...
-              <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
-            </motion.button>
-          </div>
-        </div>
-
-        {/* Right Video - Square container for desktop */}
-        <div className="w-2/5 flex justify-center items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-80 bg-white flex justify-center items-center">
-            <iframe
-              src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_1080_x_1080_px_cliyod&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-              className="w-full h-full"
-              allow="autoplay; fullscreen; encrypted-media"
-              style={{ border: 'none', objectFit: 'fill' }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Content */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto md:hidden">
-        <motion.span 
-          style={{
-            boxShadow: useMotionTemplate`0px 0px 20px ${color}`
-          }} 
-          className="mb-6 inline-block rounded-full bg-white/90 px-3 text-sm backdrop-blur-sm border border-white/20 font-medium text-purple-800 py-[7px]"
-        >
-          a Smile in every pic :)
-        </motion.span>
-        
-        {/* Custom Text with Spacing and Gradient */}
-        <div className="mb-8">
-          <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
-            <span className="text-[#2D2D2D]">Give </span>
-            {/* FIX START */}
-            <span className="text-[#2D2D2D]">Life</span>
-            {/* FIX END */}
-            <motion.span 
-              className="inline-block mx-2"
-              animate={{ 
-                scale: [1, 1.2, 1],
-                rotate: [0, 10, 0, -10, 0]
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              ❤️
-            </motion.span>
-            <span className="text-[#2D2D2D]"> to Dresses with </span>
-            <span className="text-[#2D2D2D]">Trylum</span>
-          </h1>
-        </div>
-        
-        <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 mx-[17px] py-0 text-xl font-normal block">
-          Style your products with the magic of AI
-        </p>
-        
-        <motion.button 
-          whileHover={{ scale: 1.05, rotate: -1 }}
-          whileTap={{ scale: 0.985 }}
-          animate={{ 
+            <motion.button whileHover={{
+            scale: 1.05,
+            rotate: -1
+          }} whileTap={{
+            scale: 0.985
+          }} animate={{
             scale: [1, 1.02, 1],
             rotate: [0, 0.5, 0, -0.5, 0]
-          }}
-          transition={{
+          }} transition={{
             scale: {
               duration: 2,
               repeat: Infinity,
@@ -210,55 +106,111 @@ export const AuroraHero = () => {
               repeatType: "reverse",
               ease: "easeInOut"
             }
-          }}
-          onClick={handleGetStarted} 
-          className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl my-[24px] rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600"
-        >
+          }} onClick={handleGetStarted} className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600">
+              Start for Free...
+              <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Right Video - Square container for desktop */}
+        <div className="w-2/5 flex justify-center items-center">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-80 h-80 bg-white flex justify-center items-center">
+            <iframe src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_1080_x_1080_px_cliyod&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false" className="w-full h-full" allow="autoplay; fullscreen; encrypted-media" style={{
+            border: 'none',
+            objectFit: 'fill'
+          }} />
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Content */}
+      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto md:hidden">
+        <motion.span style={{
+        boxShadow: useMotionTemplate`0px 0px 20px ${color}`
+      }} className="mb-6 inline-block rounded-full bg-white/90 px-3 text-sm backdrop-blur-sm border border-white/20 font-medium text-purple-800 py-[7px]">
+          a Smile in every pic :)
+        </motion.span>
+        
+        {/* Custom Text with Spacing and Gradient */}
+        <div className="mb-8">
+          <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
+            <span className="text-[#2D2D2D]">Give </span>
+            {/* FIX START */}
+            <span className="text-[#2D2D2D]">Life</span>
+            {/* FIX END */}
+            <motion.span className="inline-block mx-2" animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 10, 0, -10, 0]
+          }} transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}>
+              ❤️
+            </motion.span>
+            <span className="text-[#2D2D2D]"> to Dresses with </span>
+            <span className="text-[#2D2D2D]">Trylum</span>
+          </h1>
+        </div>
+        
+        <p className="max-w-xl leading-relaxed md:text-lg md:leading-relaxed drop-shadow-sm text-center text-[#343402] my-0 mx-[17px] py-0 text-xl font-normal block">
+          Style your products with the magic of AI
+        </p>
+        
+        <motion.button whileHover={{
+        scale: 1.05,
+        rotate: -1
+      }} whileTap={{
+        scale: 0.985
+      }} animate={{
+        scale: [1, 1.02, 1],
+        rotate: [0, 0.5, 0, -0.5, 0]
+      }} transition={{
+        scale: {
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut"
+        },
+        rotate: {
+          duration: 3,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut"
+        }
+      }} onClick={handleGetStarted} className="group relative flex w-fit items-center gap-1.5 px-6 py-3 transition-colors backdrop-blur-sm shadow-xl my-[24px] rounded-full text-white font-semibold text-base bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600">
           Start for Free...
           <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
         </motion.button>
       </div>
 
       {/* Stars background with error handling */}
-      {webglSupported && (
-        <div className="absolute inset-0 z-0">
-          <Canvas
-            onCreated={(state) => {
-              // Success callback - WebGL context created successfully
-              console.log('WebGL context created successfully');
-            }}
-            onError={(error) => {
-              console.warn('WebGL error, disabling 3D background:', error);
-              setWebglSupported(false);
-            }}
-            fallback={null}
-          >
+      {webglSupported && <div className="absolute inset-0 z-0">
+          <Canvas onCreated={state => {
+        // Success callback - WebGL context created successfully
+        console.log('WebGL context created successfully');
+      }} onError={error => {
+        console.warn('WebGL error, disabling 3D background:', error);
+        setWebglSupported(false);
+      }} fallback={null}>
             <Stars radius={50} count={2500} factor={4} fade speed={2} />
           </Canvas>
-        </div>
-      )}
+        </div>}
 
       {/* Fallback background when WebGL is not supported */}
-      {!webglSupported && (
-        <div className="absolute inset-0 z-0 opacity-20">
+      {!webglSupported && <div className="absolute inset-0 z-0 opacity-20">
           {/* Simple CSS animation fallback */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-purple-100/30 to-pink-100/30 animate-pulse"></div>
-          {Array.from({ length: 50 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-white/40 rounded-full animate-pulse"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 3}s`
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </motion.section>
-  );
+          {Array.from({
+        length: 50
+      }).map((_, i) => <div key={i} className="absolute w-1 h-1 bg-white/40 rounded-full animate-pulse" style={{
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+        animationDuration: `${2 + Math.random() * 3}s`
+      }} />)}
+        </div>}
+    </motion.section>;
 };
-
 export default AuroraHero;
