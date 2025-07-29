@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { Check, Crown, Star, ArrowRight, Sparkles, MessageCircle, Zap, Video, Users, Clock } from 'lucide-react';
+import { Check, Crown, Star, ArrowRight, Sparkles, MessageCircle, Zap, Video, Users, Clock, ShieldCheck } from 'lucide-react';
+
 interface PricingFeature {
   name: string;
   included: boolean;
 }
+
 interface PricingTier {
   name: string;
   price: string;
@@ -17,6 +19,7 @@ interface PricingTier {
   highlight: boolean;
   badge: string | null;
 }
+
 const pricingTiers: PricingTier[] = [{
   name: "Pro Plan",
   price: "₹1,999",
@@ -68,15 +71,18 @@ const pricingTiers: PricingTier[] = [{
   highlight: true,
   badge: "Best Value"
 }];
+
 function TrylumPricing() {
   const [hoveredPlan, setHoveredPlan] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const handleWhatsAppClick = () => {
     const phoneNumber = "+917386951961";
     const message = "Tell me more details about Trylum";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
+
   return <section className="relative py-32 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 text-slate-900 overflow-hidden min-h-screen">
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0">
@@ -205,7 +211,7 @@ function TrylumPricing() {
           once: true
         }} transition={{
           duration: 0.8
-        }}>Choose the perfect plan for your fashion journey.  One-time payment, lifetime value.</motion.p>
+        }}>Choose the perfect plan for your fashion journey.  One-time payment, lifetime value.</motion.p>
         </motion.div>
 
         {/* Pricing Cards */}
@@ -231,48 +237,48 @@ function TrylumPricing() {
           duration: 0.8
         }} onHoverStart={() => setHoveredPlan(index)} onHoverEnd={() => setHoveredPlan(null)}>
               <motion.div className={`relative h-full p-8 rounded-3xl border backdrop-blur-xl overflow-hidden ${plan.highlight ? 'bg-gradient-to-br from-white/90 to-white/70 border-blue-300 shadow-2xl' : 'bg-gradient-to-br from-white/80 to-white/60 border-slate-200 shadow-xl'}`} initial={{
-            scale: 1,
-            y: 0
-          }} whileHover={{
-            scale: 1.05,
-            y: -10
-          }} transition={{
-            duration: 0.4
-          }} style={{
-            boxShadow: plan.highlight ? "0 25px 50px -12px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.2)" : "0 25px 50px -12px rgba(0, 0, 0, 0.1)"
-          }}>
+              scale: 1,
+              y: 0
+            }} whileHover={{
+              scale: 1.05,
+              y: -10
+            }} transition={{
+              duration: 0.4
+            }} style={{
+              boxShadow: plan.highlight ? "0 25px 50px -12px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.2)" : "0 25px 50px -12px rgba(0, 0, 0, 0.1)"
+            }}>
                 {/* Badge */}
                 {plan.badge && <motion.div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg" initial={{
-              y: -50,
-              opacity: 0
-            }} animate={{
-              y: 0,
-              opacity: 1
-            }} transition={{
-              delay: 0.2
-            }}>
+                y: -50,
+                opacity: 0
+              }} animate={{
+                y: 0,
+                opacity: 1
+              }} transition={{
+                delay: 0.2
+              }}>
                     {plan.badge}
                   </motion.div>}
 
                 {/* Enhanced gradient overlay */}
                 <motion.div className={`absolute inset-0 bg-gradient-to-br ${plan.gradient} rounded-3xl opacity-60`} animate={{
-              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
-            }} transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "linear"
-            }} style={{
-              backgroundSize: '300% 300%'
-            }} />
+                backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
+              }} transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear"
+              }} style={{
+                backgroundSize: '300% 300%'
+              }} />
 
                 <div className="relative z-10">
                   {/* Icon */}
                   <motion.div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${plan.gradient} border border-white/20 flex items-center justify-center mb-6 shadow-lg`} whileHover={{
-                scale: 1.1,
-                rotateY: 180
-              }} transition={{
-                duration: 0.6
-              }}>
+                  scale: 1.1,
+                  rotateY: 180
+                }} transition={{
+                  duration: 0.6
+                }}>
                     {plan.icon}
                   </motion.div>
 
@@ -296,14 +302,14 @@ function TrylumPricing() {
                   <div className="mb-8">
                     <span className="sr-only">{plan.name} plan features:</span>
                     {plan.features.map((feature, featureIndex) => <motion.div key={featureIndex} className="flex items-center gap-3 py-2" initial={{
-                  opacity: 0,
-                  x: -20
-                }} animate={{
-                  opacity: 1,
-                  x: 0
-                }} transition={{
-                  delay: featureIndex * 0.1
-                }}>
+                    opacity: 0,
+                    x: -20
+                  }} animate={{
+                    opacity: 1,
+                    x: 0
+                  }} transition={{
+                    delay: featureIndex * 0.1
+                  }}>
                         <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${feature.included ? 'bg-green-100 border border-green-300' : 'bg-red-100 border border-red-300'}`} aria-hidden="true">
                           {feature.included ? <Check className="w-3 h-3 text-green-600" /> : <span className="w-2 h-2 bg-red-500 rounded-full" />}
                         </div>
@@ -315,10 +321,10 @@ function TrylumPricing() {
 
                   {/* CTA Button */}
                   <motion.div className="w-full" whileHover={{
-                scale: 1.02
-              }} whileTap={{
-                scale: 0.98
-              }}>
+                  scale: 1.02
+                }} whileTap={{
+                  scale: 0.98
+                }}>
                     <Button className={`w-full py-4 px-6 rounded-xl font-medium transition-all ${plan.highlight ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg' : 'bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-md'}`} onClick={handleWhatsAppClick}>
                       <span className="flex items-center justify-center gap-2">
                         Get Started
@@ -331,20 +337,41 @@ function TrylumPricing() {
                 {/* Hover glow effect */}
                 <AnimatePresence>
                   {hoveredPlan === index && <motion.div className="absolute inset-0 rounded-3xl" style={{
-                background: plan.highlight ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 51, 234, 0.1) 100%)' : 'linear-gradient(135deg, rgba(148, 163, 184, 0.2) 0%, rgba(100, 116, 139, 0.1) 100%)',
-                filter: 'blur(20px)'
-              }} initial={{
-                opacity: 0
-              }} animate={{
-                opacity: 1
-              }} exit={{
-                opacity: 0
-              }} transition={{
-                duration: 0.3
-              }} />}
+                  background: plan.highlight ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 51, 234, 0.1) 100%)' : 'linear-gradient(135deg, rgba(148, 163, 184, 0.2) 0%, rgba(100, 116, 139, 0.1) 100%)',
+                  filter: 'blur(20px)'
+                }} initial={{
+                  opacity: 0
+                }} animate={{
+                  opacity: 1
+                }} exit={{
+                  opacity: 0
+                }} transition={{
+                  duration: 0.3
+                }} />}
                 </AnimatePresence>
               </motion.div>
             </motion.div>)}
+        </motion.div>
+
+        {/* 30-Day Money-Back Guarantee Section */}
+        <motion.div
+            className="text-center mt-4 mb-20"
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+        >
+            <div className="inline-flex items-center justify-center gap-4 rounded-2xl bg-white/80 border border-slate-200 p-6 shadow-lg backdrop-blur-sm">
+                <ShieldCheck className="h-12 w-12 text-green-500 flex-shrink-0" />
+                <div className="text-left">
+                    <h4 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600">
+                        30-Day Money-Back Guarantee
+                    </h4>
+                    <p className="text-slate-600 mt-1">
+                        Not satisfied? Get a full refund, no questions asked.
+                    </p>
+                </div>
+            </div>
         </motion.div>
 
         {/* WhatsApp CTA Section */}
@@ -411,4 +438,5 @@ function TrylumPricing() {
       </motion.div>
     </section>;
 }
+
 export default TrylumPricing;
