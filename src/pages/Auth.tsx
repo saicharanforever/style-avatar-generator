@@ -54,7 +54,7 @@ const Auth = () => {
   };
 
   const formFields = {
-    header: 'Welcome to DreamDressing',
+    header: 'Welcome to TrylumDressing',
     subHeader: 'Sign in to access all features',
     fields: [
       {
