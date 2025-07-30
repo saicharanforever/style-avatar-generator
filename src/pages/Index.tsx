@@ -23,7 +23,7 @@ import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
-import { Ticket, Coins, X } from 'lucide-react'; // NEW: Imported X icon for the close button
+import { Ticket, Coins, X } from 'lucide-react';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
 type Gender = 'male' | 'female';
@@ -42,7 +42,6 @@ type AdvancedOptionsState = {
   fit?: ClothingFit;
 };
 
-// NEW: Define sample image data
 const sampleImageData = [
     { url: 'https://i.ibb.co/dsZWP0WW/aft1.png', filename: 'sample-saree.png', gender: 'female', clothingType: 'Bodycon Dresses', ethnicity: 'american', size: 'M', fit: 'normal' },
     { url: 'https://i.ibb.co/3qj5G4k/aft2.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'Shirts', ethnicity: 'american', size: 'L', fit: 'normal' },
@@ -68,8 +67,6 @@ const Index = () => {
   const [isBackView, setIsBackView] = useState<boolean>(false);
   const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
   const [isMultipleGeneration, setIsMultipleGeneration] = useState<boolean>(false);
-  
-  // NEW: State to manage the visibility of the sample images section
   const [showSamples, setShowSamples] = useState(false);
 
   const { user } = useAuth();
@@ -77,14 +74,12 @@ const Index = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
-  // NEW: Check local storage on mount to see if user has closed the samples before
   useEffect(() => {
     if (localStorage.getItem('hideSamples') !== 'true') {
       setShowSamples(true);
     }
   }, []);
-  
-  // Simulate progress when generating image
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -115,7 +110,6 @@ const Index = () => {
     };
   }, [isGenerating, generatedImage, generatedImages]);
 
-  // Set default accessories for ethnic female wear
   useEffect(() => {
     if (selectedGender === 'female' && selectedClothingType && [
       'saree_traditional', 'saree_party', 'kurti', 'blouse',
@@ -331,7 +325,6 @@ const Index = () => {
       });
   };
 
-  // NEW: Function to handle clicking on one of the new sample images
   const handleSampleImageClick = async (sample: typeof sampleImageData[0]) => {
     toast.info("Loading sample...");
     try {
@@ -354,7 +347,6 @@ const Index = () => {
     }
   };
 
-  // NEW: Function to handle closing the sample images section
   const handleCloseSamples = () => {
     setShowSamples(false);
     localStorage.setItem('hideSamples', 'true');
@@ -505,7 +497,6 @@ const Index = () => {
         />
       </div>
 
-      {/* NEW: Sample Images Section */}
       {showSamples && (
         <div className="animate-fade-in relative p-4 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-white/50 dark:bg-gray-800/20 mb-8">
             <button 
@@ -609,6 +600,17 @@ const Index = () => {
         progress={generationProgress}
         isVisible={isGenerating || ((generatedImage !== null || generatedImages.length > 0) && generationProgress > 0)}
       />
+
+      {/* NEW: Animated text that appears during generation */}
+      {isGenerating && (
+        <div className="text-center mt-4 animate-fade-in">
+          <p className={`text-sm animate-pulse font-medium ${
+            theme === 'light' ? 'text-purple-700' : 'text-white/70'
+          }`}>
+            Upload quality images to get high quality results
+          </p>
+        </div>
+      )}
       
       {generatedImage && (
         <ResultDisplay 
