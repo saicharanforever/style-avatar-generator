@@ -51,6 +51,73 @@ const fileToBase64 = (file: File): Promise<string> => {
   });
 };
 
+/**
+ * Determines if a clothing type requires complementary garments
+ * @param clothingType The type of clothing item
+ * @returns Object indicating what complementary items are needed
+ */
+const getComplementaryGarments = (clothingType: string, gender: string) => {
+  const lowerItems = ['shirt', 'tshirt', 't-shirt', 'blouse', 'top', 'tank_top', 'crop_top', 'hoodie', 'sweater', 'jacket', 'blazer', 'cardigan', 'kurti', 'tunic'];
+  const upperItems = ['pants', 'jeans', 'trousers', 'shorts', 'leggings', 'palazzo', 'joggers', 'chinos', 'cargo_pants'];
+  const fullOutfits = ['dress', 'gown', 'saree_traditional', 'saree_party', 'lehenga', 'jumpsuit', 'romper', 'bodycon', 'maxi_dress', 'mini_dress', 'midi_dress', 'cocktail_dress'];
+  
+  const clothingLower = clothingType.toLowerCase();
+  
+  if (fullOutfits.some(item => clothingLower.includes(item))) {
+    return { needsBottom: false, needsTop: false, isFullOutfit: true };
+  }
+  
+  if (lowerItems.some(item => clothingLower.includes(item))) {
+    return { needsBottom: true, needsTop: false, isFullOutfit: false };
+  }
+  
+  if (upperItems.some(item => clothingLower.includes(item))) {
+    return { needsBottom: false, needsTop: true, isFullOutfit: false };
+  }
+  
+  return { needsBottom: false, needsTop: false, isFullOutfit: false };
+};
+
+/**
+ * Generates appropriate complementary garment description
+ * @param clothingType The main clothing item
+ * @param gender The model's gender
+ * @param ethnicity The model's ethnicity
+ * @returns Description of complementary garments
+ */
+const getComplementaryGarmentDescription = (clothingType: string, gender: string, ethnicity: string) => {
+  const complementary = getComplementaryGarments(clothingType, gender);
+  
+  if (complementary.isFullOutfit) {
+    return '';
+  }
+  
+  let description = '';
+  
+  if (complementary.needsBottom) {
+    // Need to add bottom wear
+    if (gender === 'female') {
+      if (ethnicity === 'indian' && ['kurti', 'tunic'].some(item => clothingType.toLowerCase().includes(item))) {
+        description = ' paired with well-fitted leggings or palazzo pants';
+      } else {
+        description = ' paired with well-fitted jeans or dress pants';
+      }
+    } else {
+      description = ' paired with well-fitted jeans or chino pants';
+    }
+  }
+  
+  if (complementary.needsTop) {
+    // Need to add top wear
+    if (gender === 'female') {
+      description = ' paired with a stylish fitted top or blouse';
+    } else {
+      description = ' paired with a well-fitted t-shirt or casual shirt';
+    }
+  }
+  
+  return description;
+};
 
 /**
  * Generates a fashion model image using the Google Gemini API with a highly refined prompt.
@@ -82,6 +149,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       'korean': 'Korean',
       'russian': 'Russian'
     };
+
     const ethnicityDescription = ethnicity ? ethnicityMap[ethnicity] : 'Indian';
     const ageDescription = advancedOptions?.age ? `${advancedOptions.age}-year-old` : '';
     const hairColorDescription = advancedOptions?.hairColor ? `with ${advancedOptions.hairColor} hair` : '';
@@ -101,6 +169,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       default:
         genderAndAgeDesc = `a professional ${ethnicityDescription} model`;
     }
+
     const fullModelDescription = [genderAndAgeDesc, hairColorDescription, bodySizeDescription].filter(Boolean).join(' ');
 
     // 2. Pose and View Description
@@ -126,7 +195,6 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         : 'in a neutral, professional modeling pose facing the camera';
     }
 
-
     // 3. Accessories Description
     let accessoryDescription = '';
     if (gender === 'female' && advancedOptions) {
@@ -143,32 +211,63 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         if (advancedOptions.nosePin && advancedOptions.nosePin !== 'none') accessories.push(`${advancedOptions.nosePin} nose pin`);
         if (advancedOptions.necklaces && advancedOptions.necklaces !== 'none') accessories.push(`${advancedOptions.necklaces} necklace`);
       }
+
       if (advancedOptions.bangles && advancedOptions.bangles !== 'none') accessories.push(`${advancedOptions.bangles} bangles`);
+
       if (accessories.length > 0) accessoryDescription = `accessorized with ${accessories.join(', ')}`;
     }
 
     // 4. Scene and Style Description (Backdrop, Lighting)
-    const backdropMap = { 'white': 'a clean, solid white studio background', 'yellow': 'a vibrant yellow backdrop', 'graffiti': 'an urban graffiti wall', 'textured': 'a subtly textured backdrop', 'garden': 'a lush garden setting', 'wedding': 'an elegant wedding ceremony backdrop', 'historic': 'a historic architectural setting' };
-    const lightingMap = { 'natural': 'bright, natural daylight', 'indoor': 'warm, soft indoor lighting', 'studio': 'crisp, professional studio lighting with perfect highlights and shadows' };
+    const backdropMap = { 
+      'white': 'a clean, solid white studio background', 
+      'yellow': 'a vibrant yellow backdrop', 
+      'graffiti': 'an urban graffiti wall', 
+      'textured': 'a subtly textured backdrop', 
+      'garden': 'a lush garden setting', 
+      'wedding': 'an elegant wedding ceremony backdrop', 
+      'historic': 'a historic architectural setting' 
+    };
+    
+    const lightingMap = { 
+      'natural': 'bright, natural daylight', 
+      'indoor': 'warm, soft indoor lighting', 
+      'studio': 'crisp, professional studio lighting with perfect highlights and shadows' 
+    };
 
     const backdropDescription = advancedOptions?.backdrop ? backdropMap[advancedOptions.backdrop] : 'a neutral, non-distracting studio background';
     const lightingDescription = advancedOptions?.lighting ? lightingMap[advancedOptions.lighting] : 'professional studio lighting';
-    
+
+    // 5. Complete Outfit Description
+    const complementaryGarments = getComplementaryGarmentDescription(clothingType, gender, ethnicity);
+
     // --- THE ENHANCED PROMPT FOR FULL-BODY, REALISTIC IMAGES ---
     const viewSpecifics = isBackView
-      ? `showcasing the *back view* of the ${clothingType}`
-      : `wearing the *exact* same ${clothingType} as shown in the provided image`;
+      ? `showcasing the *back view* of the ${clothingType}${complementaryGarments}`
+      : `wearing the *exact* same ${clothingType}${complementaryGarments} as shown in the provided image`;
 
     const prompt = `
-      **Primary Goal:** Create a hyper-realistic, **full-body**, ultra-high-resolution fashion catalog image where the model is visible from **head to toe**.
-      **NON-NEGOTIABLE COLOR ACCURACY:** This is the most critical instruction. The color of the garment in the generated image MUST be an **exact, pixel-perfect match** to the color in the provided source image. For example, if the input is 'light blue', the output must be 'light blue', NOT 'dark blue' or 'royal blue'. Do not interpret, enhance, or change the color profile. Replicate the original garment's hue, saturation, and brightness with absolute fidelity, even considering the specified lighting. Any deviation in color is a failure.
-      **Subject:** ${fullModelDescription}. The model must look like a **real human being** with natural skin texture, authentic features, and realistic body proportions.
-      **Attire & Design Integrity:** The model is ${viewSpecifics}. The clothing's pattern, texture, and design details must be an **identical match** to the provided image. If generating a back view, intelligently and realistically infer the back design based on the front.
-      **Realism & Consistency Mandate:** The generated model must be **indistinguishable from a real person in a photograph**. Avoid any plastic, doll-like, or overly airbrushed appearances. Absolutely no hallucinations: no extra limbs, distorted features, or nonsensical patterns.
-      **Pose, Composition & Framing:** The model is positioned ${poseDescription}. The composition must be a **full-length portrait**, ensuring the *entire body is visible, from head to toe*. The model must be centrally framed with their feet fully visible and grounded. **No cropped limbs, floating poses, or partial views.**
-      **Environment & Lighting:** The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}.
-      **Accessories:** ${accessoryDescription || 'No distracting accessories unless specified.'}
-      **Final Output Style:** The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer. **It must not look AI-generated in any way and must be a complete, full-body, head-to-toe shot.**
+      Primary Goal: Create a hyper-realistic, full-body, ultra-high-resolution fashion catalog image where the model is visible from head to toe with a completely visible, natural-looking face.
+
+      CRITICAL FACE REQUIREMENT: The model's face must be completely visible, well-lit, and natural-looking. The face should show clear features, natural expressions, and realistic skin texture. No shadows, hair, or objects should obscure the face. The model should have an approachable, professional expression suitable for fashion photography.
+
+      NON-NEGOTIABLE COLOR ACCURACY: This is the most critical instruction. The color of the garment in the generated image MUST be an exact, pixel-perfect match to the color in the provided source image. For example, if the input is 'light blue', the output must be 'light blue', NOT 'dark blue' or 'royal blue'. Do not interpret, enhance, or change the color profile. Replicate the original garment's hue, saturation, and brightness with absolute fidelity, even considering the specified lighting. Any deviation in color is a failure.
+
+      COMPLETE OUTFIT REQUIREMENT: The model must be wearing a complete, appropriate outfit. If the featured garment is a top/shirt, the model must also wear appropriate bottom wear (pants/jeans/leggings). If the featured garment is bottom wear (pants/shorts), the model must also wear an appropriate top. Only full outfits like dresses, sarees, jumpsuits, or gowns should be worn alone. The complementary garments should be neutral and stylish but not compete with the featured item.
+
+      Subject: ${fullModelDescription}. The model must look like a real human being with natural skin texture, authentic facial features, completely visible face, and realistic body proportions.
+
+      Attire & Design Integrity: The model is ${viewSpecifics}. The clothing's pattern, texture, and design details must be an identical match to the provided image. If generating a back view, intelligently and realistically infer the back design based on the front. The complementary garments should be neutral, well-fitted, and appropriate for the style.
+
+      Realism & Consistency Mandate: The generated model must be indistinguishable from a real person in a photograph. The face must be completely visible with natural lighting and clear features. Avoid any plastic, doll-like, or overly airbrushed appearances. Absolutely no hallucinations: no extra limbs, distorted features, or nonsensical patterns.
+
+      Pose, Composition & Framing: The model is positioned ${poseDescription}. The composition must be a full-length portrait, ensuring the entire body is visible, from head to toe with a completely visible face. The model must be centrally framed with their feet fully visible and grounded. No cropped limbs, floating poses, or partial views. The face should be clearly lit and completely visible.
+
+      Environment & Lighting: The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}. The lighting must ensure the face is well-lit and completely visible.
+
+      Accessories: ${accessoryDescription || 'No distracting accessories unless specified.'}
+
+      Final Output Style: The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer with the model's face completely visible and naturally lit. It must not look AI-generated in any way and must be a complete, full-body, head-to-toe shot with a clearly visible face.
+
     `.replace(/\s+/g, ' ').trim();
 
     console.log("Final Generation Prompt:", prompt);
@@ -179,7 +278,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     ];
 
     console.log("Sending request to Gemini API...");
-    
+
     // --- API Call with Retry Logic ---
     let retries = 0;
     while (retries <= MAX_RETRIES) {
@@ -206,8 +305,8 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
             };
           }
         }
-        throw new Error('No image was generated in the response.');
 
+        throw new Error('No image was generated in the response.');
       } catch (error) {
         console.error(`Error on try ${retries + 1}:`, error);
         if (retries < MAX_RETRIES) {
@@ -222,6 +321,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   } catch (error) {
     console.error('All attempts to generate image with Gemini failed:', error);
     toast.error("The AI model seems to be overloaded. We'll use your original image as a fallback for now.");
+    
     const originalImage = await fileToBase64(imageFile!);
     return {
       image: originalImage,
@@ -229,6 +329,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       message: "The AI model is currently overloaded. Using your original image as a fallback."
     };
   }
+
   throw new Error('Image generation failed after all retries.');
 };
 
