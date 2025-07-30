@@ -23,12 +23,11 @@ import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
-import { Ticket, Coins } from 'lucide-react';
+import { Ticket, Coins, X } from 'lucide-react'; // NEW: Imported X icon for the close button
 import WhatsAppButton from '@/components/WhatsAppButton';
 
 type Gender = 'male' | 'female';
 
-// Type for advanced options
 type AdvancedOptionsState = {
   bodySize?: string;
   pose?: string;
@@ -42,6 +41,14 @@ type AdvancedOptionsState = {
   size?: ClothingSize;
   fit?: ClothingFit;
 };
+
+// NEW: Define sample image data
+const sampleImageData = [
+    { url: 'https://i.imgur.com/RGb4eG6.png', filename: 'sample-saree.png', gender: 'female', clothingType: 'saree_traditional', ethnicity: 'indian', size: 'M', fit: 'normal' },
+    { url: 'https://i.imgur.com/1p3v6gq.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'shirt', ethnicity: 'european', size: 'L', fit: 'normal' },
+    { url: 'https://i.imgur.com/9S23T8k.png', filename: 'sample-dress.png', gender: 'female', clothingType: 'dress', ethnicity: 'american', size: 'S', fit: 'normal' },
+    { url: 'https://i.imgur.com/9vJ0aVl.png', filename: 'sample-kurta.png', gender: 'male', clothingType: 'kurta', ethnicity: 'indian', size: 'M', fit: 'normal' },
+];
 
 const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -62,11 +69,21 @@ const Index = () => {
   const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
   const [isMultipleGeneration, setIsMultipleGeneration] = useState<boolean>(false);
   
+  // NEW: State to manage the visibility of the sample images section
+  const [showSamples, setShowSamples] = useState(false);
+
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
   const navigate = useNavigate();
   const { theme } = useTheme();
 
+  // NEW: Check local storage on mount to see if user has closed the samples before
+  useEffect(() => {
+    if (localStorage.getItem('hideSamples') !== 'true') {
+      setShowSamples(true);
+    }
+  }, []);
+  
   // Simulate progress when generating image
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -76,9 +93,7 @@ const Index = () => {
       
       interval = setInterval(() => {
         setGenerationProgress(prev => {
-          // Progress simulation logic - goes to 95% maximum while waiting for real completion
           if (prev < 95) {
-            // Speed starts fast then slows down
             const increment = (95 - prev) / 10;
             return prev + Math.max(0.5, increment);
           }
@@ -86,10 +101,8 @@ const Index = () => {
         });
       }, 150);
     } else if (generatedImage || generatedImages.length > 0) {
-      // Set to 100% when image is generated
       setGenerationProgress(100);
       
-      // Reset progress after a delay
       const timeout = setTimeout(() => {
         setGenerationProgress(0);
       }, 1000);
@@ -108,7 +121,6 @@ const Index = () => {
       'saree_traditional', 'saree_party', 'kurti', 'blouse',
       'lehenga', 'palazzo', 'indo_western', 'tunic', 'harem_pant'
     ].includes(selectedClothingType)) {
-      // Set default ethnic accessories
       setAdvancedOptions(prev => ({
         ...prev,
         earrings: prev.earrings || 'medium',
@@ -192,7 +204,6 @@ const Index = () => {
       [category]: value
     }));
     
-    // Reset generated image when changing options
     setGeneratedImage(null);
     setGeneratedImages([]);
     setIsOriginalImage(false);
@@ -304,10 +315,8 @@ const Index = () => {
   };
 
   const handleSampleClick = () => {
-    // Get a sample image URL
     const sampleUrl = getSampleImageUrl();
     
-    // Create a dummy file
     fetch(sampleUrl)
       .then(res => res.blob())
       .then(blob => {
@@ -321,6 +330,35 @@ const Index = () => {
         setIsBackView(false);
       });
   };
+
+  // NEW: Function to handle clicking on one of the new sample images
+  const handleSampleImageClick = async (sample: typeof sampleImageData[0]) => {
+    toast.info("Loading sample...");
+    try {
+        const response = await fetch(sample.url);
+        const blob = await response.blob();
+        const file = new File([blob], sample.filename, { type: blob.type });
+
+        handleImageSelect(file);
+        setSelectedGender(sample.gender as Gender);
+        setSelectedClothingType(sample.clothingType);
+        setSelectedEthnicity(sample.ethnicity as Ethnicity);
+        setSelectedSize(sample.size as ClothingSize);
+        setSelectedFit(sample.fit as ClothingFit);
+        setIsBackView(false);
+        toast.success("Sample loaded!");
+
+    } catch (error) {
+        toast.error("Could not load sample image.");
+        console.error("Failed to fetch sample image:", error);
+    }
+  };
+
+  // NEW: Function to handle closing the sample images section
+  const handleCloseSamples = () => {
+    setShowSamples(false);
+    localStorage.setItem('hideSamples', 'true');
+  };
   
   const handleRegenerate = () => {
     setGeneratedImage(null);
@@ -329,10 +367,8 @@ const Index = () => {
   };
   
   const handleRegenerateMultiple = (index: number) => {
-    // Check if this regeneration is free (less than 2 regenerations)
     const isFreeRegeneration = multipleRegenerationCounts[index] < 2;
     
-    // If not free, check if we have enough credits
     if (!isFreeRegeneration) {
       const creditCost = 30;
       
@@ -344,24 +380,20 @@ const Index = () => {
         return;
       }
       
-      // Consume credits
       consumeCredits(creditCost, false);
     }
     
     setIsGenerating(true);
     
-    // Update regeneration count for this image
     const newCounts = [...multipleRegenerationCounts];
     newCounts[index] = newCounts[index] + 1;
     setMultipleRegenerationCounts(newCounts);
     
-    // Generate a new image for this index
     setTimeout(async () => {
       try {
         const poses = ['standing', 's-curve', 'walking', 'leaning'];
         const randomPose = poses[Math.floor(Math.random() * poses.length)];
         
-        // Generate each image with a different pose
         const tempAdvancedOptions = { ...advancedOptions };
         tempAdvancedOptions.pose = randomPose;
         
@@ -376,7 +408,6 @@ const Index = () => {
           advancedOptions: tempAdvancedOptions
         });
         
-        // Update the specific image in the array
         const newImages = [...generatedImages];
         newImages[index] = result.image;
         setGeneratedImages(newImages);
@@ -473,6 +504,34 @@ const Index = () => {
           selectedImage={selectedImage}
         />
       </div>
+
+      {/* NEW: Sample Images Section */}
+      {showSamples && (
+        <div className="animate-fade-in relative p-4 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-white/50 dark:bg-gray-800/20 mb-8">
+            <button 
+                onClick={handleCloseSamples}
+                className="absolute -top-2 -right-2 bg-gray-600 hover:bg-gray-700 text-white rounded-full p-1 z-10"
+                aria-label="Close samples"
+            >
+                <X className="h-4 w-4" />
+            </button>
+            <p className={`text-sm text-center font-medium mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+                Or try one of these samples:
+            </p>
+            <div className="flex w-full gap-2 overflow-x-auto pb-2">
+                {sampleImageData.map((sample, index) => (
+                    <div key={index} className="flex-shrink-0 w-1/4">
+                        <img 
+                            src={sample.url}
+                            alt={`Sample ${index + 1}`}
+                            onClick={() => handleSampleImageClick(sample)}
+                            className="w-full h-auto object-cover rounded-lg cursor-pointer aspect-square transition-transform duration-200 hover:scale-105"
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+      )}
       
       <div className="animate-slide-up animation-delay-800" style={{ marginBottom: '30px' }}>
         <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />
