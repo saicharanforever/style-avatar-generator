@@ -44,10 +44,10 @@ type AdvancedOptionsState = {
 
 // NEW: Define sample image data
 const sampleImageData = [
-    { url: 'https://i.imgur.com/RGb4eG6.png', filename: 'sample-saree.png', gender: 'female', clothingType: 'saree_traditional', ethnicity: 'indian', size: 'M', fit: 'normal' },
-    { url: 'https://i.imgur.com/1p3v6gq.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'shirt', ethnicity: 'european', size: 'L', fit: 'normal' },
-    { url: 'https://i.imgur.com/9S23T8k.png', filename: 'sample-dress.png', gender: 'female', clothingType: 'dress', ethnicity: 'american', size: 'S', fit: 'normal' },
-    { url: 'https://i.imgur.com/9vJ0aVl.png', filename: 'sample-kurta.png', gender: 'male', clothingType: 'kurta', ethnicity: 'indian', size: 'M', fit: 'normal' },
+    { url: 'https://i.ibb.co/dsZWP0WW/aft1.png', filename: 'sample-saree.png', gender: 'female', clothingType: 'saree_traditional', ethnicity: 'indian', size: 'M', fit: 'normal' },
+    { url: 'https://i.ibb.co/3qj5G4k/aft2.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'shirt', ethnicity: 'european', size: 'L', fit: 'normal' },
+    { url: 'https://i.ibb.co/zhpzNNGd/aft3.png', filename: 'sample-dress.png', gender: 'female', clothingType: 'dress', ethnicity: 'american', size: 'S', fit: 'normal' },
+    { url: 'https://i.ibb.co/wZgkZPWh/aft4.png', filename: 'sample-kurta.png', gender: 'male', clothingType: 'kurta', ethnicity: 'indian', size: 'M', fit: 'normal' },
 ];
 
 const Index = () => {
