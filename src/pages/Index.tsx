@@ -44,7 +44,7 @@ type AdvancedOptionsState = {
 
 const sampleImageData = [
     { url: 'https://i.ibb.co/dsZWP0WW/aft1.png', filename: 'sample-saree.png', gender: 'female', clothingType: 'Bodycon Dresses', ethnicity: 'american', size: 'M', fit: 'normal' },
-    { url: 'https://i.ibb.co/kd3HDNv/aft2.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'Shirts', ethnicity: 'american', size: 'L', fit: 'normal' },
+    { url: 'https://i.ibb.co/kd3HDNv/aft2.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'T-shirts', ethnicity: 'american', size: 'L', fit: 'normal' },
     { url: 'https://i.ibb.co/zhpzNNGd/aft3.png', filename: 'sample-dress.png', gender: 'female', clothingType: 'Traditional Sarees', ethnicity: 'indian', size: 'S', fit: 'normal' },
     { url: 'https://i.ibb.co/wZgkZPWh/aft4.png', filename: 'sample-kurta.png', gender: 'male', clothingType: 'Jeans', ethnicity: 'indian', size: 'M', fit: 'normal' },
 ];
