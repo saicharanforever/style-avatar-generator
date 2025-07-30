@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -53,7 +54,7 @@ const Auth = () => {
   };
 
   const formFields = {
-    header: 'Welcome to TrylumDressing',
+    header: 'Welcome to DreamDressing',
     subHeader: 'Sign in to access all features',
     fields: [
       {
@@ -96,59 +97,6 @@ const Auth = () => {
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-white'} relative flex items-center justify-center`}>
       <BackgroundParticles />
       
-      {/* Add custom styles for Google button */}
-      <style jsx>{`
-        .google-signin-btn {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-          color: white !important;
-          animation: pulse-wobble 2s ease-in-out infinite;
-          transition: all 0.3s ease;
-        }
-        
-        .google-signin-btn:hover {
-          animation: pulse-wobble-fast 0.8s ease-in-out infinite;
-          transform: scale(1.05);
-        }
-        
-        @keyframes pulse-wobble {
-          0%, 100% {
-            transform: scale(1) rotate(0deg);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
-          }
-          25% {
-            transform: scale(1.05) rotate(-1deg);
-            box-shadow: 0 0 25px rgba(118, 75, 162, 0.6);
-          }
-          50% {
-            transform: scale(1.1) rotate(0deg);
-            box-shadow: 0 0 30px rgba(102, 126, 234, 0.8);
-          }
-          75% {
-            transform: scale(1.05) rotate(1deg);
-            box-shadow: 0 0 25px rgba(118, 75, 162, 0.6);
-          }
-        }
-        
-        @keyframes pulse-wobble-fast {
-          0%, 100% {
-            transform: scale(1.05) rotate(0deg);
-            box-shadow: 0 0 25px rgba(102, 126, 234, 0.6);
-          }
-          25% {
-            transform: scale(1.1) rotate(-2deg);
-            box-shadow: 0 0 30px rgba(118, 75, 162, 0.8);
-          }
-          50% {
-            transform: scale(1.15) rotate(0deg);
-            box-shadow: 0 0 35px rgba(102, 126, 234, 1);
-          }
-          75% {
-            transform: scale(1.1) rotate(2deg);
-            box-shadow: 0 0 30px rgba(118, 75, 162, 0.8);
-          }
-        }
-      `}</style>
-      
       <div className="relative z-10 w-full max-w-md mx-auto px-4">
         <AnimatedForm
           {...formFields}
@@ -157,8 +105,6 @@ const Auth = () => {
           goTo={goToForgotPassword}
           googleLogin="Sign in with Google"
           onGoogleLogin={handleGoogleSignIn}
-          // If the AnimatedForm component supports custom class props, add this:
-          googleButtonClassName="google-signin-btn"
         />
       </div>
     </div>
