@@ -1,67 +1,75 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, Download } from 'lucide-react';
+import { RefreshCcw, Download, Share2 } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
-interface ResultDisplayProps {
+// NEW: Define props for the component
+type ResultDisplayProps = {
   generatedImage: string;
   onRegenerate: () => void;
-  isOriginalImage?: boolean;
-}
+  isOriginalImage: boolean;
+  regenerationCount: number; // NEW: Receive the count
+};
 
-const ResultDisplay = ({ 
-  generatedImage, 
-  onRegenerate, 
-  isOriginalImage = false
-}: ResultDisplayProps) => {
+const ResultDisplay: React.FC<ResultDisplayProps> = ({
+  generatedImage,
+  onRegenerate,
+  isOriginalImage,
+  regenerationCount,
+}) => {
+  const { theme } = useTheme();
+
+  // NEW: Calculate the number of free chances left
+  const totalFreeChances = 2;
+  // regenerationCount is 1 for the first generated image, so (1-1) = 0 chances used.
+  const chancesUsed = regenerationCount > 0 ? regenerationCount - 1 : 0;
+  const chancesLeft = Math.max(0, totalFreeChances - chancesUsed);
 
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = generatedImage;
-    link.download = 'generated-model-image.png';
+    link.download = `fashion-ai-result-${Date.now()}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   return (
-    <div className="mt-8 glass-card p-6 rounded-lg">
-      <h3 className="text-xl font-bold text-gold mb-4">
-        {isOriginalImage ? 'Original Image (Generation Failed)' : 'Generated Result'}
-      </h3>
-      
-      <div className="relative">
-        <img 
-          src={generatedImage} 
-          alt="Generated model wearing clothing" 
-          className="w-full max-w-md mx-auto rounded-lg shadow-lg"
+    <div className="mt-8 animate-fade-in">
+      <div className={`relative w-full aspect-square rounded-xl overflow-hidden shadow-lg border ${
+        theme === 'light' ? 'border-gray-200' : 'border-gray-700'
+      }`}>
+        <img
+          src={generatedImage}
+          alt={isOriginalImage ? "Original Image" : "Generated Model Image"}
+          className="w-full h-full object-cover"
         />
-        
-        {isOriginalImage && (
-          <div className="absolute top-2 right-2 bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold">
-            Original
-          </div>
+      </div>
+
+      <div className="mt-4 flex justify-center gap-4">
+        <Button onClick={handleDownload} variant="outline">
+          <Download className="mr-2 h-4 w-4" />
+          Download
+        </Button>
+        {!isOriginalImage && (
+          <Button onClick={onRegenerate} className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+            <RefreshCcw className="mr-2 h-4 w-4" />
+            Regenerate
+          </Button>
         )}
       </div>
       
-      <div className="flex gap-3 mt-4">
-        <Button 
-          onClick={onRegenerate}
-          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2"
-        >
-          <RefreshCw className="h-4 w-4" />
-          Regenerate
-        </Button>
-        
-        <Button 
-          onClick={handleDownload}
-          variant="outline"
-          className="flex-1 border-white/20 hover:bg-navy-light text-black hover:text-black flex items-center justify-center gap-2"
-        >
-          <Download className="h-4 w-4 text-black" />
-          <span className="text-black font-medium">Download</span>
-        </Button>
-      </div>
+      {/* NEW: Display the free chances message */}
+      {!isOriginalImage && (
+        <div className="text-center mt-2">
+            <p className={`text-xs ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
+                {chancesLeft > 0
+                    ? `You have ${chancesLeft} free regeneration${chancesLeft > 1 ? 's' : ''} left.`
+                    : 'Next regeneration will cost 30 credits.'}
+            </p>
+        </div>
+      )}
+
     </div>
   );
 };
