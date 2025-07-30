@@ -12,7 +12,7 @@ import GenerateButton from '@/components/GenerateButton';
 import GenerateMultipleButton from '@/components/GenerateMultipleButton';
 import GenerateVideoButton from '@/components/GenerateVideoButton';
 import GenerationProgress from '@/components/GenerationProgress';
-import ResultDisplay from '@/components/ResultDisplay'; // This component will be updated
+import ResultDisplay from '@/components/ResultDisplay';
 import MultipleResultsDisplay from '@/components/MultipleResultsDisplay';
 import SampleButton from '@/components/SampleButton';
 import BackgroundParticles from '@/components/BackgroundParticles';
@@ -23,7 +23,7 @@ import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
-import { Ticket, Coins, X } from 'lucide-react';
+import { Ticket, Coins, X } from 'lucide-react'; // NEW: Imported X icon for the close button
 import WhatsAppButton from '@/components/WhatsAppButton';
 
 type Gender = 'male' | 'female';
@@ -42,11 +42,12 @@ type AdvancedOptionsState = {
   fit?: ClothingFit;
 };
 
+// NEW: Define sample image data
 const sampleImageData = [
-    { url: 'https://i.ibb.co/dsZWP0WW/aft1.png', filename: 'sample-saree.png', gender: 'female', clothingType: 'dresses_bodycon', ethnicity: 'american', size: 'M', fit: 'normal' },
-    { url: 'https://i.ibb.co/d0cL3jdM/aft2.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'shirt', ethnicity: 'american', size: 'L', fit: 'normal' },
-    { url: 'https://i.ibb.co/zhpzNNGd/aft3.png', filename: 'sample-dress.png', gender: 'female', clothingType: 'saree_traditional', ethnicity: 'indian', size: 'S', fit: 'normal' },
-    { url: 'https://i.ibb.co/wZgkZPWh/aft4.png', filename: 'sample-kurta.png', gender: 'male', clothingType: 'jeans', ethnicity: 'indian', size: 'M', fit: 'normal' },
+    { url: 'https://i.ibb.co/dsZWP0WW/aft1.png', filename: 'sample-saree.png', gender: 'female', clothingType: 'Bodycon Dresses', ethnicity: 'american', size: 'M', fit: 'normal' },
+    { url: 'https://i.ibb.co/3qj5G4k/aft2.png', filename: 'sample-shirt.png', gender: 'male', clothingType: 'Shirts', ethnicity: 'american', size: 'L', fit: 'normal' },
+    { url: 'https://i.ibb.co/zhpzNNGd/aft3.png', filename: 'sample-dress.png', gender: 'female', clothingType: 'Traditional Sarees', ethnicity: 'indian', size: 'S', fit: 'normal' },
+    { url: 'https://i.ibb.co/wZgkZPWh/aft4.png', filename: 'sample-kurta.png', gender: 'male', clothingType: 'Jeans', ethnicity: 'indian', size: 'M', fit: 'normal' },
 ];
 
 const Index = () => {
@@ -61,13 +62,14 @@ const Index = () => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [isOriginalImage, setIsOriginalImage] = useState<boolean>(false);
-  // NEW: regenerationCount now starts at 0. It will be 1 after the first generation.
   const [regenerationCount, setRegenerationCount] = useState<number>(0);
   const [multipleRegenerationCounts, setMultipleRegenerationCounts] = useState<number[]>([0, 0, 0]);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [isBackView, setIsBackView] = useState<boolean>(false);
   const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
   const [isMultipleGeneration, setIsMultipleGeneration] = useState<boolean>(false);
+  
+  // NEW: State to manage the visibility of the sample images section
   const [showSamples, setShowSamples] = useState(false);
 
   const { user } = useAuth();
@@ -75,16 +77,20 @@ const Index = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
+  // NEW: Check local storage on mount to see if user has closed the samples before
   useEffect(() => {
     if (localStorage.getItem('hideSamples') !== 'true') {
       setShowSamples(true);
     }
   }, []);
-
+  
+  // Simulate progress when generating image
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    
     if (isGenerating) {
       setGenerationProgress(0);
+      
       interval = setInterval(() => {
         setGenerationProgress(prev => {
           if (prev < 95) {
@@ -96,16 +102,20 @@ const Index = () => {
       }, 150);
     } else if (generatedImage || generatedImages.length > 0) {
       setGenerationProgress(100);
+      
       const timeout = setTimeout(() => {
         setGenerationProgress(0);
       }, 1000);
+      
       return () => clearTimeout(timeout);
     }
+    
     return () => {
       if (interval) clearInterval(interval);
     };
   }, [isGenerating, generatedImage, generatedImages]);
 
+  // Set default accessories for ethnic female wear
   useEffect(() => {
     if (selectedGender === 'female' && selectedClothingType && [
       'saree_traditional', 'saree_party', 'kurti', 'blouse',
@@ -120,50 +130,72 @@ const Index = () => {
     }
   }, [selectedGender, selectedClothingType]);
 
-  const resetGenerationState = () => {
-    setGeneratedImage(null);
-    setGeneratedImages([]);
-    setIsOriginalImage(false);
-    setRegenerationCount(0); // Reset count when options change
-    setMultipleRegenerationCounts([0, 0, 0]);
-    setIsMultipleGeneration(false);
-  };
-
   const handleImageSelect = (file: File) => {
     if (!file) {
       setSelectedImage(null);
       setImageFile(null);
       return;
     }
+    
     const imageUrl = URL.createObjectURL(file);
     setSelectedImage(imageUrl);
     setImageFile(file);
-    resetGenerationState();
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleGenderSelect = (gender: Gender) => {
     setSelectedGender(gender);
-    resetGenerationState();
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
   
   const handleEthnicitySelect = (ethnicity: Ethnicity) => {
     setSelectedEthnicity(ethnicity);
-    resetGenerationState();
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleSizeSelect = (size: ClothingSize) => {
     setSelectedSize(size);
-    resetGenerationState();
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleFitSelect = (fit: ClothingFit) => {
     setSelectedFit(fit);
-    resetGenerationState();
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleViewToggle = (isBack: boolean) => {
     setIsBackView(isBack);
-    resetGenerationState();
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleAdvancedOptionChange = (category: string, value: string) => {
@@ -171,10 +203,15 @@ const Index = () => {
       ...prev,
       [category]: value
     }));
-    resetGenerationState();
-  };
     
-  // NEW: Updated logic to handle free regenerations
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
+  };
+
   const handleGenerateImage = async (multiple = false) => {
     if (!user) {
       navigate('/auth');
@@ -186,42 +223,56 @@ const Index = () => {
       return;
     }
     
-    // A regeneration is "free" if it's the 1st or 2nd attempt after the initial image.
-    // regenerationCount is 1 on the 1st attempt, 2 on the 2nd.
-    const isFreeRegeneration = !multiple && regenerationCount > 0 && regenerationCount <= 2;
+    const isRegeneration = regenerationCount > 0;
     const creditCost = multiple ? 80 : 30;
-
-    // Only consume credits if it's NOT a free regeneration.
-    if (!isFreeRegeneration) {
-        const success = await consumeCredits(creditCost, false); // Pass false for isRegeneration, as we handle it here
-        if (!success) {
-            if (credits < creditCost) {
-                toast.error(`You don't have enough credits. This action costs ${creditCost}.`);
-                setTimeout(() => navigate('/pricing'), 1500);
-            }
-            return; // Stop if credit check fails
-        }
-    } else {
-        toast.success("Using a free regeneration!");
+    
+    const success = await consumeCredits(creditCost, isRegeneration);
+    if (!success) {
+      if (credits < creditCost) {
+        toast.error("You don't have enough credits to generate an image");
+        setTimeout(() => navigate('/pricing'), 1500);
+        return;
+      }
+      return;
     }
     
     setIsGenerating(true);
     setIsMultipleGeneration(multiple);
     
     try {
-      const finalAdvancedOptions = { ...advancedOptions, size: selectedSize, fit: selectedFit };
+      const finalAdvancedOptions = {
+        ...advancedOptions,
+        size: selectedSize,
+        fit: selectedFit
+      };
 
       if (multiple) {
         const images: string[] = [];
         const originalImages: boolean[] = [];
         const poses = ['standing', 's-curve', 'walking'];
+        
         for (let i = 0; i < 3; i++) {
-          const result = await generateFashionImage({ imageFile, gender: selectedGender, clothingType: selectedClothingType, ethnicity: selectedEthnicity, size: selectedSize, fit: selectedFit, isBackView, advancedOptions: { ...finalAdvancedOptions, pose: poses[i] } });
+          const tempAdvancedOptions = { ...finalAdvancedOptions };
+          tempAdvancedOptions.pose = poses[i];
+          
+          const result = await generateFashionImage({
+            imageFile,
+            gender: selectedGender,
+            clothingType: selectedClothingType,
+            ethnicity: selectedEthnicity,
+            size: selectedSize,
+            fit: selectedFit,
+            isBackView,
+            advancedOptions: tempAdvancedOptions
+          });
+          
           images.push(result.image);
           originalImages.push(result.isOriginal);
         }
+        
         setGeneratedImages(images);
         setGeneratedImage(null);
+        
         if (originalImages.some(isOrig => isOrig)) {
           toast.warning("Some images could not be generated and are showing original images");
         } else {
@@ -229,7 +280,17 @@ const Index = () => {
           setMultipleRegenerationCounts([0, 0, 0]);
         }
       } else {
-        const result = await generateFashionImage({ imageFile, gender: selectedGender, clothingType: selectedClothingType, ethnicity: selectedEthnicity, size: selectedSize, fit: selectedFit, isBackView, advancedOptions: finalAdvancedOptions });
+        const result = await generateFashionImage({
+          imageFile,
+          gender: selectedGender,
+          clothingType: selectedClothingType,
+          ethnicity: selectedEthnicity,
+          size: selectedSize,
+          fit: selectedFit,
+          isBackView,
+          advancedOptions: finalAdvancedOptions
+        });
+        
         setGeneratedImage(result.image);
         setGeneratedImages([]);
         setIsOriginalImage(result.isOriginal);
@@ -238,8 +299,11 @@ const Index = () => {
           toast.warning(result.message);
         } else {
           toast.success("Image generated successfully!");
-          // Increment count on every successful single generation.
-          setRegenerationCount(prev => prev + 1);
+          if (isRegeneration) {
+            setRegenerationCount(prev => prev + 1);
+          } else {
+            setRegenerationCount(1);
+          }
         }
       }
     } catch (error) {
@@ -252,6 +316,7 @@ const Index = () => {
 
   const handleSampleClick = () => {
     const sampleUrl = getSampleImageUrl();
+    
     fetch(sampleUrl)
       .then(res => res.blob())
       .then(blob => {
@@ -266,13 +331,15 @@ const Index = () => {
       });
   };
 
+  // NEW: Function to handle clicking on one of the new sample images
   const handleSampleImageClick = async (sample: typeof sampleImageData[0]) => {
     toast.info("Loading sample...");
     try {
         const response = await fetch(sample.url);
         const blob = await response.blob();
         const file = new File([blob], sample.filename, { type: blob.type });
-        handleImageSelect(file); // This will reset regenerationCount to 0
+
+        handleImageSelect(file);
         setSelectedGender(sample.gender as Gender);
         setSelectedClothingType(sample.clothingType);
         setSelectedEthnicity(sample.ethnicity as Ethnicity);
@@ -280,12 +347,14 @@ const Index = () => {
         setSelectedFit(sample.fit as ClothingFit);
         setIsBackView(false);
         toast.success("Sample loaded!");
+
     } catch (error) {
         toast.error("Could not load sample image.");
         console.error("Failed to fetch sample image:", error);
     }
   };
 
+  // NEW: Function to handle closing the sample images section
   const handleCloseSamples = () => {
     setShowSamples(false);
     localStorage.setItem('hideSamples', 'true');
@@ -294,42 +363,270 @@ const Index = () => {
   const handleRegenerate = () => {
     setGeneratedImage(null);
     setIsOriginalImage(false);
-    handleGenerateImage(false); // Call with 'multiple = false'
+    handleGenerateImage();
   };
   
-  // ... (handleRegenerateMultiple logic remains the same)
+  const handleRegenerateMultiple = (index: number) => {
+    const isFreeRegeneration = multipleRegenerationCounts[index] < 2;
+    
+    if (!isFreeRegeneration) {
+      const creditCost = 30;
+      
+      if (credits < creditCost) {
+        toast.error("You don't have enough credits to regenerate this image");
+        setTimeout(() => {
+          navigate('/pricing');
+        }, 1500);
+        return;
+      }
+      
+      consumeCredits(creditCost, false);
+    }
+    
+    setIsGenerating(true);
+    
+    const newCounts = [...multipleRegenerationCounts];
+    newCounts[index] = newCounts[index] + 1;
+    setMultipleRegenerationCounts(newCounts);
+    
+    setTimeout(async () => {
+      try {
+        const poses = ['standing', 's-curve', 'walking', 'leaning'];
+        const randomPose = poses[Math.floor(Math.random() * poses.length)];
+        
+        const tempAdvancedOptions = { ...advancedOptions };
+        tempAdvancedOptions.pose = randomPose;
+        
+        const result = await generateFashionImage({
+          imageFile,
+          gender: selectedGender,
+          clothingType: selectedClothingType,
+          ethnicity: selectedEthnicity,
+          size: selectedSize,
+          fit: selectedFit,
+          isBackView,
+          advancedOptions: tempAdvancedOptions
+        });
+        
+        const newImages = [...generatedImages];
+        newImages[index] = result.image;
+        setGeneratedImages(newImages);
+        
+        if (result.isOriginal && result.message) {
+          toast.warning(result.message);
+        } else {
+          toast.success("Image regenerated successfully!");
+        }
+      } catch (error) {
+        toast.error("Failed to regenerate image. Please try again.");
+        console.error(error);
+      } finally {
+        setIsGenerating(false);
+      }
+    }, 500);
+  };
+  
+  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity;
 
   const handleTypeSelect = (type: string) => {
     setSelectedClothingType(type);
-    resetGenerationState();
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
   };
 
   const handleCouponsClick = () => {
     navigate('/profile?tab=coupons');
   };
 
-  // The rest of the JSX remains largely the same, except for the ResultDisplay props
   return (
     <div className={`min-h-screen px-4 pb-12 max-w-2xl mx-auto relative ${
-      theme === 'light' ? 'bg-gradient-to-br from-white via-purple-50 to-pink-50' : ''
+      theme === 'light' 
+        ? 'bg-gradient-to-br from-white via-purple-50 to-pink-50' 
+        : ''
     }`}>
-        {/* ... All your other JSX up to the ResultDisplay component ... */}
-
-        <GenerationProgress
-            progress={generationProgress}
-            isVisible={isGenerating || ((generatedImage !== null || generatedImages.length > 0) && generationProgress > 0)}
-        />
+      <BackgroundParticles />
+      <Header />
       
-        {generatedImage && (
-            <ResultDisplay
-                generatedImage={generatedImage}
-                onRegenerate={handleRegenerate}
-                isOriginalImage={isOriginalImage}
-                regenerationCount={regenerationCount} // NEW: Pass the count as a prop
-            />
+      <div className="text-center mb-8 animate-fade-in" style={{ paddingTop: '30px' }}>
+        <h1 className={`text-4xl md:text-5xl font-bold mb-4 leading-tight animate-slide-up ${
+          theme === 'light' 
+            ? 'bg-gradient-to-r from-purple-700 via-purple-800 to-pink-700 bg-clip-text text-transparent' 
+            : 'gold-gradient-text'
+        }`}>
+          Generate Model Images of Your Clothing
+        </h1>
+        <p className={`max-w-md mx-auto text-sm mb-4 animate-slide-up animation-delay-200 ${
+          theme === 'light' 
+            ? 'text-purple-800 font-medium' 
+            : 'text-white/70'
+        }`}>
+          Upload your clothing image and see how it would look on a professional model.
+        </p>
+        
+        {user && (
+          <div className="flex justify-center gap-3 mb-4 animate-slide-up animation-delay-400">
+            <Button 
+              onClick={handleCouponsClick}
+              variant="outline" 
+              className={`flex items-center gap-2 ${
+                theme === 'light'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 border-0'
+                  : 'bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600'
+              }`}
+            >
+              <Ticket className="h-4 w-4 text-white" />
+              <span className="font-semibold">Coupons</span>
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              className={`flex items-center gap-2 ${
+                theme === 'light'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 border-0'
+                  : 'bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:from-pink-600 hover:to-blue-600'
+              }`}
+              onClick={() => navigate('/pricing')}
+            >
+              <Coins className="h-4 w-4 text-white" />
+              <span className="font-semibold">{credits}</span>
+            </Button>
+          </div>
         )}
+      </div>
+
+      <div className="animate-slide-up animation-delay-600" style={{ marginBottom: '30px' }}>
+        <ImageUploader 
+          onImageSelect={handleImageSelect} 
+          selectedImage={selectedImage}
+        />
+      </div>
+
+      {/* NEW: Sample Images Section */}
+      {showSamples && (
+        <div className="animate-fade-in relative p-4 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-white/50 dark:bg-gray-800/20 mb-8">
+            <button 
+                onClick={handleCloseSamples}
+                className="absolute -top-2 -right-2 bg-gray-600 hover:bg-gray-700 text-white rounded-full p-1 z-10"
+                aria-label="Close samples"
+            >
+                <X className="h-4 w-4" />
+            </button>
+            <p className={`text-sm text-center font-medium mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+                Or try one of these samples:
+            </p>
+            <div className="flex w-full gap-2 overflow-x-auto pb-2">
+                {sampleImageData.map((sample, index) => (
+                    <div key={index} className="flex-shrink-0 w-1/4">
+                        <img 
+                            src={sample.url}
+                            alt={`Sample ${index + 1}`}
+                            onClick={() => handleSampleImageClick(sample)}
+                            className="w-full h-auto object-cover rounded-lg cursor-pointer aspect-square transition-transform duration-200 hover:scale-105"
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+      )}
       
-        {/* ... Rest of the JSX ... */}
+      <div className="animate-slide-up animation-delay-800" style={{ marginBottom: '30px' }}>
+        <ViewToggle isBackView={isBackView} onToggle={handleViewToggle} />
+      </div>
+      
+      {!user && (
+        <div className="animate-slide-up animation-delay-1000" style={{ marginBottom: '30px' }}>
+          <SampleButton 
+            onClick={handleSampleClick} 
+            disabled={isGenerating} 
+          />
+        </div>
+      )}
+      
+      <div className="animate-slide-up animation-delay-1200" style={{ marginBottom: '30px' }}>
+        <GenderSelector 
+          selectedGender={selectedGender} 
+          onGenderSelect={handleGenderSelect} 
+        />
+      </div>
+      
+      <div className="animate-slide-up animation-delay-1600" style={{ marginBottom: '30px' }}>
+        <ClothingTypeSelector 
+          selectedType={selectedClothingType} 
+          onTypeSelect={handleTypeSelect}
+          selectedGender={selectedGender}
+        />
+      </div>
+
+      <div className="animate-slide-up animation-delay-1800" style={{ marginBottom: '30px' }}>
+        <EthnicitySelector
+          selectedEthnicity={selectedEthnicity}
+          onEthnicitySelect={handleEthnicitySelect}
+        />
+      </div>
+      
+      {!isGenerateDisabled && (
+        <div className="animate-slide-up animation-delay-2000" style={{ marginBottom: '30px' }}>
+          <AdvancedOptions 
+            isBackView={isBackView}
+            selectedGender={selectedGender}
+            selectedClothingType={selectedClothingType}
+            selectedSize={selectedSize}
+            selectedFit={selectedFit}
+            advancedOptions={advancedOptions}
+            onOptionChange={handleAdvancedOptionChange}
+            onSizeChange={handleSizeSelect}
+            onFitChange={handleFitSelect}
+          />
+        </div>
+      )}
+      
+      <div className="flex gap-4 animate-slide-up animation-delay-2200" style={{ marginBottom: '30px' }}>
+        <div className="w-1/2">
+          <GenerateButton 
+            onClick={() => handleGenerateImage(false)} 
+            disabled={isGenerateDisabled}
+            isGenerating={isGenerating && !isMultipleGeneration}
+          />
+        </div>
+        <div className="w-1/2">
+          <GenerateMultipleButton 
+            onClick={() => handleGenerateImage(true)} 
+            disabled={isGenerateDisabled}
+            isGenerating={isGenerating && isMultipleGeneration}
+          />
+        </div>
+      </div>
+      
+      <div className="animate-slide-up animation-delay-2400" style={{ marginBottom: '30px' }}>
+        <GenerateVideoButton disabled={isGenerateDisabled} />
+      </div>
+      
+      <GenerationProgress 
+        progress={generationProgress}
+        isVisible={isGenerating || ((generatedImage !== null || generatedImages.length > 0) && generationProgress > 0)}
+      />
+      
+      {generatedImage && (
+        <ResultDisplay 
+          generatedImage={generatedImage} 
+          onRegenerate={handleRegenerate}
+          isOriginalImage={isOriginalImage}
+        />
+      )}
+      
+      {generatedImages.length > 0 && (
+        <MultipleResultsDisplay 
+          generatedImages={generatedImages}
+          onRegenerate={handleRegenerateMultiple}
+          regenerationCounts={multipleRegenerationCounts}
+        />
+      )}
+      
+      <WhatsAppButton />
     </div>
   );
 };
