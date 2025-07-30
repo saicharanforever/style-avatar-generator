@@ -26,16 +26,34 @@ const CountUp = ({ to }) => {
   return <motion.span>{rounded}</motion.span>;
 };
 
-
 export const AuroraHero = () => {
   const color = useMotionValue(COLORS_TOP[0]);
   const navigate = useNavigate();
   const [webglSupported, setWebglSupported] = useState(true);
 
+  // Dynamic gradient for "Life" text
+  const gradientColor1 = useMotionValue("#FF6B6B");
+  const gradientColor2 = useMotionValue("#4ECDC4");
+
   useEffect(() => {
     animate(color, COLORS_TOP, {
       ease: "easeInOut",
       duration: 10,
+      repeat: Infinity,
+      repeatType: "mirror"
+    });
+
+    // Animate gradient colors for "Life" text
+    animate(gradientColor1, ["#FF6B6B", "#8B5CF6", "#F59E0B", "#EF4444", "#10B981"], {
+      ease: "easeInOut",
+      duration: 8,
+      repeat: Infinity,
+      repeatType: "mirror"
+    });
+
+    animate(gradientColor2, ["#4ECDC4", "#3B82F6", "#EC4899", "#06B6D4", "#F97316"], {
+      ease: "easeInOut",
+      duration: 6,
       repeat: Infinity,
       repeatType: "mirror"
     });
@@ -59,6 +77,7 @@ export const AuroraHero = () => {
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #FFFFFF 70%, ${color})`;
   const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
+  const lifeGradient = useMotionTemplate`linear-gradient(135deg, ${gradientColor1}, ${gradientColor2})`;
 
   const handleGetStarted = () => {
     navigate('/auth');
@@ -89,9 +108,16 @@ export const AuroraHero = () => {
           
           {/* Custom Text with Spacing and Gradient */}
           <div className="mb-8">
-            <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
+            <h1 className="text-center text-4xl md:text-6xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
               <span className="text-[#2D2D2D]">Give </span>
-              <span className="text-[#2D2D2D]">Life</span>
+              <motion.span 
+                className="text-transparent bg-clip-text"
+                style={{
+                  backgroundImage: lifeGradient
+                }}
+              >
+                Life
+              </motion.span>
               <motion.span className="inline-block mx-2" animate={{
                 scale: [1, 1.2, 1],
                 rotate: [0, 10, 0, -10, 0]
@@ -169,9 +195,16 @@ export const AuroraHero = () => {
         </motion.span>
         
         <div className="mb-8">
-          <h1 className="text-center font-rubik-dirt text-4xl md:text-6xl font-bold">
+          <h1 className="text-center text-4xl md:text-6xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
             <span className="text-[#2D2D2D]">Give </span>
-            <span className="text-[#2D2D2D]">Life</span>
+            <motion.span 
+              className="text-transparent bg-clip-text"
+              style={{
+                backgroundImage: lifeGradient
+              }}
+            >
+              Life
+            </motion.span>
             <motion.span className="inline-block mx-2" animate={{
               scale: [1, 1.2, 1],
               rotate: [0, 10, 0, -10, 0]
