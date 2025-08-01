@@ -88,6 +88,14 @@ export const AuroraHero = () => {
       backgroundImage
     }} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white px-4">
       
+      {/* Background Video for Mobile */}
+      <div className="absolute inset-0 z-0 md:hidden">
+        <iframe src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false" className="w-full h-full" allow="autoplay; fullscreen; encrypted-media" style={{
+          border: 'none'
+        }} />
+        <div className="absolute inset-0 bg-white/70"></div>
+      </div>
+
       {/* Desktop Layout */}
       <div className="hidden md:flex w-full max-w-7xl mx-auto items-center justify-between relative z-10">
         {/* Left Content */}
@@ -255,19 +263,6 @@ export const AuroraHero = () => {
         {/* END: Trust Badge */}
       </div>
 
-      {/* Mobile Video Container - Bottom Right (920x540px) */}
-      <div className="absolute bottom-0 right-0 z-5 md:hidden overflow-hidden rounded-tl-2xl shadow-2xl" style={{
-        width: '920px',
-        height: '540px'
-      }}>
-        <iframe src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false" className="w-full h-full" allow="autoplay; fullscreen; encrypted-media" style={{
-          border: 'none',
-          objectFit: 'cover'
-        }} />
-        {/* Optional overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
-      </div>
-
       {/* Stars background with error handling */}
       {webglSupported && <div className="absolute inset-0 z-0">
           <Canvas onCreated={state => {
@@ -293,7 +288,6 @@ export const AuroraHero = () => {
         animationDuration: `${2 + Math.random() * 3}s`
       }} />)}
         </div>}
-
     </motion.section>
   );
 };
