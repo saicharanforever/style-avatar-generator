@@ -86,15 +86,7 @@ export const AuroraHero = () => {
   return (
     <motion.section style={{
       backgroundImage
-    }} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white px-4">
-      
-      {/* Background Video for Mobile */}
-      <div className="absolute inset-0 z-0 md:hidden">
-        <iframe src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false" className="w-full h-full" allow="autoplay; fullscreen; encrypted-media" style={{
-          border: 'none'
-        }} />
-        <div className="absolute inset-0 bg-white/70"></div>
-      </div>
+    }} className="relative min-h-screen flex items-start md:items-center justify-center overflow-hidden bg-white px-4 pt-20 md:pt-0">
 
       {/* Desktop Layout */}
       <div className="hidden md:flex w-full max-w-7xl mx-auto items-center justify-between relative z-10">
@@ -261,6 +253,18 @@ export const AuroraHero = () => {
             <p className="ml-3 text-xs font-medium text-gray-800">Trusted by <CountUp to={100000} />+ sellers</p>
         </div>
         {/* END: Trust Badge */}
+      </div>
+
+      {/* Mobile Video Container */}
+      <div className="absolute bottom-4 right-4 w-[45%] max-w-[230px] rounded-xl overflow-hidden shadow-2xl z-10 md:hidden">
+        <div className="w-full relative" style={{ paddingTop: '56.25%' }}> {/* 16:9 Aspect Ratio */}
+            <iframe
+                src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
+                className="absolute top-0 left-0 w-full h-full"
+                allow="autoplay; fullscreen; encrypted-media"
+                style={{ border: 'none' }}
+            />
+        </div>
       </div>
 
       {/* Stars background with error handling */}
