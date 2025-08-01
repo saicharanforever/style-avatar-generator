@@ -10,10 +10,9 @@ const BeforeAfterSection = () => {
   return (
     <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-navy-dark/30' : 'bg-white'}`}>
       <div className="max-w-6xl mx-auto">
-        <SplitTextAnimation 
-          text="Before & After Transformations"
-          className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-16 font-playfair text-gold-dark font-semibold md:text-5xl`}
-        />
+        <h2 className={`text-3xl text-center ${theme === 'dark' ? 'blue-pink-gradient-text' : 'blue-teal-gradient-text'} mb-16 font-playfair text-gold-dark font-semibold md:text-5xl`}>
+          Before & After Transformations
+        </h2>
         
         {/* Mobile Video - Only visible on mobile */}
         <div className="block lg:hidden mb-8">

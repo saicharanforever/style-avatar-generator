@@ -41,12 +41,11 @@ const BrandsSection = () => {
   return (
     <section className={`py-12 ${theme === 'dark' ? 'bg-navy-light/30' : 'bg-white'}`}>
       <div className="max-w-6xl mx-auto px-4">
-        <SplitTextAnimation 
-          text="Trusted by top e-commerce platforms"
-          className={`text-center py-[10px] ${
+        <h2 className={`text-center py-[10px] ${
             theme === 'dark' ? 'text-gold-dark' : 'blue-teal-gradient-text'
-          } font-semibold text-3xl mb-8`}
-        />
+          } font-semibold text-3xl mb-8`}>
+          Trusted by top e-commerce platforms
+        </h2>
         
         {/* Marquee Container */}
         <div className="relative overflow-hidden">
