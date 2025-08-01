@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CreditsProvider } from "./contexts/CreditsContext"; 
 import { ThemeProvider } from "./contexts/ThemeContext";
-import SmoothScrollProvider from "./components/SmoothScrollProvider";
 import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -84,15 +83,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <SmoothScrollProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <CreditsProvider>
-                <AppRoutes />
-              </CreditsProvider>
-            </AuthProvider>
-          </ThemeProvider>
-        </SmoothScrollProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <CreditsProvider>
+              <AppRoutes />
+            </CreditsProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
