@@ -86,8 +86,8 @@ export const AuroraHero = () => {
   return (
     <motion.section style={{
       backgroundImage
-    }} className="relative min-h-screen flex items-start md:items-center justify-center overflow-hidden bg-white px-4 pt-20 md:pt-0">
-
+    }} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white px-4">
+      
       {/* Desktop Layout */}
       <div className="hidden md:flex w-full max-w-7xl mx-auto items-center justify-between relative z-10">
         {/* Left Content */}
@@ -255,16 +255,17 @@ export const AuroraHero = () => {
         {/* END: Trust Badge */}
       </div>
 
-      {/* Mobile Video Container */}
-      <div className="absolute bottom-4 right-4 w-[45%] max-w-[230px] rounded-xl overflow-hidden shadow-2xl z-10 md:hidden">
-        <div className="w-full relative" style={{ paddingTop: '56.25%' }}> {/* 16:9 Aspect Ratio */}
-            <iframe
-                src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-                className="absolute top-0 left-0 w-full h-full"
-                allow="autoplay; fullscreen; encrypted-media"
-                style={{ border: 'none' }}
-            />
-        </div>
+      {/* Mobile Video Container - Bottom Right (920x540px) */}
+      <div className="absolute bottom-0 right-0 z-5 md:hidden overflow-hidden rounded-tl-2xl shadow-2xl" style={{
+        width: '920px',
+        height: '540px'
+      }}>
+        <iframe src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false" className="w-full h-full" allow="autoplay; fullscreen; encrypted-media" style={{
+          border: 'none',
+          objectFit: 'cover'
+        }} />
+        {/* Optional overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
       </div>
 
       {/* Stars background with error handling */}
@@ -292,6 +293,7 @@ export const AuroraHero = () => {
         animationDuration: `${2 + Math.random() * 3}s`
       }} />)}
         </div>}
+
     </motion.section>
   );
 };
