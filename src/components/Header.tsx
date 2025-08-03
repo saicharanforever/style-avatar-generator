@@ -7,15 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import UserMenu from './UserMenu';
 import CreditsButton from './CreditsButton';
 
-const Header = () => {
+const Header = React.memo(() => {
   const { user, signOut } = useAuth();
   const { theme } = useTheme();
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
+  const handleSignOut = React.useCallback(async () => {
     await signOut();
     navigate('/landing');
-  };
+  }, [signOut, navigate]);
 
   return (
     <header className={`sticky top-0 z-50 ${theme === 'dark' ? 'bg-navy/80 backdrop-blur-md' : 'bg-white/80 backdrop-blur-md'} border-b ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
@@ -41,6 +41,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
 
 export default Header;

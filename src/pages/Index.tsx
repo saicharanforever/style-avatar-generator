@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, Suspense, lazy } from 'react';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -6,25 +6,31 @@ import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
 import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
-import SizeSelector, { ClothingSize } from '@/components/SizeSelector';
-import FitSelector, { ClothingFit } from '@/components/FitSelector';
 import GenerateButton from '@/components/GenerateButton';
 import GenerateMultipleButton from '@/components/GenerateMultipleButton';
-import GenerateVideoButton from '@/components/GenerateVideoButton';
 import GenerationProgress from '@/components/GenerationProgress';
-import ResultDisplay from '@/components/ResultDisplay';
-import MultipleResultsDisplay from '@/components/MultipleResultsDisplay';
-import SampleButton from '@/components/SampleButton';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import ViewToggle from '@/components/ViewToggle';
-import AdvancedOptions from '@/components/AdvancedOptions';
 import { generateFashionImage, getSampleImageUrl } from '@/services/generationService';
 import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Ticket, Coins, X } from 'lucide-react';
-import WhatsAppButton from '@/components/WhatsAppButton';
+
+// Lazy load less critical components
+const SizeSelector = lazy(() => import('@/components/SizeSelector'));
+const FitSelector = lazy(() => import('@/components/FitSelector'));
+const GenerateVideoButton = lazy(() => import('@/components/GenerateVideoButton'));
+const ResultDisplay = lazy(() => import('@/components/ResultDisplay'));
+const MultipleResultsDisplay = lazy(() => import('@/components/MultipleResultsDisplay'));
+const SampleButton = lazy(() => import('@/components/SampleButton'));
+const AdvancedOptions = lazy(() => import('@/components/AdvancedOptions'));
+const WhatsAppButton = lazy(() => import('@/components/WhatsAppButton'));
+
+// Import types
+import type { ClothingSize } from '@/components/SizeSelector';
+import type { ClothingFit } from '@/components/FitSelector';
 
 type Gender = 'male' | 'female';
 
@@ -49,7 +55,7 @@ const sampleImageData = [
     { url: 'https://i.ibb.co/wZgkZPWh/aft4.png', filename: 'sample-kurta.png', gender: 'male', clothingType: 'Jeans', ethnicity: 'indian', size: 'M', fit: 'normal' },
 ];
 
-const Index = () => {
+const Index = React.memo(() => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
@@ -124,7 +130,7 @@ const Index = () => {
     }
   }, [selectedGender, selectedClothingType]);
 
-  const handleImageSelect = (file: File) => {
+  const handleImageSelect = useCallback((file: File) => {
     if (!file) {
       setSelectedImage(null);
       setImageFile(null);
@@ -140,9 +146,9 @@ const Index = () => {
     setRegenerationCount(0);
     setMultipleRegenerationCounts([0, 0, 0]);
     setIsMultipleGeneration(false);
-  };
+  }, []);
 
-  const handleGenderSelect = (gender: Gender) => {
+  const handleGenderSelect = useCallback((gender: Gender) => {
     setSelectedGender(gender);
     setGeneratedImage(null);
     setGeneratedImages([]);
@@ -150,7 +156,7 @@ const Index = () => {
     setRegenerationCount(0);
     setMultipleRegenerationCounts([0, 0, 0]);
     setIsMultipleGeneration(false);
-  };
+  }, []);
   
   const handleEthnicitySelect = (ethnicity: Ethnicity) => {
     setSelectedEthnicity(ethnicity);
@@ -418,7 +424,10 @@ const Index = () => {
     }, 500);
   };
   
-  const isGenerateDisabled = !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity;
+  const isGenerateDisabled = useMemo(() => 
+    !imageFile || !selectedGender || !selectedClothingType || !selectedEthnicity,
+    [imageFile, selectedGender, selectedClothingType, selectedEthnicity]
+  );
 
   const handleTypeSelect = (type: string) => {
     setSelectedClothingType(type);
@@ -430,9 +439,9 @@ const Index = () => {
     setIsMultipleGeneration(false);
   };
 
-  const handleCouponsClick = () => {
+  const handleCouponsClick = useCallback(() => {
     navigate('/profile?tab=coupons');
-  };
+  }, [navigate]);
 
   return (
     <div className={`min-h-screen px-4 pb-12 max-w-2xl mx-auto relative ${
@@ -516,6 +525,7 @@ const Index = () => {
                             src={sample.url}
                             alt={`Sample ${index + 1}`}
                             onClick={() => handleSampleImageClick(sample)}
+                            loading="lazy"
                             className="w-full h-auto object-cover rounded-lg cursor-pointer aspect-square transition-transform duration-200 hover:scale-105"
                         />
                     </div>
@@ -561,17 +571,19 @@ const Index = () => {
       
       {!isGenerateDisabled && (
         <div className="animate-slide-up animation-delay-2000" style={{ marginBottom: '30px' }}>
-          <AdvancedOptions 
-            isBackView={isBackView}
-            selectedGender={selectedGender}
-            selectedClothingType={selectedClothingType}
-            selectedSize={selectedSize}
-            selectedFit={selectedFit}
-            advancedOptions={advancedOptions}
-            onOptionChange={handleAdvancedOptionChange}
-            onSizeChange={handleSizeSelect}
-            onFitChange={handleFitSelect}
-          />
+          <Suspense fallback={<div className="h-20 animate-pulse bg-gray-200 dark:bg-gray-800 rounded" />}>
+            <AdvancedOptions 
+              isBackView={isBackView}
+              selectedGender={selectedGender}
+              selectedClothingType={selectedClothingType}
+              selectedSize={selectedSize}
+              selectedFit={selectedFit}
+              advancedOptions={advancedOptions}
+              onOptionChange={handleAdvancedOptionChange}
+              onSizeChange={handleSizeSelect}
+              onFitChange={handleFitSelect}
+            />
+          </Suspense>
         </div>
       )}
       
@@ -593,7 +605,9 @@ const Index = () => {
       </div>
       
       <div className="animate-slide-up animation-delay-2400" style={{ marginBottom: '30px' }}>
-        <GenerateVideoButton disabled={isGenerateDisabled} />
+        <Suspense fallback={<div className="h-12 animate-pulse bg-gray-200 dark:bg-gray-800 rounded" />}>
+          <GenerateVideoButton disabled={isGenerateDisabled} />
+        </Suspense>
       </div>
       
       <GenerationProgress 
@@ -613,24 +627,30 @@ const Index = () => {
       )}
       
       {generatedImage && (
-        <ResultDisplay 
-          generatedImage={generatedImage} 
-          onRegenerate={handleRegenerate}
-          isOriginalImage={isOriginalImage}
-        />
+        <Suspense fallback={<div className="h-64 animate-pulse bg-gray-200 dark:bg-gray-800 rounded" />}>
+          <ResultDisplay 
+            generatedImage={generatedImage} 
+            onRegenerate={handleRegenerate}
+            isOriginalImage={isOriginalImage}
+          />
+        </Suspense>
       )}
       
       {generatedImages.length > 0 && (
-        <MultipleResultsDisplay 
-          generatedImages={generatedImages}
-          onRegenerate={handleRegenerateMultiple}
-          regenerationCounts={multipleRegenerationCounts}
-        />
+        <Suspense fallback={<div className="h-64 animate-pulse bg-gray-200 dark:bg-gray-800 rounded" />}>
+          <MultipleResultsDisplay 
+            generatedImages={generatedImages}
+            onRegenerate={handleRegenerateMultiple}
+            regenerationCounts={multipleRegenerationCounts}
+          />
+        </Suspense>
       )}
       
-      <WhatsAppButton />
+      <Suspense fallback={null}>
+        <WhatsAppButton />
+      </Suspense>
     </div>
   );
-};
+});
 
 export default Index;

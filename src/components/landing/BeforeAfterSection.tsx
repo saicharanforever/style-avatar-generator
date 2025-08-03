@@ -21,6 +21,7 @@ const BeforeAfterSection = () => {
               src="https://player.cloudinary.com/embed/?cloud_name=dtealftsb&public_id=Untitled_design_12_mbyezr&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false" 
               className="w-full h-full rounded-2xl"
               allow="autoplay; fullscreen; encrypted-media" 
+              loading="lazy"
               style={{ border: 'none' }}
             />
           </div>

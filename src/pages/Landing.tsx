@@ -1,23 +1,25 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
-import BrandsSection from '@/components/landing/BrandsSection';
-import HowItWorksSection from '@/components/landing/HowItWorksSection';
-import TestimonialsSection from '@/components/landing/TestimonialsSection';
-import TrylumPricing from '@/components/TrylumPricing';
-import FAQSection from '@/components/landing/FAQSection';
-import CallToAction from '@/components/landing/CallToAction';
 import BeforeAfterSection from '@/components/landing/BeforeAfterSection';
-import Footer from '@/components/landing/Footer';
-import WhatsAppButton from '@/components/WhatsAppButton';
-import PurchaseNotifications from '@/components/PurchaseNotifications';
 
-const Landing = () => {
+// Lazy load below-the-fold components
+const HowItWorksSection = lazy(() => import('@/components/landing/HowItWorksSection'));
+const BrandsSection = lazy(() => import('@/components/landing/BrandsSection'));
+const TestimonialsSection = lazy(() => import('@/components/landing/TestimonialsSection'));
+const TrylumPricing = lazy(() => import('@/components/TrylumPricing'));
+const FAQSection = lazy(() => import('@/components/landing/FAQSection'));
+const CallToAction = lazy(() => import('@/components/landing/CallToAction'));
+const Footer = lazy(() => import('@/components/landing/Footer'));
+const WhatsAppButton = lazy(() => import('@/components/WhatsAppButton'));
+const PurchaseNotifications = lazy(() => import('@/components/PurchaseNotifications'));
+
+const Landing = React.memo(() => {
   const { user } = useAuth();
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -29,9 +31,9 @@ const Landing = () => {
     }
   }, [user, navigate]);
 
-  const handleGetStarted = () => {
+  const handleGetStarted = React.useCallback(() => {
     navigate('/auth');
-  };
+  }, [navigate]);
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-navy' : 'bg-white'} overflow-x-hidden`}>
@@ -46,31 +48,41 @@ const Landing = () => {
       {/* Before & After Section - Right below Hero Section */}
       <BeforeAfterSection />
       
-      {/* How It Works Section */}
-      <HowItWorksSection />
+      {/* Lazy loaded below-the-fold sections */}
+      <Suspense fallback={<div className="h-20" />}>
+        <HowItWorksSection />
+      </Suspense>
       
-      {/* Brands Section */}
-      <BrandsSection />
+      <Suspense fallback={<div className="h-20" />}>
+        <BrandsSection />
+      </Suspense>
       
-      {/* Testimonials Section */}
-      <TestimonialsSection />
+      <Suspense fallback={<div className="h-20" />}>
+        <TestimonialsSection />
+      </Suspense>
       
-      {/* New Pricing Section */}
-      <TrylumPricing />
+      <Suspense fallback={<div className="h-20" />}>
+        <TrylumPricing />
+      </Suspense>
       
-      {/* FAQ Section */}
-      <FAQSection />
+      <Suspense fallback={<div className="h-20" />}>
+        <FAQSection />
+      </Suspense>
       
-      {/* Final CTA */}
-      <CallToAction onGetStarted={handleGetStarted} />
+      <Suspense fallback={<div className="h-20" />}>
+        <CallToAction onGetStarted={handleGetStarted} />
+      </Suspense>
       
-      {/* Footer */}
-      <Footer />
+      <Suspense fallback={<div className="h-20" />}>
+        <Footer />
+      </Suspense>
       
-      <WhatsAppButton />
-      <PurchaseNotifications />
+      <Suspense fallback={null}>
+        <WhatsAppButton />
+        <PurchaseNotifications />
+      </Suspense>
     </div>
   );
-};
+});
 
 export default Landing;

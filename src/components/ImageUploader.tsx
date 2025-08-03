@@ -9,23 +9,23 @@ interface ImageUploaderProps {
   selectedImage: string | null;
 }
 
-const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => {
+const ImageUploader = React.memo(({ onImageSelect, selectedImage }: ImageUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const { theme } = useTheme();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       onImageSelect(file);
     }
-  };
+  }, [onImageSelect]);
 
-  const handleGalleryClick = () => {
+  const handleGalleryClick = React.useCallback(() => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  };
+  }, []);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -86,6 +86,7 @@ const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => 
             <img
               src={selectedImage}
               alt="Selected clothing"
+              loading="lazy"
               className="max-w-full max-h-32 object-contain mb-4 rounded-md"
             />
             <Button
@@ -125,6 +126,6 @@ const ImageUploader = ({ onImageSelect, selectedImage }: ImageUploaderProps) => 
       </p>
     </div>
   );
-};
+});
 
 export default ImageUploader;

@@ -1,4 +1,4 @@
-
+import React, { Suspense, lazy } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,77 +7,116 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CreditsProvider } from "./contexts/CreditsContext"; 
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Landing from "./pages/Landing";
-import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import Pricing from "./pages/Pricing";
-import NotFound from "./pages/NotFound";
-import Profile from "./pages/Profile";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import AdminDashboard from "./components/admin/AdminDashboard";
-import ResetPassword from "./components/auth/ResetPassword";
 import { useAuth } from "./contexts/AuthContext";
 
-// Protected route component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+// Lazy load all route components for code splitting
+const Landing = lazy(() => import("./pages/Landing"));
+const Index = lazy(() => import("./pages/Index"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Profile = lazy(() => import("./pages/Profile"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const AdminDashboard = lazy(() => import("./components/admin/AdminDashboard"));
+const ResetPassword = lazy(() => import("./components/auth/ResetPassword"));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+  </div>
+);
+
+// Protected route component with memo
+const ProtectedRoute = React.memo(({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   
-  // While checking auth state, show nothing
-  if (loading) return null;
-  
-  // If not authenticated, redirect to landing page
+  if (loading) return <LoadingFallback />;
   if (!user) return <Navigate to="/landing" />;
   
-  // If authenticated, show the requested page
   return <>{children}</>;
-};
+});
 
-// Admin route component
-const AdminRoute = ({ children }: { children: React.ReactNode }) => {
+// Admin route component with memo
+const AdminRoute = React.memo(({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   
-  // While checking auth state, show nothing
-  if (loading) return null;
-  
-  // If not authenticated or not admin, redirect
+  if (loading) return <LoadingFallback />;
   if (!user) return <Navigate to="/landing" />;
   if (user.email !== 'saicharanvarkala192@gmail.com') return <Navigate to="/" />;
   
-  // If authenticated and admin, show the requested page
   return <>{children}</>;
-};
+});
 
-const AppRoutes = () => {
+const AppRoutes = React.memo(() => {
   return (
     <Routes>
-      <Route path="/landing" element={<Landing />} />
+      <Route path="/landing" element={
+        <Suspense fallback={<LoadingFallback />}>
+          <Landing />
+        </Suspense>
+      } />
       <Route path="/" element={
         <ProtectedRoute>
-          <Index />
+          <Suspense fallback={<LoadingFallback />}>
+            <Index />
+          </Suspense>
         </ProtectedRoute>
       } />
-      <Route path="/auth" element={<Auth />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/pricing" element={<Pricing />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/auth" element={
+        <Suspense fallback={<LoadingFallback />}>
+          <Auth />
+        </Suspense>
+      } />
+      <Route path="/reset-password" element={
+        <Suspense fallback={<LoadingFallback />}>
+          <ResetPassword />
+        </Suspense>
+      } />
+      <Route path="/pricing" element={
+        <Suspense fallback={<LoadingFallback />}>
+          <Pricing />
+        </Suspense>
+      } />
+      <Route path="/privacy-policy" element={
+        <Suspense fallback={<LoadingFallback />}>
+          <PrivacyPolicy />
+        </Suspense>
+      } />
       <Route path="/profile" element={
         <ProtectedRoute>
-          <Profile />
+          <Suspense fallback={<LoadingFallback />}>
+            <Profile />
+          </Suspense>
         </ProtectedRoute>
       } />
       <Route path="/admin" element={
         <AdminRoute>
-          <AdminDashboard />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminDashboard />
+          </Suspense>
         </AdminRoute>
       } />
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={
+        <Suspense fallback={<LoadingFallback />}>
+          <NotFound />
+        </Suspense>
+      } />
     </Routes>
   );
-};
+});
 
-const queryClient = new QueryClient();
+// Optimize QueryClient configuration
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
+    },
+  },
+});
 
-const App = () => (
+const App = React.memo(() => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -93,6 +132,6 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-);
+));
 
 export default App;
