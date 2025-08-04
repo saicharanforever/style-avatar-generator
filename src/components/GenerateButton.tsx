@@ -31,7 +31,7 @@ const GenerateButton = ({ onClick, disabled, isGenerating }: GenerateButtonProps
       ) : (
         <>
           <Sparkles className="h-5 w-5" />
-          <span>GENERATE IMAGE</span>
+          <span>GENERATE IMAGE (30)</span>
         </>
       )}
     </button>

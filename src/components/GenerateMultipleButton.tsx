@@ -31,7 +31,7 @@ const GenerateMultipleButton = ({ onClick, disabled, isGenerating }: GenerateMul
       ) : (
         <>
           <Grid3X3 className="h-5 w-5" />
-          <span>GENERATE 3 IMAGES</span>
+          <span>GENERATE 3 IMAGES (80)</span>
         </>
       )}
     </button>

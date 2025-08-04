@@ -23,7 +23,7 @@ const EnhancedGenerateButton = ({ onGenerate, disabled, loading }: EnhancedGener
           </div>
         </TooltipTrigger>
         <TooltipContent className="bg-navy-dark border border-white/10 text-white">
-          <p>Generate 1 image (consumes 30 credits)</p>
+          <p>Generate 1 image - costs 30 credits</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

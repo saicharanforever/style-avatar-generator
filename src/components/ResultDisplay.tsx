@@ -7,12 +7,14 @@ interface ResultDisplayProps {
   generatedImage: string;
   onRegenerate: () => void;
   isOriginalImage?: boolean;
+  freeRegenerationsLeft?: number;
 }
 
 const ResultDisplay = ({ 
   generatedImage, 
   onRegenerate, 
-  isOriginalImage = false
+  isOriginalImage = false,
+  freeRegenerationsLeft = 0
 }: ResultDisplayProps) => {
 
   const handleDownload = () => {
@@ -44,13 +46,19 @@ const ResultDisplay = ({
         )}
       </div>
       
+      {freeRegenerationsLeft > 0 && (
+        <div className="text-center text-sm text-muted-foreground mb-2">
+          {freeRegenerationsLeft} free regenerations remaining
+        </div>
+      )}
+      
       <div className="flex gap-3 mt-4">
         <Button 
           onClick={onRegenerate}
           className="flex-1 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2"
         >
           <RefreshCw className="h-4 w-4" />
-          Regenerate
+          Regenerate {freeRegenerationsLeft > 0 ? '(Free)' : '(30 credits)'}
         </Button>
         
         <Button 
