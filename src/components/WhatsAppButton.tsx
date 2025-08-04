@@ -16,17 +16,6 @@ const WhatsAppButton = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-      {/* Typing animation text */}
-      <div className={`mb-2 px-3 py-2 rounded-lg shadow-lg ${
-        theme === 'dark' ? 'bg-navy-light text-gold' : 'bg-white text-gray-800'
-      } border ${theme === 'dark' ? 'border-gold/20' : 'border-gray-200'}`}>
-        <TypingAnimation 
-          text="Have Questions? Let's Chat!"
-          className="text-sm font-medium whitespace-nowrap"
-          speed={80}
-          delay={2000}
-        />
-      </div>
       
       {/* WhatsApp button */}
       <button
