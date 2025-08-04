@@ -364,9 +364,23 @@ const Index = React.memo(() => {
   };
   
   const handleRegenerate = () => {
+    const isFreeRegeneration = regenerationCount < 2;
+    
+    if (!isFreeRegeneration) {
+      const creditCost = 30;
+      
+      if (credits < creditCost) {
+        toast.error("You don't have enough credits to regenerate this image");
+        setTimeout(() => {
+          navigate('/pricing');
+        }, 2000);
+        return;
+      }
+    }
+    
     setGeneratedImage(null);
     setIsOriginalImage(false);
-    handleGenerateImage();
+    handleGenerateImage(false);
   };
   
   const handleRegenerateMultiple = (index: number) => {
@@ -655,6 +669,7 @@ const Index = React.memo(() => {
             generatedImage={generatedImage} 
             onRegenerate={handleRegenerate}
             isOriginalImage={isOriginalImage}
+            freeRegenerationsLeft={Math.max(0, 2 - regenerationCount)}
           />
         </Suspense>
       )}
