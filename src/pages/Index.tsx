@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import ImageUploader from '@/components/ImageUploader';
 import GenderSelector from '@/components/GenderSelector';
+import CameraViewSelector from '@/components/CameraViewSelector';
 import ClothingTypeSelector from '@/components/ClothingTypeSelector';
 import EthnicitySelector, { Ethnicity } from '@/components/EthnicitySelector';
 import GenerateButton from '@/components/GenerateButton';
@@ -31,6 +32,7 @@ const WhatsAppButton = lazy(() => import('@/components/WhatsAppButton'));
 // Import types
 import type { ClothingSize } from '@/components/SizeSelector';
 import type { ClothingFit } from '@/components/FitSelector';
+import type { CameraView } from '@/components/CameraViewSelector';
 
 type Gender = 'male' | 'female';
 
@@ -74,6 +76,7 @@ const Index = React.memo(() => {
   const [advancedOptions, setAdvancedOptions] = useState<AdvancedOptionsState>({});
   const [isMultipleGeneration, setIsMultipleGeneration] = useState<boolean>(false);
   const [showSamples, setShowSamples] = useState(false);
+  const [selectedCameraView, setSelectedCameraView] = useState<CameraView | null>(null);
 
   const { user } = useAuth();
   const { consumeCredits, credits } = useCredits();
@@ -263,6 +266,7 @@ const Index = React.memo(() => {
             size: selectedSize,
             fit: selectedFit,
             isBackView,
+            cameraView: selectedCameraView,
             advancedOptions: tempAdvancedOptions
           });
           
@@ -288,6 +292,7 @@ const Index = React.memo(() => {
           size: selectedSize,
           fit: selectedFit,
           isBackView,
+          cameraView: selectedCameraView,
           advancedOptions: finalAdvancedOptions
         });
         
@@ -403,6 +408,7 @@ const Index = React.memo(() => {
           size: selectedSize,
           fit: selectedFit,
           isBackView,
+          cameraView: selectedCameraView,
           advancedOptions: tempAdvancedOptions
         });
         
@@ -442,6 +448,16 @@ const Index = React.memo(() => {
   const handleCouponsClick = useCallback(() => {
     navigate('/profile?tab=coupons');
   }, [navigate]);
+
+  const handleCameraViewSelect = useCallback((cameraView: CameraView) => {
+    setSelectedCameraView(cameraView);
+    setGeneratedImage(null);
+    setGeneratedImages([]);
+    setIsOriginalImage(false);
+    setRegenerationCount(0);
+    setMultipleRegenerationCounts([0, 0, 0]);
+    setIsMultipleGeneration(false);
+  }, []);
 
   return (
     <div className={`min-h-screen px-4 pb-12 max-w-2xl mx-auto relative ${
@@ -548,13 +564,20 @@ const Index = React.memo(() => {
       )}
       
       <div className="animate-slide-up animation-delay-1200" style={{ marginBottom: '30px' }}>
+        <CameraViewSelector 
+          selectedCameraView={selectedCameraView} 
+          onCameraViewSelect={handleCameraViewSelect} 
+        />
+      </div>
+      
+      <div className="animate-slide-up animation-delay-1400" style={{ marginBottom: '30px' }}>
         <GenderSelector 
           selectedGender={selectedGender} 
           onGenderSelect={handleGenderSelect} 
         />
       </div>
       
-      <div className="animate-slide-up animation-delay-1600" style={{ marginBottom: '30px' }}>
+      <div className="animate-slide-up animation-delay-1800" style={{ marginBottom: '30px' }}>
         <ClothingTypeSelector 
           selectedType={selectedClothingType} 
           onTypeSelect={handleTypeSelect}
@@ -562,7 +585,7 @@ const Index = React.memo(() => {
         />
       </div>
 
-      <div className="animate-slide-up animation-delay-1800" style={{ marginBottom: '30px' }}>
+      <div className="animate-slide-up animation-delay-2000" style={{ marginBottom: '30px' }}>
         <EthnicitySelector
           selectedEthnicity={selectedEthnicity}
           onEthnicitySelect={handleEthnicitySelect}
@@ -570,7 +593,7 @@ const Index = React.memo(() => {
       </div>
       
       {!isGenerateDisabled && (
-        <div className="animate-slide-up animation-delay-2000" style={{ marginBottom: '30px' }}>
+        <div className="animate-slide-up animation-delay-2200" style={{ marginBottom: '30px' }}>
           <Suspense fallback={<div className="h-20 animate-pulse bg-gray-200 dark:bg-gray-800 rounded" />}>
             <AdvancedOptions 
               isBackView={isBackView}
@@ -587,7 +610,7 @@ const Index = React.memo(() => {
         </div>
       )}
       
-      <div className="flex gap-4 animate-slide-up animation-delay-2200" style={{ marginBottom: '30px' }}>
+      <div className="flex gap-4 animate-slide-up animation-delay-2400" style={{ marginBottom: '30px' }}>
         <div className="w-1/2">
           <GenerateButton 
             onClick={() => handleGenerateImage(false)} 
@@ -604,7 +627,7 @@ const Index = React.memo(() => {
         </div>
       </div>
       
-      <div className="animate-slide-up animation-delay-2400" style={{ marginBottom: '30px' }}>
+      <div className="animate-slide-up animation-delay-2600" style={{ marginBottom: '30px' }}>
         <Suspense fallback={<div className="h-12 animate-pulse bg-gray-200 dark:bg-gray-800 rounded" />}>
           <GenerateVideoButton disabled={isGenerateDisabled} />
         </Suspense>

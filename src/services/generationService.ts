@@ -7,6 +7,7 @@ export interface GenerationRequest {
   clothingType: string | null;
   ethnicity: 'american' | 'indian' | 'korean' | 'russian' | null;
   isBackView?: boolean;
+  cameraView?: 'close' | 'full' | null;
   size?: string | null;
   fit?: string | null;
   advancedOptions?: {
@@ -237,7 +238,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
   isOriginal: boolean;
   message?: string;
 }> => {
-  const { imageFile, gender, clothingType, ethnicity, isBackView, advancedOptions } = request;
+  const { imageFile, gender, clothingType, ethnicity, isBackView, cameraView, advancedOptions } = request;
 
   // Validate the essential request parameters
   if (!imageFile || !gender || !clothingType || !ethnicity) {
@@ -348,13 +349,18 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     // 5. Complete Outfit Description
     const complementaryGarments = getComplementaryGarmentDescription(clothingType, gender, ethnicity);
 
+    // 6. Camera View Description
+    const cameraViewDescription = cameraView === 'close' 
+      ? 'The camera angle should focus on the clothing item, providing a closer view that emphasizes the garment while ensuring the full torso and clothing details are clearly visible. The model should be framed from approximately mid-thigh up to head.'
+      : 'The camera angle should capture the complete full-body view from head to toe, showing the entire model and outfit in a traditional fashion photography style.';
+
     // --- THE ENHANCED PROMPT FOR FULL-BODY, REALISTIC IMAGES ---
     const viewSpecifics = isBackView
       ? `showcasing the *back view* of the ${clothingType}${complementaryGarments}`
       : `wearing the *exact* same ${clothingType}${complementaryGarments} as shown in the provided image`;
 
     const prompt = `
-      Primary Goal: Create a hyper-realistic, full-body, ultra-high-resolution fashion catalog image where the model is visible from head to toe with a completely visible, natural-looking face.
+      Primary Goal: Create a hyper-realistic, ${cameraView === 'close' ? 'focused torso and clothing' : 'full-body'}, ultra-high-resolution fashion catalog image where the model ${cameraView === 'close' ? 'is visible from mid-thigh to head' : 'is visible from head to toe'} with a completely visible, natural-looking face.
 
       CRITICAL FACE REQUIREMENT: The model's face must be completely visible, well-lit, and natural-looking. The face should show clear features, natural expressions, and realistic skin texture. No shadows, hair, or objects should obscure the face. The model should have an approachable, professional expression suitable for fashion photography.
 
@@ -368,7 +374,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
 
       Realism & Consistency Mandate: The generated model must be indistinguishable from a real person in a photograph. The face must be completely visible with natural lighting and clear features. Avoid any plastic, doll-like, or overly airbrushed appearances. Absolutely no hallucinations: no extra limbs, distorted features, or nonsensical patterns.
 
-      Pose, Composition & Framing: The model is positioned ${poseDescription}. The composition must be a full-length portrait, ensuring the entire body is visible, from head to toe with a completely visible face. The model must be centrally framed with their feet fully visible and grounded. No cropped limbs, floating poses, or partial views. The face should be clearly lit and completely visible.
+      Pose, Composition & Framing: The model is positioned ${poseDescription}. ${cameraViewDescription} ${cameraView === 'close' ? 'The composition should focus on highlighting the clothing item with the model framed from mid-thigh to head, ensuring the face is completely visible and the garment details are prominent.' : 'The composition must be a full-length portrait, ensuring the entire body is visible, from head to toe with a completely visible face. The model must be centrally framed with their feet fully visible and grounded. No cropped limbs, floating poses, or partial views.'} The face should be clearly lit and completely visible.
 
       Environment & Lighting: The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}. The lighting must ensure the face is well-lit and completely visible.
 
