@@ -331,8 +331,8 @@ const ClothingTypeSelector = ({
             
             {/* Category content container */}
             <div className="relative">
-              {/* Scrollable content */}
-              <div className="p-4 max-h-80 overflow-y-auto">
+              {/* Scrollable content with extra padding at bottom */}
+              <div className="px-4 pt-4 pb-20 max-h-80 overflow-y-auto">
                 <div className="grid gap-2">
                   {getAvailableTypes(expandedCategory).map((type) => (
                     <button
@@ -358,13 +358,13 @@ const ClothingTypeSelector = ({
                 </div>
               </div>
               
-              {/* Fixed gradient overlay at bottom */}
+              {/* Fixed gradient overlay at bottom - positioned higher */}
               {getAvailableTypes(expandedCategory).length > 6 && (
                 <>
-                  <div className={`absolute bottom-0 left-0 right-0 h-16 pointer-events-none ${
+                  <div className={`absolute bottom-14 left-0 right-0 h-12 pointer-events-none ${
                     theme === 'light'
-                      ? 'bg-gradient-to-t from-white via-white/90 to-transparent'
-                      : 'bg-gradient-to-t from-navy-dark via-navy-dark/90 to-transparent'
+                      ? 'bg-gradient-to-t from-white/80 via-white/40 to-transparent'
+                      : 'bg-gradient-to-t from-navy-dark/80 via-navy-dark/40 to-transparent'
                   }`} />
                   
                   {/* Fixed "More options" indicator */}
@@ -399,4 +399,5 @@ const ClothingTypeSelector = ({
 };
 
 export default ClothingTypeSelector;
+
 
