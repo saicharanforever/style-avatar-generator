@@ -297,12 +297,18 @@ const ClothingTypeSelector = ({
       
       {/* Expanded category overlay */}
       {expandedCategory && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className={`relative w-full max-w-lg rounded-lg border ${
-            theme === 'light'
-              ? 'bg-white border-purple-200 shadow-lg'
-              : 'bg-navy-dark border-white/10'
-          }`}>
+        <div 
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          onClick={handleClose} // Close when clicking outside
+        >
+          <div 
+            className={`relative w-full max-w-lg rounded-lg border ${
+              theme === 'light'
+                ? 'bg-white border-purple-200 shadow-lg'
+                : 'bg-navy-dark border-white/10'
+            }`}
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+          >
             {/* Close button */}
             <button
               onClick={handleClose}
@@ -326,25 +332,37 @@ const ClothingTypeSelector = ({
             
             {/* Category content */}
             <div className="p-4 max-h-96 overflow-y-auto">
-              <div className="grid gap-2">
-                {getAvailableTypes(expandedCategory).map(type => (
-                  <button
-                    key={type.value}
-                    onClick={() => handleTypeSelect(type.value)}
-                    className={`text-left p-3 rounded-md text-sm transition-all duration-200 ${
-                      selectedType === type.value
-                        ? theme === 'light'
-                          ? 'bg-blue-100 text-blue-800 border-2 border-blue-600'
-                          : 'bg-navy-light text-white border border-white'
-                        : theme === 'light'
-                          ? 'text-gray-800 hover:bg-purple-50 hover:text-purple-700'
-                          : 'text-white/80 hover:text-black hover:bg-yellow-300'
-                    }`}
-                    aria-label={`Select ${type.label}`}
-                  >
-                    {type.label}
-                  </button>
-                ))}
+              <div className="grid gap-2 relative">
+                {getAvailableTypes(expandedCategory).map((type, index) => {
+                  const isLast = index === getAvailableTypes(expandedCategory).length - 1;
+                  return (
+                    <button
+                      key={type.value}
+                      onClick={() => {
+                        handleTypeSelect(type.value);
+                        setExpandedCategory(null); // Auto-close after selection
+                      }}
+                      className={`text-left p-3 rounded-md text-sm transition-all duration-200 ${
+                        selectedType === type.value
+                          ? theme === 'light'
+                            ? 'bg-blue-100 text-blue-800 border-2 border-blue-600'
+                            : 'bg-navy-light text-white border border-white'
+                          : theme === 'light'
+                            ? 'text-gray-800 hover:bg-purple-50 hover:text-purple-700'
+                            : 'text-white/80 hover:text-black hover:bg-yellow-300'
+                      } ${isLast ? 'mb-8' : ''}`}
+                      style={isLast ? { 
+                        maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
+                      } : {}}
+                      aria-label={`Select ${type.label}`}
+                    >
+                      {type.label}
+                    </button>
+                  );
+                })}
+                {/* Fade effect to indicate more items */}
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-navy-dark dark:via-navy-dark/80 pointer-events-none" />
               </div>
             </div>
           </div>

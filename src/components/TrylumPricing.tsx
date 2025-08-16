@@ -248,16 +248,21 @@ function TrylumPricing() {
               boxShadow: plan.highlight ? "0 25px 50px -12px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.2)" : "0 25px 50px -12px rgba(0, 0, 0, 0.1)"
             }}>
                 {/* Badge */}
-                {plan.badge && <motion.div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg" initial={{
+                {plan.badge && <motion.div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg border-2 border-white" initial={{
                 y: -50,
-                opacity: 0
+                opacity: 0,
+                scale: 0.8
               }} animate={{
                 y: 0,
-                opacity: 1
+                opacity: 1,
+                scale: 1
               }} transition={{
-                delay: 0.2
+                delay: 0.2,
+                type: "spring",
+                stiffness: 300,
+                damping: 20
               }}>
-                    {plan.badge}
+                    <span className="uppercase tracking-wide">{plan.badge}</span>
                   </motion.div>}
 
                 {/* Enhanced gradient overlay */}
