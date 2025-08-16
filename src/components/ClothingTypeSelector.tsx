@@ -331,7 +331,7 @@ const ClothingTypeSelector = ({
             </div>
             
             {/* Category content */}
-            <div className="p-4 max-h-96 overflow-y-auto">
+            <div className="p-4 max-h-96 overflow-y-auto relative">
               <div className="grid gap-2 relative">
                 {getAvailableTypes(expandedCategory).map((type, index) => {
                   const isLast = index === getAvailableTypes(expandedCategory).length - 1;
@@ -364,6 +364,22 @@ const ClothingTypeSelector = ({
                 {/* Fade effect to indicate more items */}
                 <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-navy-dark dark:via-navy-dark/80 pointer-events-none" />
               </div>
+              
+              {/* Animated down arrow to indicate more content */}
+              {getAvailableTypes(expandedCategory).length > 6 && (
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex flex-col items-center pointer-events-none">
+                  <div className={`animate-bounce ${
+                    theme === 'light' ? 'text-purple-600' : 'text-white/70'
+                  }`}>
+                    <ChevronDown className="h-5 w-5" />
+                  </div>
+                  <div className={`text-xs mt-1 ${
+                    theme === 'light' ? 'text-purple-600' : 'text-white/70'
+                  }`}>
+                    More options
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
