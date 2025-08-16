@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Shirt, ShoppingBag, X, ChevronDown } from 'lucide-react';
@@ -237,7 +236,7 @@ const ClothingTypeSelector = ({
             theme === 'light'
               ? isSelected
                 ? 'text-blue-600'
-                : `text-purple-600`
+                : 'text-purple-600'
               : isSelected 
                 ? `text-${color}-400` 
                 : `text-${color}-500 group-hover:text-black`
@@ -272,7 +271,7 @@ const ClothingTypeSelector = ({
       </div>
     );
   };
-  
+
   return (
     <div className="w-full max-w-md mx-auto mb-8">
       <h2 className={`font-bold mb-6 text-18px text-center ${
@@ -330,12 +329,12 @@ const ClothingTypeSelector = ({
               </h3>
             </div>
             
-            {/* Category content */}
-            <div className="p-4 max-h-96 overflow-y-auto relative">
-              <div className="grid gap-2 relative">
-                {getAvailableTypes(expandedCategory).map((type, index) => {
-                  const isLast = index === getAvailableTypes(expandedCategory).length - 1;
-                  return (
+            {/* Category content container */}
+            <div className="relative">
+              {/* Scrollable content */}
+              <div className="p-4 max-h-80 overflow-y-auto">
+                <div className="grid gap-2">
+                  {getAvailableTypes(expandedCategory).map((type) => (
                     <button
                       key={type.value}
                       onClick={() => {
@@ -350,35 +349,38 @@ const ClothingTypeSelector = ({
                           : theme === 'light'
                             ? 'text-gray-800 hover:bg-purple-50 hover:text-purple-700'
                             : 'text-white/80 hover:text-black hover:bg-yellow-300'
-                      } ${isLast ? 'mb-8' : ''}`}
-                      style={isLast ? { 
-                        maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
-                      } : {}}
+                      }`}
                       aria-label={`Select ${type.label}`}
                     >
                       {type.label}
                     </button>
-                  );
-                })}
-                {/* Fade effect to indicate more items */}
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-navy-dark dark:via-navy-dark/80 pointer-events-none" />
+                  ))}
+                </div>
               </div>
               
-              {/* Animated down arrow to indicate more content */}
+              {/* Fixed gradient overlay at bottom */}
               {getAvailableTypes(expandedCategory).length > 6 && (
-                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex flex-col items-center pointer-events-none">
-                  <div className={`animate-bounce ${
-                    theme === 'light' ? 'text-purple-600' : 'text-white/70'
-                  }`}>
-                    <ChevronDown className="h-5 w-5" />
+                <>
+                  <div className={`absolute bottom-0 left-0 right-0 h-16 pointer-events-none ${
+                    theme === 'light'
+                      ? 'bg-gradient-to-t from-white via-white/90 to-transparent'
+                      : 'bg-gradient-to-t from-navy-dark via-navy-dark/90 to-transparent'
+                  }`} />
+                  
+                  {/* Fixed "More options" indicator */}
+                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex flex-col items-center pointer-events-none">
+                    <div className={`animate-bounce ${
+                      theme === 'light' ? 'text-purple-600' : 'text-white/70'
+                    }`}>
+                      <ChevronDown className="h-5 w-5" />
+                    </div>
+                    <div className={`text-xs mt-1 ${
+                      theme === 'light' ? 'text-purple-600' : 'text-white/70'
+                    }`}>
+                      More options
+                    </div>
                   </div>
-                  <div className={`text-xs mt-1 ${
-                    theme === 'light' ? 'text-purple-600' : 'text-white/70'
-                  }`}>
-                    More options
-                  </div>
-                </div>
+                </>
               )}
             </div>
           </div>
@@ -397,3 +399,4 @@ const ClothingTypeSelector = ({
 };
 
 export default ClothingTypeSelector;
+
