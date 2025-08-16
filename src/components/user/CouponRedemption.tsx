@@ -39,97 +39,28 @@ const CouponRedemption = () => {
     try {
       setLoading(true);
       
-      // Check if coupon exists and is valid
-      const { data: coupon, error: couponError } = await supabase
-        .from('coupons')
-        .select('*')
-        .eq('code', couponCode.toUpperCase())
-        .single();
+      // Use the secure database function to redeem the coupon
+      const { data, error } = await supabase.rpc('redeem_coupon', {
+        p_coupon_code: couponCode.toUpperCase()
+      });
       
-      if (couponError || !coupon) {
-        toast.error('Invalid coupon code');
+      if (error) {
+        toast.error('Error processing coupon redemption');
         return;
       }
       
-      const typedCoupon = coupon as Coupon;
+      // Parse the JSON response from the function
+      const result = data as { success: boolean; error?: string; credits_added?: number };
       
-      // Check if coupon has reached usage limit
-      if (typedCoupon.usage_count >= typedCoupon.usage_limit) {
-        toast.error('This coupon has reached its usage limit');
+      if (!result.success) {
+        toast.error(result.error || 'An error occurred while redeeming the coupon');
         return;
-      }
-      
-      // Check if coupon is expired
-      if (typedCoupon.expiry_date && new Date(typedCoupon.expiry_date) < new Date()) {
-        toast.error('This coupon has expired');
-        return;
-      }
-      
-      // Check if user has already used this coupon
-      const { data: existingRedemption, error: redemptionError } = await supabase
-        .from('coupon_redemptions')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('coupon_id', typedCoupon.id)
-        .single();
-      
-      if (existingRedemption) {
-        toast.error('You have already used this coupon');
-        return;
-      }
-      
-      // First, get current user credits
-      const { data: userCreditsData, error: userCreditsError } = await supabase
-        .from('user_credits')
-        .select('credits')
-        .eq('user_id', user.id)
-        .single();
-        
-      if (userCreditsError) {
-        toast.error('Error retrieving your current credits');
-        return;
-      }
-      
-      const currentCredits = userCreditsData.credits;
-      
-      // Update user credits
-      const { error: updateError } = await supabase
-        .from('user_credits')
-        .update({ credits: currentCredits + typedCoupon.credits })
-        .eq('user_id', user.id);
-      
-      if (updateError) {
-        toast.error('Error applying credits to your account');
-        return;
-      }
-      
-      // Increment coupon usage count
-      const { error: couponUpdateError } = await supabase
-        .from('coupons')
-        .update({ usage_count: typedCoupon.usage_count + 1 })
-        .eq('id', typedCoupon.id);
-      
-      if (couponUpdateError) {
-        console.error('Error updating coupon usage count:', couponUpdateError);
-      }
-      
-      // Record the redemption
-      const { error: redemptionInsertError } = await supabase
-        .from('coupon_redemptions')
-        .insert({
-          user_id: user.id,
-          coupon_id: typedCoupon.id,
-          credits_added: typedCoupon.credits
-        });
-      
-      if (redemptionInsertError) {
-        console.error('Error recording coupon redemption:', redemptionInsertError);
       }
       
       // Refresh the credits context
       await refreshCredits();
       
-      toast.success(`Success! ${typedCoupon.credits} credits added to your account`);
+      toast.success(`Success! ${result.credits_added} credits added to your account`);
       setCouponCode('');
     } catch (error: any) {
       toast.error(`Error redeeming coupon: ${error.message}`);
