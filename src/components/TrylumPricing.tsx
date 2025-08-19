@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Check, Crown, Star, ArrowRight, Sparkles, MessageCircle, Zap, Video, Users, Clock, ShieldCheck } from 'lucide-react';
@@ -47,7 +47,7 @@ const pricingTiers: PricingTier[] = [{
   badge: null
 }, {
   name: "Life-time Plan",
-  price: "₹15,999",
+  price: "₹7,999",
   description: "Complete AI fashion solution for professionals",
   icon: <Crown className="w-8 h-8 text-white" />,
   gradient: "from-indigo-500/20 to-purple-500/20",
@@ -69,8 +69,98 @@ const pricingTiers: PricingTier[] = [{
     included: true
   }],
   highlight: true,
-  badge: "Best Value"
+  badge: "🎉 LIMITED OFFER!"
 }];
+
+// Countdown Timer Component
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    // Set target date to 7 days from now
+    const targetDate = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
+    
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+      
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <motion.div 
+      className="bg-gradient-to-r from-red-500/10 to-orange-500/10 border-2 border-red-300/30 rounded-xl p-4 mb-6"
+      animate={{ scale: [1, 1.02, 1] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <div className="flex items-center justify-center gap-2 mb-2">
+        <Clock className="w-4 h-4 text-red-500" />
+        <span className="text-sm font-semibold text-red-600">⏰ Offer expires in:</span>
+      </div>
+      <div className="flex justify-center gap-4">
+        <div className="text-center">
+          <div className="text-xl font-bold text-red-600">{timeLeft.days}</div>
+          <div className="text-xs text-red-500">days</div>
+        </div>
+        <div className="text-center">
+          <div className="text-xl font-bold text-red-600">{timeLeft.hours}</div>
+          <div className="text-xs text-red-500">hrs</div>
+        </div>
+        <div className="text-center">
+          <div className="text-xl font-bold text-red-600">{timeLeft.minutes}</div>
+          <div className="text-xs text-red-500">mins</div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// Confetti Component
+const ConfettiParticles = () => {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 rounded-full"
+          style={{
+            backgroundColor: ['#3B82F6', '#8B5CF6', '#EF4444', '#F59E0B', '#10B981'][i % 5],
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            x: [0, Math.random() * 20 - 10, 0],
+            rotate: [0, 360],
+            opacity: [0.7, 1, 0.7],
+            scale: [0.8, 1.2, 0.8]
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: Math.random() * 2
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 function TrylumPricing() {
   const [hoveredPlan, setHoveredPlan] = useState<number | null>(null);
@@ -236,31 +326,71 @@ function TrylumPricing() {
         }} transition={{
           duration: 0.8
         }} onHoverStart={() => setHoveredPlan(index)} onHoverEnd={() => setHoveredPlan(null)}>
-              <motion.div className={`relative h-full p-8 rounded-3xl border backdrop-blur-xl overflow-hidden ${plan.highlight ? 'bg-gradient-to-br from-white/90 to-white/70 border-blue-300 shadow-2xl' : 'bg-gradient-to-br from-white/80 to-white/60 border-slate-200 shadow-xl'}`} initial={{
-              scale: 1,
+              {/* Limited Time Banner for Life-time Plan */}
+              {plan.name === "Life-time Plan" && (
+                <div className="absolute -top-3 -right-3 z-20">
+                  <motion.div 
+                    className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg transform rotate-12"
+                    animate={{ 
+                      scale: [1, 1.05, 1],
+                      rotate: [12, 15, 12]
+                    }}
+                    transition={{ 
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    LIMITED TIME
+                  </motion.div>
+                </div>
+              )}
+
+              {/* Confetti Particles for Life-time Plan */}
+              {plan.name === "Life-time Plan" && <ConfettiParticles />}
+
+              <motion.div className={`relative h-full p-8 rounded-3xl border backdrop-blur-xl overflow-hidden ${
+                plan.highlight 
+                  ? 'bg-gradient-to-br from-white/95 to-white/85 border-orange-300 shadow-2xl transform scale-105' 
+                  : 'bg-gradient-to-br from-white/80 to-white/60 border-slate-200 shadow-xl'
+              }`} initial={{
+              scale: plan.highlight ? 1.05 : 1,
               y: 0
             }} whileHover={{
-              scale: 1.05,
+              scale: plan.highlight ? 1.1 : 1.05,
               y: -10
             }} transition={{
               duration: 0.4
             }} style={{
-              boxShadow: plan.highlight ? "0 25px 50px -12px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.2)" : "0 25px 50px -12px rgba(0, 0, 0, 0.1)"
+              boxShadow: plan.highlight 
+                ? "0 25px 50px -12px rgba(249, 115, 22, 0.4), 0 0 40px rgba(251, 146, 60, 0.3), 0 0 60px rgba(249, 115, 22, 0.2)" 
+                : "0 25px 50px -12px rgba(0, 0, 0, 0.1)"
             }}>
-                {/* Badge */}
-                {plan.badge && <motion.div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg border-2 border-white" initial={{
+                {/* Enhanced Badge with Pulsing Animation */}
+                {plan.badge && <motion.div className={`absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full text-xs font-bold shadow-lg border-2 border-white ${
+                  plan.name === "Life-time Plan" 
+                    ? 'bg-gradient-to-r from-red-500 via-orange-500 to-red-500' 
+                    : 'bg-gradient-to-r from-blue-500 to-purple-600'
+                } text-white`} initial={{
                 y: -50,
                 opacity: 0,
                 scale: 0.8
               }} animate={{
                 y: 0,
                 opacity: 1,
-                scale: 1
+                scale: plan.name === "Life-time Plan" ? [1, 1.1, 1] : 1
               }} transition={{
                 delay: 0.2,
                 type: "spring",
                 stiffness: 300,
-                damping: 20
+                damping: 20,
+                ...(plan.name === "Life-time Plan" && {
+                  scale: {
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }
+                })
               }}>
                     <span className="uppercase tracking-wide">{plan.badge}</span>
                   </motion.div>}
@@ -293,15 +423,43 @@ function TrylumPricing() {
 
                   {/* Price */}
                   <div className="mb-8">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-bold text-slate-900">
-                        {plan.price}
-                      </span>
-                      <span className="text-slate-600">
-                        (one-time)
-                      </span>
-                    </div>
+                    {plan.name === "Life-time Plan" ? (
+                      <div>
+                        {/* Original Price - Strikethrough */}
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-lg text-slate-500 line-through">₹15,999</span>
+                          <motion.div 
+                            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold"
+                            animate={{ scale: [1, 1.05, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                            SAVE ₹8,000!
+                          </motion.div>
+                        </div>
+                        {/* New Offer Price */}
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-5xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                            ₹7,999 🔥
+                          </span>
+                          <span className="text-slate-600">
+                            (one-time)
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-4xl font-bold text-slate-900">
+                          {plan.price}
+                        </span>
+                        <span className="text-slate-600">
+                          (one-time)
+                        </span>
+                      </div>
+                    )}
                   </div>
+
+                  {/* Countdown Timer for Life-time Plan */}
+                  {plan.name === "Life-time Plan" && <CountdownTimer />}
 
                   {/* Features */}
                   <div className="mb-8">
@@ -330,9 +488,13 @@ function TrylumPricing() {
                 }} whileTap={{
                   scale: 0.98
                 }}>
-                    <Button className={`w-full py-4 px-6 rounded-xl font-medium transition-all ${plan.highlight ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg' : 'bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-md'}`} onClick={handleWhatsAppClick}>
+                    <Button className={`w-full py-4 px-6 rounded-xl font-medium transition-all ${
+                      plan.highlight 
+                        ? 'bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white shadow-lg' 
+                        : 'bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-md'
+                    }`} onClick={handleWhatsAppClick}>
                       <span className="flex items-center justify-center gap-2">
-                        Get Started
+                        {plan.name === "Life-time Plan" ? "🎉 Get Started" : "Get Started"}
                         <ArrowRight className="w-4 h-4" />
                       </span>
                     </Button>
