@@ -69,7 +69,7 @@ const pricingTiers: PricingTier[] = [{
     included: true
   }],
   highlight: true,
-  badge: "🎉 LIMITED OFFER!"
+  badge: "🎉 LIMITED TIME OFFER!"
 }];
 
 // Enhanced Countdown Timer Component
