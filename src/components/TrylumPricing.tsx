@@ -559,25 +559,7 @@ function TrylumPricing() {
               onHoverStart={() => setHoveredPlan(index)} 
               onHoverEnd={() => setHoveredPlan(null)}
             >
-              {/* Limited Time Banner for Life-time Plan */}
-              {plan.name === "Life-time Plan" && (
-                <div className="absolute -top-3 -right-3 z-20">
-                  <motion.div 
-                    className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg transform rotate-12"
-                    animate={{ 
-                      scale: [1, 1.05, 1],
-                      rotate: [12, 15, 12]
-                    }}
-                    transition={{ 
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    LIMITED TIME
-                  </motion.div>
-                </div>
-              )}
+             
 
               {/* Confetti Particles for Life-time Plan */}
               {plan.name === "Life-time Plan" && <ConfettiParticles />}
