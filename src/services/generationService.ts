@@ -24,14 +24,24 @@ export interface GenerationRequest {
   };
 }
 
-// REPLACE THESE WITH YOUR ACTUAL API KEYS
-const API_KEYS = [
-  "AIzaSyAiuT1g2yx_GoYe4QwPH3k4EH01DX69TsA", // Replace with your first API key
-  "AIzaSyCYQblZT4zKy4dFEcR6xF0J9I7d0Acf1Wc", // Replace with your second API key
-  "AIzaSyAWecRPiV700IqnDt3DiNOodcSAHVo69Gg", // Replace with your third API key
-  "AIzaSyAVzdukK1uTdla8-4l9iArXrEBNvNBv7Sw", // Replace with your fourth API key
-  "AIzaSyDcHnRXKIVNHR3ZlUBZGvqIZ21ecilSvfE", // Replace with your fifth API key
-];
+// Get API keys from environment variables
+const getApiKeys = (): string[] => {
+  const keys = [];
+  for (let i = 1; i <= 10; i++) {
+    const key = import.meta.env[`VITE_GEMINI_API_KEY_${i}`];
+    if (key) {
+      keys.push(key);
+    }
+  }
+  
+  if (keys.length === 0) {
+    throw new Error('No Gemini API keys found in environment variables. Please add VITE_GEMINI_API_KEY_1, VITE_GEMINI_API_KEY_2, etc. to your .env file');
+  }
+  
+  return keys;
+};
+
+const API_KEYS = getApiKeys();
 
 // API Key management class
 class APIKeyManager {
@@ -404,14 +414,8 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         console.log(`🚀 Attempt ${retries + 1}/${MAX_RETRIES + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
 
         const response = await genAI.models.generateContent({
-          model: "gemini-2.0-flash-exp-image-generation",
+          model: "gemini-2.5-flash-image-preview",
           contents: contents,
-          config: {
-            responseModalities: ["Text", "Image"],
-            temperature: 0, // Set to 0 for maximum determinism and color preservation
-            topK: 32,
-            topP: 0.95,
-          },
         });
 
         console.log("✅ Response received from Gemini API.");
