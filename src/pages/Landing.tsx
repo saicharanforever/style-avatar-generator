@@ -1,4 +1,3 @@
-
 import React, { useEffect, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,16 +7,8 @@ import Navigation from '@/components/landing/Navigation';
 import HeroSection from '@/components/landing/HeroSection';
 import BeforeAfterSection from '@/components/landing/BeforeAfterSection';
 
-// Lazy load below-the-fold components
+// Lazy load below-the-fold components - checking each one individually
 const HowItWorksSection = lazy(() => import('@/components/landing/HowItWorksSection'));
-const BrandsSection = lazy(() => import('@/components/landing/BrandsSection'));
-const TestimonialsSection = lazy(() => import('@/components/landing/TestimonialsSection'));
-const TrylumPricing = lazy(() => import('@/components/TrylumPricing'));
-const FAQSection = lazy(() => import('@/components/landing/FAQSection'));
-const CallToAction = lazy(() => import('@/components/landing/CallToAction'));
-const Footer = lazy(() => import('@/components/landing/Footer'));
-const WhatsAppButton = lazy(() => import('@/components/WhatsAppButton'));
-const PurchaseNotifications = lazy(() => import('@/components/PurchaseNotifications'));
 
 const Landing = React.memo(() => {
   const { user } = useAuth();
@@ -45,42 +36,18 @@ const Landing = React.memo(() => {
       {/* Hero Section */}
       <HeroSection onGetStarted={handleGetStarted} />
       
-      {/* Before & After Section - Right below Hero Section */}
+      {/* Before & After Section */}
       <BeforeAfterSection />
       
-      {/* Lazy loaded below-the-fold sections */}
+      {/* Test with just one lazy loaded component */}
       <Suspense fallback={<div className="h-20" />}>
         <HowItWorksSection />
       </Suspense>
       
-      <Suspense fallback={<div className="h-20" />}>
-        <BrandsSection />
-      </Suspense>
-      
-      <Suspense fallback={<div className="h-20" />}>
-        <TestimonialsSection />
-      </Suspense>
-      
-      <Suspense fallback={<div className="h-20" />}>
-        <TrylumPricing />
-      </Suspense>
-      
-      <Suspense fallback={<div className="h-20" />}>
-        <FAQSection />
-      </Suspense>
-      
-      <Suspense fallback={<div className="h-20" />}>
-        <CallToAction onGetStarted={handleGetStarted} />
-      </Suspense>
-      
-      <Suspense fallback={<div className="h-20" />}>
-        <Footer />
-      </Suspense>
-      
-      <Suspense fallback={null}>
-        <WhatsAppButton />
-        <PurchaseNotifications />
-      </Suspense>
+      {/* Simple footer for now */}
+      <div className="text-center py-8 text-gray-500">
+        © 2024 TrylumDressing. All rights reserved.
+      </div>
     </div>
   );
 });
