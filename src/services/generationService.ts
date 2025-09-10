@@ -428,7 +428,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         console.log(`🔑 Using API Key: ${currentKey.substring(0, 20)}...`);
 
         const response = await genAI.models.generateContent({
-          model: "gemini-1.5-flash",
+          model: "gemini-2.5-flash-image-preview",
           contents: contents,
         });
 
