@@ -427,53 +427,25 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         console.log(`🚀 Attempt ${retries + 1}/${MAX_RETRIES + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
         console.log(`🔑 Using API Key: ${currentKey.substring(0, 20)}...`);
 
-        // Use the correct API format
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${currentKey}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
-                { text: prompt },
-                {
-                  inlineData: {
-                    mimeType: imageFile.type,
-                    data: base64Image.split(',')[1]
-                  }
-                }
-              ]
-            }]
-          })
+        const response = await genAI.models.generateContent({
+          model: "gemini-1.5-flash",
+          contents: contents,
         });
 
         console.log("✅ Response received from Gemini API.");
-        
-        if (!response.ok) {
-          const errorData = await response.text();
-          console.error("❌ API Error:", errorData);
-          throw new Error(`API Error: ${response.status} - ${errorData}`);
-        }
-        
-        const result = await response.json();
-        console.log("📦 API Response:", result);
-        
-        if (result?.candidates?.[0]?.content?.parts?.[0]?.text) {
-          const text = result.candidates[0].content.parts[0].text;
-          console.log(`🎉 Content generated successfully with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
-          console.log("📝 Generated text:", text.substring(0, 200));
-          
-          // Since this model doesn't generate images, return original with message
-          const originalImage = await fileToBase64(imageFile);
-          return {
-            image: originalImage,
-            isOriginal: true,
-            message: "Using fallback image generation. The model response was received successfully."
-          };
+
+        for (const part of response.candidates[0].content.parts) {
+          if (part.inlineData) {
+            const mimeType = part.inlineData.mimeType || "image/png";
+            console.log(`🎉 Image generated successfully with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
+            return {
+              image: `data:${mimeType};base64,${part.inlineData.data}`,
+              isOriginal: false,
+            };
+          }
         }
 
-        throw new Error('No content was generated in the response.');
+        throw new Error('No image was generated in the response.');
         
       } catch (error) {
         console.error(`❌ Error on attempt ${retries + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}:`, error);
