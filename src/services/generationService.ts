@@ -31,15 +31,14 @@ const getApiKeys = (): string[] => {
   // Try to get environment keys first
   for (let i = 1; i <= 10; i++) {
     const key = import.meta.env[`VITE_GEMINI_API_KEY_${i}`];
-    if (key && key !== 'your_first_api_key_here' && key.startsWith('AIza')) {
+    if (key && key !== 'your_first_api_key_here') {
       keys.push(key);
-      console.log(`✅ Found valid API key ${i} from environment`);
     }
   }
   
   // If no environment keys found, use fallback keys to prevent import errors
   if (keys.length === 0) {
-    console.warn('⚠️  No valid Gemini API keys found in environment variables. Using fallback keys. Please add VITE_GEMINI_API_KEY_1, VITE_GEMINI_API_KEY_2, etc. to your .env file');
+    console.warn('No Gemini API keys found in environment variables. Using fallback keys. Please add VITE_GEMINI_API_KEY_1, VITE_GEMINI_API_KEY_2, etc. to your .env file');
     keys.push(
       "AIzaSyAiuT1g2yx_GoYe4QwPH3k4EH01DX69TsA",
       "AIzaSyCYQblZT4zKy4dFEcR6xF0J9I7d0Acf1Wc",
@@ -49,7 +48,6 @@ const getApiKeys = (): string[] => {
     );
   }
   
-  console.log(`🔑 Total API keys available: ${keys.length}`);
   return keys;
 };
 
@@ -422,58 +420,28 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       try {
         // Create client with current API key
         const genAI = createGeminiClient();
-        const currentKey = apiKeyManager.getCurrentKey();
         
         console.log(`🚀 Attempt ${retries + 1}/${MAX_RETRIES + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
-        console.log(`🔑 Using API Key: ${currentKey.substring(0, 20)}...`);
 
-        // Use the correct API format
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${currentKey}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
-                { text: prompt },
-                {
-                  inlineData: {
-                    mimeType: imageFile.type,
-                    data: base64Image.split(',')[1]
-                  }
-                }
-              ]
-            }]
-          })
+        const response = await genAI.models.generateContent({
+          model: "gemini-2.5-flash-image-preview",
+          contents: contents,
         });
 
         console.log("✅ Response received from Gemini API.");
-        
-        if (!response.ok) {
-          const errorData = await response.text();
-          console.error("❌ API Error:", errorData);
-          throw new Error(`API Error: ${response.status} - ${errorData}`);
-        }
-        
-        const result = await response.json();
-        console.log("📦 API Response:", result);
-        
-        if (result?.candidates?.[0]?.content?.parts?.[0]?.text) {
-          const text = result.candidates[0].content.parts[0].text;
-          console.log(`🎉 Content generated successfully with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
-          console.log("📝 Generated text:", text.substring(0, 200));
-          
-          // Since this model doesn't generate images, return original with message
-          const originalImage = await fileToBase64(imageFile);
-          return {
-            image: originalImage,
-            isOriginal: true,
-            message: "Using fallback image generation. The model response was received successfully."
-          };
+
+        for (const part of response.candidates[0].content.parts) {
+          if (part.inlineData) {
+            const mimeType = part.inlineData.mimeType || "image/png";
+            console.log(`🎉 Image generated successfully with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
+            return {
+              image: `data:${mimeType};base64,${part.inlineData.data}`,
+              isOriginal: false,
+            };
+          }
         }
 
-        throw new Error('No content was generated in the response.');
+        throw new Error('No image was generated in the response.');
         
       } catch (error) {
         console.error(`❌ Error on attempt ${retries + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}:`, error);
