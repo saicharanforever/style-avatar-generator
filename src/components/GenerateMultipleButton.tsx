@@ -12,14 +12,6 @@ type GenerateMultipleButtonProps = {
 const GenerateMultipleButton = ({ onClick, disabled, isGenerating }: GenerateMultipleButtonProps) => {
   const { theme } = useTheme();
 
-  const handleClick = () => {
-    onClick();
-    // Scroll to bottom to show generating animation
-    setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }, 100);
-  };
-
   return (
     <button
       className={`w-full max-w-md mx-auto flex items-center justify-center gap-2 py-4 px-6 rounded-lg font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
@@ -27,7 +19,7 @@ const GenerateMultipleButton = ({ onClick, disabled, isGenerating }: GenerateMul
           ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-xl'
           : 'bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white'
       }`}
-      onClick={handleClick}
+      onClick={onClick}
       disabled={disabled || isGenerating}
       aria-label="Generate three model images with different poses"
     >

@@ -27,8 +27,8 @@ const ResultDisplay = ({
   };
 
   return (
-    <div className="mt-8 bg-white p-6 rounded-lg shadow-lg">
-      <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-pink-600 bg-clip-text text-transparent mb-4">
+    <div className="mt-8 glass-card p-6 rounded-lg">
+      <h3 className="text-xl font-bold text-gold mb-4">
         {isOriginalImage ? 'Original Image (Generation Failed)' : 'Generated Result'}
       </h3>
       

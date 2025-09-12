@@ -12,14 +12,6 @@ type GenerateButtonProps = {
 const GenerateButton = ({ onClick, disabled, isGenerating }: GenerateButtonProps) => {
   const { theme } = useTheme();
 
-  const handleClick = () => {
-    onClick();
-    // Scroll to bottom to show generating animation
-    setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }, 100);
-  };
-
   return (
     <button
       className={`w-full max-w-md mx-auto flex items-center justify-center gap-2 py-4 px-6 rounded-lg font-semibold shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
@@ -27,7 +19,7 @@ const GenerateButton = ({ onClick, disabled, isGenerating }: GenerateButtonProps
           ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-xl'
           : 'bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600 text-white'
       }`}
-      onClick={handleClick}
+      onClick={onClick}
       disabled={disabled || isGenerating}
       aria-label="Generate a single model image"
     >
