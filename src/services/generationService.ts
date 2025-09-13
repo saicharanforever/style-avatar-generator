@@ -356,24 +356,43 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       ? 'The camera angle should focus on the clothing item, providing a closer view that emphasizes the garment while ensuring the full torso and clothing details are clearly visible. The model should be framed from approximately mid-thigh up to head.'
       : 'The camera angle should capture the complete full-body view from head to toe, showing the entire model and outfit in a traditional fashion photography style.';
 
-    // Build prompt based on type
+    // Build prompt and contents based on generation type
     let prompt: string;
+    let contents: any[];
     
-    // Handle custom prompt for reference image generation
+    // Handle reference image generation (multi-image composition)
     if (advancedOptions?.customPrompt && advancedOptions?.referenceImage) {
-      prompt = `
-        ${advancedOptions.customPrompt}
-        
-        Subject: ${fullModelDescription}. The model must look like a real human being with natural skin texture, authentic facial features, completely visible face, and realistic body proportions.
-        
-        CRITICAL FACE REQUIREMENT: The model's face must be completely visible, well-lit, and natural-looking. The face should show clear features, natural expressions, and realistic skin texture. No shadows, hair, or objects should obscure the face.
-        
-        NON-NEGOTIABLE COLOR ACCURACY: The color of the garment in the generated image MUST be an exact match to the color in the provided clothing image. Do not change or interpret colors - replicate them exactly.
-        
-        Environment & Lighting: Professional studio lighting that ensures the face is well-lit and completely visible.
-        
-        Final Output Style: The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer with the model's face completely visible and naturally lit.
-      `.replace(/\s+/g, ' ').trim();
+      // Fetch and convert reference image to base64
+      let referenceBase64: string;
+      try {
+        const referenceResponse = await fetch(advancedOptions.referenceImage);
+        const referenceBlob = await referenceResponse.blob();
+        const referenceFile = new File([referenceBlob], 'reference.png', { type: 'image/png' });
+        const referenceDataUrl = await fileToBase64(referenceFile);
+        referenceBase64 = referenceDataUrl.split(',')[1];
+      } catch (error) {
+        console.error('Failed to fetch reference image:', error);
+        throw new Error('Failed to load reference image');
+      }
+
+      prompt = "Create a professional e-commerce fashion photo. Take the dress from the first image and let the person from the second image wear it. Generate a realistic, full-body shot of the person wearing the dress, with professional lighting and composition suitable for fashion photography.";
+      
+      // Multi-image composition: dress image first, then reference model image
+      contents = [
+        {
+          inlineData: {
+            mimeType: imageFile.type,
+            data: base64Image.split(',')[1], // User uploaded dress
+          },
+        },
+        {
+          inlineData: {
+            mimeType: "image/png",
+            data: referenceBase64, // Selected reference model
+          },
+        },
+        { text: prompt },
+      ];
     } else {
     const viewSpecifics = isBackView
       ? `showcasing the *back view* of the ${clothingType}${complementaryGarments}`
@@ -408,10 +427,13 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     console.log("🔥 Starting image generation...");
     console.log(`📊 ${apiKeyManager.getStatus()}`);
 
-    const contents = [
-      { text: prompt },
-      { inlineData: { mimeType: imageFile.type, data: base64Image.split(',')[1] } },
-    ];
+    // Contents are already set above based on generation type
+    if (!contents) {
+      contents = [
+        { text: prompt },
+        { inlineData: { mimeType: imageFile.type, data: base64Image.split(',')[1] } },
+      ];
+    }
 
     // --- API Call with Multi-Key Retry Logic ---
     let retries = 0;
@@ -425,7 +447,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         console.log(`🚀 Attempt ${retries + 1}/${MAX_RETRIES + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
 
         const response = await genAI.models.generateContent({
-          model: "gemini-2.0-flash-exp-image-generation",
+          model: "gemini-2.5-flash-image-preview",
           contents: contents,
           config: {
             responseModalities: ["Text", "Image"],
