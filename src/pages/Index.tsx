@@ -17,7 +17,7 @@ import { useCredits } from '@/contexts/CreditsContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
-import { Ticket, Coins, X } from 'lucide-react';
+import { Ticket, Coins, X, Sparkles } from 'lucide-react';
 
 // Lazy load less critical components
 const SizeSelector = lazy(() => import('@/components/SizeSelector'));
@@ -639,6 +639,21 @@ const Index = React.memo(() => {
             isGenerating={isGenerating && isMultipleGeneration}
           />
         </div>
+      </div>
+      
+      <div className="animate-slide-up animation-delay-2500" style={{ marginBottom: '30px' }}>
+        <Button
+          onClick={() => navigate('/reference-image')}
+          disabled={isGenerating}
+          className={`w-full h-14 text-lg font-semibold rounded-xl transition-all duration-300 ${
+            theme === 'light'
+              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1'
+              : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1'
+          }`}
+        >
+          <Sparkles className="h-5 w-5 mr-2" />
+          Try Reference Style Generator
+        </Button>
       </div>
       
       <div className="animate-slide-up animation-delay-2600" style={{ marginBottom: '30px' }}>

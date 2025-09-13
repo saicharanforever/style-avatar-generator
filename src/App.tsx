@@ -12,6 +12,7 @@ import { useAuth } from "./contexts/AuthContext";
 // Lazy load all route components for code splitting
 const Landing = lazy(() => import("./pages/Landing"));
 const Index = lazy(() => import("./pages/Index"));
+const ReferenceImage = lazy(() => import("./pages/ReferenceImage"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -60,6 +61,13 @@ const AppRoutes = React.memo(() => {
         <ProtectedRoute>
           <Suspense fallback={<LoadingFallback />}>
             <Index />
+          </Suspense>
+        </ProtectedRoute>
+      } />
+      <Route path="/reference-image" element={
+        <ProtectedRoute>
+          <Suspense fallback={<LoadingFallback />}>
+            <ReferenceImage />
           </Suspense>
         </ProtectedRoute>
       } />

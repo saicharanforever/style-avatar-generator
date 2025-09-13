@@ -21,6 +21,8 @@ export interface GenerationRequest {
     earrings?: string;
     nosePin?: string;
     age?: number;
+    customPrompt?: string;
+    referenceImage?: string;
   };
 }
 
@@ -354,12 +356,30 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       ? 'The camera angle should focus on the clothing item, providing a closer view that emphasizes the garment while ensuring the full torso and clothing details are clearly visible. The model should be framed from approximately mid-thigh up to head.'
       : 'The camera angle should capture the complete full-body view from head to toe, showing the entire model and outfit in a traditional fashion photography style.';
 
-    // --- THE ENHANCED PROMPT FOR FULL-BODY, REALISTIC IMAGES ---
+    // Build prompt based on type
+    let prompt: string;
+    
+    // Handle custom prompt for reference image generation
+    if (advancedOptions?.customPrompt && advancedOptions?.referenceImage) {
+      prompt = `
+        ${advancedOptions.customPrompt}
+        
+        Subject: ${fullModelDescription}. The model must look like a real human being with natural skin texture, authentic facial features, completely visible face, and realistic body proportions.
+        
+        CRITICAL FACE REQUIREMENT: The model's face must be completely visible, well-lit, and natural-looking. The face should show clear features, natural expressions, and realistic skin texture. No shadows, hair, or objects should obscure the face.
+        
+        NON-NEGOTIABLE COLOR ACCURACY: The color of the garment in the generated image MUST be an exact match to the color in the provided clothing image. Do not change or interpret colors - replicate them exactly.
+        
+        Environment & Lighting: Professional studio lighting that ensures the face is well-lit and completely visible.
+        
+        Final Output Style: The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer with the model's face completely visible and naturally lit.
+      `.replace(/\s+/g, ' ').trim();
+    } else {
     const viewSpecifics = isBackView
       ? `showcasing the *back view* of the ${clothingType}${complementaryGarments}`
       : `wearing the *exact* same ${clothingType}${complementaryGarments} as shown in the provided image`;
 
-    const prompt = `
+    prompt = `
       Primary Goal: Create a hyper-realistic, ${cameraView === 'close' ? 'focused torso and clothing' : 'full-body'}, ultra-high-resolution fashion catalog image where the model ${cameraView === 'close' ? 'is visible from mid-thigh to head' : 'is visible from head to toe'} with a completely visible, natural-looking face.
 
       CRITICAL FACE REQUIREMENT: The model's face must be completely visible, well-lit, and natural-looking. The face should show clear features, natural expressions, and realistic skin texture. No shadows, hair, or objects should obscure the face. The model should have an approachable, professional expression suitable for fashion photography.
@@ -383,6 +403,7 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       Final Output Style: The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer with the model's face completely visible and naturally lit. It must not look AI-generated in any way and must be a complete, full-body, head-to-toe shot with a clearly visible face.
 
     `.replace(/\s+/g, ' ').trim();
+    }
 
     console.log("🔥 Starting image generation...");
     console.log(`📊 ${apiKeyManager.getStatus()}`);
