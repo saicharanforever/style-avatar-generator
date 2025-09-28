@@ -26,126 +26,14 @@ export interface GenerationRequest {
   };
 }
 
-// REPLACE THESE WITH YOUR ACTUAL API KEYS
-const API_KEYS = [
-  "AIzaSyAiuT1g2yx_GoYe4QwPH3k4EH01DX69TsA", // Replace with your first API key
-  "AIzaSyCYQblZT4zKy4dFEcR6xF0J9I7d0Acf1Wc", // Replace with your second API key
-  "AIzaSyAWecRPiV700IqnDt3DiNOodcSAHVo69Gg", // Replace with your third API key
-  "AIzaSyAVzdukK1uTdla8-4l9iArXrEBNvNBv7Sw", // Replace with your fourth API key
-  "AIzaSyDcHnRXKIVNHR3ZlUBZGvqIZ21ecilSvfE", // Replace with your fifth API key
-];
-
-// API Key management class
-class APIKeyManager {
-  private currentKeyIndex: number = 0;
-  private exhaustedKeys: Set<number> = new Set();
-  private lastResetDate: string = '';
-
-  constructor() {
-    this.checkDailyReset();
-  }
-
-  // Check if we need to reset for a new day
-  private checkDailyReset(): void {
-    const today = new Date().toDateString();
-    if (this.lastResetDate !== today) {
-      this.resetForNewDay();
-      this.lastResetDate = today;
-    }
-  }
-
-  // Reset all keys for a new day
-  private resetForNewDay(): void {
-    this.currentKeyIndex = 0;
-    this.exhaustedKeys.clear();
-    console.log('🔄 New day detected - Reset all API keys');
-  }
-
-  // Get current API key
-  getCurrentKey(): string {
-    this.checkDailyReset();
-    return API_KEYS[this.currentKeyIndex];
-  }
-
-  // Get current key index for logging
-  getCurrentKeyIndex(): number {
-    return this.currentKeyIndex + 1; // 1-based for user display
-  }
-
-  // Mark current key as exhausted and switch to next
-  markCurrentKeyExhausted(): boolean {
-    this.exhaustedKeys.add(this.currentKeyIndex);
-    console.log(`⚠️ API Key ${this.currentKeyIndex + 1} exhausted`);
-    
-    return this.switchToNextAvailableKey();
-  }
-
-  // Switch to next available key
-  private switchToNextAvailableKey(): boolean {
-    const startIndex = this.currentKeyIndex;
-    
-    do {
-      this.currentKeyIndex = (this.currentKeyIndex + 1) % API_KEYS.length;
-      
-      if (!this.exhaustedKeys.has(this.currentKeyIndex)) {
-        console.log(`🔄 Switched to API Key ${this.currentKeyIndex + 1}`);
-        return true;
-      }
-      
-      // If we've cycled back to the starting point, all keys are exhausted
-      if (this.currentKeyIndex === startIndex) {
-        console.log('❌ All API keys exhausted for today');
-        return false;
-      }
-    } while (true);
-  }
-
-  // Check if all keys are exhausted
-  areAllKeysExhausted(): boolean {
-    return this.exhaustedKeys.size >= API_KEYS.length;
-  }
-
-  // Get status for logging
-  getStatus(): string {
-    const availableKeys = API_KEYS.length - this.exhaustedKeys.size;
-    return `Using Key ${this.currentKeyIndex + 1}/${API_KEYS.length} | Available: ${availableKeys}`;
-  }
-}
-
-// Global API key manager instance
-const apiKeyManager = new APIKeyManager();
-
-// Constants for retry logic
-const MAX_RETRIES = 2;
-const RETRY_DELAY = 2000; // 2 seconds
-const MAX_KEY_SWITCHES = API_KEYS.length; // Maximum times we'll switch keys
-
-// Sleep utility for delay between retries
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+// Single hardcoded API key for simplified approach
+const API_KEY = "AIzaSyDcHnRXKIVNHR3ZlUBZGvqIZ21ecilSvfE";
 
 /**
- * Check if error is rate limit related
- */
-const isRateLimitError = (error: any): boolean => {
-  const errorMessage = error?.message?.toLowerCase() || '';
-  const errorCode = error?.status || error?.code;
-  
-  return (
-    errorCode === 429 ||
-    errorMessage.includes('quota') ||
-    errorMessage.includes('rate limit') ||
-    errorMessage.includes('too many requests') ||
-    errorMessage.includes('limit exceeded') ||
-    errorMessage.includes('resource exhausted')
-  );
-};
-
-/**
- * Create Gemini client with current API key
+ * Create Gemini client with the API key
  */
 const createGeminiClient = (): GoogleGenAI => {
-  const currentKey = apiKeyManager.getCurrentKey();
-  return new GoogleGenAI({ apiKey: currentKey });
+  return new GoogleGenAI({ apiKey: API_KEY });
 };
 
 /**
@@ -425,7 +313,6 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
     }
 
     console.log("🔥 Starting image generation...");
-    console.log(`📊 ${apiKeyManager.getStatus()}`);
 
     // Contents are already set above based on generation type
     if (!contents) {
@@ -435,107 +322,63 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       ];
     }
 
-    // --- API Call with Multi-Key Retry Logic ---
-    let retries = 0;
-    let keySwitches = 0;
-    
-    while (retries <= MAX_RETRIES && keySwitches < MAX_KEY_SWITCHES) {
-      try {
-        // Create client with current API key
-        const genAI = createGeminiClient();
-        
-        console.log(`🚀 Attempt ${retries + 1}/${MAX_RETRIES + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
+    // --- Simple API Call ---
+    try {
+      const genAI = createGeminiClient();
+      
+      console.log("🚀 Generating image with Gemini API...");
 
-        const response = await genAI.models.generateContent({
-          model: "gemini-2.5-flash-image-preview",
-          contents: contents,
-          config: {
-            responseModalities: ["Text", "Image"],
-            temperature: 0, // Set to 0 for maximum determinism and color preservation
-            topK: 32,
-            topP: 0.95,
-          },
-        });
+      const response = await genAI.models.generateContent({
+        model: "gemini-2.5-flash-image-preview",
+        contents: contents,
+        config: {
+          responseModalities: ["Text", "Image"],
+          temperature: 0, // Set to 0 for maximum determinism and color preservation
+          topK: 32,
+          topP: 0.95,
+        },
+      });
 
-        console.log("✅ Response received from Gemini API.");
+      console.log("✅ Response received from Gemini API.");
 
-        for (const part of response.candidates[0].content.parts) {
-          if (part.inlineData) {
-            const mimeType = part.inlineData.mimeType || "image/png";
-            console.log(`🎉 Image generated successfully with API Key ${apiKeyManager.getCurrentKeyIndex()}`);
-            return {
-              image: `data:${mimeType};base64,${part.inlineData.data}`,
-              isOriginal: false,
-            };
-          }
-        }
-
-        throw new Error('No image was generated in the response.');
-        
-      } catch (error) {
-        console.error(`❌ Error on attempt ${retries + 1} with API Key ${apiKeyManager.getCurrentKeyIndex()}:`, error);
-        
-        // Check if it's a rate limit error
-        if (isRateLimitError(error)) {
-          console.log('🚨 Rate limit detected, attempting to switch API key...');
-          
-          const switchedSuccessfully = apiKeyManager.markCurrentKeyExhausted();
-          
-          if (switchedSuccessfully) {
-            keySwitches++;
-            retries = 0; // Reset retries for new key
-            console.log(`🔄 Switched to new key, resetting retries. Key switches: ${keySwitches}/${MAX_KEY_SWITCHES}`);
-            continue; // Try again with new key immediately
-          } else {
-            console.log('💀 All API keys exhausted');
-            break; // Exit the retry loop
-          }
-        }
-        
-        // For non-rate-limit errors, continue normal retry logic
-        if (retries < MAX_RETRIES) {
-          console.log(`⏳ Retrying in ${RETRY_DELAY / 1000} seconds...`);
-          await sleep(RETRY_DELAY);
-          retries++;
-        } else {
-          // Max retries reached with current key, try switching if possible
-          if (!apiKeyManager.areAllKeysExhausted() && keySwitches < MAX_KEY_SWITCHES) {
-            console.log('🔄 Max retries reached, attempting to switch API key...');
-            const switchedSuccessfully = apiKeyManager.markCurrentKeyExhausted();
-            
-            if (switchedSuccessfully) {
-              keySwitches++;
-              retries = 0; // Reset retries for new key
-              console.log(`🔄 Switched to new key after max retries. Key switches: ${keySwitches}/${MAX_KEY_SWITCHES}`);
-              continue;
-            }
-          }
-          
-          throw error; // No more keys available or max switches reached
+      for (const part of response.candidates[0].content.parts) {
+        if (part.inlineData) {
+          const mimeType = part.inlineData.mimeType || "image/png";
+          console.log("🎉 Image generated successfully");
+          return {
+            image: `data:${mimeType};base64,${part.inlineData.data}`,
+            isOriginal: false,
+          };
         }
       }
+
+      throw new Error('No image was generated in the response.');
+      
+    } catch (error) {
+      console.error("❌ Error generating image:", error);
+      
+      toast.error("Image generation failed. Using your original image as a fallback.");
+      
+      const originalImage = await fileToBase64(imageFile!);
+      return {
+        image: originalImage,
+        isOriginal: true,
+        message: "Image generation failed"
+      };
     }
 
   } catch (error) {
-    console.error('💥 All attempts to generate image failed:', error);
+    console.error('💥 Image generation failed:', error);
     
-    let errorMessage = "Image generation failed after trying all available API keys.";
-    
-    if (apiKeyManager.areAllKeysExhausted()) {
-      errorMessage = "All API keys have reached their daily limit. Please try again tomorrow.";
-    }
-    
-    toast.error(errorMessage + " Using your original image as a fallback.");
+    toast.error("Image generation failed. Using your original image as a fallback.");
     
     const originalImage = await fileToBase64(imageFile!);
     return {
       image: originalImage,
       isOriginal: true,
-      message: errorMessage
+      message: "Image generation failed"
     };
   }
-
-  throw new Error('Image generation failed after all retries and key switches.');
 };
 
 /**
