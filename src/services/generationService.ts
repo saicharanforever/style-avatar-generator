@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Modality } from "@google/genai";
 import { toast } from "sonner";
 
 export interface GenerationRequest {
@@ -282,47 +282,44 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
         { text: prompt },
       ];
     } else {
-    const viewSpecifics = isBackView
-      ? `showcasing the *back view* of the ${clothingType}${complementaryGarments}`
-      : `wearing the *exact* same ${clothingType}${complementaryGarments} as shown in the provided image`;
+      const viewSpecifics = isBackView
+        ? `showcasing the *back view* of the ${clothingType}${complementaryGarments}`
+        : `wearing the *exact* same ${clothingType}${complementaryGarments} as shown in the provided image`;
 
-    prompt = `
-      Primary Goal: Create a hyper-realistic, ${cameraView === 'close' ? 'focused torso and clothing' : 'full-body'}, ultra-high-resolution fashion catalog image where the model ${cameraView === 'close' ? 'is visible from mid-thigh to head' : 'is visible from head to toe'} with a completely visible, natural-looking face.
+      prompt = `
+        Primary Goal: Create a hyper-realistic, ${cameraView === 'close' ? 'focused torso and clothing' : 'full-body'}, ultra-high-resolution fashion catalog image where the model ${cameraView === 'close' ? 'is visible from mid-thigh to head' : 'is visible from head to toe'} with a completely visible, natural-looking face.
 
-      CRITICAL FACE REQUIREMENT: The model's face must be completely visible, well-lit, and natural-looking. The face should show clear features, natural expressions, and realistic skin texture. No shadows, hair, or objects should obscure the face. The model should have an approachable, professional expression suitable for fashion photography.
+        CRITICAL FACE REQUIREMENT: The model's face must be completely visible, well-lit, and natural-looking. The face should show clear features, natural expressions, and realistic skin texture. No shadows, hair, or objects should obscure the face. The model should have an approachable, professional expression suitable for fashion photography.
 
-      NON-NEGOTIABLE COLOR ACCURACY: This is the most critical instruction. The color of the garment in the generated image MUST be an exact, pixel-perfect match to the color in the provided source image. For example, if the input is 'light blue', the output must be 'light blue', NOT 'dark blue' or 'royal blue'. Do not interpret, enhance, or change the color profile. Replicate the original garment's hue, saturation, and brightness with absolute fidelity, even considering the specified lighting. Any deviation in color is a failure.
+        NON-NEGOTIABLE COLOR ACCURACY: This is the most critical instruction. The color of the garment in the generated image MUST be an exact, pixel-perfect match to the color in the provided source image. For example, if the input is 'light blue', the output must be 'light blue', NOT 'dark blue' or 'royal blue'. Do not interpret, enhance, or change the color profile. Replicate the original garment's hue, saturation, and brightness with absolute fidelity, even considering the specified lighting. Any deviation in color is a failure.
 
-      COMPLETE OUTFIT REQUIREMENT: The model must be wearing a complete, appropriate outfit. If the featured garment is a top/shirt, the model must also wear appropriate bottom wear (pants/jeans/leggings). If the featured garment is bottom wear (pants/shorts), the model must also wear an appropriate top. Only full outfits like dresses, sarees, jumpsuits, or gowns should be worn alone. The complementary garments should be neutral and stylish but not compete with the featured item.
+        COMPLETE OUTFIT REQUIREMENT: The model must be wearing a complete, appropriate outfit. If the featured garment is a top/shirt, the model must also wear appropriate bottom wear (pants/jeans/leggings). If the featured garment is bottom wear (pants/shorts), the model must also wear an appropriate top. Only full outfits like dresses, sarees, jumpsuits, or gowns should be worn alone. The complementary garments should be neutral and stylish but not compete with the featured item.
 
-      Subject: ${fullModelDescription}. The model must look like a real human being with natural skin texture, authentic facial features, completely visible face, and realistic body proportions.
+        Subject: ${fullModelDescription}. The model must look like a real human being with natural skin texture, authentic facial features, completely visible face, and realistic body proportions.
 
-      Attire & Design Integrity: The model is ${viewSpecifics}. The clothing's pattern, texture, and design details must be an identical match to the provided image. If generating a back view, intelligently and realistically infer the back design based on the front. The complementary garments should be neutral, well-fitted, and appropriate for the style.
+        Attire & Design Integrity: The model is ${viewSpecifics}. The clothing's pattern, texture, and design details must be an identical match to the provided image. If generating a back view, intelligently and realistically infer the back design based on the front. The complementary garments should be neutral, well-fitted, and appropriate for the style.
 
-      Realism & Consistency Mandate: The generated model must be indistinguishable from a real person in a photograph. The face must be completely visible with natural lighting and clear features. Avoid any plastic, doll-like, or overly airbrushed appearances. Absolutely no hallucinations: no extra limbs, distorted features, or nonsensical patterns.
+        Realism & Consistency Mandate: The generated model must be indistinguishable from a real person in a photograph. The face must be completely visible with natural lighting and clear features. Avoid any plastic, doll-like, or overly airbrushed appearances. Absolutely no hallucinations: no extra limbs, distorted features, or nonsensical patterns.
 
-      Pose, Composition & Framing: The model is positioned ${poseDescription}. ${cameraViewDescription} ${cameraView === 'close' ? 'The composition should focus on highlighting the clothing item with the model framed from mid-thigh to head, ensuring the face is completely visible and the garment details are prominent.' : 'The composition must be a full-length portrait, ensuring the entire body is visible, from head to toe with a completely visible face. The model must be centrally framed with their feet fully visible and grounded. No cropped limbs, floating poses, or partial views.'} The face should be clearly lit and completely visible.
+        Pose, Composition & Framing: The model is positioned ${poseDescription}. ${cameraViewDescription} ${cameraView === 'close' ? 'The composition should focus on highlighting the clothing item with the model framed from mid-thigh to head, ensuring the face is completely visible and the garment details are prominent.' : 'The composition must be a full-length portrait, ensuring the entire body is visible, from head to toe with a completely visible face. The model must be centrally framed with their feet fully visible and grounded. No cropped limbs, floating poses, or partial views.'} The face should be clearly lit and completely visible.
 
-      Environment & Lighting: The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}. The lighting must ensure the face is well-lit and completely visible.
+        Environment & Lighting: The scene is set against ${backdropDescription}, illuminated by ${lightingDescription}. The lighting must ensure the face is well-lit and completely visible.
 
-      Accessories: ${accessoryDescription || 'No distracting accessories unless specified.'}
+        Accessories: ${accessoryDescription || 'No distracting accessories unless specified.'}
 
-      Final Output Style: The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer with the model's face completely visible and naturally lit. It must not look AI-generated in any way and must be a complete, full-body, head-to-toe shot with a clearly visible face.
+        Final Output Style: The image must be of premium commercial quality, sharp, and so realistic it appears as a photograph taken by a professional fashion photographer with the model's face completely visible and naturally lit. It must not look AI-generated in any way and must be a complete, full-body, head-to-toe shot with a clearly visible face.
 
-    `.replace(/\s+/g, ' ').trim();
-    }
+      `.replace(/\s+/g, ' ').trim();
 
-    console.log("🔥 Starting image generation...");
-
-    // Contents are already set above based on generation type
-    if (!contents) {
       contents = [
         { text: prompt },
         { inlineData: { mimeType: imageFile.type, data: base64Image.split(',')[1] } },
       ];
     }
 
-    // --- Simple API Call ---
+    console.log("🔥 Starting image generation...");
+
+    // --- API Call with Corrected Configuration ---
     try {
       const genAI = createGeminiClient();
       
@@ -331,16 +328,17 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       const response = await genAI.models.generateContent({
         model: "gemini-2.5-flash-image-preview",
         contents: contents,
-        config: {
-          responseModalities: ["Text", "Image"],
-          temperature: 0, // Set to 0 for maximum determinism and color preservation
-          topK: 32,
-          topP: 0.95,
-        },
+        responseModalities: [Modality.TEXT, Modality.IMAGE], // FIXED: Using Modality enum
       });
 
       console.log("✅ Response received from Gemini API.");
 
+      // Check if response has candidates
+      if (!response.candidates || response.candidates.length === 0) {
+        throw new Error('No candidates returned in the response.');
+      }
+
+      // Extract image from response
       for (const part of response.candidates[0].content.parts) {
         if (part.inlineData) {
           const mimeType = part.inlineData.mimeType || "image/png";
@@ -356,6 +354,12 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       
     } catch (error) {
       console.error("❌ Error generating image:", error);
+      
+      // Log more detailed error information
+      if (error instanceof Error) {
+        console.error("Error message:", error.message);
+        console.error("Error stack:", error.stack);
+      }
       
       toast.error("Image generation failed. Using your original image as a fallback.");
       
