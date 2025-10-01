@@ -27,7 +27,7 @@ export interface GenerationRequest {
 }
 
 // Single hardcoded API key for simplified approach
-const API_KEY = "AIzaSyDcHnRXKIVNHR3ZlUBZGvqIZ21ecilSvfE";
+const API_KEY = "AIzaSyAHe10qag4Q9zQ1l9ZsUamx3uglaabei6c";
 
 /**
  * Create Gemini client with the API key
