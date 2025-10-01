@@ -326,10 +326,13 @@ export const generateFashionImage = async (request: GenerationRequest): Promise<
       console.log("🚀 Generating image with Gemini API...");
 
       const response = await genAI.models.generateContent({
-        model: "gemini-2.5-flash-image-preview",
-        contents: contents,
-        responseModalities: [Modality.TEXT, Modality.IMAGE], // FIXED: Using Modality enum
-      });
+      model: "gemini-2.5-flash-image-preview",
+      contents: contents,
+      config: {
+        responseModalities: [Modality.TEXT, Modality.IMAGE],
+      },
+    });
+
 
       console.log("✅ Response received from Gemini API.");
 
